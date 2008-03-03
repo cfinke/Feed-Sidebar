@@ -1,0 +1,22 @@
+content     feedbar     chrome/content/
+skin        feedbar     classic             chrome/skin/
+
+#locale      feedbar     de-DE               chrome/locale/de-DE/
+locale      feedbar     en-US               chrome/locale/en-US/
+#locale      feedbar     be-BY               chrome/locale/be-BY/
+#locale      feedbar     fr-FR               chrome/locale/fr-FR/
+#locale      feedbar     nl-NL               chrome/locale/nl-NL/
+#locale      feedbar     it-IT               chrome/locale/it-IT/
+#locale      feedbar     ja-JP               chrome/locale/ja-JP/
+#locale      feedbar     pl-PL               chrome/locale/pl-PL/
+#locale      feedbar     ru-RU               chrome/locale/ru-RU/
+
+overlay     chrome://browser/content/browser.xul                chrome://feedbar/content/overlay.xul
+
+style       chrome://feedbar/content/sidebar.xul                chrome://feedbar/skin/sidebar.css
+style       chrome://feedbar/content/sidebar.xul                chrome://browser/skin/browser.css
+style       chrome://feedbar/content/sidebar.xul                chrome://global/skin/global.css
+style       chrome://feedbar/content/options.xul                chrome://browser/skin/browser.css
+style       chrome://feedbar/content/options.xul                chrome://global/skin/global.css
+style       chrome://browser/content/browser.xul                chrome://feedbar/skin/browser.css
+style       chrome://global/content/customizeToolbar.xul        chrome://feedbar/skin/browser.css

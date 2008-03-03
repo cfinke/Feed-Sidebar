@@ -1,0 +1,27 @@
+<!ENTITY feedbar.buttonLabel "Feedbar">
+<!ENTITY feedbar.sidebarTitle "Wiadomości">
+<!ENTITY feedbar.buttonTooltip "Wyświetla w panelu bocznym nowe wiadomości z dynamicznych zakładek">
+<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.markAsRead "Oznacz kanał/wiadomość jako przeczytaną">
+<!ENTITY feedbar.preview.summary "Opis">
+<!ENTITY feedbar.open "Otwórz">
+<!ENTITY feedbar.openInTab "Otwórz w nowej karcie">
+<!ENTITY feedbar.openAllInTabs "Otwórz wszystkie w kartach">
+<!ENTITY feedbar.openFeedInTabs "Otwórz kanał w nowej karcie">
+<!ENTITY feedbar.markAsRead "Oznacz jako przeczytana">
+<!ENTITY feedbar.markFeedAsRead "Oznacz kanał jako przeczytany">
+<!ENTITY feedbar.markAllAsRead "Oznacz wszystkie jako przeczytane">
+<!ENTITY feedbar.reloadFeeds "Odśwież kanały">
+<!ENTITY feedbar.stopFeedUpdate "Nie aktualizuj kanału">
+<!ENTITY feedbar.minutes "min">
+<!ENTITY feedbar.hour "h">
+<!ENTITY feedbar.hours "h">
+<!ENTITY feedbar.showLastTooltip "Przedział czasowy z jakiego będą wyświetlane wiadomości">
+<!ENTITY feedbar.showLastDaysPre "Wyświetl z ostatnich ">
+<!ENTITY feedbar.showLastDaysPost " dni">
+<!ENTITY feedbar.showLastWeeksPre "Wyświetl z ostatnich ">
+<!ENTITY feedbar.showLastWeeksPost " tygodni">
+<!ENTITY feedbar.showAllItems "Wyświetl wszystkie wiadomości">
+<!ENTITY feedbar.showLastDay "Wyświetl wiadomości z dnia dzisiejszego">
+<!ENTITY feedbar.showLastWeek "Wyświetl wiadomości z ostatniego tygodnia">
+<!ENTITY feedbar.showLastMonth "Wyświetl wiadomości z ostatniego miesiąca">

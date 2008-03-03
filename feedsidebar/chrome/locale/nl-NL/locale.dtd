@@ -1,0 +1,27 @@
+<!ENTITY feedbar.buttonLabel "Ongelezen feedberichten">
+<!ENTITY feedbar.sidebarTitle "Ongelezen feedberichten">
+<!ENTITY feedbar.buttonTooltip "Toont nieuwe berichten van uw Live Bladwijzers in de zijbalk">
+<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.markAsRead "Feed of bericht als gelezen markeren">
+<!ENTITY feedbar.preview.summary "Samenvatting">
+<!ENTITY feedbar.open "Openen">
+<!ENTITY feedbar.openInTab "In nieuw tabblad openen">
+<!ENTITY feedbar.openAllInTabs "Alles in tabbladen openen">
+<!ENTITY feedbar.openFeedInTabs "Feed in tabbladen openen">
+<!ENTITY feedbar.markAsRead "Als gelezen markeren">
+<!ENTITY feedbar.markFeedAsRead "Feed als gelezen markeren">
+<!ENTITY feedbar.markAllAsRead "Alles als gelezen markeren">
+<!ENTITY feedbar.reloadFeeds "Feeds verversen">
+<!ENTITY feedbar.stopFeedUpdate "Feedverversing afbreken">
+<!ENTITY feedbar.minutes "minuten">
+<!ENTITY feedbar.hour "uur">
+<!ENTITY feedbar.hours "uur">
+<!ENTITY feedbar.showLastTooltip "Leeftijd van getoonde items beperken">
+<!ENTITY feedbar.showLastDaysPre "De laatste">
+<!ENTITY feedbar.showLastDaysPost "dagen weergeven">
+<!ENTITY feedbar.showLastWeeksPre "De laatste">
+<!ENTITY feedbar.showLastWeeksPost "weken weergeven">
+<!ENTITY feedbar.showAllItems "Alle items weergeven">
+<!ENTITY feedbar.showLastDay "Laatste dag weergeven">
+<!ENTITY feedbar.showLastWeek "Laatste week weergeven">
+<!ENTITY feedbar.showLastMonth "Laatste maand weergeven">

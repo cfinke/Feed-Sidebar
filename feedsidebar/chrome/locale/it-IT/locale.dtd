@@ -1,0 +1,27 @@
+<!ENTITY feedbar.buttonLabel "Feed Sidebar">
+<!ENTITY feedbar.sidebarTitle "Feed Sidebar">
+<!ENTITY feedbar.buttonTooltip "Mostra i nuovi elementi dei segnalibri Live nella barra laterale">
+<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.markAsRead "Segna il feed o l&apos;elemento come letto">
+<!ENTITY feedbar.preview.summary "Sommario">
+<!ENTITY feedbar.open "Apri">
+<!ENTITY feedbar.openInTab "Apri in nuova scheda">
+<!ENTITY feedbar.openAllInTabs "Apri tutti in schede">
+<!ENTITY feedbar.openFeedInTabs "Apri feed in schede">
+<!ENTITY feedbar.markAsRead "Segna come letto">
+<!ENTITY feedbar.markFeedAsRead "Segna feed come letto">
+<!ENTITY feedbar.markAllAsRead "Segna tutti come letti">
+<!ENTITY feedbar.reloadFeeds "Ricarica feed">
+<!ENTITY feedbar.stopFeedUpdate "Annulla aggiornamento dei feed">
+<!ENTITY feedbar.minutes "minuti">
+<!ENTITY feedbar.hour "ora">
+<!ENTITY feedbar.hours "ore">
+<!ENTITY feedbar.showLastTooltip "Imposta quali elementi visualizzare in base al tempo trascorso">
+<!ENTITY feedbar.showLastDaysPre "Visualizza feed degli ultimi ">
+<!ENTITY feedbar.showLastDaysPost " giorni">
+<!ENTITY feedbar.showLastWeeksPre "Visualizza feed delle ultime ">
+<!ENTITY feedbar.showLastWeeksPost " settimane">
+<!ENTITY feedbar.showAllItems "Visualizza tutti gli elementi">
+<!ENTITY feedbar.showLastDay "Visualizza feed dell&apos;ultimo giorno">
+<!ENTITY feedbar.showLastWeek "Visualizza feed dell&apos;ultima settimana">
+<!ENTITY feedbar.showLastMonth "Visualizza feed dell&apos;ultimo mese">

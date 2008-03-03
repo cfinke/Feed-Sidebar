@@ -1,0 +1,27 @@
+<!ENTITY feedbar.buttonLabel "Ungelesene RSS-Beiträge">
+<!ENTITY feedbar.sidebarTitle "Ungelesene RSS-Beiträge">
+<!ENTITY feedbar.buttonTooltip "Stellt die ungelesenen RSS-Beiträge der dynamischen Lesezeichen in der Sidebar da">
+<!ENTITY feedbar.accesskey "R">
+<!ENTITY feedbar.preview.markAsRead "RSS-Feed oder Beitrag als gelesen markieren">
+<!ENTITY feedbar.preview.summary "Zusammenfassung">
+<!ENTITY feedbar.open "Öffnen">
+<!ENTITY feedbar.openInTab "In neuem Tab öffnen">
+<!ENTITY feedbar.openAllInTabs "Alle Beiträge in Tabs öffnen">
+<!ENTITY feedbar.openFeedInTabs "RSS-Feed in Tabs öffnen">
+<!ENTITY feedbar.markAsRead "Als gelesen markieren">
+<!ENTITY feedbar.markFeedAsRead "RSS-Feed als gelesen markieren">
+<!ENTITY feedbar.markAllAsRead "Alles als gelesen markieren">
+<!ENTITY feedbar.reloadFeeds "RSS-Feed aktualisieren">
+<!ENTITY feedbar.stopFeedUpdate "Aktualisierung abbrechen">
+<!ENTITY feedbar.minutes "Minuten">
+<!ENTITY feedbar.hour "Stunde">
+<!ENTITY feedbar.hours "Stunden">
+<!ENTITY feedbar.showLastTooltip "RSS-Beiträge zeitlich filtern">
+<!ENTITY feedbar.showLastDaysPre "Letzte ">
+<!ENTITY feedbar.showLastDaysPost " Tage">
+<!ENTITY feedbar.showLastWeeksPre "Letzte ">
+<!ENTITY feedbar.showLastWeeksPost " Wochen">
+<!ENTITY feedbar.showAllItems "Alle">
+<!ENTITY feedbar.showLastDay "Heute">
+<!ENTITY feedbar.showLastWeek "Letzte Woche">
+<!ENTITY feedbar.showLastMonth "Letzter Monat">

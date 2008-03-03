@@ -1,0 +1,27 @@
+<!ENTITY feedbar.buttonLabel "Détail des flux non lus">
+<!ENTITY feedbar.sidebarTitle "Détail des flux non lus">
+<!ENTITY feedbar.buttonTooltip "Voir dans le panneau latéral les marque-pages dynamiques n&apos;ayant pas été lus">
+<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.markAsRead "Marquer le flux ou l&apos;élément comme étant lu">
+<!ENTITY feedbar.preview.summary "Résumé">
+<!ENTITY feedbar.open "Ouvrir">
+<!ENTITY feedbar.openInTab "Ouvrir dans un nouvel onglet">
+<!ENTITY feedbar.openAllInTabs "Tout ouvrir dans des onglets">
+<!ENTITY feedbar.openFeedInTabs "Ouvrir tout ce flux dans des onglets">
+<!ENTITY feedbar.markAsRead "Marquer comme lu">
+<!ENTITY feedbar.markFeedAsRead "Marquer tout le flux comme lu">
+<!ENTITY feedbar.markAllAsRead "Tout marquer comme étant lu">
+<!ENTITY feedbar.reloadFeeds "Actualiser les flux">
+<!ENTITY feedbar.stopFeedUpdate "Annuler la mise à jour des flux">
+<!ENTITY feedbar.minutes "minutes">
+<!ENTITY feedbar.hour "heure">
+<!ENTITY feedbar.hours "heures">
+<!ENTITY feedbar.showLastTooltip "Limiter l&apos;âge des éléments affichés">
+<!ENTITY feedbar.showLastDaysPre "Voir les">
+<!ENTITY feedbar.showLastDaysPost "derniers jours">
+<!ENTITY feedbar.showLastWeeksPre "Voir les">
+<!ENTITY feedbar.showLastWeeksPost "dernières semaines">
+<!ENTITY feedbar.showAllItems "Voir tous les éléments">
+<!ENTITY feedbar.showLastDay "Voir le dernier jour">
+<!ENTITY feedbar.showLastWeek "Voir la dernière semaine">
+<!ENTITY feedbar.showLastMonth "Voir le dernier mois">

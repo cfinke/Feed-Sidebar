@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://feedbar/locale/locale.dtd">
+<page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"	orient="vertical">
+	<stringbundleset>
+		<stringbundle id="feedbar-string-bundle" src="chrome://feedbar/locale/locale.properties" />
+	</stringbundleset>
+	<commandset id="mainCommandSet">
+		<command id="open-all-in-tabs" oncommand="FEEDBAR.contextMenu.openAll();" tooltiptext="&feedbar.openAllInTabs;" />
+		<command id="mark-all-as-read" oncommand="FEEDBAR.contextMenu.markAllAsRead();" tooltiptext="&feedbar.markAllAsRead;" />
+		<command id="stop-update" oncommand="FEEDBAR.stopUpdate();" tooltiptext="&feedbar.stopFeedUpdate;" />
+		<command id="force-reload" oncommand="FEEDBAR.updateFeeds();" tooltiptext="&feedbar.reloadFeeds;" />
+		<command id="set-reload-interval" oncommand="FEEDBAR.setUpdateFrequency(event.target.getAttribute('value')); event.stopPropagation();" />
+		<command id="update-period" oncommand="FEEDBAR.setDisplayPeriod(event.target.getAttribute('value')); event.stopPropagation();" />
+	</commandset>
+	<popupset id="mainPopupSet">
+		<popup id="feedbarContextMenu" onpopupshowing="return FEEDBAR.contextMenu.customize(this);">
+			<menuitem option="open" label="&feedbar.open;" oncommand="FEEDBAR.contextMenu.openItem();" />
+			<menuitem option="openInTab" label="&feedbar.openInTab;" oncommand="FEEDBAR.contextMenu.openInTab();" />
+			<menuseparator />
+			<menuitem option="openAllInTabs" label="&feedbar.openAllInTabs;" command="open-all-in-tabs" />
+			<menuitem option="openFeedInTabs" label="&feedbar.openFeedInTabs;" oncommand="FEEDBAR.contextMenu.openFeed();" />
+			<menuseparator />
+			<menuitem option="markAsRead" label="&feedbar.markAsRead;" oncommand="FEEDBAR.contextMenu.markAsRead();" />
+			<menuitem option="markFeedAsRead" label="&feedbar.markFeedAsRead;" oncommand="FEEDBAR.contextMenu.markFeedAsRead();" />
+			<menuitem option="markAllAsRead" label="&feedbar.markAllAsRead;" command="mark-all-as-read" />
+			<menuseparator />
+			<menuitem option="unsubscribe" label="&feedbar.unsubscribe;" oncommand="FEEDBAR.contextMenu.unsubscribe();" />
+			<menuitem option="options" label="&feedbar.options;" oncommand="FEEDBAR.options();" />
+		</popup>
+	</popupset>
+	<script type="application/x-javascript" src="chrome://feedbar/content/feedbar.js"></script>
+	<script type="application/x-javascript" src="chrome://browser/content/bookmarks/bookmarks.js"></script>
+	<script type="application/x-javascript">
+		<![CDATA[
+		
+		window.addEventListener("load", function (event) { window.setTimeout('FEEDBAR.init();',1000); }, false);
+		
+		]]>
+	</script>
+	<vbox flex="1" style="background-color: #fff;">
+		<toolbox id="navigator-toolbox" class="toolbox-top">
+			<toolbar id="nav-bar" iconsize="small" style="vertical-align: middle;" class="toolbar-primary chromeclass-toolbar">
+				<toolbarbutton id="new-tab-button" style="margin-top: 6px;" class="toolbarbutton-1 chromeclass-toolbar-additional" command="open-all-in-tabs" />
+				<toolbarbutton id="cut-button"  style="margin-top: 6px;" class="toolbarbutton-1 chromeclass-toolbar-additional" command="mark-all-as-read" />
+				<toolbarbutton id="history-button" class="toolbarbutton-1 chromeclass-toolbar-additional" type="menu" orient="horizontal" tooltiptext="&feedbar.showLastTooltip;">
+					<menupopup id="period-menu" command="update-period">
+						<menuitem type="radio" name="period" value="0" label="&feedbar.showAllItems;" />
+						<menuitem type="radio" name="period" value="1" label="&feedbar.showLastDay;" />
+						<menuitem type="radio" name="period" value="2" label="&feedbar.showLastDaysPre;2&feedbar.showLastDaysPost;" />
+						<menuitem type="radio" name="period" value="3" label="&feedbar.showLastDaysPre;3&feedbar.showLastDaysPost;" />
+						<menuitem type="radio" name="period" value="4" label="&feedbar.showLastDaysPre;4&feedbar.showLastDaysPost;" />
+						<menuitem type="radio" name="period" value="5" label="&feedbar.showLastDaysPre;5&feedbar.showLastDaysPost;" />
+						<menuitem type="radio" name="period" value="6" label="&feedbar.showLastDaysPre;6&feedbar.showLastDaysPost;" />
+						<menuitem type="radio" name="period" value="7" label="&feedbar.showLastWeek;" />
+						<menuitem type="radio" name="period" value="14" label="&feedbar.showLastWeeksPre;2&feedbar.showLastWeeksPost;" />
+						<menuitem type="radio" name="period" value="30" label="&feedbar.showLastMonth;" />
+					</menupopup>
+				</toolbarbutton>
+				<toolbarbutton id="stop-button" style="margin-top: 6px;" class="toolbarbutton-1 chromeclass-toolbar-additional" command="stop-update" disabled="true" />
+				<toolbarbutton id="reload-button" style="margin-top: 3px;" class="toolbarbutton-1 chromeclass-toolbar-additional" type="menu-button" command="force-reload">
+					<menupopup id="frequency-menu" command="set-reload-interval">
+						<menuitem type="radio" name="frequency" value="10" label="10 &feedbar.minutes;" />
+						<menuitem type="radio" name="frequency" value="20" label="20 &feedbar.minutes;" />
+						<menuitem type="radio" name="frequency" value="30" label="30 &feedbar.minutes;" />
+						<menuitem type="radio" name="frequency" value="45" label="45 &feedbar.minutes;" />
+						<menuitem type="radio" name="frequency" value="60" label="1 &feedbar.hour;" />
+						<menuitem type="radio" name="frequency" value="120" label="2 &feedbar.hours;" />
+						<menuitem type="radio" name="frequency" value="180" label="3 &feedbar.hours;" />
+						<menuitem type="radio" name="frequency" value="240" label="4 &feedbar.hours;" />
+						<menuitem type="radio" name="frequency" value="300" label="5 &feedbar.hours;" />
+					</menupopup>
+				</toolbarbutton>
+			</toolbar>
+		</toolbox>
+		<notificationbox id="sidebar-notify" flex="5" persist="state height">
+			<tree
+				id="feedbar_tree"
+				flex="1"
+				class="plain"
+				seltype="single"
+				onclick="FEEDBAR.onTreeClick(event);"
+				onselect="FEEDBAR.itemSelect(event);"
+				hidecolumnpicker="true"
+				context="feedbarContextMenu">
+				<treecols>
+					<treecol id="feedbar_tree_namecol" flex="1" primary="true" hideheader="true"/>
+				</treecols>   
+				<treechildren id="feedbar_tree_container"/>     
+			</tree>
+		</notificationbox>
+		<splitter id="preview-splitter" persist="state hidden" />
+		<vbox id="feedbar-preview" flex="1" style="overflow: auto;" persist="state height">
+			<hbox align="center">
+				<image id="feedbarTooltipImage"/>
+				<vbox flex="1">
+					<label id="feedbarTooltipFeedName" crop="end"/>
+					<label id="feedbarTooltipName" crop="end"/>
+					<label id="feedbarTooltipURL" crop="end"/>
+				</vbox>
+				<vbox pack="start" align="start">
+					<toolbarbutton id="close-preview" class="tabs-closebutton" oncommand="FEEDBAR.contextMenu.markAsRead();" tooltiptext="&feedbar.preview.markAsRead;" />
+				</vbox>
+			</hbox>
+			<groupbox id="feedbarTooltipSummaryGroupbox" flex="1">
+				<caption label="&feedbar.preview.summary;" />
+				<description id="feedbarTooltipSummary"></description>
+			</groupbox>
+		</vbox>
+		<statusbar>
+			<hbox pack="end" align="end" flex="1" style="text-align: right; vertical-align: middle;" id="feedbar-loading-text-container">
+				<label id="feedbar-loading-text" value="" />
+			</hbox>
+		</statusbar>
+	</vbox>
+</page>

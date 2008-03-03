@@ -1,0 +1,27 @@
+<!ENTITY feedbar.buttonLabel "Непрачытаныя навіны">
+<!ENTITY feedbar.sidebarTitle "Непрачытаныя навіны">
+<!ENTITY feedbar.buttonTooltip "Паказаць навіны стужкі навінаў у бакавой панэлі">
+<!ENTITY feedbar.accesskey "н">
+<!ENTITY feedbar.preview.markAsRead "Адзначыць навіну прачытанае">
+<!ENTITY feedbar.preview.summary "Кароткае апісанне">
+<!ENTITY feedbar.open "Адкрыць">
+<!ENTITY feedbar.openInTab "Адкрыць у новай укладцы">
+<!ENTITY feedbar.openAllInTabs "Адкрыць усё ва ўкладках">
+<!ENTITY feedbar.openFeedInTabs "Адкрыць навіны ва ўкладках">
+<!ENTITY feedbar.markAsRead "Адзначыць як прачытанае">
+<!ENTITY feedbar.markFeedAsRead "Адзначыць стужку як прачытаную">
+<!ENTITY feedbar.markAllAsRead "Адзначыць усё як прачытанае">
+<!ENTITY feedbar.reloadFeeds "Абнавіць стужкі навінаў">
+<!ENTITY feedbar.stopFeedUpdate "Адмяніць абнаўленне стужкі">
+<!ENTITY feedbar.minutes "хвілінаў">
+<!ENTITY feedbar.hour "гадзіна">
+<!ENTITY feedbar.hours "гадзіны">
+<!ENTITY feedbar.showLastTooltip "Limit the age of the items shown">
+<!ENTITY feedbar.showLastDaysPre "Show last ">
+<!ENTITY feedbar.showLastDaysPost " days">
+<!ENTITY feedbar.showLastWeeksPre "Show last ">
+<!ENTITY feedbar.showLastWeeksPost " weeks">
+<!ENTITY feedbar.showAllItems "Show all items">
+<!ENTITY feedbar.showLastDay "Show last day">
+<!ENTITY feedbar.showLastWeek "Show last week">
+<!ENTITY feedbar.showLastMonth "Show last month">
