@@ -5,8 +5,10 @@ var FEEDBAR = {
 	get nextUpdateDisplay() { return document.getElementById("feedbar-nextupdate-text"); },
 	get strings() { return document.getElementById("feedbar-string-bundle"); },
 	get displayPeriod() { return this.prefs.getIntPref("displayPeriod"); },
+	get filter() { return document.getElementById("search-box").value; },
 	
 	prefs : null,
+	filterTimeout : null,
 	
 	feedsToLoad : 0,
 	feedsLoaded : 0,
@@ -119,6 +121,12 @@ var FEEDBAR = {
 				this.updateTreeViewFromCache();
 			break;
 		}
+	},
+	
+	doSearch : function () {
+		if (this.filterTimeout) clearTimeout(this.filterTimeout);
+		
+		this.filterTimeout = setTimeout('FEEDBAR.updateTreeViewFromCache();', 500);
 	},
 	
 	updateFeeds : function (feeds) {
@@ -621,6 +629,8 @@ var FEEDBAR = {
 		}
 		
 		var showRead = !this.prefs.getBoolPref("hideReadItems");
+		var filter = this.filter;
+		var filterRE = new RegExp(filter, "i");
 		
 		itemsAdd : for (var k = 0; k < numItems; k++){
 			var theEntry = items[k];
@@ -633,6 +643,10 @@ var FEEDBAR = {
 						if (theEntry.published < mustBeAfter) {
 							continue itemsAdd;
 						}
+					}
+						
+					if (filter && !(feedObject.title + " " + theEntry.title + " " + theEntry.description).match(filterRE)) {
+						continue itemsAdd;
 					}
 
 					if (!foundOne) {
@@ -747,11 +761,11 @@ var FEEDBAR = {
 				var warnOnOpen = { value: true };
 
 				var buttonPressed = promptService.confirmEx(window,
-					this.strings.getString("confirmOpen"),
+					this.strings.getString("feedbar.confirmOpenInTabs"),
 					this.strings.getFormattedString("feedbar.warnOnTabsMessage", [ numTabs ]),
 					(promptService.BUTTON_TITLE_IS_STRING * promptService.BUTTON_POS_0) + (promptService.BUTTON_TITLE_CANCEL * promptService.BUTTON_POS_1), 
 					this.strings.getString("feedbar.openConfirmText"), null, null,
-					this.strings.getString("warnOnTabs"),
+					this.strings.getString("feedbar.warnOnTabs"),
 					warnOnOpen);
 
 				reallyOpen = (buttonPressed == 0);
@@ -1268,6 +1282,7 @@ FeedbarParseListener.prototype = {
 				feedObject.items.push(itemObject);
 			} catch (e) {
 				// FEEDBAR.addError(FEEDBAR.feedData[feedObject.link].name, feedObject.link, e, 5);
+				// Don't show a notification here, since they can become legion.
 			}
 		}
 		

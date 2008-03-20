@@ -1,13 +1,21 @@
-rm -rf .xpi_work_dir/
+rm feedsidebar.xpi
+rm -rf .tmp_xpi_dir/
+
 chmod -R 0777 feedsidebar/
-rm -f feedsidebar.xpi
-mkdir .xpi_work_dir
-cp -r feedsidebar/* .xpi_work_dir/
-cd .xpi_work_dir/
-rm -rf `find . -name ".svn"`
-rm -rf `find . -name ".DS_Store"`
-rm -rf `find . -name "Thumbs.db"`
+
+mkdir .tmp_xpi_dir/
+cp -r feedsidebar/* .tmp_xpi_dir/
+
+rm -rf `find ./.tmp_xpi_dir/ -name ".DS_Store"`
+rm -rf `find ./.tmp_xpi_dir/ -name "Thumbs.db"`
+rm -rf `find ./.tmp_xpi_dir/ -name ".svn"`
+
+cd .tmp_xpi_dir/chrome/
+zip -rq ../feedsidebar.jar *
+rm -rf *
+mv ../feedsidebar.jar ./
+cd ../
 zip -rq ../feedsidebar.xpi *
-cd ..
-rm -rf .xpi_work_dir/
+cd ../
+rm -rf .tmp_xpi_dir/
 cp feedsidebar.xpi ~/Desktop/

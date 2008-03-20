@@ -28,16 +28,3 @@ caption {
 treechildren::-moz-tree-cell-text(visited) {
 	color: #aaa;
 }
-
-#stop-button[disabled="true"] {
-	display: none;
-}
-
-#reload-button[disabled="true"] {
-	display: none;
-}
-
-#stop-button {
-	margin-bottom: 3px;
-	margin-left: 6px;
-}
