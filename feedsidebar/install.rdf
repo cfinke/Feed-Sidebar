@@ -5,12 +5,12 @@
   <RDF:Description RDF:about="rdf:#$ygf3i2"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="2.0"
-                   em:maxVersion="3.0b4" />
+                   em:maxVersion="3.0b5pre" />
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="feedbar@efinke.com"
                    em:name="Feed Sidebar"
-                   em:version="1.3.3pre"
-                   em:description="Displays the unread items from your Live Bookmarks in the sidebar."
+                   em:version="2.0pre"
+                   em:description="Displays the items from your Live Bookmarks in the sidebar."
                    em:creator="Christopher Finke"
                    em:homepageURL="http://www.chrisfinke.com/addons/feedbar/"
                    em:optionsURL="chrome://feedbar/content/options.xul"

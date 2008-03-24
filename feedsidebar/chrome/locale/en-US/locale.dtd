@@ -41,3 +41,5 @@
 <!-- Only show items from the last # days. (Enter 0 to show all.) -->
 <!ENTITY feedbar.onlyShow1 "Only show items from the last">
 <!ENTITY feedbar.onlyShow2 "days. (Enter 0 to show all.)">
+
+<!ENTITY feedbar.24HourTime "Use 24-hour time">

@@ -99,6 +99,7 @@ var FEEDBAR = {
 	
 	hasVisibleItems : function (idx) {
 		var key = this.visibleData[idx].id;
+		var feedName = this.getCellText(idx);
 		var toInsert = this.childData[key].items;
 		var itemsInserted = 0;
 		
@@ -119,7 +120,7 @@ var FEEDBAR = {
 			}
 			
 			if (this.searchFilter) {
-				if (!toInsert[i].label.match(this.searchFilter)) {
+				if (!(feedName + " " + toInsert[i].label + " " + toInsert[i].description).match(this.searchFilter)) {
 					continue;
 				}
 			}
@@ -132,6 +133,7 @@ var FEEDBAR = {
 	
 	hasUnreadItems : function (idx) {
 		var key = this.visibleData[idx].id;
+		var feedName = this.getCellText(idx);
 		var toInsert = this.childData[key].items;
 		var itemsInserted = 0;
 		
@@ -148,7 +150,7 @@ var FEEDBAR = {
 			}
 			
 			if (this.searchFilter) {
-				if (!toInsert[i].label.match(this.searchFilter)) {
+				if (!(feedName + " " + toInsert[i].label + toInsert[i].description).match(this.searchFilter)) {
 					continue;
 				}
 			}
@@ -194,6 +196,7 @@ var FEEDBAR = {
 			item.isOpen = true;
 			
 			var key = this.visibleData[idx].id;
+			var feedName = this.getCellText(idx);
 			var toInsert = this.childData[key].items;
 			var itemsInserted = 0;
 			
@@ -219,7 +222,7 @@ var FEEDBAR = {
 				}
 				
 				if (this.searchFilter) {
-					if (!toInsert[i].label.match(this.searchFilter)) {
+					if (!(feedName + " " + toInsert[i].label + toInsert[i].description).match(this.searchFilter)) {
 						continue;
 					}
 				}
@@ -340,6 +343,7 @@ var FEEDBAR = {
 		this.childData[feedObject.id].items = toInsert;
 		
 		var folderIdx = -1;
+		var wasLeftOpen = false;
 		
 		// Check if this feed is alredy being displayed.  If it is, toggle it closed so that we can use the toggleOpenState function to 
 		// replace the children.
@@ -348,10 +352,11 @@ var FEEDBAR = {
 				var folderIdx = idx;
 				
 				if (this.isContainerOpen(folderIdx)) {
+					wasLeftOpen = true;
 					this.toggleOpenState(folderIdx);
 				}
 				
-				if (!hasUnread) {
+				if (!hasVisible) {
 					this.visibleData.splice(folderIdx, 1);
 					this.treeBox.rowCountChanged(folderIdx, -1);
 				}
@@ -367,7 +372,7 @@ var FEEDBAR = {
 				folderIdx = this.rowCount - 1;
 			}
 			
-			var wasLeftOpen = this.wasLeftOpen(feedObject.id);
+			wasLeftOpen = wasLeftOpen || this.wasLeftOpen(feedObject.id);
 			
 			if (wasLeftOpen) {
 				// Re-use the toggling code so that we don't have to manually add
@@ -430,18 +435,51 @@ var FEEDBAR = {
 		}
 		
 		if (this.prefs.getBoolPref("hideReadItems") && updateUI) {
-			this.visibleData.splice(idx, 1);
-			this.treeBox.rowCountChanged(idx, -1);
-		
+			var rowsRemoved = 1;
+			
 			// If the containing folder is now empty, remove it.
-			if ((parentIdx + 1) >= this.visibleData.length || this.isContainer(parentIdx + 1)) {
-				this.visibleData.splice(parentIdx, 1);
-				this.boxOb.rowCountChanged(parentIdx, -1);
+			if ((parentIdx == (idx - 1)) && ((idx + 1) >= this.visibleData.length || this.isContainer(idx + 1))) {
+				idx = parentIdx;
+				++rowsRemoved;
 			}
+			
+			this.visibleData.splice(idx, rowsRemoved);
+			this.treeBox.rowCountChanged(idx, -rowsRemoved);
 		}
 		else {
 			this.visibleData[idx].visited = true;
 		}
+	},
+
+	setCellUnread : function (idx) {
+		var cellID = this.getCellID(idx);
+		
+		// Remove from history DB
+		var db = this.getDB();
+		
+		var deleteSql = db.createStatement("DELETE FROM history WHERE id=?1");
+		deleteSql.bindUTF8StringParameter(0, cellID);
+		
+		try { deleteSql.execute(); } catch (e) { }
+		
+		try { db.close(); } catch (e) { }
+		
+		// Find it in the childData object to set its "visited" property permanently.
+		var parentIdx = this.getParentIndex(idx);
+		var parentID = this.getCellID(parentIdx);
+		
+		for (var i = 0; i < this.childData[parentID].items.length; i++) {
+			if (this.childData[parentID].items[i].id == cellID) {
+				this.childData[parentID].items[i].visited = false;
+				break;
+			}
+		}
+		
+		this.visibleData[idx].visited = true;
+		this.treeBox.invalidateRow(idx);
+		
+		// Parent style may have changed.
+		this.treeBox.invalidateRow(parentIdx);
 	},
 	
 	getLinkForCell : function (idx) {
@@ -551,7 +589,7 @@ var FEEDBAR = {
 			// Open the sidebar.
 			toggleSidebar('feedbar');
 			this.prefs.setBoolPref("firstRun", false);
-		} 
+		}
 		
 		var db = this.getDB();
 		
@@ -563,6 +601,11 @@ var FEEDBAR = {
 		}
 		
 		try { db.close(); } catch (e) { }
+		
+		if (this.prefs.getCharPref("lastVersion") != '2.0') {
+			this.prefs.setCharPref("lastVersion","2.0");
+			gBrowser.selectedTab = gBrowser.addTab("http://www.chrisfinke.com/firstrun/feedbar.html");
+		}
 	},
 	
 	unload : function () {
@@ -766,6 +809,19 @@ var FEEDBAR = {
 		else {
 			this.markFeedAsRead(selectedIdx);
 		}
+	},
+	
+	markAsUnread : function () {
+		var selectedIdx = this.getSelectedIndex();
+
+		if (!this.isContainer(selectedIdx)) {
+			this.setCellUnread(selectedIdx);
+		}
+		/*
+		else {
+			this.markFeedAsUnread(selectedIdx);
+		}
+		*/
 	},
 	
 	markFeedAsRead : function (folderIdx) {

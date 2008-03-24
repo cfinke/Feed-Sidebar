@@ -17,6 +17,7 @@ var FEEDSIDEBAR = {
 	feeds : [],
 	
 	feedData : {},
+	textarea : null,
 	
 	get lastUpdate() { 
 		// Stored as the number of seconds since the epoch
@@ -58,6 +59,8 @@ var FEEDSIDEBAR = {
 		this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 		this.prefs.addObserver("", this, false);
 		
+		this.ta = document.createElementNS("http://www.w3.org/1999/xhtml", "textarea");
+		
 		document.getElementById("feed_tree").view = window.parent.FEEDBAR;
 		
 		this.updateLoadProgress(0,0);
@@ -88,7 +91,7 @@ var FEEDSIDEBAR = {
 		this.prefs.removeObserver("", this);
 	},
 	
-	observe: function(subject, topic, data) {
+	observe : function(subject, topic, data) {
 		if (topic != "nsPref:changed") {
 			return;
 		}
@@ -101,6 +104,9 @@ var FEEDSIDEBAR = {
 				else {
 					this.setReloadInterval(this.prefs.getIntPref("updateFrequency"));
 				}
+			break;
+			case "24HourTime":
+				this.updateLoadProgress(0,0);
 			break;
 		}
 	},
@@ -413,10 +419,16 @@ var FEEDSIDEBAR = {
 
 	updateLoadProgress : function (done, total) {
 		if (done == total) {
+			var use24HourTime = this.prefs.getBoolPref("24HourTime");
+			
 			var nextUpdateTime = this.nextUpdate;
 			
 			var timeText = '';
-			timeText += ((nextUpdateTime.getHours() > 12) ? nextUpdateTime.getHours() - 12 : nextUpdateTime.getHours());
+			timeText += ((nextUpdateTime.getHours() > 12 && !use24HourTime) ? nextUpdateTime.getHours() - 12 : nextUpdateTime.getHours());
+			
+			if (use24HourTime && parseInt(timeText) < 10) {
+				timeText = "0" + timeText;
+			}
 			
 			if (timeText == "0") timeText = "12";
 			timeText += ":";
@@ -425,7 +437,7 @@ var FEEDSIDEBAR = {
 			timeText += nextUpdateTime.getMinutes();
 			timeText += " ";
 			
-			timeText += (nextUpdateTime.getHours() > 11) ? this.strings.getString("feedbar.time.pm") : this.strings.getString("feedbar.time.am");
+			if (!use24HourTime) timeText += (nextUpdateTime.getHours() > 11) ? this.strings.getString("feedbar.time.pm") : this.strings.getString("feedbar.time.am");
 			
 			document.getElementById("reload-button").setAttribute("disabled","false");
 			document.getElementById("stop-button").setAttribute("disabled","true");
@@ -458,20 +470,20 @@ var FEEDSIDEBAR = {
 							case 'openInTab':
 							case 'openAllInTabs':
 							case 'markAllAsRead':
+							case 'options':
 								options[i].setAttribute("hidden", "false");
 							break;
 							case 'openFeedInTabs':
 							case 'markFeedAsRead':
 							case 'markFeedAsUnread':
-							case 'options':
 							case 'unsubscribe':
 								options[i].setAttribute("hidden", "true");
 							break;
 							case 'markAsRead':
-								options[i].setAttribute("hidden", "false");//item.visited.toString());
+								options[i].setAttribute("hidden", window.parent.FEEDBAR.getCellRead(itemIdx));//item.visited.toString());
 							break;
 							case 'markAsUnread':
-								options[i].setAttribute("hidden", "true");//!item.visited.toString());
+								options[i].setAttribute("hidden", FEEDSIDEBAR.prefs.getBoolPref("hideReadItems") || !window.parent.FEEDBAR.getCellRead(itemIdx));
 							break;
 							case 'openUnreadInTabs':
 							case 'openFeedUnreadInTabs':
@@ -489,7 +501,6 @@ var FEEDSIDEBAR = {
 							case 'openInTab':
 							case 'markAsRead':
 							case 'markAsUnread':
-							case 'options':
 								options[i].setAttribute("hidden", "true");
 							break;
 							case 'openAllInTabs':
@@ -497,6 +508,7 @@ var FEEDSIDEBAR = {
 							case 'openFeedInTabs':
 							case 'markFeedAsRead':
 							case 'unsubscribe':
+							case 'options':
 								options[i].setAttribute("hidden", "false");
 							break;
 							case 'openUnreadInTabs':
@@ -651,6 +663,19 @@ var FEEDSIDEBAR = {
 		var mDBConn = storageService.openDatabase(file);
 		
 		return mDBConn;
+	},
+	
+	decodeEntities : function (str) {
+		str = str.replace(/&([^\s;]*)\s/g, "&amp;$1 ");
+		str = str.replace(/&\s/g, "&amp; ");
+		
+		try {
+			this.ta.innerHTML = str.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+		} catch (e) {
+			return str;
+		}
+		
+		return this.ta.value;
 	}
 };
 
@@ -689,10 +714,16 @@ FeedbarParseListener.prototype = {
 			livemarkId : ""
 		};
 		
-		feedObject.id = feed.link.resolve("");
+		feedObject.id = result.uri.resolve("");
 		feedObject.uri = result.uri.resolve("");
 		feedObject.livemarkId = FEEDSIDEBAR.feedData[feedObject.uri].bookmarkId;
-		feedObject.siteUri = feed.link.resolve("");
+		
+		try {
+			feedObject.siteUri = feed.link.resolve("");
+		} catch (e) {
+			feedObject.siteUri = feedObject.uri;
+		}
+		
 		feedObject.label = feed.title.plainText();
 		
 		var numItems = feed.items.length;
@@ -714,13 +745,13 @@ FeedbarParseListener.prototype = {
 				
 				itemObject.uri = item.link.resolve("");
 				
-				if (itemObject.id == "") itemObject.id = itemObject.uri;
-				
 				if (itemObject.uri.match(/\/\/news\.google\.com\/.*\?/)){
 					var q = itemObject.link.indexOf("?");
 					itemObject.uri = itemObject.uri.substring(0, q) + ("&" + itemObject.uri.substring(q)).replace(/&(ct|cid|ei)=[^&]*/g, "").substring(1);
 				}
-
+				
+				if (!itemObject.id) itemObject.id = itemObject.uri;
+				
 				if (!itemObject.uri.match(/\/~r\//i)) {
 					if (itemObject.uri.match(/\/\/news\.google\.com\//)){
 						// Google news
@@ -737,12 +768,12 @@ FeedbarParseListener.prototype = {
 				}
 			
 				itemObject.published = Date.parse(item.updated);
-				itemObject.label = item.title.plainText();
+				itemObject.label = FEEDSIDEBAR.decodeEntities(item.title.plainText().replace(/<[^>]+>/g, ""));
 				
-				if (item.summary) {
+				if (item.summary && item.summary.text) {
 					itemObject.description = item.summary.plainText();
 				}
-				else if (item.content) {
+				else if (item.content && item.content.text) {
 					itemObject.description = item.content.plainText();
 				}
 				else {
@@ -752,6 +783,7 @@ FeedbarParseListener.prototype = {
 				itemObject.visited = FEEDSIDEBAR.history.isVisitedURL(itemObject.uri, itemObject.id);
 				
 				feedObject.items.push(itemObject);
+				
 			} catch (e) {
 				// FEEDSIDEBAR.addError(FEEDSIDEBAR.feedData[feedObject.link].name, feedObject.link, e, 5);
 				// Don't show a notification here, since they can become legion.

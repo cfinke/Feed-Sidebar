@@ -28,3 +28,8 @@ caption {
 treechildren::-moz-tree-cell-text(visited) {
 	color: #aaa;
 }
+
+#search-toggle {
+	margin-top: 3px;
+	list-style-image: url(chrome://feedbar/skin/icons/search.png);
+}

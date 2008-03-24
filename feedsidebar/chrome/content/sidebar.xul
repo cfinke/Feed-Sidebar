@@ -32,6 +32,7 @@
 			<menuitem option="openFeedInTabs" label="&feedbar.openFeedInTabs;" oncommand="window.parent.FEEDBAR.openFeed();" />
 			<menuseparator />
 			<menuitem option="markAsRead" label="&feedbar.markAsRead;" oncommand="window.parent.FEEDBAR.markAsRead();" />
+			<menuitem option="markAsUnread" label="&feedbar.markAsUnread;" oncommand="window.parent.FEEDBAR.markAsUnread();" />
 			<menuitem option="markFeedAsRead" label="&feedbar.markFeedAsRead;" oncommand="window.parent.FEEDBAR.markAsRead();" />
 			<menuitem option="markAllAsRead" label="&feedbar.markAllAsRead;" command="mark-all-as-read" />
 			<menuseparator />
@@ -72,8 +73,10 @@
 						<menuitem type="radio" name="frequency" value="300" label="5 &feedbar.hours;" />
 					</menupopup>
 				</toolbarbutton>
+				<spacer flex="1" />
+				<toolbarbutton id="search-toggle" oncommand="document.getElementById('search-bar').collapsed = !document.getElementById('search-bar').collapsed;" />
 			</toolbar>
-			<toolbar>
+			<toolbar id="search-bar" persist="collapsed">
 				<textbox id="search-box" flex="1" oninput="FEEDSIDEBAR.onSearchInput(this.value);" />
 			</toolbar>
 		</toolbox>
@@ -99,9 +102,9 @@
 			<hbox align="center">
 				<image id="feedbarTooltipImage"/>
 				<vbox flex="1">
-					<label id="feedbarTooltipFeedName" crop="end"/>
-					<label id="feedbarTooltipName" crop="end"/>
-					<label id="feedbarTooltipURL" crop="end"/>
+					<description id="feedbarTooltipFeedName" crop="end" />
+					<description id="feedbarTooltipName" crop="end" />
+					<description id="feedbarTooltipURL" crop="end" />
 				</vbox>
 				<vbox pack="start" align="start">
 					<toolbarbutton id="close-preview" class="tabs-closebutton" oncommand="window.parent.FEEDBAR.markAsRead();" tooltiptext="&feedbar.preview.markAsRead;" />
@@ -113,8 +116,8 @@
 			</groupbox>
 		</vbox>
 		<statusbar>
-			<hbox pack="end" align="end" flex="1" style="text-align: right; vertical-align: middle;" id="feedbar-loading-text-container">
-				<label id="feedbar-loading-text" value="" />
+			<hbox pack="end" align="end" flex="1" style="text-align: right; padding-top: 4px;" id="feedbar-loading-text-container">
+				<description id="feedbar-loading-text" value="" />
 			</hbox>
 		</statusbar>
 	</vbox>
