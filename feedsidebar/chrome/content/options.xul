@@ -3,36 +3,11 @@
 <!DOCTYPE overlay SYSTEM "chrome://feedbar/locale/locale.dtd">
 <prefwindow
 	title="Feed Sidebar - &feedbar.options;"
-	buttons="accept"
+	buttons="accept,cancel"
 	onload="FEEDBAR_PREFS.load();"
 	onunload="FEEDBAR_PREFS.unload();"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-	<script type="application/x-javascript">
-		<![CDATA[
-		
-		var FEEDBAR_PREFS = {
-			instantApply : false,
-
-			get browserPrefs() { return Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("browser.preferences."); },
-
-			load : function () {
-				this.instantApply = this.browserPrefs.getBoolPref("instantApply");
-
-				if (!this.instantApply) {
-					this.browserPrefs.setBoolPref("instantApply", true);
-				}
-			},
-			
-			unload : function () {
-				if (!this.instantApply) {
-					this.browserPrefs.setBoolPref("instantApply", false);
-				}
-			}
-		};
-		
-		]]>
-	</script>
-	<prefpane id="general-pane" label="Feedbar - &feedbar.options;">
+	<prefpane id="general-pane" label="Feed Sidebar - &feedbar.options;">
 		<preferences>
 			<preference id="p_hide_read" name="extensions.feedbar.hideReadItems" type="bool" />
 			<preference id="p_update_freq" name="extensions.feedbar.updateFrequency" type="int" />
@@ -40,6 +15,7 @@
 			<preference id="p_24hour" name="extensions.feedbar.24HourTime" type="bool" />
 		</preferences>
 		<groupbox>
+			<caption label="Feed Sidebar" />
 			<checkbox label="&feedbar.hideReadItems;" preference="p_hide_read" />
 			<checkbox label="&feedbar.24HourTime;" preference="p_24hour" />
 			<hbox>
