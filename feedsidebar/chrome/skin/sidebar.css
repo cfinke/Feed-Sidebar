@@ -29,6 +29,11 @@ treechildren::-moz-tree-cell-text(visited) {
 	color: #aaa;
 }
 
+treechildren::-moz-tree-image {
+	width: 16px;
+	height: 16px;
+}
+
 #search-toggle {
 	margin-top: 3px;
 	list-style-image: url(chrome://feedbar/skin/icons/search.png);
