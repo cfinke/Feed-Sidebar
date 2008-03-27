@@ -1,4 +1,4 @@
-#sidebar { min-width: 0px !important; }
+#sidebar { max-width: none !important; }
 
 #feedbar-button {
 	list-style-image: url(chrome://feedbar/skin/icons/toolbar.gif);
