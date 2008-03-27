@@ -119,10 +119,8 @@ var FEEDBAR = {
 				continue;
 			}
 			
-			if (this.searchFilter) {
-				if (!(feedName + " " + toInsert[i].label + " " + toInsert[i].description).match(this.searchFilter)) {
-					continue;
-				}
+			if (!this.passesFilter(feedName + " " + toInsert[i].label + " " + toInsert[i].description)) {
+				continue;
 			}
 			
 			return true;
@@ -149,10 +147,8 @@ var FEEDBAR = {
 				continue;
 			}
 			
-			if (this.searchFilter) {
-				if (!(feedName + " " + toInsert[i].label + toInsert[i].description).match(this.searchFilter)) {
-					continue;
-				}
+			if (!this.passesFilter(feedName + " " + toInsert[i].label + toInsert[i].description)) {
+				continue;
 			}
 			
 			if (toInsert[i].visited) {
@@ -221,10 +217,8 @@ var FEEDBAR = {
 					continue;
 				}
 				
-				if (this.searchFilter) {
-					if (!(feedName + " " + toInsert[i].label + toInsert[i].description).match(this.searchFilter)) {
-						continue;
-					}
+				if (!this.passesFilter(feedName + " " + toInsert[i].label + toInsert[i].description)) {
+					continue;
 				}
 				
 				this.visibleData.splice(idx + itemsInserted + 1, 0, { "id" : null, "label" : " " + toInsert[i].label, "isContainer" : false, "image" : toInsert[i].image, "uri" : toInsert[i].uri, "id" : toInsert[i].id, "visited" : toInsert[i].visited, "description" : toInsert[i].description });
@@ -322,7 +316,7 @@ var FEEDBAR = {
 	 * @param feedObject A hashtable that contains meta-data about the feed and its items
 	 */
 
-	searchFilter : null,
+	searchFilter : [],
 	
 	push : function (feedObject) {
 		var toInsert = [];
@@ -394,12 +388,23 @@ var FEEDBAR = {
 	
 	filter : function (dontRefresh) {
 		var filter = this.prefs.getCharPref("filter");
+		this.searchFilter.length = 0;
 		
 		if (filter) {
-			this.searchFilter = new RegExp(filter, "i");
-		}
-		else {
-			this.searchFilter = null;
+			var filterParts = filter.replace(/\s+/g, " ").replace(/^\s+|\s+$/g, "").split(" ");
+		
+			for (var i = 0; i < filterParts.length; i++) {
+				var nomatch = false;
+				
+				if (filterParts[i].charAt(0) == '-') {
+					filterParts[i] = filterParts[i].substring(1);
+					nomatch = true;
+				}
+				
+				if (filterParts[i]) {
+					this.searchFilter.push( { "nomatch" : nomatch, "regex" : new RegExp(filterParts[i], "i") } );
+				}
+			}
 		}
 		
 		if (!dontRefresh) FEEDBAR.refreshTree();
@@ -1032,5 +1037,27 @@ var FEEDBAR = {
 		var mDBConn = storageService.openDatabase(file);
 		
 		return mDBConn;
+	},
+	
+	passesFilter : function (str) {
+		if (this.searchFilter.length == 0) {
+			return true;
+		}
+		else {
+			for (var i = 0; i < this.searchFilter.length; i++) {
+				if (this.searchFilter[i].nomatch) {
+					if (str.match(this.searchFilter[i].regex)) {
+						return false;
+					}
+				}
+				else {
+					if (!str.match(this.searchFilter[i].regex)) {
+						return false;
+					}
+				}
+			}
+		}
+		
+		return true;
 	}
 };
