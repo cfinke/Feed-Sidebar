@@ -12,11 +12,11 @@ var FEEDSIDEBAR = {
 	
 	updateTimer : null,
 	loadTimer : null,
-	currentRequest : null,
+	req : null,
 	
 	feeds : [],
 	
-	feedData : {},
+	feedData : { },
 	textarea : null,
 	
 	get lastUpdate() { 
@@ -87,7 +87,7 @@ var FEEDSIDEBAR = {
 	},
 	
 	unload : function () {
-		try { this.currentRequest.abort(); } catch (noNeed) { }
+		try { this.req.abort(); } catch (noNeed) { }
 		this.prefs.removeObserver("", this);
 	},
 	
@@ -230,26 +230,26 @@ var FEEDSIDEBAR = {
 		if (feed){
 			var url = feed.feed;
 			this.progressText.setAttribute("tooltiptext",url);
-			var req = new XMLHttpRequest();
-			req.parent = this;
-			req.feed = feed;
-			this.currentRequest = req;
+			
+			if (!this.req) {
+				this.req = new XMLHttpRequest();
+			}
 			
 			try {
-				req.open("GET", url, true);
-				req.overrideMimeType("application/xml");
+				this.req.open("GET", url, true);
+				this.req.overrideMimeType("text/plain");
 				
-				req.onreadystatechange = function (event) {
-					if (req.readyState == 4) {
-						clearTimeout(req.parent.loadTimer);
+				FEEDSIDEBAR.req.onreadystatechange = function (event) {
+					if (FEEDSIDEBAR.req.readyState == 4) {
+						clearTimeout(FEEDSIDEBAR.loadTimer);
 						
 						try {
-							if (req.status == 200){
+							if (FEEDSIDEBAR.req.status == 200){
 								var feedOb = null;
 								
 								try {
 									// Trim it.
-									FEEDSIDEBAR.queueForParsing(req.responseText.replace(/^\s\s*/, '').replace(/\s\s*$/, ''), url);
+									FEEDSIDEBAR.queueForParsing(FEEDSIDEBAR.req.responseText.replace(/^\s\s*/, '').replace(/\s\s*$/, ''), url);
 								} catch (e) {
 									// Parse error
 									FEEDSIDEBAR.addError(feed.name, url, e.message, 5);
@@ -262,13 +262,13 @@ var FEEDSIDEBAR = {
 							}
 						}
 						
-						FEEDSIDEBAR.updateLoadProgress(++req.parent.feedsLoaded, req.parent.feedsToLoad);
-						req.parent.loadNextFeed();
+						FEEDSIDEBAR.updateLoadProgress(++FEEDSIDEBAR.feedsLoaded, FEEDSIDEBAR.feedsToLoad);
+						FEEDSIDEBAR.loadNextFeed();
 					}
 				};
 				
-				req.send(null);
-				this.loadTimer = setTimeout('FEEDSIDEBAR.currentRequest.abort();', 1000 * 15);
+				this.req.send(null);
+				this.loadTimer = setTimeout('FEEDSIDEBAR.killCurrentRequest();', 1000 * 15);
 			}
 			catch (e) {
 				this.addError(feed.name, url, e.name, 3);
@@ -579,51 +579,68 @@ var FEEDSIDEBAR = {
 		this.showPreview(idx);
 	},
 	
+	killCurrentRequest : function () {
+		this.req.abort();
+	},
+	
 	showPreview : function (idx) {
 		var tt = this.previewPane;
 		
-		if ((idx < 0) || window.parent.FEEDBAR.isContainer(idx)){
+		if ((idx < 0)) {
 			tt.style.visibility = 'hidden';
-			return false;
 		}
 		else {
-			while (document.getElementById("feedbarTooltipSummary").lastChild) document.getElementById("feedbarTooltipSummary").removeChild(document.getElementById("feedbarTooltipSummary").lastChild);
-			
 			var maxLength = 60;
-			
 			var descr = window.parent.FEEDBAR.getCellDescription(idx);
-			var title = window.parent.FEEDBAR.getCellText(idx);
-			var url = window.parent.FEEDBAR.getCellLink(idx);
+			document.getElementById("content-frame").contentDocument.body.innerHTML = descr;
 			
-			var feedIdx = window.parent.FEEDBAR.getParentIndex(idx);
-			
-			var feedName = window.parent.FEEDBAR.getCellText(feedIdx);
-			
-			if (title.length > maxLength){
-				title = title.substring(0,maxLength) + "...";
+			if (window.parent.FEEDBAR.isContainer(idx)){
+				var title = window.parent.FEEDBAR.getCellLink(idx).replace(/^\s+|\s+$/g, "");
+				var feedName = window.parent.FEEDBAR.getCellText(idx).replace(/^\s+|\s+$/g, "");
+				
+				var url = window.parent.FEEDBAR.getCellFeedLink(idx);
+				
+				document.getElementById("feedbarTooltipURL").url = url;
+				if (url.length > maxLength){
+					url = url.substring(0,maxLength) + "...";
+				}
+				document.getElementById("feedbarTooltipURL").value = "Feed: " + url;
+				
+				document.getElementById("feedbarTooltipName").url = title;
+				
+				if (title.length > maxLength){
+					title = title.substring(0,maxLength) + "...";
+				}
+				if (title == '') title = ' ';
+
+				document.getElementById("feedbarTooltipName").value = "Site: " + title;
 			}
-			
-			if (url.length > maxLength){
-				url = url.substring(0,maxLength) + "...";
+			else {
+				var feedIdx = window.parent.FEEDBAR.getParentIndex(idx);
+				var feedName = window.parent.FEEDBAR.getCellText(feedIdx).replace(/^\s+|\s+$/g, "");
+				var url = window.parent.FEEDBAR.getCellLink(idx);
+				document.getElementById("feedbarTooltipURL").url = url;
+				document.getElementById("feedbarTooltipName").url = url;
+				if (url.length > maxLength){
+					url = url.substring(0,maxLength) + "...";
+				}
+				document.getElementById("feedbarTooltipURL").value = url;
+				var title = window.parent.FEEDBAR.getCellText(idx).replace(/^\s+|\s+$/g, "");
+				if (title.length > maxLength){
+					title = title.substring(0,maxLength) + "...";
+				}
+				if (title == '') title = ' ';
+
+				document.getElementById("feedbarTooltipName").value = title;
 			}
 			
 			var image = window.parent.FEEDBAR.getImageSrc(idx);
 			document.getElementById("feedbarTooltipImage").src = image;
-			document.getElementById("feedbarTooltipURL").value = "URL: "+url;
 			document.getElementById("feedbarTooltipFeedName").value = feedName;
-			
-			if (title == '') title = ' ';
-			
-			document.getElementById("feedbarTooltipName").value = title;
+		
 			document.getElementById("feedbarTooltipName").style.display = '';
 
-			var text = document.createTextNode(descr);
-			
-			document.getElementById("feedbarTooltipSummary").appendChild(text);
-	  
-	  		tt.style.visibility = 'visible';
-	  
-			return true;
+			tt.style.visibility = '';
 		}
 	},
 	
@@ -707,6 +724,8 @@ FeedbarParseListener.prototype = {
 		
 		var feedObject = {
 			label : "",
+			image : "",
+			description : "",
 			uri : "",
 			siteUri : "",
 			items : [],
@@ -725,6 +744,21 @@ FeedbarParseListener.prototype = {
 		}
 		
 		feedObject.label = feed.title.plainText();
+		
+		if (feed.summary && feed.summary.text) {
+			feedObject.description = feed.summary.text;//plainText();
+		}
+		else if (feed.content && feed.content.text) {
+			feedObject.description = feed.content.text;//plainText();
+		}
+		else if (feed.subtitle && feed.subtitle.text) {
+			feedObject.description = feed.subtitle.text;
+		}
+		else {
+			feedObject.description = FEEDSIDEBAR.strings.getString("feedbar.noSummary");
+		}
+		
+		feedObject.image = feedObject.siteUri.substr(0, (feedObject.siteUri.indexOf("/", 9) + 1)) + "favicon.ico";
 		
 		var numItems = feed.items.length;
 		
@@ -771,10 +805,10 @@ FeedbarParseListener.prototype = {
 				itemObject.label = FEEDSIDEBAR.decodeEntities(item.title.plainText().replace(/<[^>]+>/g, ""));
 				
 				if (item.summary && item.summary.text) {
-					itemObject.description = item.summary.plainText();
+					itemObject.description = item.summary.text;//plainText();
 				}
 				else if (item.content && item.content.text) {
-					itemObject.description = item.content.plainText();
+					itemObject.description = item.content.text;//plainText();
 				}
 				else {
 					itemObject.description = FEEDSIDEBAR.strings.getString("feedbar.noSummary");

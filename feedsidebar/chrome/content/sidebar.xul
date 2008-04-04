@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <!DOCTYPE overlay SYSTEM "chrome://feedbar/locale/locale.dtd">
-<page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"	orient="vertical">
+<page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"	orient="vertical" xmlns:html="http://www.w3.org/1999/xhtml">
 	<stringbundleset>
 		<stringbundle id="feedbar-string-bundle" src="chrome://feedbar/locale/locale.properties" />
 	</stringbundleset>
 	<script type="application/x-javascript" src="chrome://feedbar/content/sidebar.js"></script>
 	<script type="application/x-javascript" src="chrome://browser/content/bookmarks/bookmarks.js"></script>
+	<script type="application/x-javascript" src="chrome://global/content/nsDragAndDrop.js"></script>
+	<script type="application/x-javascript" src="chrome://global/content/globalOverlay.js"></script>
+	<script type="application/x-javascript" src="chrome://browser/content/utilityOverlay.js"></script>
+	<script type="application/x-javascript" src="chrome://global/content/contentAreaUtils.js"></script>	-->
 	<script type="application/x-javascript">
 		<![CDATA[
 		
@@ -98,25 +102,24 @@
 			</tree>
 		</notificationbox>
 		<splitter id="preview-splitter" persist="state hidden" />
-		<vbox id="feedbar-preview" flex="1" style="overflow: auto;" persist="state height">
+		<vbox id="feedbar-preview" flex="1" style="overflow: auto; visibility: hidden;" persist="state height">
 			<hbox align="center">
 				<image id="feedbarTooltipImage"/>
 				<vbox flex="1">
 					<description id="feedbarTooltipFeedName" crop="end" />
-					<description id="feedbarTooltipName" crop="end" />
-					<description id="feedbarTooltipURL" crop="end" />
+					<description id="feedbarTooltipName" crop="end" onclick="window.parent.FEEDBAR.onTreeClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;" />
+					<description id="feedbarTooltipURL" crop="end" onclick="window.parent.FEEDBAR.onTreeClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;"/>
 				</vbox>
 				<vbox pack="start" align="start">
 					<toolbarbutton id="close-preview" class="tabs-closebutton" oncommand="window.parent.FEEDBAR.markAsRead();" tooltiptext="&feedbar.preview.markAsRead;" />
 				</vbox>
 			</hbox>
 			<groupbox id="feedbarTooltipSummaryGroupbox" flex="1">
-				<caption label="&feedbar.preview.summary;" />
-				<description id="feedbarTooltipSummary"></description>
+				<iframe flex="1" id="content-frame" onclick="return window.parent.contentAreaClick(event, true);" src="chrome://feedbar/content/preview.html"></iframe>
 			</groupbox>
 		</vbox>
 		<statusbar>
-			<hbox pack="end" align="end" flex="1" style="text-align: right; padding-top: 4px;" id="feedbar-loading-text-container">
+			<hbox pack="end" align="end" flex="1" style="text-align: right; padding-top: 4px;" id="feedbar-loading-text-container" onclick="FEEDSIDEBAR.killCurrentRequest();">
 				<description id="feedbar-loading-text" value="" />
 			</hbox>
 		</statusbar>

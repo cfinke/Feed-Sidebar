@@ -23,7 +23,22 @@ var FEEDBAR = {
 	},
 	
 	getCellLink : function (idx) {
-		return this.visibleData[idx].uri;
+		if (this.isContainer(idx)) {
+			return this.visibleData[idx].siteUri;
+		}
+		else {
+			return this.visibleData[idx].uri;
+		}
+	},
+	
+	getCellFeedLink : function (idx) {
+		if (this.isContainer(idx)) {
+			return this.visibleData[idx].uri;
+		}
+		else {
+			var feedIdx = this.getParentIndex(idx);
+			return this.getCellFeedLink(feedIdx);
+		}
 	},
 	
 	getCellLivemarkId : function (idx) {
@@ -333,7 +348,7 @@ var FEEDBAR = {
 			}
 		}
 		
-		this.childData[feedObject.id] = { "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : feedObject.label, "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri, "items" : [] };
+		this.childData[feedObject.id] = { "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : feedObject.label, "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri, "siteUri" : feedObject.siteUri, "description" : feedObject.description, "image" : feedObject.image, "items" : [] };
 		this.childData[feedObject.id].items = toInsert;
 		
 		var folderIdx = -1;
@@ -361,7 +376,7 @@ var FEEDBAR = {
 		
 		if (hasVisible) {
 			if (folderIdx < 0) {
-				this.visibleData.push({ "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : " " + feedObject.label.replace(/^\s+/g, ""), "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri });
+				this.visibleData.push({ "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : " " + feedObject.label.replace(/^\s+/g, ""), "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri, "siteUri" : feedObject.siteUri, "description" : feedObject.description, "image" : feedObject.image });
 				this.treeBox.rowCountChanged(this.rowCount - 1, 1);
 				folderIdx = this.rowCount - 1;
 			}
@@ -682,17 +697,16 @@ var FEEDBAR = {
 	onTreeDblClick : function (event) {
 	},
 	
-	onTreeClick : function (event, idx) {
+	onTreeClick : function (event, url) {
 		// Discard right-clicks
 		if (event.which == 3){
 			return;
 		}
 		
-		if (!idx) var targetIdx = this.getSelectedIndex();
-		else targetIdx = idx;
+		var targetIdx = this.getSelectedIndex();
 		
 		if (targetIdx >= 0) {
-			if (!this.isContainer(targetIdx)) {
+			if (!this.isContainer(targetIdx) && !url) {
 				if (event.which == 2){
 					this.launchUrl(this.getCellLink(targetIdx), event);
 					this.setCellRead(targetIdx, true);
@@ -710,20 +724,20 @@ var FEEDBAR = {
 				}
 			}
 			else {
-				return;
-				/*
-				// So it's a Feed header
-				var tbo = tree.treeBox;
-
-				// get the row, col and child element at the point
-				var row = { }, col = { }, child = { };
-				tbo.getCellAt(event.clientX, event.clientY, row, col, child);
-
-				var isOpen = this.isContainerOpen(row.value);
-				var cellId = this.getCellID(row.value);
+				if (url) {
+					if (event.which == 2){
+						this.launchUrl(url, event);
+					}
+					else if (event.which == 4){
+						window.open(url);
+					}
+					else {
+						// Left-click
+						this.launchUrl(url, event);
+					}
+				}
 				
-				this.storeOpenState(tree, cellId, isOpen);
-				*/
+				return;
 			}
 		}
 	},
