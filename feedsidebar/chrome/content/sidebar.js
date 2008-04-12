@@ -19,6 +19,8 @@ var FEEDSIDEBAR = {
 	feedData : { },
 	textarea : null,
 	
+	currentRequest : null,
+	
 	get lastUpdate() { 
 		// Stored as the number of seconds since the epoch
 		// Should reveal this value as a JavaScript Date object
@@ -87,7 +89,7 @@ var FEEDSIDEBAR = {
 	},
 	
 	unload : function () {
-		try { this.req.abort(); } catch (noNeed) { }
+		try { this.currentRequest.abort(); } catch (noNeed) { }
 		this.prefs.removeObserver("", this);
 	},
 	
@@ -231,25 +233,24 @@ var FEEDSIDEBAR = {
 			var url = feed.feed;
 			this.progressText.setAttribute("tooltiptext",url);
 			
-			if (!this.req) {
-				this.req = new XMLHttpRequest();
-			}
+			var req = new XMLHttpRequest();
+			FEEDSIDEBAR.currentRequest = req;
 			
 			try {
-				this.req.open("GET", url, true);
-				this.req.overrideMimeType("text/plain");
+				req.open("GET", url, true);
+				req.overrideMimeType("text/plain");
 				
-				FEEDSIDEBAR.req.onreadystatechange = function (event) {
-					if (FEEDSIDEBAR.req.readyState == 4) {
+				req.onreadystatechange = function (event) {
+					if (req.readyState == 4) {
 						clearTimeout(FEEDSIDEBAR.loadTimer);
 						
 						try {
-							if (FEEDSIDEBAR.req.status == 200){
+							if (req.status == 200){
 								var feedOb = null;
 								
 								try {
 									// Trim it.
-									FEEDSIDEBAR.queueForParsing(FEEDSIDEBAR.req.responseText.replace(/^\s\s*/, '').replace(/\s\s*$/, ''), url);
+									FEEDSIDEBAR.queueForParsing(req.responseText.replace(/^\s\s*/, '').replace(/\s\s*$/, ''), url);
 								} catch (e) {
 									// Parse error
 									FEEDSIDEBAR.addError(feed.name, url, e.message, 5);
@@ -267,7 +268,7 @@ var FEEDSIDEBAR = {
 					}
 				};
 				
-				this.req.send(null);
+				req.send(null);
 				this.loadTimer = setTimeout('FEEDSIDEBAR.killCurrentRequest();', 1000 * 15);
 			}
 			catch (e) {
@@ -580,7 +581,7 @@ var FEEDSIDEBAR = {
 	},
 	
 	killCurrentRequest : function () {
-		this.req.abort();
+		this.currentRequest.abort();
 	},
 	
 	showPreview : function (idx) {
