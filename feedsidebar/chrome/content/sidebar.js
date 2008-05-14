@@ -238,7 +238,6 @@ var FEEDSIDEBAR = {
 			
 			try {
 				req.open("GET", url, true);
-				req.overrideMimeType("text/plain");
 				
 				req.onreadystatechange = function (event) {
 					if (req.readyState == 4) {
@@ -806,10 +805,10 @@ FeedbarParseListener.prototype = {
 				itemObject.label = FEEDSIDEBAR.decodeEntities(item.title.plainText().replace(/<[^>]+>/g, ""));
 				
 				if (item.summary && item.summary.text) {
-					itemObject.description = item.summary.text;//plainText();
+					itemObject.description = item.summary.text;
 				}
 				else if (item.content && item.content.text) {
-					itemObject.description = item.content.text;//plainText();
+					itemObject.description = item.content.text;
 				}
 				else {
 					itemObject.description = FEEDSIDEBAR.strings.getString("feedbar.noSummary");
