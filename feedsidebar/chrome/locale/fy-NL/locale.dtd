@@ -1,0 +1,27 @@
+<!ENTITY feedbar.buttonLabel "Net lêzen feeditems">
+<!ENTITY feedbar.sidebarTitle "Net lêzen feeditems">
+<!ENTITY feedbar.buttonTooltip "Toan de nije items fan jo Live Blêdwizers yn de sidebalke">
+<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.markAsRead "Markearje feed of item as lêzen">
+<!ENTITY feedbar.preview.summary "Gearfetting">
+<!ENTITY feedbar.open "Iepenje">
+<!ENTITY feedbar.openInTab "Iepenje yn nij ljepblêd">
+<!ENTITY feedbar.openAllInTabs "Iepenje alles yn ljepblêden">
+<!ENTITY feedbar.openFeedInTabs "Iepenje feed yn ljepblêden">
+<!ENTITY feedbar.markAsRead "Markearje as lêzen">
+<!ENTITY feedbar.markFeedAsRead "Markearje feed as lêzen">
+<!ENTITY feedbar.markAllAsRead "Markearje alles as lêzen">
+<!ENTITY feedbar.reloadFeeds "Feed op &apos;e nij lade">
+<!ENTITY feedbar.stopFeedUpdate "Annulearje feedfernijing">
+<!ENTITY feedbar.minutes "minuten">
+<!ENTITY feedbar.hour "oer">
+<!ENTITY feedbar.hours "oeren">
+<!ENTITY feedbar.showLastTooltip "Behein de leeftyd fan de toande items">
+<!ENTITY feedbar.showLastDaysPre "Toan lêste">
+<!ENTITY feedbar.showLastDaysPost "dagen">
+<!ENTITY feedbar.showLastWeeksPre "Toan lêste">
+<!ENTITY feedbar.showLastWeeksPost "wiken">
+<!ENTITY feedbar.showAllItems "Toan alle items">
+<!ENTITY feedbar.showLastDay "Toan lêste dei">
+<!ENTITY feedbar.showLastWeek "Toan lêste wike">
+<!ENTITY feedbar.showLastMonth "Toan lêste moanne">

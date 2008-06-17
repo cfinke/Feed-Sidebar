@@ -1,0 +1,27 @@
+<!ENTITY feedbar.buttonLabel "Itens de feeds não lidos">
+<!ENTITY feedbar.sidebarTitle "Itens de feeds não lidos">
+<!ENTITY feedbar.buttonTooltip "Mostra os novos itens das suas assinaturas de Favoritos na barra lateral">
+<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.markAsRead "Marcar feed ou item como lido">
+<!ENTITY feedbar.preview.summary "Resumo">
+<!ENTITY feedbar.open "Abrir">
+<!ENTITY feedbar.openInTab "Abrir em nova aba">
+<!ENTITY feedbar.openAllInTabs "Abrir tudo em abas">
+<!ENTITY feedbar.openFeedInTabs "Abrir feed em abas">
+<!ENTITY feedbar.markAsRead "Marcar como lido">
+<!ENTITY feedbar.markFeedAsRead "Marcar feed como lido">
+<!ENTITY feedbar.markAllAsRead "Marcar todos como lidos">
+<!ENTITY feedbar.reloadFeeds "Recarregar feeds">
+<!ENTITY feedbar.stopFeedUpdate "Cancelar atualização do feed">
+<!ENTITY feedbar.minutes "minutos">
+<!ENTITY feedbar.hour "hora">
+<!ENTITY feedbar.hours "horas">
+<!ENTITY feedbar.showLastTooltip "Limite para a idade dos itens mostrados">
+<!ENTITY feedbar.showLastDaysPre "Mostrar últimos ">
+<!ENTITY feedbar.showLastDaysPost " dias">
+<!ENTITY feedbar.showLastWeeksPre "Mostrar últimas ">
+<!ENTITY feedbar.showLastWeeksPost " semanas">
+<!ENTITY feedbar.showAllItems "Mostrar todos os itens">
+<!ENTITY feedbar.showLastDay "Mostrar último dia">
+<!ENTITY feedbar.showLastWeek "Mostrar última semana">
+<!ENTITY feedbar.showLastMonth "Mostrar último mês">
