@@ -406,8 +406,44 @@ var FEEDBAR = {
 		this.searchFilter.length = 0;
 		
 		if (filter) {
-			var filterParts = filter.replace(/\s+/g, " ").replace(/^\s+|\s+$/g, "").split(" ");
-		
+			var filterString = filter.replace(/\s+/g, " ").replace(/^\s+|\s+$/g, "");
+			var filterParts = [];
+			
+			// We now have a space delimited filter string, but it may included quoted phrases
+			var currentFilter = "";
+			var inQuotes = 0;
+			
+			for (var i = 0; i < filterString.length; i++) {
+			    var theChar = filterString.charAt(i);
+			    
+			    if (theChar == "'" || theChar == '"') {
+			        if (inQuotes == theChar) {
+			            inQuotes = false;
+		            }
+		            else if (currentFilter.length == 0 || (currentFilter.length == 1 && (currentFilter == "-"))){
+		                inQuotes = theChar;
+	                }
+	                else {
+	                    currentFilter += theChar;
+	                }
+	            }
+	            else if (theChar == "+" && currentFilter.length == 0) {
+                }
+		        else {
+    		        if (theChar == " "){ 
+    		            if (!inQuotes) {
+    		                filterParts.push(currentFilter);
+    		                currentFilter = "";
+    		                continue;
+    	                }
+    	            }
+    	            
+	                currentFilter += filterString.charAt(i);
+                }
+		    }
+		    
+		    if (currentFilter != "") filterParts.push(currentFilter);
+		    
 			for (var i = 0; i < filterParts.length; i++) {
 				var nomatch = false;
 				
@@ -900,7 +936,7 @@ var FEEDBAR = {
 		}
 	},
 	
-	unsubscribe : function () {
+	unsubscribe : function (feedData) {
 		var idx = this.getSelectedIndex();
 		var feedKey = this.getCellID(idx);
 		
@@ -949,7 +985,8 @@ var FEEDBAR = {
 				return null;
 			}
 			
-			var livemarkUrl = this.getCellLink(idx);
+			var livemarkUrl = this.getCellFeedLink(idx);
+			livemarkUrl = feedData[livemarkUrl.toLowerCase()].uri;
 			var resource = getResource(livemarkUrl);
 			
 			if (resource) {

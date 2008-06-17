@@ -155,7 +155,7 @@ var FEEDSIDEBAR = {
 				var feedURL = livemarkService.getFeedURI(livemarkIds[i]).spec;
 				var feedName = bookmarkService.getItemTitle(livemarkIds[i]);
 				this.feeds.push({ name : feedName, feed : feedURL });
-				this.feedData[feedURL] = { name : feedName, bookmarkId : livemarkIds[i] };
+				this.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : livemarkIds[i], uri : feedURL };
 			}
 		}
 		else {
@@ -202,7 +202,7 @@ var FEEDSIDEBAR = {
 							}
 						
 							this.feeds.push({ name : feedName, feed : feedURL });
-							this.feedData[feedURL] = { name : feedName, bookmarkId : -1 };
+							this.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : -1, uri : feedURL };
 						}
 					}
 				}
@@ -704,21 +704,21 @@ FeedbarParseListener.prototype = {
 	handleResult: function(result) {
 		if (result.bozo) {
 			// Get feed name
-			FEEDSIDEBAR.addError(FEEDSIDEBAR.feedData[result.uri.resolve("")].name, result.uri.resolve(""), FEEDSIDEBAR.strings.getString("feedbar.errors.parseError"), 5);
+			FEEDSIDEBAR.addError(FEEDSIDEBAR.feedData[result.uri.resolve("").toLowerCase()].name, result.uri.resolve(""), FEEDSIDEBAR.strings.getString("feedbar.errors.parseError"), 5);
 			return;
 		}
 		
 		var feed = result.doc;
 		
 		if (!feed) {
-			FEEDSIDEBAR.addError(FEEDSIDEBAR.feedData[result.uri.resolve("")].name, result.uri.resolve(""), FEEDSIDEBAR.strings.getString("feedbar.errors.invalidUrl"), 5);
+			FEEDSIDEBAR.addError(FEEDSIDEBAR.feedData[result.uri.resolve("").toLowerCase()].name, result.uri.resolve(""), FEEDSIDEBAR.strings.getString("feedbar.errors.invalidUrl"), 5);
 			return;
 		}
 		
 		try {
 			feed.QueryInterface(Components.interfaces.nsIFeed);
 		} catch (e) {
-			FEEDSIDEBAR.addError(FEEDSIDEBAR.feedData[result.uri.resolve("")].name, result.uri.resolve(""), FEEDSIDEBAR.strings.getString("feedbar.errors.invalidFeed"), 5);
+			FEEDSIDEBAR.addError(FEEDSIDEBAR.feedData[result.uri.resolve("").toLowerCase()].name, result.uri.resolve(""), FEEDSIDEBAR.strings.getString("feedbar.errors.invalidFeed"), 5);
 			return;
 		}
 		
@@ -735,7 +735,8 @@ FeedbarParseListener.prototype = {
 		
 		feedObject.id = result.uri.resolve("");
 		feedObject.uri = result.uri.resolve("");
-		feedObject.livemarkId = FEEDSIDEBAR.feedData[feedObject.uri].bookmarkId;
+		
+		feedObject.livemarkId = FEEDSIDEBAR.feedData[feedObject.uri.toLowerCase()].bookmarkId;
 		
 		try {
 			feedObject.siteUri = feed.link.resolve("");

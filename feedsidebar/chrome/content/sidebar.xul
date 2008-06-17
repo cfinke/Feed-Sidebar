@@ -40,7 +40,7 @@
 			<menuitem option="markFeedAsRead" label="&feedbar.markFeedAsRead;" oncommand="window.parent.FEEDBAR.markAsRead();" />
 			<menuitem option="markAllAsRead" label="&feedbar.markAllAsRead;" command="mark-all-as-read" />
 			<menuseparator />
-			<menuitem option="unsubscribe" label="&feedbar.unsubscribe;" oncommand="window.parent.FEEDBAR.unsubscribe();" />
+			<menuitem option="unsubscribe" label="&feedbar.unsubscribe;" oncommand="window.parent.FEEDBAR.unsubscribe(FEEDSIDEBAR.feedData);" />
 			<menuitem option="options" label="&feedbar.options;" oncommand="FEEDSIDEBAR.options();" />
 		</popup>
 	</popupset>
@@ -111,7 +111,7 @@
 					<description id="feedbarTooltipURL" crop="end" onclick="window.parent.FEEDBAR.onTreeClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;"/>
 				</vbox>
 				<vbox pack="start" align="start">
-					<toolbarbutton id="close-preview" class="tabs-closebutton" oncommand="window.parent.FEEDBAR.markAsRead();" tooltiptext="&feedbar.preview.markAsRead;" />
+					<toolbarbutton id="close-preview" class="tabs-closebutton" oncommand="window.parent.FEEDBAR.markAsRead();FEEDSIDEBAR.previewPane.style.visibility = 'hidden';" tooltiptext="&feedbar.preview.markAsRead;" />
 				</vbox>
 			</hbox>
 			<groupbox id="feedbarTooltipSummaryGroupbox" flex="1">
