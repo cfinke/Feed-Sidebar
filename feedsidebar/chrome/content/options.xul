@@ -4,11 +4,33 @@
 <prefwindow
 	title="Feed Sidebar - &feedbar.options;"
 	buttons="accept,cancel"
-	onload="FEEDBAR_PREFS.load();"
-	onunload="FEEDBAR_PREFS.unload();"
+	ondialogaccept="FEEDBAR_PREFS.unload();"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<script type="application/x-javascript">
+	    <![CDATA[
+	    var FEEDBAR_PREFS = {
+        	unload : function () {
+        	    var prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("");
+        	    var browserPrefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("browser.preferences.");
+        		if (!browserPrefs.getBoolPref("instantApply")) {
+        		    var prefs = document.getElementById("all_prefs");
+        		    for (var i = 0; i < prefs.length; i++) {
+        		        switch (prefs[i].getAttribute("type")) {
+        		            case 'bool':
+        		                prefService.setBoolPref(prefs[i].getAttribute("name"), prefs[i].value);
+        		            break;
+        		            case 'int':
+    		                    prefService.setIntPref(prefs[i].getAttribute("name"), prefs[i].value);
+        		            break;
+        		        }
+        		    }
+        		}
+        	}
+	    };
+	    ]]>
+	</script>
 	<prefpane id="general-pane" label="Feed Sidebar - &feedbar.options;">
-		<preferences>
+		<preferences id="all_prefs">
 			<preference id="p_hide_read" name="extensions.feedbar.hideReadItems" type="bool" />
 			<preference id="p_update_freq" name="extensions.feedbar.updateFrequency" type="int" />
 			<preference id="p_show_days" name="extensions.feedbar.displayPeriod" type="int" />
