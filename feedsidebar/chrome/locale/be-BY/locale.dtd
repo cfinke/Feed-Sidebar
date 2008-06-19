@@ -16,12 +16,3 @@
 <!ENTITY feedbar.minutes "хвілінаў">
 <!ENTITY feedbar.hour "гадзіна">
 <!ENTITY feedbar.hours "гадзіны">
-<!ENTITY feedbar.showLastTooltip "Limit the age of the items shown">
-<!ENTITY feedbar.showLastDaysPre "Show last ">
-<!ENTITY feedbar.showLastDaysPost " days">
-<!ENTITY feedbar.showLastWeeksPre "Show last ">
-<!ENTITY feedbar.showLastWeeksPost " weeks">
-<!ENTITY feedbar.showAllItems "Show all items">
-<!ENTITY feedbar.showLastDay "Show last day">
-<!ENTITY feedbar.showLastWeek "Show last week">
-<!ENTITY feedbar.showLastMonth "Show last month">

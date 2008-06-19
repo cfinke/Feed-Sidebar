@@ -7,9 +7,13 @@
 <!ENTITY feedbar.open "開啟">
 <!ENTITY feedbar.openInTab "開啟於新分頁">
 <!ENTITY feedbar.openAllInTabs "開啟全部於新分頁">
+<!ENTITY feedbar.openUnreadInTabs "開啟未閱讀訊息於分頁">
 <!ENTITY feedbar.openFeedInTabs "開啟即時訊息於新分頁">
+<!ENTITY feedbar.openUnreadFeedInTabs "開啟未閱讀的即時書籤於分頁">
 <!ENTITY feedbar.markAsRead "設定為已閱讀">
+<!ENTITY feedbar.markAsUnread "標示為未閱讀">
 <!ENTITY feedbar.markFeedAsRead "設定即時書籤為已閱讀">
+<!ENTITY feedbar.markFeedAsUnread "標示即時書籤為未閱讀">
 <!ENTITY feedbar.markAllAsRead "設定全部為已閱讀">
 <!ENTITY feedbar.reloadFeeds "重新載入">
 <!ENTITY feedbar.stopFeedUpdate "取消即時書籤更新">
@@ -25,3 +29,11 @@
 <!ENTITY feedbar.showLastDay "顯示最近幾天">
 <!ENTITY feedbar.showLastWeek "顯示最近幾週">
 <!ENTITY feedbar.showLastMonth "顯示最近幾月">
+<!ENTITY feedbar.unsubscribe "取消訂閱">
+<!ENTITY feedbar.options "選項">
+<!ENTITY feedbar.hideReadItems "隱藏已閱讀的項目">
+<!ENTITY feedbar.updateEvery1 "更新即時書籤 每">
+<!ENTITY feedbar.updateEvery2 "分鐘">
+<!ENTITY feedbar.onlyShow1 "只顯示最近的項目">
+<!ENTITY feedbar.onlyShow2 "天。（輸入 0 表示顯示全部）">
+<!ENTITY feedbar.24HourTime "使用 24 時制">

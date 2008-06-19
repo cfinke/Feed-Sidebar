@@ -1,27 +1,39 @@
-<!ENTITY feedbar.buttonLabel "Ungelesene RSS-Beiträge">
-<!ENTITY feedbar.sidebarTitle "Ungelesene RSS-Beiträge">
-<!ENTITY feedbar.buttonTooltip "Stellt die ungelesenen RSS-Beiträge der dynamischen Lesezeichen in der Sidebar da">
+<!ENTITY feedbar.buttonLabel "Ungelesene Feed-Beiträge">
+<!ENTITY feedbar.sidebarTitle "Ungelesene Feed-Beiträge">
+<!ENTITY feedbar.buttonTooltip "Stellt die ungelesenen Feed-Beiträge der dynamischen Lesezeichen in der Sidebar da">
 <!ENTITY feedbar.accesskey "R">
 <!ENTITY feedbar.preview.markAsRead "RSS-Feed oder Beitrag als gelesen markieren">
 <!ENTITY feedbar.preview.summary "Zusammenfassung">
 <!ENTITY feedbar.open "Öffnen">
 <!ENTITY feedbar.openInTab "In neuem Tab öffnen">
 <!ENTITY feedbar.openAllInTabs "Alle Beiträge in Tabs öffnen">
-<!ENTITY feedbar.openFeedInTabs "RSS-Feed in Tabs öffnen">
+<!ENTITY feedbar.openUnreadInTabs "Open Unread Items in Tabs">
+<!ENTITY feedbar.openFeedInTabs "Feed in Tabs öffnen">
+<!ENTITY feedbar.openUnreadFeedInTabs "Ungelesene Beiträge des Feeds in Tabs öffnen">
 <!ENTITY feedbar.markAsRead "Als gelesen markieren">
-<!ENTITY feedbar.markFeedAsRead "RSS-Feed als gelesen markieren">
+<!ENTITY feedbar.markAsUnread "Als ungelesen markieren">
+<!ENTITY feedbar.markFeedAsRead "Feed als gelesen markieren">
+<!ENTITY feedbar.markFeedAsUnread "Feed als ungelesen markieren">
 <!ENTITY feedbar.markAllAsRead "Alles als gelesen markieren">
-<!ENTITY feedbar.reloadFeeds "RSS-Feed aktualisieren">
+<!ENTITY feedbar.reloadFeeds "Feed aktualisieren">
 <!ENTITY feedbar.stopFeedUpdate "Aktualisierung abbrechen">
 <!ENTITY feedbar.minutes "Minuten">
 <!ENTITY feedbar.hour "Stunde">
 <!ENTITY feedbar.hours "Stunden">
-<!ENTITY feedbar.showLastTooltip "RSS-Beiträge zeitlich filtern">
+<!ENTITY feedbar.showLastTooltip "Beiträge zeitlich filtern">
 <!ENTITY feedbar.showLastDaysPre "Letzte ">
 <!ENTITY feedbar.showLastDaysPost " Tage">
 <!ENTITY feedbar.showLastWeeksPre "Letzte ">
 <!ENTITY feedbar.showLastWeeksPost " Wochen">
 <!ENTITY feedbar.showAllItems "Alle">
-<!ENTITY feedbar.showLastDay "Heute">
+<!ENTITY feedbar.showLastDay "Letzte 24 Stunden">
 <!ENTITY feedbar.showLastWeek "Letzte Woche">
 <!ENTITY feedbar.showLastMonth "Letzter Monat">
+<!ENTITY feedbar.unsubscribe "Abonnement beenden">
+<!ENTITY feedbar.options "Einstellungen">
+<!ENTITY feedbar.hideReadItems "Gelesene Beiträge ausblenden">
+<!ENTITY feedbar.updateEvery1 "Feed aller ">
+<!ENTITY feedbar.updateEvery2 "Minuten aktualisieren">
+<!ENTITY feedbar.onlyShow1 "Nur die Beiträge der letzten">
+<!ENTITY feedbar.onlyShow2 "Tage anzeigen. (0 für alle Beiträge)">
+<!ENTITY feedbar.24HourTime "24-Stunden-Format benutzen">

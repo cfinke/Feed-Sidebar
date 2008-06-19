@@ -7,9 +7,13 @@
 <!ENTITY feedbar.open "Iepenje">
 <!ENTITY feedbar.openInTab "Iepenje yn nij ljepblêd">
 <!ENTITY feedbar.openAllInTabs "Iepenje alles yn ljepblêden">
+<!ENTITY feedbar.openUnreadInTabs "Iepenje net lêzen items yn ljepblêden">
 <!ENTITY feedbar.openFeedInTabs "Iepenje feed yn ljepblêden">
+<!ENTITY feedbar.openUnreadFeedInTabs "Iepenje net lêzen feeditems yn ljepblêden">
 <!ENTITY feedbar.markAsRead "Markearje as lêzen">
+<!ENTITY feedbar.markAsUnread "Markearje as net lêzen">
 <!ENTITY feedbar.markFeedAsRead "Markearje feed as lêzen">
+<!ENTITY feedbar.markFeedAsUnread "Markearje feed as net lêzen">
 <!ENTITY feedbar.markAllAsRead "Markearje alles as lêzen">
 <!ENTITY feedbar.reloadFeeds "Feed op &apos;e nij lade">
 <!ENTITY feedbar.stopFeedUpdate "Annulearje feedfernijing">
@@ -25,3 +29,11 @@
 <!ENTITY feedbar.showLastDay "Toan lêste dei">
 <!ENTITY feedbar.showLastWeek "Toan lêste wike">
 <!ENTITY feedbar.showLastMonth "Toan lêste moanne">
+<!ENTITY feedbar.unsubscribe "Abonnemint opsizze">
+<!ENTITY feedbar.options "Opsjes">
+<!ENTITY feedbar.hideReadItems "Ferstop lêzen items">
+<!ENTITY feedbar.updateEvery1 "Fernij elke">
+<!ENTITY feedbar.updateEvery2 "minuten.">
+<!ENTITY feedbar.onlyShow1 "Toan allinnich items fan de lêste">
+<!ENTITY feedbar.onlyShow2 "dagen. (Jou 0 om alles te sjen)">
+<!ENTITY feedbar.24HourTime "Brûk 24-oeren tiid">

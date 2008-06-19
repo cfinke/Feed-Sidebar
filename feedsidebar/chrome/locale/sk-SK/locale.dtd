@@ -1,27 +1,3 @@
 <!ENTITY feedbar.buttonLabel "Unread Feed Items">
 <!ENTITY feedbar.sidebarTitle "Unread Feed Items">
 <!ENTITY feedbar.buttonTooltip "Show the new items from your Live Bookmarks in the sidebar">
-<!ENTITY feedbar.accesskey "F">
-<!ENTITY feedbar.preview.markAsRead "Mark feed or item as read">
-<!ENTITY feedbar.preview.summary "Summary">
-<!ENTITY feedbar.open "Open">
-<!ENTITY feedbar.openInTab "Open in New Tab">
-<!ENTITY feedbar.openAllInTabs "Open All in Tabs">
-<!ENTITY feedbar.openFeedInTabs "Open Feed in Tabs">
-<!ENTITY feedbar.markAsRead "Mark as Read">
-<!ENTITY feedbar.markFeedAsRead "Mark Feed as Read">
-<!ENTITY feedbar.markAllAsRead "Mark All as Read">
-<!ENTITY feedbar.reloadFeeds "Reload Feeds">
-<!ENTITY feedbar.stopFeedUpdate "Cancel feed update">
-<!ENTITY feedbar.minutes "minutes">
-<!ENTITY feedbar.hour "hour">
-<!ENTITY feedbar.hours "hours">
-<!ENTITY feedbar.showLastTooltip "Limit the age of the items shown">
-<!ENTITY feedbar.showLastDaysPre "Show last ">
-<!ENTITY feedbar.showLastDaysPost " days">
-<!ENTITY feedbar.showLastWeeksPre "Show last ">
-<!ENTITY feedbar.showLastWeeksPost " weeks">
-<!ENTITY feedbar.showAllItems "Show all items">
-<!ENTITY feedbar.showLastDay "Show last day">
-<!ENTITY feedbar.showLastWeek "Show last week">
-<!ENTITY feedbar.showLastMonth "Show last month">
