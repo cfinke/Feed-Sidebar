@@ -5,16 +5,16 @@ skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/
 locale      feedbar     de-DE               jar:chrome/feedsidebar.jar!/locale/de-DE/
 locale      feedbar     en-US               jar:chrome/feedsidebar.jar!/locale/en-US/
 #locale      feedbar     fr-FR               jar:chrome/feedsidebar.jar!/locale/fr-FR/
-#locale      feedbar     fy-NL               jar:chrome/feedsidebar.jar!/locale/fy-NL/
+locale      feedbar     fy-NL               jar:chrome/feedsidebar.jar!/locale/fy-NL/
 #locale      feedbar     nl-NL               jar:chrome/feedsidebar.jar!/locale/nl-NL/
 #locale      feedbar     it-IT               jar:chrome/feedsidebar.jar!/locale/it-IT/
-#locale      feedbar     ja-JP               jar:chrome/feedsidebar.jar!/locale/ja-JP/
-#locale      feedbar     pl-PL               jar:chrome/feedsidebar.jar!/locale/pl-PL/
+locale      feedbar     ja-JP               jar:chrome/feedsidebar.jar!/locale/ja-JP/
+locale      feedbar     pl-PL               jar:chrome/feedsidebar.jar!/locale/pl-PL/
 #locale      feedbar     ru-RU               jar:chrome/feedsidebar.jar!/locale/ru-RU/
 #locale      feedbar     pt-BR               jar:chrome/feedsidebar.jar!/locale/pt-BR/
 #locale      feedbar     sk-SK               jar:chrome/feedsidebar.jar!/locale/sk-SK/
 #locale      feedbar     zh-CN               jar:chrome/feedsidebar.jar!/locale/zh-CN/
-#locale      feedbar     zh-TW               jar:chrome/feedsidebar.jar!/locale/zh-TW/
+locale      feedbar     zh-TW               jar:chrome/feedsidebar.jar!/locale/zh-TW/
 
 overlay     chrome://browser/content/browser.xul                chrome://feedbar/content/overlay.xul
 
