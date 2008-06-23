@@ -7,9 +7,13 @@
 <!ENTITY feedbar.open "打开">
 <!ENTITY feedbar.openInTab "在新标签页打开">
 <!ENTITY feedbar.openAllInTabs "在标签页打开全部">
+<!ENTITY feedbar.openUnreadInTabs "在新标签页打开未读项目">
 <!ENTITY feedbar.openFeedInTabs "在标签页打开订阅">
+<!ENTITY feedbar.openUnreadFeedInTabs "在新标签页打开未读订阅项目">
 <!ENTITY feedbar.markAsRead "标记为已读">
+<!ENTITY feedbar.markAsUnread "标记为未读">
 <!ENTITY feedbar.markFeedAsRead "标记订阅为已读">
+<!ENTITY feedbar.markFeedAsUnread "标记订阅为未读">
 <!ENTITY feedbar.markAllAsRead "标记全部为已读">
 <!ENTITY feedbar.reloadFeeds "更新订阅">
 <!ENTITY feedbar.stopFeedUpdate "取消更新订阅">
@@ -25,3 +29,11 @@
 <!ENTITY feedbar.showLastDay "显示上一天">
 <!ENTITY feedbar.showLastWeek "显示上一个星期">
 <!ENTITY feedbar.showLastMonth "显示上一个月">
+<!ENTITY feedbar.unsubscribe "未订阅">
+<!ENTITY feedbar.options "选项">
+<!ENTITY feedbar.hideReadItems "隐藏已读项目">
+<!ENTITY feedbar.updateEvery1 "每隔">
+<!ENTITY feedbar.updateEvery2 "分钟更新订阅">
+<!ENTITY feedbar.onlyShow1 "只显示最近">
+<!ENTITY feedbar.onlyShow2 "天的项目(0 显示全部)">
+<!ENTITY feedbar.24HourTime "使用 24 小时制">
