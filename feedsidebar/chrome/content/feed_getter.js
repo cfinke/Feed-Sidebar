@@ -63,10 +63,15 @@ var FEED_GETTER = {
 		var lastUpdate = FEED_GETTER.lastUpdate;
 		var milliBetween = FEED_GETTER.prefs.getIntPref("updateFrequency") * 60 * 1000;
 		var lastMilli = lastUpdate.getTime();
-		var nextUpdate = new Date();
-		nextUpdate.setTime(lastUpdate.getTime() + milliBetween);
 		
-		return nextUpdate;
+		if (lastMilli == 0) {
+			return new Date();
+		}
+		else {
+			var nextUpdate = new Date();
+			nextUpdate.setTime(lastUpdate.getTime() + milliBetween);
+			return nextUpdate;
+		}
 	},
 	
 	init : function () {
@@ -106,11 +111,16 @@ var FEED_GETTER = {
 	},
 	
 	sidebarPing : function () {
-		if (FEED_GETTER.feeds.length > 0) {
-			FEED_GETTER.updateLoadProgress(FEED_GETTER.feedsToLoad - FEED_GETTER.feeds.length, FEED_GETTER.feedsToLoad);
+		if (FEED_GETTER.nextUpdate <= new Date()) {
+			FEED_GETTER.updateFeeds();
 		}
 		else {
-			FEED_GETTER.updateLoadProgress(0,0);
+			if (FEED_GETTER.feeds.length > 0) {
+				FEED_GETTER.updateLoadProgress(FEED_GETTER.feedsToLoad - FEED_GETTER.feeds.length, FEED_GETTER.feedsToLoad);
+			}
+			else {
+				FEED_GETTER.updateLoadProgress(0,0);
+			}
 		}
 	},
 	
@@ -396,7 +406,13 @@ var FEED_GETTER = {
 		var win = FEED_GETTER.feedWindow; 
 		
 		if (win && win.FEEDSIDEBAR) {
-			var nextUpdateTime = FEED_GETTER.nextUpdate;
+			if (done == total) {
+				var nextUpdateTime = FEED_GETTER.nextUpdate;
+			}
+			else {
+				var nextUpdateTime = null;
+			}
+			
 			win.FEEDSIDEBAR.updateLoadProgress(done, total, nextUpdateTime);
 		}
 	},
