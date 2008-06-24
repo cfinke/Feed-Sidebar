@@ -125,6 +125,8 @@ var FEEDSIDEBAR = {
 							case 'openAllInTabs':
 							case 'markAllAsRead':
 							case 'options':
+							case 'copyTitle':
+							case 'copyLink':
 								options[i].setAttribute("hidden", "false");
 							break;
 							case 'openFeedInTabs':
@@ -163,6 +165,8 @@ var FEEDSIDEBAR = {
 							case 'markFeedAsRead':
 							case 'unsubscribe':
 							case 'options':
+							case 'copyTitle':
+							case 'copyLink':
 								options[i].setAttribute("hidden", "false");
 							break;
 							case 'openUnreadInTabs':
@@ -188,6 +192,8 @@ var FEEDSIDEBAR = {
 						case 'openFeedUnreadInTabs':
 						case 'markFeedAsUnread':
 						case 'unsubscribe':
+						case 'copyTitle':
+						case 'copyLink':
 							options[i].setAttribute("hidden", "true");
 						break;
 						case 'openAllInTabs':

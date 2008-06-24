@@ -30,6 +30,9 @@
 <!ENTITY feedbar.showLastWeek "Show last week">
 <!ENTITY feedbar.showLastMonth "Show last month">
 
+<!ENTITY feedbar.copyTitle "Copy Title">
+<!ENTITY feedbar.copyLink "Copy Link">
+
 <!ENTITY feedbar.unsubscribe "Unsubscribe">
 <!ENTITY feedbar.options "Options">
 <!ENTITY feedbar.hideReadItems "Hide read items">

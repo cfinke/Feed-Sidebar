@@ -971,6 +971,35 @@ var FEEDBAR = {
 		}
 	},
 	
+	clipboard : {
+		copyString : function (str){
+			try {
+				var oClipBoard = Components.classes["@mozilla.org/widget/clipboardhelper;1"].getService(Components.interfaces.nsIClipboardHelper);
+				oClipBoard.copyString(str);
+			} catch (e) {
+			}
+		}
+	},
+	
+	copyTitle : function () {
+		var idx = this.getSelectedIndex();
+		var title = this.getCellText(idx).replace(/^\s+/g, "");
+		this.clipboard.copyString(title);
+	},
+	
+	copyLink : function () {
+		var idx = this.getSelectedIndex();
+		
+		if (this.isContainer(idx)) {
+			var link = this.getCellFeedLink(idx);
+		}
+		else {
+			var link = this.getCellLink(idx);
+		}
+		
+		this.clipboard.copyString(link);
+	},
+	
 	unsubscribe : function () {
 		var feedData = FEED_GETTER.feedData;
 		

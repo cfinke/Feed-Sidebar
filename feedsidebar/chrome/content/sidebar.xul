@@ -40,6 +40,9 @@
 			<menuitem option="markFeedAsRead" label="&feedbar.markFeedAsRead;" oncommand="window.parent.FEEDBAR.markAsRead();" />
 			<menuitem option="markAllAsRead" label="&feedbar.markAllAsRead;" command="mark-all-as-read" />
 			<menuseparator />
+			<menuitem option="copyTitle" label="&feedbar.copyTitle;" oncommand="window.parent.FEEDBAR.copyTitle();" />
+			<menuitem option="copyLink" label="&feedbar.copyLink;" oncommand="window.parent.FEEDBAR.copyLink();" />
+			<menuseparator />
 			<menuitem option="unsubscribe" label="&feedbar.unsubscribe;" oncommand="window.parent.FEEDBAR.unsubscribe();" />
 			<menuitem option="options" label="&feedbar.options;" oncommand="FEEDSIDEBAR.options();" />
 		</popup>
