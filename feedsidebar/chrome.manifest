@@ -1,5 +1,9 @@
 content     feedbar     jar:chrome/feedsidebar.jar!/content/
-skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/
+
+skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/ff2/ appversion<3 
+skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/ff3/lin/ appversion>=3
+skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/ff3/win/ appversion>=3 os=WINNT
+skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/ff3/mac/ appversion>=3 os=Darwin
 
 #locale      feedbar     be-BY               jar:chrome/feedsidebar.jar!/locale/be-BY/
 locale      feedbar     de-DE               jar:chrome/feedsidebar.jar!/locale/de-DE/
