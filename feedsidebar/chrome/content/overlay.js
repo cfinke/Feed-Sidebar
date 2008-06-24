@@ -145,6 +145,18 @@ var FEEDBAR = {
 	},
 	
 	hasUnreadItems : function (idx) {
+		if (typeof idx == 'undefined') {
+			var len = this.visibleData.length;
+			
+			for (var idx = 0; idx < len; idx++) {
+				if (!this.isContainer(idx) && !this.getCellRead(idx)) {
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
 		var key = this.visibleData[idx].id;
 		var feedName = this.getCellText(idx);
 		var toInsert = this.childData[key].items;
@@ -200,7 +212,7 @@ var FEEDBAR = {
 			
 			if (deleteCount) {
 				this.visibleData.splice(idx + 1, deleteCount);
-				this.treeBox.rowCountChanged(idx + 1, -deleteCount);
+				try { this.treeBox.rowCountChanged(idx + 1, -deleteCount); } catch (sidebarNotOpen) { }
 			}
 		}
 		else {
@@ -243,17 +255,19 @@ var FEEDBAR = {
 			if (itemsInserted == 0) {
 				// If it's empty, get rid of it.
 				this.visibleData.splice(idx, 1);
-				this.treeBox.rowCountChanged(idx, -1);
+				try { this.treeBox.rowCountChanged(idx, -1); } catch (sidebarNotOpen) { }
 				itemStillExists = false;
 			}
 			else {
-				this.treeBox.rowCountChanged(idx + 1, itemsInserted);
+				try { this.treeBox.rowCountChanged(idx + 1, itemsInserted); } catch (sidebarNotOpen) { }
 			}
 		}
 		
 		if (itemStillExists) {
 			this.storeOpenState(this.getCellID(idx), item.isOpen);
 		}
+		
+		this.updateNotifier();
 		
 		return itemStillExists;
 	},
@@ -367,7 +381,7 @@ var FEEDBAR = {
 				
 				if (!hasVisible) {
 					this.visibleData.splice(folderIdx, 1);
-					this.treeBox.rowCountChanged(folderIdx, -1);
+					try { this.treeBox.rowCountChanged(folderIdx, -1); } catch (sidebarNotOpen) { }
 				}
 				
 				break;
@@ -377,7 +391,7 @@ var FEEDBAR = {
 		if (hasVisible) {
 			if (folderIdx < 0) {
 				this.visibleData.push({ "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : " " + feedObject.label.replace(/^\s+/g, ""), "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri, "siteUri" : feedObject.siteUri, "description" : feedObject.description, "image" : feedObject.image });
-				this.treeBox.rowCountChanged(this.rowCount - 1, 1);
+				try { this.treeBox.rowCountChanged(this.rowCount - 1, 1); } catch (sidebarNotOpen) { }
 				folderIdx = this.rowCount - 1;
 			}
 			
@@ -393,6 +407,17 @@ var FEEDBAR = {
 					this.toggleOpenState(folderIdx);
 				}
 			}
+		}
+		
+		this.updateNotifier();
+	},
+	
+	updateNotifier : function () {
+		if (this.hasUnreadItems()) {
+			document.getElementById("feedbar-button").setAttribute("new","true");
+		}
+		else {
+			document.getElementById("feedbar-button").setAttribute("new","false");
 		}
 	},
 	
@@ -500,11 +525,13 @@ var FEEDBAR = {
 			}
 			
 			this.visibleData.splice(idx, rowsRemoved);
-			this.treeBox.rowCountChanged(idx, -rowsRemoved);
+			try { this.treeBox.rowCountChanged(idx, -rowsRemoved); } catch (sidebarNotOpen) { }
 		}
 		else {
 			this.visibleData[idx].visited = true;
 		}
+		
+		this.updateNotifier();
 	},
 
 	setCellUnread : function (idx) {
@@ -532,10 +559,12 @@ var FEEDBAR = {
 		}
 		
 		this.visibleData[idx].visited = true;
-		this.treeBox.invalidateRow(idx);
+		try { this.treeBox.invalidateRow(idx); } catch (sidebarNotOpen) { }
 		
 		// Parent style may have changed.
-		this.treeBox.invalidateRow(parentIdx);
+		try { this.treeBox.invalidateRow(parentIdx); } catch (sidebarNotOpen) { }
+		
+		this.updateNotifier();
 	},
 	
 	getLinkForCell : function (idx) {
@@ -693,12 +722,14 @@ var FEEDBAR = {
 		var rows = this.visibleData.length;
 		
 		this.visibleData.splice(0, rows);
-		this.treeBox.rowCountChanged(0, -rows);
+		try { this.treeBox.rowCountChanged(0, -rows); } catch (sidebarNotOpen) { }
 		
 		// Re-populate the tree.
 		for (var i in this.childData) {
 			this.pushFromChildData(i);
 		}
+		
+		this.updateNotifier();
 	},
 	
 	wasLeftOpen : function (idx) {
@@ -828,12 +859,14 @@ var FEEDBAR = {
 					this.launchUrl(this.getCellLink(i), { which : 2, detail : 1});
 				}
 			}
+			
+			var itemsRemoved = this.visibleData.length;
+
+			this.visibleData.splice(0, itemsRemoved);
+			try { this.treeBox.rowCountChanged(0, -itemsRemoved); } catch (sidebarNotOpen) { }
 		}
 		
-		var itemsRemoved = this.visibleData.length;
-		
-		this.visibleData.splice(0, itemsRemoved);
-		this.treeBox.rowCountChanged(0, -itemsRemoved);
+		this.updateNotifier();
 	},
 	
 	openFeed : function () {
@@ -850,9 +883,9 @@ var FEEDBAR = {
 			for (var i = 0; i < numItems; i++) {
 				this.launchUrl(this.getCellLink(idx + i), { which : 2, detail : 1});
 			}
+			
+			this.markFeedAsRead(folderIdx);
 		}
-		
-		this.markFeedAsRead(folderIdx);
 	},
 	
 	markAsRead : function () {
@@ -912,13 +945,15 @@ var FEEDBAR = {
 		
 		if (this.prefs.getBoolPref("hideReadItems")) {
 			this.visibleData.splice(folderIdx, itemsChanged + 1);
-			this.treeBox.rowCountChanged(folderIdx, -(itemsChanged + 1));
+			try { this.treeBox.rowCountChanged(folderIdx, -(itemsChanged + 1)); } catch (sidebarNotOpen) { }
 		}
 		else {
 			if (!wasOpen) {
 				this.toggleOpenState(folderIdx);
 			}
 		}
+
+		this.updateNotifier();
 	},
 	
 	markAllAsRead : function () {
@@ -936,7 +971,9 @@ var FEEDBAR = {
 		}
 	},
 	
-	unsubscribe : function (feedData) {
+	unsubscribe : function () {
+		var feedData = FEED_GETTER.feedData;
+		
 		var idx = this.getSelectedIndex();
 		var feedKey = this.getCellID(idx);
 		
@@ -952,7 +989,7 @@ var FEEDBAR = {
 			}
 			
 			this.visibleData.splice(idx, 1);
-			this.treeBox.rowCountChanged(idx, -1);
+			try { this.treeBox.rowCountChanged(idx, -1); } catch (sidebarNotOpen) { }
 		} catch (e) {
 			function createSelection(node) {
 				var items = [ node ];
@@ -1001,13 +1038,14 @@ var FEEDBAR = {
 				}
 				
 				this.visibleData.splice(idx, 1);
-				this.treeBox.rowCountChanged(idx, -1);
+				try { this.treeBox.rowCountChanged(idx, -1); } catch (sidebarNotOpen) { }
 			}
 			else {
 				alert(this.strings.getString("feedbar.errors.couldNotUnsubscribe"));
 			}
 		}
-		
+
+		this.updateNotifier();
 	},
 	
 	confirmOpenTabs : function (numTabs) {

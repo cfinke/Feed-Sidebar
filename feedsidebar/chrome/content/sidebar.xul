@@ -10,11 +10,11 @@
 	<script type="application/x-javascript" src="chrome://global/content/nsDragAndDrop.js"></script>
 	<script type="application/x-javascript" src="chrome://global/content/globalOverlay.js"></script>
 	<script type="application/x-javascript" src="chrome://browser/content/utilityOverlay.js"></script>
-	<script type="application/x-javascript" src="chrome://global/content/contentAreaUtils.js"></script>	-->
+	<script type="application/x-javascript" src="chrome://global/content/contentAreaUtils.js"></script>
 	<script type="application/x-javascript">
 		<![CDATA[
 		
-		window.addEventListener("load", function (event) { window.setTimeout('FEEDSIDEBAR.init();',1000); }, false);
+		window.addEventListener("load", function (event) { FEEDSIDEBAR.init(); }, false);
 		window.addEventListener("unload", function (event) { FEEDSIDEBAR.unload(); }, false);
 		
 		]]>
@@ -22,10 +22,10 @@
 	<commandset id="mainCommandSet">
 		<command id="open-all-in-tabs" oncommand="window.parent.FEEDBAR.openAll();" tooltiptext="&feedbar.openAllInTabs;" />
 		<command id="mark-all-as-read" oncommand="window.parent.FEEDBAR.markAllAsRead();" tooltiptext="&feedbar.markAllAsRead;" />
-		<command id="stop-update" oncommand="FEEDSIDEBAR.stopUpdate();" tooltiptext="&feedbar.stopFeedUpdate;" />
-		<command id="force-reload" oncommand="FEEDSIDEBAR.updateFeeds();" tooltiptext="&feedbar.reloadFeeds;" />
-		<command id="set-reload-interval" oncommand="FEEDSIDEBAR.setUpdateFrequency(event.target.getAttribute('value')); event.stopPropagation();" />
-		<command id="update-period" oncommand="FEEDSIDEBAR.setDisplayPeriod(event.target.getAttribute('value')); event.stopPropagation();" />
+		<command id="stop-update" oncommand="window.parent.FEED_GETTER.stopUpdate();" tooltiptext="&feedbar.stopFeedUpdate;" />
+		<command id="force-reload" oncommand="window.parent.FEED_GETTER.updateFeeds();" tooltiptext="&feedbar.reloadFeeds;" />
+		<command id="set-reload-interval" oncommand="window.parent.FEED_GETTER.setUpdateFrequency(event.target.getAttribute('value')); event.stopPropagation();" />
+		<command id="update-period" oncommand="window.parent.FEED_GETTER.setDisplayPeriod(event.target.getAttribute('value')); event.stopPropagation();" />
 	</commandset>
 	<popupset id="mainPopupSet">
 		<popup id="feedbarContextMenu" onpopupshowing="return FEEDSIDEBAR.contextMenu.customize(this);">
@@ -40,7 +40,7 @@
 			<menuitem option="markFeedAsRead" label="&feedbar.markFeedAsRead;" oncommand="window.parent.FEEDBAR.markAsRead();" />
 			<menuitem option="markAllAsRead" label="&feedbar.markAllAsRead;" command="mark-all-as-read" />
 			<menuseparator />
-			<menuitem option="unsubscribe" label="&feedbar.unsubscribe;" oncommand="window.parent.FEEDBAR.unsubscribe(FEEDSIDEBAR.feedData);" />
+			<menuitem option="unsubscribe" label="&feedbar.unsubscribe;" oncommand="window.parent.FEEDBAR.unsubscribe();" />
 			<menuitem option="options" label="&feedbar.options;" oncommand="FEEDSIDEBAR.options();" />
 		</popup>
 	</popupset>
@@ -119,7 +119,7 @@
 			</groupbox>
 		</vbox>
 		<statusbar>
-			<hbox pack="end" align="end" flex="1" style="text-align: right; padding-top: 4px;" id="feedbar-loading-text-container" onclick="FEEDSIDEBAR.killCurrentRequest();">
+			<hbox pack="end" align="end" flex="1" style="text-align: right; padding-top: 4px;" id="feedbar-loading-text-container" onclick="window.parent.FEED_GETTER.killCurrentRequest();">
 				<description id="feedbar-loading-text" value="" />
 			</hbox>
 		</statusbar>

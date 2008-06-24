@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE overlay SYSTEM "chrome://feedbar/locale/locale.dtd">
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <script type="application/x-javascript" src="chrome://feedbar/content/feed_getter.js"></script>
+    <script type="application/x-javascript" src="chrome://global/content/nsDragAndDrop.js"></script>
+    <script type="application/x-javascript" src="chrome://global/content/globalOverlay.js"></script>
+    <script type="application/x-javascript" src="chrome://browser/content/utilityOverlay.js"></script>
 	<script type="application/x-javascript" src="chrome://feedbar/content/overlay.js"></script>
 	<script type="application/x-javascript">
 		<![CDATA[
 		
 		window.addEventListener("load", function (event) { FEEDBAR.load(); }, false);
 		window.addEventListener("unload", function (event) { FEEDBAR.unload(); }, false);
+		window.addEventListener("load", function (event) { FEED_GETTER.init(); }, false);
 		
 		]]>
 	</script>

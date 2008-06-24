@@ -3,338 +3,44 @@ var FEEDSIDEBAR = {
 	get previewPane() { return document.getElementById("feedbar-preview"); },
 	get nextUpdateDisplay() { return document.getElementById("feedbar-nextupdate-text"); },
 	get strings() { return document.getElementById("feedbar-string-bundle"); },
-	get displayPeriod() { return this.prefs.getIntPref("displayPeriod"); },
+	get displayPeriod() { return FEEDSIDEBAR.prefs.getIntPref("displayPeriod"); },
 	
 	prefs : null,
 	
-	feedsToLoad : 0,
-	feedsLoaded : 0,
-	
-	updateTimer : null,
-	loadTimer : null,
-	req : null,
-	
-	feeds : [],
-	
-	feedData : { },
-	textarea : null,
-	
-	currentRequest : null,
-	
-	get lastUpdate() { 
-		// Stored as the number of seconds since the epoch
-		// Should reveal this value as a JavaScript Date object
-		
-		var secondsBetween, timestamp = 0;
-		var updateObj = new Date();
-		
-		try {
-			timestamp = this.prefs.getIntPref("lastUpdate");
-		} catch (e) {
-			secondsBetween = this.prefs.getIntPref("updateFrequency") * 60;
-			timestamp = Math.round(updateObj.getTime() / 1000);
-			timestamp -= secondsBetween;
-		}
-		
-		updateObj.setTime(timestamp * 1000);
-		
-		return updateObj;
-	},
-	
-	set lastUpdate(dateOb) {
-		var timestamp = Math.round(dateOb.getTime() / 1000);
-		this.prefs.setIntPref("lastUpdate", timestamp);
-	},
-	
-	get nextUpdate() { 
-		var lastUpdate = this.lastUpdate;
-		var milliBetween = this.prefs.getIntPref("updateFrequency") * 60 * 1000;
-		var lastMilli = lastUpdate.getTime();
-		var nextUpdate = new Date();
-		nextUpdate.setTime(lastUpdate.getTime() + milliBetween);
-		
-		return nextUpdate;
-	},
-	
 	init : function () {
-		this.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.feedbar.");	
-		this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
-		this.prefs.addObserver("", this, false);
-		
-		this.ta = document.createElementNS("http://www.w3.org/1999/xhtml", "textarea");
+		FEEDSIDEBAR.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.feedbar.");	
 		
 		document.getElementById("feed_tree").view = window.parent.FEEDBAR;
 		
-		this.updateLoadProgress(0,0);
-		this.checkFrequencyItem(this.prefs.getIntPref("updateFrequency"));
-		this.checkPeriodItem(this.prefs.getIntPref("displayPeriod"));	
+		// window.parent.FEED_GETTER.updateLoadProgress(0,0);
+		FEEDSIDEBAR.checkFrequencyItem(FEEDSIDEBAR.prefs.getIntPref("updateFrequency"));
+		FEEDSIDEBAR.checkPeriodItem(FEEDSIDEBAR.prefs.getIntPref("displayPeriod"));	
+		document.getElementById("search-box").value = FEEDSIDEBAR.prefs.getCharPref("filter");
 		
-		// The sidebar has been opened and closed at least once.
-		var lastMilli = this.lastUpdate.getTime();
-		var currentMilli = new Date().getTime();
-		var milliBetween = this.prefs.getIntPref("updateFrequency") * 60 * 1000;
-		
-		document.getElementById("search-box").value = this.prefs.getCharPref("filter");
-		
-		if ((lastMilli + milliBetween) < currentMilli){
-			// Only do an update if enough time has elapsed since the sidebar was closed
-			this.updateFeeds();
-		}
-		else {
-			// Set an update for when it would have happened had the sidebar stayed open.
-			this.updateTimer = setTimeout("FEEDSIDEBAR.updateFeeds();", (lastMilli + milliBetween) -  currentMilli);
-		}
-		
-		// this.previewPane.style.visibility = 'hidden';
+		window.parent.FEED_GETTER.sidebarPing();
 	},
 	
 	unload : function () {
-		try { this.currentRequest.abort(); } catch (noNeed) { }
-		this.prefs.removeObserver("", this);
-	},
-	
-	observe : function(subject, topic, data) {
-		if (topic != "nsPref:changed") {
-			return;
-		}
-		
-		switch(data) {
-			case "updateFrequency":
-				if (this.prefs.getIntPref("updateFrequency") < 1) {
-					this.prefs.setIntPref("updateFrequency", 1);
-				}
-				else {
-					this.setReloadInterval(this.prefs.getIntPref("updateFrequency"));
-				}
-			break;
-			case "24HourTime":
-				this.updateLoadProgress(0,0);
-			break;
-		}
-	},
-	
-	updateFeeds : function () {
-		if (this.updateTimer) window.clearTimeout(this.updateTimer);
-		
-		this.findFeeds();
-		this.loadFeeds();
-		
-		this.updateTimer = setTimeout("FEEDSIDEBAR.updateFeeds();", this.prefs.getIntPref("updateFrequency") * 60 * 1000);
-	},
-	
-	stopUpdate : function () {
-		this.feeds.length = 0;
-		this.loadNextFeed();
 	},
 	
 	searchTimeout : null,
 	
 	onSearchInput : function (value) {
-		if (this.searchTimeout) clearTimeout(this.searchTimeout);
+		if (FEEDSIDEBAR.searchTimeout) clearTimeout(FEEDSIDEBAR.searchTimeout);
 		
-		this.searchTimeout = setTimeout(FEEDSIDEBAR.filter, 500, value);
+		FEEDSIDEBAR.searchTimeout = setTimeout(FEEDSIDEBAR.filter, 500, value);
 	},
 	
 	filter : function (value) {
 		FEEDSIDEBAR.prefs.setCharPref("filter", value);
 	},
 	
-	findFeeds : function () {
-		this.feedData.length = 0;
-		
-		var livemarkService = Components.classes["@mozilla.org/browser/livemark-service;2"];
-		
-		if (livemarkService) {
-			// Firefox 3+
-			livemarkService = livemarkService.getService(Components.interfaces.nsILivemarkService);
-			var bookmarkService = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
-			var anno = Components.classes["@mozilla.org/browser/annotation-service;1"].getService(Components.interfaces.nsIAnnotationService);
-			var livemarkIds = anno.getItemsWithAnnotation("livemark/feedURI", {});
-			
-			for (var i = 0; i < livemarkIds.length; i++){
-				var feedURL = livemarkService.getFeedURI(livemarkIds[i]).spec;
-				var feedName = bookmarkService.getItemTitle(livemarkIds[i]);
-				this.feeds.push({ name : feedName, feed : feedURL });
-				this.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : livemarkIds[i], uri : feedURL };
-			}
-		}
-		else {
-			// Firefox 2-
-			if (!RDF) initServices();
-			if (!BMSVC) initBMService();
-		
-			var root = RDF.GetResource("NC:BookmarksRoot");
-			var feedURLArc = RDF.GetResource("http://home.netscape.com/NC-rdf#FeedURL");
-			var nameArc = RDF.GetResource("http://home.netscape.com/NC-rdf#Name");
-		
-			var folders = [ root ];
-		
-			this.feeds.length = 0;
-		
-			while (folders.length > 0){
-				RDFC.Init(BMDS, folders.shift());
-		
-				var elements = RDFC.GetElements();
-		
-				while(elements.hasMoreElements()) {
-					var element = elements.getNext();
-					element.QueryInterface(Components.interfaces.nsIRDFResource);
-		
-					var type = BookmarksUtils.resolveType(element);
-				
-					if ((type == "Folder") || (type == "PersonalToolbarFolder")){
-						folders.push(element);
-					}
-					else if (type == 'Livemark') {
-						var res = RDF.GetResource(element.Value);
-						var target = BMDS.GetTarget(res, feedURLArc, true);
-					
-						if (target) {
-							var feedURL = target.QueryInterface(kRDFLITIID).Value;
-												
-							var target = BMDS.GetTarget(res, nameArc, true);
-						
-							if (target) {
-								var feedName = target.QueryInterface(kRDFLITIID).Value;
-							}
-							else {
-								var feedName = feedURL;
-							}
-						
-							this.feeds.push({ name : feedName, feed : feedURL });
-							this.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : -1, uri : feedURL };
-						}
-					}
-				}
-			}
-		}
-		
-		this.feedsToLoad = this.feeds.length;
-		this.feedsLoaded = 0;
-	},
-	
-	loadFeeds : function () {
-		this.lastUpdate = new Date();
-		
-		this.clearNotify();
-		
-		if (this.feedsToLoad == 0){
-			this.notifyNoFeeds();
-		}
-		
-		this.updateLoadProgress(0, this.feedsToLoad);
-		this.loadNextFeed();
-	},
-	
-	loadNextFeed : function () {
-		var feed = this.feeds.shift();
-		
-		if (feed){
-			var url = feed.feed;
-			this.progressText.setAttribute("tooltiptext",url);
-			
-			var req = new XMLHttpRequest();
-			FEEDSIDEBAR.currentRequest = req;
-			
-			try {
-				req.open("GET", url, true);
-				
-				req.onreadystatechange = function (event) {
-					if (req.readyState == 4) {
-						clearTimeout(FEEDSIDEBAR.loadTimer);
-						
-						try {
-							if (req.status == 200){
-								var feedOb = null;
-								
-								try {
-									// Trim it.
-									FEEDSIDEBAR.queueForParsing(req.responseText.replace(/^\s\s*/, '').replace(/\s\s*$/, ''), url);
-								} catch (e) {
-									// Parse error
-									FEEDSIDEBAR.addError(feed.name, url, e.message, 5);
-								}
-							}
-						}
-						catch (e) {
-							if (e.name == "NS_ERROR_NOT_AVAILABLE"){
-								FEEDSIDEBAR.addError(feed.name, url, FEEDSIDEBAR.strings.getString("feedbar.errors.unavailable"), 3);
-							}
-						}
-						
-						FEEDSIDEBAR.updateLoadProgress(++FEEDSIDEBAR.feedsLoaded, FEEDSIDEBAR.feedsToLoad);
-						FEEDSIDEBAR.loadNextFeed();
-					}
-				};
-				
-				req.send(null);
-				this.loadTimer = setTimeout('FEEDSIDEBAR.killCurrentRequest();', 1000 * 15);
-			}
-			catch (e) {
-				this.addError(feed.name, url, e.name, 3);
-				this.updateLoadProgress(++this.feedsLoaded, this.feedsToLoad);
-				this.loadNextFeed();
-			}
-		}
-		else {
-			this.updateLoadProgress(0, 0);
-		}
-	},
-	
-	queueForParsing : function (feedText, feedURL) {
-		var ioService = Components.classes["@mozilla.org/network/io-service;1"]
-						.getService(Components.interfaces.nsIIOService);
-
-		var data = feedText;
-		var uri = ioService.newURI(feedURL, null, null);
-
-		if (data.length) {
-			var parser = Components.classes["@mozilla.org/feed-processor;1"]
-							.createInstance(Components.interfaces.nsIFeedProcessor);
-			var listener = new FeedbarParseListener();
-
-			try {
-				parser.listener = listener;
-				parser.parseFromString(data, uri);
-			} catch (e) {
-				throw (e);
-			}
-		}
-		else {
-			throw({ message : "Feed has no content." });
-		}
-
-		return this;
-	},
-	
 	setDisplayPeriod : function (days) {
-		this.prefs.setIntPref("displayPeriod", days);
+		FEEDSIDEBAR.prefs.setIntPref("displayPeriod", days);
 	},
 	
 	setUpdateFrequency : function (minutes) {
-		this.prefs.setIntPref("updateFrequency",minutes);
-	},
-	
-	setReloadInterval : function (minutes) {
-		var lastUpdate = this.lastUpdate;
-		
-		clearTimeout(this.updateTimer);
-		
-		var newMSBetween = minutes * 60 * 1000;
-		
-		var newNextUpdateTime = new Date();
-		newNextUpdateTime.setTime(lastUpdate.getTime() + newMSBetween);
-		
-		var now = new Date();
-		
-		if (newNextUpdateTime.getTime() <= now.getTime()) {
-			this.updateFeeds();
-		}
-		else {
-			var msUntil = newNextUpdateTime.getTime() - now.getTime();
-			this.updateLoadProgress(0,0);
-			this.updateTimer = setTimeout("FEEDSIDEBAR.updateFeeds();", msUntil);
-		}
+		FEEDSIDEBAR.prefs.setIntPref("updateFrequency",minutes);
 	},
 	
 	checkFrequencyItem : function (minutes) {
@@ -364,90 +70,38 @@ var FEEDSIDEBAR = {
 			}
 		}
 	},
-	
-	history : {
-		hService : Components.classes["@mozilla.org/browser/global-history;2"].getService(Components.interfaces.nsIGlobalHistory2),
-		ioService : Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService),
-		
-		URI : null,
-		
-		isVisitedURL : function(url, guid){
-			try {
-				this.URI = this.ioService.newURI(url, null, null);
-				var visited = this.hService.isVisited(this.URI);
-				
-				if (!visited) {
-					var db = FEEDSIDEBAR.getDB();
 
-					var select = db.createStatement("SELECT id FROM history WHERE id=?1");
-					select.bindStringParameter(0, guid);
-
-					try {
-						while (select.executeStep()) {
-							visited = true;
-							break;
-						}
-					} catch (e) {
-						logFeedbarMsg(e);
-					} finally {	
-						select.reset();
-					}
-					
-					try { db.close(); } catch (e) {}					
+	updateLoadProgress : function (done, total, nextUpdateTime) {
+		try {
+			if (done == total) {
+				var use24HourTime = FEEDSIDEBAR.prefs.getBoolPref("24HourTime");
+			
+				var timeText = '';
+				timeText += ((nextUpdateTime.getHours() > 12 && !use24HourTime) ? nextUpdateTime.getHours() - 12 : nextUpdateTime.getHours());
+			
+				if (use24HourTime && parseInt(timeText) < 10) {
+					timeText = "0" + timeText;
 				}
-				else {
-					// Add to DB
-					var db = FEEDSIDEBAR.getDB();
-
-					var insert = db.createStatement("INSERT INTO history (id, date) VALUES (?1, ?2)");
-					insert.bindUTF8StringParameter(0, guid);
-					insert.bindInt64Parameter(1, (new Date().getTime()));
-					
-					try { insert.execute(); } catch (alreadyExists) { }
-
-					try { db.close(); } catch (e) { }
-				}
-				
-				return visited;
-			} catch (e) {
-				// Malformed URI, probably
-				logFeedbarMsg(e);
-				return false;
+			
+				if (timeText == "0") timeText = "12";
+				timeText += ":";
+			
+				if (nextUpdateTime.getMinutes() < 10) timeText += "0";
+				timeText += nextUpdateTime.getMinutes();
+				timeText += " ";
+			
+				if (!use24HourTime) timeText += (nextUpdateTime.getHours() > 11) ? FEEDSIDEBAR.strings.getString("feedbar.time.pm") : FEEDSIDEBAR.strings.getString("feedbar.time.am");
+			
+				document.getElementById("reload-button").setAttribute("disabled","false");
+				document.getElementById("stop-button").setAttribute("disabled","true");
+				FEEDSIDEBAR.progressText.setAttribute("value", FEEDSIDEBAR.strings.getFormattedString("feedbar.nextUpdate", [timeText]) );
 			}
-		}
-	},
-
-	updateLoadProgress : function (done, total) {
-		if (done == total) {
-			var use24HourTime = this.prefs.getBoolPref("24HourTime");
-			
-			var nextUpdateTime = this.nextUpdate;
-			
-			var timeText = '';
-			timeText += ((nextUpdateTime.getHours() > 12 && !use24HourTime) ? nextUpdateTime.getHours() - 12 : nextUpdateTime.getHours());
-			
-			if (use24HourTime && parseInt(timeText) < 10) {
-				timeText = "0" + timeText;
+			else {
+				document.getElementById("reload-button").setAttribute("disabled","true");
+				document.getElementById("stop-button").setAttribute("disabled","false");
+				FEEDSIDEBAR.progressText.setAttribute("value", FEEDSIDEBAR.strings.getFormattedString("feedbar.checkingFeeds", [done, total]));
 			}
-			
-			if (timeText == "0") timeText = "12";
-			timeText += ":";
-			
-			if (nextUpdateTime.getMinutes() < 10) timeText += "0";
-			timeText += nextUpdateTime.getMinutes();
-			timeText += " ";
-			
-			if (!use24HourTime) timeText += (nextUpdateTime.getHours() > 11) ? this.strings.getString("feedbar.time.pm") : this.strings.getString("feedbar.time.am");
-			
-			document.getElementById("reload-button").setAttribute("disabled","false");
-			document.getElementById("stop-button").setAttribute("disabled","true");
-			this.progressText.setAttribute("value", this.strings.getFormattedString("feedbar.nextUpdate", [timeText]) );
-		}
-		else {
-			document.getElementById("reload-button").setAttribute("disabled","true");
-			document.getElementById("stop-button").setAttribute("disabled","false");
-			this.progressText.setAttribute("value", this.strings.getFormattedString("feedbar.checkingFeeds", [done, total]));
-		}
+		} catch (e) { }
 	},
 	
 	options : function () {
@@ -576,15 +230,11 @@ var FEEDSIDEBAR = {
 	
 	itemSelect : function (event) {
 		var idx = window.parent.FEEDBAR.getSelectedIndex();
-		this.showPreview(idx);
-	},
-	
-	killCurrentRequest : function () {
-		this.currentRequest.abort();
+		FEEDSIDEBAR.showPreview(idx);
 	},
 	
 	showPreview : function (idx) {
-		var tt = this.previewPane;
+		var tt = FEEDSIDEBAR.previewPane;
 		
 		if ((idx < 0)) {
 			tt.style.visibility = 'hidden';
@@ -658,181 +308,14 @@ var FEEDSIDEBAR = {
 	
 	notifyNoFeeds : function () {
 		var nb = document.getElementById("sidebar-notify");
-		nb.appendNotification(this.strings.getString("feedbar.errors.noFeedsFound"), "noFeedsFound", 'chrome://browser/skin/Info.png', 5, [ { accessKey : this.strings.getString("feedbar.errors.noFeedsFoundKey"), callback : function () { FEEDSIDEBAR.noFeedsFoundCallback(); }, label : this.strings.getString("feedbar.errors.noFeedsFoundLabel"), popup : null } ]);
+		nb.appendNotification(FEEDSIDEBAR.strings.getString("feedbar.errors.noFeedsFound"), "noFeedsFound", 'chrome://browser/skin/Info.png', 5, [ { accessKey : FEEDSIDEBAR.strings.getString("feedbar.errors.noFeedsFoundKey"), callback : function () { FEEDSIDEBAR.noFeedsFoundCallback(); }, label : FEEDSIDEBAR.strings.getString("feedbar.errors.noFeedsFoundLabel"), popup : null } ]);
 	},
 	
 	noFeedsFoundCallback : function () {
-		alert(this.strings.getString("feedbar.errors.noFeedsFoundMore"));
+		alert(FEEDSIDEBAR.strings.getString("feedbar.errors.noFeedsFoundMore"));
 	},
 	
 	clearNotify : function () {
 		document.getElementById("sidebar-notify").removeAllNotifications();
-	},
-	
-	getDB : function () {
-		var file = Components.classes["@mozilla.org/file/directory_service;1"]
-		                     .getService(Components.interfaces.nsIProperties)
-		                     .get("ProfD", Components.interfaces.nsIFile);
-		file.append("feedbar.sqlite");
-
-		var storageService = Components.classes["@mozilla.org/storage/service;1"]
-		                        .getService(Components.interfaces.mozIStorageService);
-		var mDBConn = storageService.openDatabase(file);
-		
-		return mDBConn;
-	},
-	
-	decodeEntities : function (str) {
-		str = str.replace(/&([^\s;]*)\s/g, "&amp;$1 ");
-		str = str.replace(/&\s/g, "&amp; ");
-		
-		try {
-			this.ta.innerHTML = str.replace(/</g,"&lt;").replace(/>/g,"&gt;");
-		} catch (e) {
-			return str;
-		}
-		
-		return this.ta.value;
 	}
 };
-
-function FeedbarParseListener() {
-	return this;
-}
-
-FeedbarParseListener.prototype = {
-	handleResult: function(result) {
-		if (result.bozo) {
-			// Get feed name
-			FEEDSIDEBAR.addError(FEEDSIDEBAR.feedData[result.uri.resolve("").toLowerCase()].name, result.uri.resolve(""), FEEDSIDEBAR.strings.getString("feedbar.errors.parseError"), 5);
-			return;
-		}
-		
-		var feed = result.doc;
-		
-		if (!feed) {
-			FEEDSIDEBAR.addError(FEEDSIDEBAR.feedData[result.uri.resolve("").toLowerCase()].name, result.uri.resolve(""), FEEDSIDEBAR.strings.getString("feedbar.errors.invalidUrl"), 5);
-			return;
-		}
-		
-		try {
-			feed.QueryInterface(Components.interfaces.nsIFeed);
-		} catch (e) {
-			FEEDSIDEBAR.addError(FEEDSIDEBAR.feedData[result.uri.resolve("").toLowerCase()].name, result.uri.resolve(""), FEEDSIDEBAR.strings.getString("feedbar.errors.invalidFeed"), 5);
-			return;
-		}
-		
-		var feedObject = {
-			label : "",
-			image : "",
-			description : "",
-			uri : "",
-			siteUri : "",
-			items : [],
-			id : "",
-			livemarkId : ""
-		};
-		
-		feedObject.id = result.uri.resolve("");
-		feedObject.uri = result.uri.resolve("");
-		
-		feedObject.livemarkId = FEEDSIDEBAR.feedData[feedObject.uri.toLowerCase()].bookmarkId;
-		
-		try {
-			feedObject.siteUri = feed.link.resolve("");
-		} catch (e) {
-			feedObject.siteUri = feedObject.uri;
-		}
-		
-		feedObject.label = feed.title.plainText();
-		
-		if (feed.summary && feed.summary.text) {
-			feedObject.description = feed.summary.text;//plainText();
-		}
-		else if (feed.content && feed.content.text) {
-			feedObject.description = feed.content.text;//plainText();
-		}
-		else if (feed.subtitle && feed.subtitle.text) {
-			feedObject.description = feed.subtitle.text;
-		}
-		else {
-			feedObject.description = FEEDSIDEBAR.strings.getString("feedbar.noSummary");
-		}
-		
-		feedObject.image = feedObject.siteUri.substr(0, (feedObject.siteUri.indexOf("/", 9) + 1)) + "favicon.ico";
-		
-		var numItems = feed.items.length;
-		
-		for (var i = 0; i < numItems; i++) {
-			var item = feed.items.queryElementAt(i, Components.interfaces.nsIFeedEntry);
-			
-			var itemObject = {
-				uri : "",
-				published : "",
-				label : "",
-				description : "",
-				image : "",
-				id : ""
-			};
-			
-			try {
-				itemObject.id = item.id;
-				
-				itemObject.uri = item.link.resolve("");
-				
-				if (itemObject.uri.match(/\/\/news\.google\.com\/.*\?/)){
-					var q = itemObject.link.indexOf("?");
-					itemObject.uri = itemObject.uri.substring(0, q) + ("&" + itemObject.uri.substring(q)).replace(/&(ct|cid|ei)=[^&]*/g, "").substring(1);
-				}
-				
-				if (!itemObject.id) itemObject.id = itemObject.uri;
-				
-				if (!itemObject.uri.match(/\/~r\//i)) {
-					if (itemObject.uri.match(/\/\/news\.google\.com\//)){
-						// Google news
-						var root = itemObject.uri.match(/url=(https?:\/\/[^\/]+\/)/i)[1];
-						itemObject.favicon = root + "favicon.ico";
-					}
-					else {
-						itemObject.image = itemObject.uri.substr(0, (itemObject.uri.indexOf("/", 9) + 1)) + "favicon.ico";
-					}
-				}
-				else {
-					// Feedburner
-					itemObject.image = feedObject.siteUri.substr(0, (feedObject.siteUri.indexOf("/", 9) + 1)) + "favicon.ico";
-				}
-			
-				itemObject.published = Date.parse(item.updated);
-				itemObject.label = FEEDSIDEBAR.decodeEntities(item.title.plainText().replace(/<[^>]+>/g, ""));
-				
-				if (item.summary && item.summary.text) {
-					itemObject.description = item.summary.text;
-				}
-				else if (item.content && item.content.text) {
-					itemObject.description = item.content.text;
-				}
-				else {
-					itemObject.description = FEEDSIDEBAR.strings.getString("feedbar.noSummary");
-				}
-				
-				itemObject.visited = FEEDSIDEBAR.history.isVisitedURL(itemObject.uri, itemObject.id);
-				
-				feedObject.items.push(itemObject);
-				
-			} catch (e) {
-				// FEEDSIDEBAR.addError(FEEDSIDEBAR.feedData[feedObject.link].name, feedObject.link, e, 5);
-				// Don't show a notification here, since they can become legion.
-				logFeedbarMsg(e);
-			}
-		}
-		
-		window.parent.FEEDBAR.push(feedObject);
-		
-		return;
-	}
-};
-
-function logFeedbarMsg(m) {
-	var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
-	consoleService.logStringMessage("FEEDBAR: " + m);
-}
