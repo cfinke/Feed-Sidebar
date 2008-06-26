@@ -12,7 +12,7 @@
 #feedbar-button[new="true"] {
 	-moz-image-region: rect(23px, 36px, 46px, 0px);
 }
-2
+
 #feedbar-button[new="true"]:hover:active {
 	-moz-image-region: rect(69px, 36px, 92px, 0px);
 }

@@ -20,10 +20,6 @@ statusbar resizer {
 	text-decoration: underline;
 }
 
-caption {
-	background-color: #ffffff !important;
-}
-
 treechildren::-moz-tree-cell-text(visited) {
 	color: #aaa;
 }
@@ -33,7 +29,13 @@ treechildren::-moz-tree-image {
 	height: 16px;
 }
 
+treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected) {
+	background-color: Highlight;
+	color: HighlightText;
+}
+
 #search-toggle {
-	margin-top: 3px;
+	padding-top: 3px;
+	padding-left: 12px;
 	list-style-image: url(chrome://feedbar/skin/icons/search.png);
 }

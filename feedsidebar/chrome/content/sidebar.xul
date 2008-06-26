@@ -52,7 +52,7 @@
 	</popupset>
 	<vbox flex="1">
 		<toolbox id="navigator-toolbox" class="toolbox-top">
-			<toolbar id="nav-bar" iconsize="small" style="vertical-align: middle;" class="toolbar-primary chromeclass-toolbar">
+			<toolbar id="nav-bar" iconsize="small" class="toolbar-primary chromeclass-toolbar">
 				<toolbarbutton id="new-tab-button" style="margin-top: 6px;" class="toolbarbutton-1 chromeclass-toolbar-additional" command="open-all-in-tabs" />
 				<toolbarbutton id="cut-button"  style="margin-top: 6px;" class="toolbarbutton-1 chromeclass-toolbar-additional" command="mark-all-as-read" />
 				<toolbarbutton id="history-button" class="toolbarbutton-1 chromeclass-toolbar-additional" type="menu" orient="horizontal" tooltiptext="&feedbar.showLastTooltip;">
@@ -108,8 +108,8 @@
 					<treechildren id="feedbar_tree_container"/>     
 				</tree>
 			</notificationbox>
-			<splitter id="preview-splitter" persist="state" hidden="true" />
-			<vbox id="feedbar-preview" flex="1" style="overflow: auto;" persist="state height" hidden="true">
+			<splitter id="preview-splitter" persist="state" collapsed="true" />
+			<vbox id="feedbar-preview" flex="1" style="overflow: auto;" persist="state height" collapsed="true">
 				<hbox align="center">
 					<image id="feedbarTooltipImage"/>
 					<vbox flex="1">
@@ -122,14 +122,14 @@
 					</vbox>
 				</hbox>
 				<groupbox id="feedbarTooltipSummaryGroupbox" flex="1">
-					<iframe flex="1" id="content-frame" onclick="return window.parent.contentAreaClick(event, true);" src="chrome://feedbar/content/preview.html"></iframe>
+					<iframe flex="1" id="content-frame" onclick="return window.parent.contentAreaClick(event, true);" src="chrome://feedbar/content/preview.html" disablehistory="true"></iframe>
 				</groupbox>
 			</vbox>
 		</vbox>
-		<statusbar>
-			<hbox pack="end" align="end" flex="1" style="text-align: right; padding-top: 4px;" id="feedbar-loading-text-container" onclick="window.parent.FEED_GETTER.killCurrentRequest();">
+		<hbox id="feedbar-statusbar">
+			<statusbarpanel pack="end" align="center" flex="1" style="padding-top: 4px;" id="feedbar-loading-text-container" onclick="window.parent.FEED_GETTER.killCurrentRequest();">
 				<description id="feedbar-loading-text" value="" />
-			</hbox>
-		</statusbar>
+			</statusbarpanel>
+		</hbox>
 	</vbox>
 </page>

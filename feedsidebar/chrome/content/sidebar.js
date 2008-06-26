@@ -18,6 +18,8 @@ var FEEDSIDEBAR = {
 		document.getElementById("search-box").value = FEEDSIDEBAR.prefs.getCharPref("filter");
 		
 		window.parent.FEED_GETTER.sidebarPing();
+	//	document.getElementById("preview-splitter").style.display = 'none';
+	//	document.getElementById("feedbar-preview").style.display = 'none';
 	},
 	
 	unload : function () {
@@ -294,13 +296,13 @@ var FEEDSIDEBAR = {
 	},
 	
 	hidePreview : function () {
-		document.getElementById("feedbar-preview").hidden = true;
-		document.getElementById("preview-splitter").hidden = true;
+		document.getElementById("feedbar-preview").collapsed = true;
+		document.getElementById("preview-splitter").collapsed = true;
 	},
 	
 	restorePreviewPane : function () {
-		document.getElementById("feedbar-preview").hidden = false;
-		document.getElementById("preview-splitter").hidden = false;
+		document.getElementById("feedbar-preview").collapsed = false;
+		document.getElementById("preview-splitter").collapsed = false;
 	},
 	
 	showPreview : function (idx) {

@@ -1,7 +1,3 @@
-statusbar resizer {
-	display: none;
-}
-
 #feedbar-preview {
 	padding-top: 5px;
 	background-color: #fff;
@@ -20,10 +16,6 @@ statusbar resizer {
 	text-decoration: underline;
 }
 
-caption {
-	background-color: #ffffff !important;
-}
-
 treechildren::-moz-tree-cell-text(visited) {
 	color: #aaa;
 }
@@ -33,7 +25,34 @@ treechildren::-moz-tree-image {
 	height: 16px;
 }
 
-#search-toggle {
-	margin-top: 3px;
+treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected) {
+	background-color: Highlight;
+	color: HighlightText;
+}
+
+#search-toggle  {
+	padding-top: 3px;
+	padding-left: 8px;
 	list-style-image: url(chrome://feedbar/skin/icons/search.png);
+}
+
+#search-toggle[checked="true"] {
+	padding-left: 8px !important;
+}
+
+#history-button dropmarker {
+	padding-left: 4px;
+}
+
+#new-tab-button, #cut-button, #history-button, #stop-button {
+	margin-top: 1px !important;
+	padding-right: 8px;
+}
+
+#history-button {
+	margin-top: 0px !important;
+}
+
+#reload-button {
+	margin-top: 0px !important;
 }

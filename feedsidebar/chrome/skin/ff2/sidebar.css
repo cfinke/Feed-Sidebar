@@ -1,10 +1,18 @@
-statusbar resizer {
-	display: none;
+#feedbar-statusbar {
+	border-top: 1px solid #a3a3a3;
 }
 
 #feedbar-preview {
 	padding-top: 5px;
+	background-color: #ebebeb;
+}
+
+#feedbar-preview groupbox {
 	background-color: #fff;
+}
+
+#preview-splitter { 
+	background-color: #ebebeb;
 }
 
 #feedbarTooltipImage {
@@ -20,10 +28,6 @@ statusbar resizer {
 	text-decoration: underline;
 }
 
-caption {
-	background-color: #ffffff !important;
-}
-
 treechildren::-moz-tree-cell-text(visited) {
 	color: #aaa;
 }
@@ -31,6 +35,11 @@ treechildren::-moz-tree-cell-text(visited) {
 treechildren::-moz-tree-image {
 	width: 16px;
 	height: 16px;
+}
+
+treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected) {
+	background-color: Highlight;
+	color: HighlightText;
 }
 
 #search-toggle {
