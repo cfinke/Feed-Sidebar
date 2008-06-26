@@ -166,7 +166,34 @@ var FEEDBAR = {
 		
 		return num;
 	},
-	
+
+	hasReadItems : function (idx) {
+		if (typeof idx == 'undefined') {
+			var len = this.visibleData.length;
+			
+			for (var idx = 0; idx < len; idx++) {
+				if (!this.isContainer(idx) && this.getCellRead(idx)) {
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		else {
+			var len = this.visibleData.length;
+			++idx;
+			
+			while (idx < len && !this.isContainer(idx)) {
+				if (this.getCellRead(idx)) {
+					return true;
+				}
+				++idx;
+			}
+			
+			return false;
+		}
+	},
+
 	hasUnreadItems : function (idx) {
 		if (typeof idx == 'undefined') {
 			var len = this.visibleData.length;
@@ -552,6 +579,10 @@ var FEEDBAR = {
 		}
 		else {
 			this.visibleData[idx].visited = true;
+			
+			if (updateUI) {
+				try { this.treeBox.invalidateRow(idx); } catch (sidebarNotOpen) { }
+			}
 		}
 		
 		this.updateNotifier();
@@ -895,6 +926,10 @@ var FEEDBAR = {
 		}
 		
 		this.updateNotifier();
+		
+		if (this.prefs.getBoolPref("autoClose")) {
+			toggleSidebar('feedbar');
+		}
 	},
 	
 	openFeed : function () {
@@ -916,7 +951,7 @@ var FEEDBAR = {
 		}
 	},
 	
-	markAsRead : function () {
+	markAsRead : function (dontMarkFeed) {
 		var selectedIdx = this.getSelectedIndex();
 		
 		if (selectedIdx >= 0) {
@@ -924,25 +959,25 @@ var FEEDBAR = {
 				this.setCellRead(selectedIdx, true);
 			}
 			else {
-				this.markFeedAsRead(selectedIdx);
+				if (!dontMarkFeed) {
+					this.markFeedAsRead(selectedIdx);
+				}
 			}
 		}
 	},
 	
 	markAsUnread : function () {
 		var selectedIdx = this.getSelectedIndex();
-
+		
 		if (!this.isContainer(selectedIdx)) {
 			this.setCellUnread(selectedIdx);
 		}
-		/*
 		else {
 			this.markFeedAsUnread(selectedIdx);
 		}
-		*/
 	},
 	
-	markFeedAsRead : function (folderIdx) {
+	markFeedAsUnread : function (folderIdx) {
 		var wasOpen = this.isContainerOpen(folderIdx);
 		
 		if (!wasOpen) {
@@ -967,6 +1002,47 @@ var FEEDBAR = {
 		var itemsChanged = 0;
 		
 		while (itemIdx > folderIdx) {
+			this.setCellUnread(itemIdx);
+			++itemsChanged;
+			
+			--itemIdx;
+		}
+		
+		if (!wasOpen) {
+			this.toggleOpenState(folderIdx);
+		}
+
+		this.updateNotifier();
+	},
+	
+	markFeedAsRead : function (folderIdx) {
+		var wasOpen = this.isContainerOpen(folderIdx);
+		
+		if (!wasOpen) {
+			// Open the feed so that it's children can be marked.
+			// Not optimal.
+			// Optimize: Don't rely on the visibleData array for marking a feed as read.
+			// Mark the child items as read in the childData array and then remove the entire 
+			// feed from the visibleData array, whether it's open or not.
+			this.toggleOpenState(folderIdx);
+		}
+		
+		// Mark all of this feed's visible cells as read.
+		var nextFolderIdx = this.getNextSiblingIndex(folderIdx);
+		
+		if (nextFolderIdx != -1) {
+			var itemIdx = nextFolderIdx - 1;
+		}
+		else {
+			var itemIdx = this.visibleData.length - 1;
+		}
+		
+		var lastItemIdx = itemIdx;
+		var firstItemIdx = folderIdx + 1;
+		
+		var itemsChanged = 0;
+		
+		while (itemIdx > folderIdx) {
 			this.setCellRead(itemIdx);
 			++itemsChanged;
 			
@@ -981,6 +1057,9 @@ var FEEDBAR = {
 			if (!wasOpen) {
 				this.toggleOpenState(folderIdx);
 			}
+			else {
+				try { this.treeBox.invalidateRange(folderIdx, lastItemIdx); } catch (sidebarNotOpen) { }
+			}
 		}
 
 		this.updateNotifier();
@@ -993,15 +1072,27 @@ var FEEDBAR = {
 			}
 		}
 		else {
-			for (var i = 0; i < this.visibleData.length; i++) {
+			var len = this.visibleData.length;
+			
+			for (var i = 0; i < len; i++) {
 				if (this.isContainer(i)) {
 					this.markFeedAsRead(i);
 				}
 			}
 		}
 		
-		if (this.prefs.getBoolPref("autoClose")) {
+		if (this.prefs.getBoolPref("autoClose") && this.prefs.getBoolPref("hideReadItems")) {
 			toggleSidebar('feedbar');
+		}
+	},
+	
+	markAllAsUnread : function () {
+		var len = this.visibleData.length;
+		
+		for (var i = 0; i < len; i++) {
+			if (this.isContainer(i)) {
+				this.markFeedAsUnread(i);
+			}
 		}
 	},
 	

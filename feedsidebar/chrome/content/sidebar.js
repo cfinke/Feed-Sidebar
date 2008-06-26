@@ -114,20 +114,30 @@ var FEEDSIDEBAR = {
 			
 			var itemIdx = window.parent.FEEDBAR.getSelectedIndex();
 			
+			var hideReadItems = FEEDSIDEBAR.prefs.getBoolPref("hideReadItems");
+			
 			if (itemIdx >= 0) {
 				if (!window.parent.FEEDBAR.isContainer(itemIdx)) {
+					var unreadItems = window.parent.FEEDBAR.hasUnreadItems();
+					var readItems = window.parent.FEEDBAR.hasReadItems();
+					
 					// Single item menu
 					for (var i = 0; i < options.length; i++){
+						options[i].disabled = false;
+						
 						switch (options[i].getAttribute("option")) {
 							case 'open':
 							case 'openInWindow':
 							case 'openInTab':
 							case 'openAllInTabs':
-							case 'markAllAsRead':
 							case 'options':
 							case 'copyTitle':
 							case 'copyLink':
 								options[i].setAttribute("hidden", "false");
+							break;
+							case 'markAllAsRead':
+								options[i].setAttribute("hidden", "false");
+								options[i].disabled = !unreadItems;
 							break;
 							case 'openFeedInTabs':
 							case 'markFeedAsRead':
@@ -136,21 +146,33 @@ var FEEDSIDEBAR = {
 								options[i].setAttribute("hidden", "true");
 							break;
 							case 'markAsRead':
-								options[i].setAttribute("hidden", window.parent.FEEDBAR.getCellRead(itemIdx));//item.visited.toString());
+								options[i].setAttribute("hidden", window.parent.FEEDBAR.getCellRead(itemIdx));
 							break;
 							case 'markAsUnread':
-								options[i].setAttribute("hidden", FEEDSIDEBAR.prefs.getBoolPref("hideReadItems") || !window.parent.FEEDBAR.getCellRead(itemIdx));
+								options[i].setAttribute("hidden", hideReadItems || !window.parent.FEEDBAR.getCellRead(itemIdx));
 							break;
 							case 'openUnreadInTabs':
 							case 'openFeedUnreadInTabs':
-								options[i].setAttribute("hidden", (!FEEDSIDEBAR.prefs.getBoolPref("hideReadItems")).toString());
+								options[i].setAttribute("hidden", (!hideReadItems).toString());
+							break;
+							case 'markAllAsUnread':
+								options[i].setAttribute("hidden", hideReadItems.toString());
+								options[i].disabled = !readItems;
 							break;
 						}
 					}	
 				}
 				else {
 					// Feed menu
+					var unreadFeedItems = window.parent.FEEDBAR.hasUnreadItems(itemIdx);
+					var unreadItems = unreadFeedItems || window.parent.FEEDBAR.hasUnreadItems();
+					
+					var readFeedItems = window.parent.FEEDBAR.hasReadItems(itemIdx);
+					var readItems = readFeedItems || window.parent.FEEDBAR.hasReadItems();
+					
 					for (var i = 0; i < options.length; i++){
+						options[i].disabled = false;
+						
 						switch (options[i].getAttribute("option")) {
 							case 'open':
 							case 'openInWindow':
@@ -160,27 +182,49 @@ var FEEDSIDEBAR = {
 								options[i].setAttribute("hidden", "true");
 							break;
 							case 'openAllInTabs':
-							case 'markAllAsRead':
 							case 'openFeedInTabs':
-							case 'markFeedAsRead':
 							case 'unsubscribe':
 							case 'options':
 							case 'copyTitle':
 							case 'copyLink':
 								options[i].setAttribute("hidden", "false");
 							break;
+							case 'markFeedAsRead':
+								options[i].setAttribute("hidden", "false");
+								options[i].disabled = !unreadFeedItems;
+							break;
 							case 'openUnreadInTabs':
+								options[i].setAttribute("hidden", hideReadItems.toString());
+								options[i].disabled = !unreadItems;
+							break;
 							case 'openFeedUnreadInTabs':
+								options[i].setAttribute("hidden", hideReadItems.toString());
+								options[i].disabled = !unreadFeedItems;
+							break;
 							case 'markFeedAsUnread':
-								options[i].setAttribute("hidden", (!FEEDSIDEBAR.prefs.getBoolPref("hideReadItems")).toString());
+								options[i].setAttribute("hidden", hideReadItems.toString());
+								options[i].disabled = !readFeedItems;
+							break;
+							case 'markAllAsUnread':
+								options[i].setAttribute("hidden", hideReadItems.toString());
+								options[i].disabled = !readItems;
+							break;
+							case 'markAllAsRead':
+								options[i].setAttribute("hidden", "false");
+								options[i].disabled = !unreadItems;
 							break;
 						}
 					}	
 				}
 			}
 			else {
+				var unreadItems = window.parent.FEEDBAR.hasUnreadItems();
+				var readItems = window.parent.FEEDBAR.hasReadItems();
+				
 				// Default menu
 				for (var i = 0; i < options.length; i++){
+					options[i].disabled = false;
+					
 					switch (options[i].getAttribute("option")) {
 						case 'open':
 						case 'openInWindow':
@@ -196,11 +240,21 @@ var FEEDSIDEBAR = {
 						case 'copyLink':
 							options[i].setAttribute("hidden", "true");
 						break;
-						case 'openAllInTabs':
-						case 'markAllAsRead':
 						case 'options':
 						case 'openUnreadInTabs':
 							options[i].setAttribute("hidden", "false");
+						break;
+						case 'openAllInTabs':
+							options[i].setAttribute("hidden", "false");
+							options[i].disabled = !(unreadItems || readItems);
+						break;
+						case 'markAllAsRead':
+							options[i].setAttribute("hidden", "false");
+							options[i].disabled = !unreadItems;
+						break;
+						case 'markAllAsUnread':
+							options[i].setAttribute("hidden", hideReadItems.toString());
+							options[i].disabled = !readItems;
 						break;
 					}
 				}	

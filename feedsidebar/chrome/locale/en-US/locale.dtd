@@ -15,6 +15,7 @@
 <!ENTITY feedbar.markFeedAsRead "Mark Feed as Read">
 <!ENTITY feedbar.markFeedAsUnread "Mark Feed as Unread">
 <!ENTITY feedbar.markAllAsRead "Mark All as Read">
+<!ENTITY feedbar.markAllAsUnread "Mark All as Unread">
 <!ENTITY feedbar.reloadFeeds "Reload Feeds">
 <!ENTITY feedbar.stopFeedUpdate "Cancel feed update">
 <!ENTITY feedbar.minutes "minutes">

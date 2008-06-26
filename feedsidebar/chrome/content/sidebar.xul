@@ -22,6 +22,7 @@
 	<commandset id="mainCommandSet">
 		<command id="open-all-in-tabs" oncommand="window.parent.FEEDBAR.openAll();" tooltiptext="&feedbar.openAllInTabs;" />
 		<command id="mark-all-as-read" oncommand="window.parent.FEEDBAR.markAllAsRead();" tooltiptext="&feedbar.markAllAsRead;" />
+		<command id="mark-all-as-unread" oncommand="window.parent.FEEDBAR.markAllAsUnread();" tooltiptext="&feedbar.markAllAsUnread;" />
 		<command id="stop-update" oncommand="window.parent.FEED_GETTER.stopUpdate();" tooltiptext="&feedbar.stopFeedUpdate;" />
 		<command id="force-reload" oncommand="window.parent.FEED_GETTER.updateFeeds();" tooltiptext="&feedbar.reloadFeeds;" />
 		<command id="set-reload-interval" oncommand="window.parent.FEED_GETTER.setUpdateFrequency(event.target.getAttribute('value')); event.stopPropagation();" />
@@ -32,13 +33,15 @@
 			<menuitem option="open" label="&feedbar.open;" oncommand="window.parent.FEEDBAR.openItem();" />
 			<menuitem option="openInTab" label="&feedbar.openInTab;" oncommand="window.parent.FEEDBAR.openInTab();" />
 			<menuseparator />
-			<menuitem option="openAllInTabs" label="&feedbar.openAllInTabs;" command="open-all-in-tabs" />
+			<menuitem option="openAllInTabs" label="&feedbar.openAllInTabs;" oncommand="window.parent.FEEDBAR.openAll();" />
 			<menuitem option="openFeedInTabs" label="&feedbar.openFeedInTabs;" oncommand="window.parent.FEEDBAR.openFeed();" />
 			<menuseparator />
 			<menuitem option="markAsRead" label="&feedbar.markAsRead;" oncommand="window.parent.FEEDBAR.markAsRead();" />
 			<menuitem option="markAsUnread" label="&feedbar.markAsUnread;" oncommand="window.parent.FEEDBAR.markAsUnread();" />
 			<menuitem option="markFeedAsRead" label="&feedbar.markFeedAsRead;" oncommand="window.parent.FEEDBAR.markAsRead();" />
-			<menuitem option="markAllAsRead" label="&feedbar.markAllAsRead;" command="mark-all-as-read" />
+			<menuitem option="markFeedAsUnread" label="&feedbar.markFeedAsUnread;" oncommand="window.parent.FEEDBAR.markAsUnread();" />
+			<menuitem option="markAllAsRead" label="&feedbar.markAllAsRead;" oncommand="window.parent.FEEDBAR.markAllAsRead();" />
+			<menuitem option="markAllAsUnread" label="&feedbar.markAllAsUnread;" oncommand="window.parent.FEEDBAR.markAllAsUnread();" />
 			<menuseparator />
 			<menuitem option="copyTitle" label="&feedbar.copyTitle;" oncommand="window.parent.FEEDBAR.copyTitle();" />
 			<menuitem option="copyLink" label="&feedbar.copyLink;" oncommand="window.parent.FEEDBAR.copyLink();" />
@@ -114,7 +117,7 @@
 					<description id="feedbarTooltipURL" crop="end" onclick="window.parent.FEEDBAR.onTreeClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;"/>
 				</vbox>
 				<vbox pack="start" align="start">
-					<toolbarbutton id="close-preview" class="tabs-closebutton" oncommand="window.parent.FEEDBAR.markAsRead(); FEEDSIDEBAR.hidePreview();" tooltiptext="&feedbar.preview.markAsRead;" />
+					<toolbarbutton id="close-preview" class="tabs-closebutton" oncommand="window.parent.FEEDBAR.markAsRead(true); FEEDSIDEBAR.hidePreview();" tooltiptext="&feedbar.preview.markAsRead;" />
 				</vbox>
 			</hbox>
 			<groupbox id="feedbarTooltipSummaryGroupbox" flex="1">
