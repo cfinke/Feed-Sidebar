@@ -39,3 +39,20 @@ treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected) {
 	padding-left: 12px;
 	list-style-image: url(chrome://feedbar/skin/icons/search.png);
 }
+
+#history-button dropmarker {
+	padding-left: 4px;
+}
+
+#new-tab-button, #cut-button, #history-button, #stop-button {
+	margin-top: 1px !important;
+	padding-right: 8px;
+}
+
+#history-button {
+	margin-top: 0px !important;
+}
+
+#reload-button {
+	margin-top: 0px !important;
+}

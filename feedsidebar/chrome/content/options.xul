@@ -10,9 +10,26 @@
 	<script type="application/x-javascript">
 	    <![CDATA[
 	    var FEEDBAR_PREFS = {
+			prefs : null,
+			browserPrefs : null,
+			
 	        onload : function () {
+				this.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("");
+				this.browserPrefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("browser.preferences.");
+				
  				if (!("@mozilla.org/alerts-service;1" in Components.classes)) {
 					document.getElementById("growl").hidden = true;
+				}
+				
+				var displayPeriod = this.prefs.getIntPref("extensions.feedbar.displayPeriod");
+				
+				if (displayPeriod) {
+					document.getElementById("display-period").selectedIndex = 1;
+					this.showOnly(displayPeriod);
+				}
+				else {
+					document.getElementById("display-period").selectedIndex = 0;
+					this.showAll();
 				}
 	        },
 	        
@@ -32,7 +49,36 @@
         		        }
         		    }
         		}
-        	}
+
+				if (document.getElementById("show-all-radio").selected) {
+					prefService.setIntPref("extensions.feedbar.displayPeriod", 0);
+				}
+				else {
+					prefService.setIntPref("extensions.feedbar.displayPeriod", parseInt(document.getElementById("display-days").value,10));
+				}
+        	},
+
+			showAll : function () {
+				document.getElementById("display-days").disabled = true;
+				
+				if (this.browserPrefs.getBoolPref("instantApply")) {
+					this.prefs.setIntPref("extensions.feedbar.displayPeriod", 0);
+				}
+			},
+			
+			showOnly : function () {
+				document.getElementById("display-days").disabled = false;
+				var days = document.getElementById("display-days").value;
+			
+				if (!days) {
+					days = 1;
+					document.getElementById("display-days").value = 1;
+				}
+				
+				if (this.browserPrefs.getBoolPref("instantApply")) {
+					this.prefs.setIntPref("extensions.feedbar.displayPeriod", parseInt(days, 10));
+				}
+			}
 	    };
 	    ]]>
 	</script>
@@ -46,19 +92,22 @@
 			<preference id="p_notify" name="extensions.feedbar.notify" type="bool" />
 		</preferences>
 		<groupbox>
-			<checkbox label="&feedbar.hideReadItems;" preference="p_hide_read" />
-			<checkbox label="&feedbar.24HourTime;" preference="p_24hour" />
+			<radiogroup id="display-period">
+				<radio label="&feedbar.showAllItems;" id="show-all-radio" oncommand="FEEDBAR_PREFS.showAll();" />
+				<hbox align="center">
+					<radio label="&feedbar.onlyShow1;" oncommand="FEEDBAR_PREFS.showOnly();" />
+					<textbox oninput="FEEDBAR_PREFS.showOnly();" id="display-days" size="2" />
+					<label value="&feedbar.onlyShow2;" />
+				</hbox>
+			</radiogroup>
 			<hbox>
 				<label value="&feedbar.updateEvery1;" style="padding-top: 4px;" />
 				<textbox preference="p_update_freq" size="2" />
 				<label value="&feedbar.updateEvery2;" style="padding-top: 4px;"  />
 			</hbox>
-			<hbox>
-				<label value="&feedbar.onlyShow1;" style="padding-top: 4px;" />
-				<textbox preference="p_show_days" size="2" />
-				<label value="&feedbar.onlyShow2;" style="padding-top: 4px;" />
-			</hbox>
+			<checkbox label="&feedbar.hideReadItems;" preference="p_hide_read" />
 			<checkbox label="&feedbar.autoClose;" preference="p_autoClose" />
+			<checkbox label="&feedbar.24HourTime;" preference="p_24hour" />
 			<checkbox id="growl" label="&feedbar.notifications;" preference="p_notify" />
 		</groupbox>
 	</prefpane>

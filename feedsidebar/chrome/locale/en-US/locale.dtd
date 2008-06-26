@@ -42,9 +42,10 @@
 <!ENTITY feedbar.updateEvery1 "Update feeds every">
 <!ENTITY feedbar.updateEvery2 "minutes.">
 
-<!-- Only show items from the last # days. (Enter 0 to show all.) -->
+<!-- Only show items from the last # days. -->
+<!ENTITY feedbar.showAllItems "Show all items">
 <!ENTITY feedbar.onlyShow1 "Only show items from the last">
-<!ENTITY feedbar.onlyShow2 "days. (Enter 0 to show all.)">
+<!ENTITY feedbar.onlyShow2 "days.">
 
 <!ENTITY feedbar.24HourTime "Use 24-hour time">
 <!ENTITY feedbar.autoClose "Automatically close the sidebar when marking all items as read.">
