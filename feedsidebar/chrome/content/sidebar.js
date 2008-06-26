@@ -239,11 +239,21 @@ var FEEDSIDEBAR = {
 		FEEDSIDEBAR.showPreview(idx);
 	},
 	
+	hidePreview : function () {
+		document.getElementById("feedbar-preview").hidden = true;
+		document.getElementById("preview-splitter").hidden = true;
+	},
+	
+	restorePreviewPane : function () {
+		document.getElementById("feedbar-preview").hidden = false;
+		document.getElementById("preview-splitter").hidden = false;
+	},
+	
 	showPreview : function (idx) {
 		var tt = FEEDSIDEBAR.previewPane;
 		
 		if ((idx < 0)) {
-			tt.style.visibility = 'hidden';
+			FEEDSIDEBAR.hidePreview();
 		}
 		else {
 			var maxLength = 60;
@@ -296,7 +306,7 @@ var FEEDSIDEBAR = {
 		
 			document.getElementById("feedbarTooltipName").style.display = '';
 
-			tt.style.visibility = '';
+			FEEDSIDEBAR.restorePreviewPane();
 		}
 	},
 	

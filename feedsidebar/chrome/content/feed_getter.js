@@ -20,6 +20,8 @@ var FEED_GETTER = {
 	
 	prefs : null,
 	
+	newItemCountPre : 0,
+	
 	feedsToLoad : 0,
 	feedsLoaded : 0,
 	
@@ -82,7 +84,7 @@ var FEED_GETTER = {
 		FEED_GETTER.ta = document.createElementNS("http://www.w3.org/1999/xhtml", "textarea");
 		
 		FEED_GETTER.updateLoadProgress(0,0);
-		setTimeout(FEED_GETTER.updateFeeds, 2500);
+		setTimeout(FEED_GETTER.updateFeeds, 2500, 1);
 	},
 	
 	unload : function () {
@@ -112,7 +114,7 @@ var FEED_GETTER = {
 	
 	sidebarPing : function () {
 		if (FEED_GETTER.nextUpdate <= new Date()) {
-			FEED_GETTER.updateFeeds();
+			FEED_GETTER.updateFeeds(2);
 		}
 		else {
 			if (FEED_GETTER.feeds.length > 0) {
@@ -124,14 +126,21 @@ var FEED_GETTER = {
 		}
 	},
 	
-	updateFeeds : function () {
+	updateFeeds : function (source) {
+		if (FEED_GETTER.feeds.length > 0) {
+			// Already in the middle of an update.
+			return true;
+		}
+		
 		if (FEED_GETTER.updateTimer) {
 			window.clearTimeout(FEED_GETTER.updateTimer);
 		}
 		
+		FEED_GETTER.newItemCountPre = FEEDBAR.numUnreadItems();
+		
 		FEED_GETTER.findFeeds();
 		FEED_GETTER.loadFeeds();
-		FEED_GETTER.updateTimer = setTimeout(FEED_GETTER.updateFeeds, FEED_GETTER.prefs.getIntPref("updateFrequency") * 60 * 1000);
+		FEED_GETTER.updateTimer = setTimeout(FEED_GETTER.updateFeeds, FEED_GETTER.prefs.getIntPref("updateFrequency") * 60 * 1000, 3);
 	},
 	
 	stopUpdate : function () {
@@ -229,8 +238,8 @@ var FEED_GETTER = {
 	},
 	
 	loadNextFeed : function () {
-//		setTimeout(FEED_GETTER.doLoadNextFeed, 300);
-		FEED_GETTER.doLoadNextFeed();
+		setTimeout(FEED_GETTER.doLoadNextFeed, 500);
+//		FEED_GETTER.doLoadNextFeed();
 	},
 	
 	doLoadNextFeed : function () {
@@ -290,6 +299,23 @@ var FEED_GETTER = {
 		}
 		else {
 			FEED_GETTER.updateLoadProgress(0, 0);
+
+			if (FEED_GETTER.prefs.getBoolPref("notify")) {
+				var newItems = FEEDBAR.numUnreadItems() - FEED_GETTER.newItemCountPre;
+			
+				if (newItems > 0) {
+					if (newItems == 1) {
+						var titleString = FEED_GETTER.strings.getString("feedbar.newItemTitle");
+						var bodyString = FEED_GETTER.strings.getString("feedbar.newItemBody");
+					}
+					else {
+						var titleString = FEED_GETTER.strings.getString("feedbar.newItemsTitle");
+						var bodyString = FEED_GETTER.strings.getFormattedString("feedbar.newItemsBody", [ newItems ]);
+					}
+						
+					FEED_GETTER.growl(titleString, bodyString);
+				}
+			}
 		}
 	},
 	
@@ -340,13 +366,13 @@ var FEED_GETTER = {
 		var now = new Date();
 		
 		if (newNextUpdateTime.getTime() <= now.getTime()) {
-			FEED_GETTER.updateFeeds();
+			FEED_GETTER.updateFeeds(4);
 		}
 		else {
 			var msUntil = newNextUpdateTime.getTime() - now.getTime();
 			FEED_GETTER.nextUpdate = newNextUpdateTime;
 			FEED_GETTER.updateLoadProgress(0, 0);
-			FEED_GETTER.updateTimer = setTimeout(FEED_GETTER.updateFeeds, msUntil);
+			FEED_GETTER.updateTimer = setTimeout(FEED_GETTER.updateFeeds, msUntil, 5);
 		}
 	},
 	
@@ -477,7 +503,38 @@ var FEED_GETTER = {
 		}
 		
 		return FEED_GETTER.ta.value;
-	}
+	},
+
+	growl : function (title, text, image) {
+		var listener = {
+			observe : function (subject, topic, data) {
+				// Subject is null
+				if (topic == "alertclickcallback") {
+					window.focus();
+					
+					var sidebar = document.getElementById("sidebar-box");
+					
+					if (!(!sidebar.getAttribute("hidden") && sidebar.getAttribute("sidebarcommand") == 'feedbar')){
+						toggleSidebar('feedbar');
+					}
+				}
+			}
+		};
+		
+        try {
+            if (!image) image = "chrome://feedbar/skin/icons/notify-icon.png";
+
+            var alertsService = Components.classes["@mozilla.org/alerts-service;1"]
+                .getService(Components.interfaces.nsIAlertsService);
+            alertsService.showAlertNotification(
+                image, 
+                title,
+                text,
+                true, 
+                "", 
+				listener);
+        } catch (notAvailable) { alert(notAvailable); }
+    }
 };
 
 function FeedbarParseListener() {

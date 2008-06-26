@@ -144,6 +144,29 @@ var FEEDBAR = {
 		return false;
 	},
 	
+	numUnreadItems : function (idx) {
+		var num = 0;
+		var len = this.visibleData.length;
+		
+		if (typeof idx == 'undefined') {
+			for (var idx = 0; idx < len; idx++) {
+				if (!this.isContainer(idx) && !this.getCellRead(idx)) {
+					++num;
+				}
+			}
+		}
+		else {
+			++idx;
+			
+			while (idx < len && !this.isContainer(idx) && !this.getCellRead(idx)) {
+				++num;
+				++idx;
+			}
+		}
+		
+		return num;
+	},
+	
 	hasUnreadItems : function (idx) {
 		if (typeof idx == 'undefined') {
 			var len = this.visibleData.length;
@@ -558,11 +581,11 @@ var FEEDBAR = {
 			}
 		}
 		
-		this.visibleData[idx].visited = true;
-		try { this.treeBox.invalidateRow(idx); } catch (sidebarNotOpen) { }
+		this.visibleData[idx].visited = false;
 		
 		// Parent style may have changed.
 		try { this.treeBox.invalidateRow(parentIdx); } catch (sidebarNotOpen) { }
+		try { this.treeBox.invalidateRow(idx); } catch (sidebarNotOpen) { }
 		
 		this.updateNotifier();
 	},
@@ -687,9 +710,14 @@ var FEEDBAR = {
 		
 		try { db.close(); } catch (e) { }
 		
-		if (this.prefs.getCharPref("lastVersion") != '2.0') {
-			this.prefs.setCharPref("lastVersion","2.0");
-			gBrowser.selectedTab = gBrowser.addTab("http://www.chrisfinke.com/firstrun/feedbar.html");
+		setTimeout(FEEDBAR.showFirstRun, 1500);
+	},
+	
+	showFirstRun : function () {
+		if (FEEDBAR.prefs.getCharPref("lastVersion") != '3.0') {
+			FEEDBAR.prefs.setCharPref("lastVersion","3.0");
+			var theTab = gBrowser.addTab("http://www.chrisfinke.com/firstrun/feedbar/3.0/");
+			gBrowser.selectedTab = theTab;
 		}
 	},
 	
@@ -891,11 +919,13 @@ var FEEDBAR = {
 	markAsRead : function () {
 		var selectedIdx = this.getSelectedIndex();
 		
-		if (!this.isContainer(selectedIdx)) {
-			this.setCellRead(selectedIdx, true);
-		}
-		else {
-			this.markFeedAsRead(selectedIdx);
+		if (selectedIdx >= 0) {
+			if (!this.isContainer(selectedIdx)) {
+				this.setCellRead(selectedIdx, true);
+			}
+			else {
+				this.markFeedAsRead(selectedIdx);
+			}
 		}
 	},
 	
@@ -968,6 +998,10 @@ var FEEDBAR = {
 					this.markFeedAsRead(i);
 				}
 			}
+		}
+		
+		if (this.prefs.getBoolPref("autoClose")) {
+			toggleSidebar('feedbar');
 		}
 	},
 	

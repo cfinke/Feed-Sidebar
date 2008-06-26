@@ -4,11 +4,18 @@
 <prefwindow
 	title="Feed Sidebar - &feedbar.options;"
 	buttons="accept,cancel"
+	onload="FEEDBAR_PREFS.onload();"
 	ondialogaccept="FEEDBAR_PREFS.unload();"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script type="application/x-javascript">
 	    <![CDATA[
 	    var FEEDBAR_PREFS = {
+	        onload : function () {
+ 				if (!("@mozilla.org/alerts-service;1" in Components.classes)) {
+					document.getElementById("growl").hidden = true;
+				}
+	        },
+	        
         	unload : function () {
         	    var prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("");
         	    var browserPrefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("browser.preferences.");
@@ -35,9 +42,10 @@
 			<preference id="p_update_freq" name="extensions.feedbar.updateFrequency" type="int" />
 			<preference id="p_show_days" name="extensions.feedbar.displayPeriod" type="int" />
 			<preference id="p_24hour" name="extensions.feedbar.24HourTime" type="bool" />
+			<preference id="p_autoClose" name="extensions.feedbar.autoClose" type="bool" />
+			<preference id="p_notify" name="extensions.feedbar.notify" type="bool" />
 		</preferences>
 		<groupbox>
-			<caption label="Feed Sidebar" />
 			<checkbox label="&feedbar.hideReadItems;" preference="p_hide_read" />
 			<checkbox label="&feedbar.24HourTime;" preference="p_24hour" />
 			<hbox>
@@ -50,6 +58,8 @@
 				<textbox preference="p_show_days" size="2" />
 				<label value="&feedbar.onlyShow2;" style="padding-top: 4px;" />
 			</hbox>
+			<checkbox label="&feedbar.autoClose;" preference="p_autoClose" />
+			<checkbox id="growl" label="&feedbar.notifications;" preference="p_notify" />
 		</groupbox>
 	</prefpane>
 </prefwindow>
