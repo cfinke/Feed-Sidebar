@@ -533,7 +533,7 @@ var FEED_GETTER = {
                 true, 
                 "", 
 				listener);
-        } catch (notAvailable) { alert(notAvailable); }
+        } catch (notAvailable) { }
     }
 };
 

@@ -34,6 +34,7 @@ treechildren::-moz-tree-image {
 }
 
 #search-toggle {
-	margin-top: 3px;
+	padding-top: 3px;
+	padding-left: 12px;
 	list-style-image: url(chrome://feedbar/skin/icons/search.png);
 }
