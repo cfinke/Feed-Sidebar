@@ -46,3 +46,5 @@
 <!ENTITY feedbar.onlyShow2 "days. (Enter 0 to show all.)">
 
 <!ENTITY feedbar.24HourTime "Use 24-hour time">
+<!ENTITY feedbar.autoClose "Automatically close the sidebar when marking all items as read.">
+<!ENTITY feedbar.notifications "Show pop-up notifications when new items are detected.">
