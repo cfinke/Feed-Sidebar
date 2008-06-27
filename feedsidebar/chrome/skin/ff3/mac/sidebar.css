@@ -21,10 +21,6 @@
 	text-decoration: underline;
 }
 
-caption {
-	background-color: #ffffff !important;
-}
-
 treechildren::-moz-tree-image {
 	width: 16px;
 	height: 16px;
@@ -54,4 +50,11 @@ treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected) {
 
 treechildren::-moz-tree-cell-text(visited) {
 	color: #bbb;
+}
+
+statusbarpanel {
+	background-image: url(chrome://global/skin/statusbar-background.gif);
+	background-repeat: repeat-x;
+	background-color: #949393;
+	border-top: 1px solid #505050;
 }
