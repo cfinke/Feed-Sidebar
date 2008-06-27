@@ -13,3 +13,5 @@ pref("extensions.feedbar.lastVersion", "");
 
 pref("extensions.feedbar.autoClose", true);
 pref("extensions.feedbar.notify", true);
+
+pref("extensions.feedbar.runInSidebar", false);

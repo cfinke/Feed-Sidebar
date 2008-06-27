@@ -18,7 +18,18 @@ var FEED_GETTER = {
 		}
 	},
 	
+	sidebarIsOpen : function () {
+		var sidebar = document.getElementById("sidebar-box");
+		
+		if (!sidebar.getAttribute("hidden") && sidebar.getAttribute("sidebarcommand") == 'feedbar'){
+			return true;
+		}
+		
+		return false;
+	},
+	
 	prefs : null,
+	missedUpdate : false,
 	
 	newItemCountPre : 0,
 	
@@ -84,7 +95,6 @@ var FEED_GETTER = {
 		FEED_GETTER.ta = document.createElementNS("http://www.w3.org/1999/xhtml", "textarea");
 		
 		FEED_GETTER.updateLoadProgress(0,0);
-		setTimeout(FEED_GETTER.updateFeeds, 2500, 1);
 	},
 	
 	unload : function () {
@@ -113,7 +123,7 @@ var FEED_GETTER = {
 	},
 	
 	sidebarPing : function () {
-		if (FEED_GETTER.nextUpdate <= new Date()) {
+		if (FEED_GETTER.nextUpdate <= new Date() || FEED_GETTER.missedUpdate) {
 			FEED_GETTER.updateFeeds(2);
 		}
 		else {
@@ -122,6 +132,14 @@ var FEED_GETTER = {
 			}
 			else {
 				FEED_GETTER.updateLoadProgress(0,0);
+			}
+		}
+	},
+	
+	sidebarPung : function () {
+		if (FEED_GETTER.prefs.getBoolPref("runInSidebar")) {
+			if (FEED_GETTER.feeds.length > 0) {
+				FEED_GETTER.stopUpdate();
 			}
 		}
 	},
@@ -136,16 +154,26 @@ var FEED_GETTER = {
 			window.clearTimeout(FEED_GETTER.updateTimer);
 		}
 		
-		FEED_GETTER.newItemCountPre = FEEDBAR.numUnreadItems();
+		if (FEED_GETTER.prefs.getBoolPref("runInSidebar")) {
+			if (!FEED_GETTER.sidebarIsOpen()){
+				FEED_GETTER.missedUpdate = true;
+				FEED_GETTER.updateTimer = setTimeout(FEED_GETTER.updateFeeds, FEED_GETTER.prefs.getIntPref("updateFrequency") * 60 * 1000, 3);
+				return;
+			}
+		}
 		
+		FEED_GETTER.missedUpdate = false;
+		FEED_GETTER.newItemCountPre = FEEDBAR.numUnreadItems();
+	
 		FEED_GETTER.findFeeds();
 		FEED_GETTER.loadFeeds();
+		
 		FEED_GETTER.updateTimer = setTimeout(FEED_GETTER.updateFeeds, FEED_GETTER.prefs.getIntPref("updateFrequency") * 60 * 1000, 3);
 	},
 	
 	stopUpdate : function () {
 		FEED_GETTER.feeds.length = 0;
-		FEED_GETTER.loadNextFeed();
+		FEED_GETTER.killCurrentRequest();
 	},
 	
 	searchTimeout : null,
@@ -506,6 +534,10 @@ var FEED_GETTER = {
 	},
 
 	growl : function (title, text, image) {
+		if (FEED_GETTER.prefs.getBoolPref("runInSidebar") && !FEED_GETTER.sidebarIsOpen()) {
+			return;
+		}
+		
 		var listener = {
 			observe : function (subject, topic, data) {
 				// Subject is null
@@ -622,7 +654,7 @@ FeedbarParseListener.prototype = {
 				itemObject.uri = item.link.resolve("");
 				
 				if (itemObject.uri.match(/\/\/news\.google\.com\/.*\?/)){
-					var q = itemObject.link.indexOf("?");
+					var q = itemObject.uri.indexOf("?");
 					itemObject.uri = itemObject.uri.substring(0, q) + ("&" + itemObject.uri.substring(q)).replace(/&(ct|cid|ei)=[^&]*/g, "").substring(1);
 				}
 				
@@ -644,6 +676,12 @@ FeedbarParseListener.prototype = {
 				}
 			
 				itemObject.published = Date.parse(item.updated);
+				
+				if (!itemObject.published) {
+					itemObject.published = new Date();
+					logFeedbarMsg(item.updated);
+				}
+				
 				itemObject.label = FEED_GETTER.decodeEntities(item.title.plainText().replace(/<[^>]+>/g, ""));
 				
 				if (item.summary && item.summary.text) {

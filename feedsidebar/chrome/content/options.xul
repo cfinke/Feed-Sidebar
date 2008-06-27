@@ -90,6 +90,7 @@
 			<preference id="p_24hour" name="extensions.feedbar.24HourTime" type="bool" />
 			<preference id="p_autoClose" name="extensions.feedbar.autoClose" type="bool" />
 			<preference id="p_notify" name="extensions.feedbar.notify" type="bool" />
+			<preference id="p_sidebar" name="extensions.feedbar.runInSidebar" type="bool" />
 		</preferences>
 		<groupbox>
 			<radiogroup id="display-period">
@@ -109,6 +110,7 @@
 			<checkbox label="&feedbar.autoClose;" preference="p_autoClose" />
 			<checkbox label="&feedbar.24HourTime;" preference="p_24hour" />
 			<checkbox id="growl" label="&feedbar.notifications;" preference="p_notify" />
+			<checkbox label="&feedbar.runInSidebar;" preference="p_sidebar" />
 		</groupbox>
 	</prefpane>
 </prefwindow>

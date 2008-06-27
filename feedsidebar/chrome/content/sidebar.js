@@ -12,17 +12,15 @@ var FEEDSIDEBAR = {
 		
 		document.getElementById("feed_tree").view = window.parent.FEEDBAR;
 		
-		// window.parent.FEED_GETTER.updateLoadProgress(0,0);
 		FEEDSIDEBAR.checkFrequencyItem(FEEDSIDEBAR.prefs.getIntPref("updateFrequency"));
 		FEEDSIDEBAR.checkPeriodItem(FEEDSIDEBAR.prefs.getIntPref("displayPeriod"));	
 		document.getElementById("search-box").value = FEEDSIDEBAR.prefs.getCharPref("filter");
 		
 		window.parent.FEED_GETTER.sidebarPing();
-	//	document.getElementById("preview-splitter").style.display = 'none';
-	//	document.getElementById("feedbar-preview").style.display = 'none';
 	},
 	
 	unload : function () {
+		window.parent.FEED_GETTER.sidebarPung();
 	},
 	
 	searchTimeout : null,

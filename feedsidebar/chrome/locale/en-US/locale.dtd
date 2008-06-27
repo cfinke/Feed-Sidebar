@@ -50,3 +50,5 @@
 <!ENTITY feedbar.24HourTime "Use 24-hour time">
 <!ENTITY feedbar.autoClose "Automatically close the sidebar when marking all items as read.">
 <!ENTITY feedbar.notifications "Show pop-up notifications when new items are detected.">
+
+<!ENTITY feedbar.runInSidebar "Only check for updates when the sidebar is open.">

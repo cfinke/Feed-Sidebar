@@ -398,14 +398,29 @@ var FEEDBAR = {
 	searchFilter : [],
 	
 	push : function (feedObject) {
+		Components.utils.import("resource://gre/modules/json.jsm");
+		
 		var toInsert = [];
 		var hasVisible = false;
 		var showReadItems = !this.prefs.getBoolPref("hideReadItems");
 		
 		for (var i = 0; i < feedObject.items.length; i++) {
 			var item = feedObject.items[i];
-
+			
 			toInsert.push( { "label" : item.label, "image" : item.image, "visited" : item.visited, "uri" : item.uri, "id" : item.id, "published" : item.published, "description" : item.description } );
+			
+			/*
+			try {
+				var s = JSON.toString(toInsert);
+			} catch (e) {
+				var s = '';
+				for (var x in item) {
+					s += x + ": " + item[x] + "\t";
+				}
+				alert("Found it: " + s);
+				return;
+			}
+			*/
 			
 			if (showReadItems || !item.visited) {
 				hasVisible = true;
@@ -741,7 +756,34 @@ var FEEDBAR = {
 		
 		try { db.close(); } catch (e) { }
 		
+		try {
+			Components.utils.import("resource://gre/modules/json.jsm");
+			
+			var data = JSON.toString(this.childData);
+			
+			var file = Components.classes['@mozilla.org/file/directory_service;1']
+                            .getService(Components.interfaces.nsIProperties) //changed by <asqueella@gmail.com>
+                            .get("ProfD", Components.interfaces.nsIFile);
+			file.append("feedbar.cache");
+			
+			var data     = new String();
+			var fiStream = Components.classes['@mozilla.org/network/file-input-stream;1']
+							.createInstance(Components.interfaces.nsIFileInputStream);
+			var siStream = Components.classes['@mozilla.org/scriptableinputstream;1']
+							.createInstance(Components.interfaces.nsIScriptableInputStream);
+			fiStream.init(file, 1, 0, false);
+			siStream.init(fiStream);
+			data += siStream.read(-1);
+			siStream.close();
+			
+			this.childData = JSON.fromString(data);
+			this.refreshTree();
+		} catch (e) {
+			// alert(e);
+		}
+		
 		setTimeout(FEEDBAR.showFirstRun, 1500);
+		setTimeout(FEED_GETTER.updateFeeds, 2500, 1);
 	},
 	
 	showFirstRun : function () {
@@ -756,6 +798,32 @@ var FEEDBAR = {
 		this.prefs.removeObserver("", this);
 		
 		this.prefs.setIntPref("lastUpdate", 0);
+		
+		try {
+			Components.utils.import("resource://gre/modules/json.jsm");
+			
+			var data = JSON.toString(this.childData);
+			
+			var file = Components.classes['@mozilla.org/file/directory_service;1']
+                            .getService(Components.interfaces.nsIProperties)
+                            .get("ProfD", Components.interfaces.nsIFile);
+			file.append("feedbar.cache");
+			
+			var foStream = Components.classes['@mozilla.org/network/file-output-stream;1']
+								.createInstance(Components.interfaces.nsIFileOutputStream);
+			var flags = 0x02 | 0x08 | 0x20; // wronly | create | truncate
+			foStream.init(file, flags, 0664, 0);
+			foStream.write(data, data.length);
+			foStream.close();
+		} catch (e) {
+			/*
+			var s = '';
+			for (var i in e) {
+				s += i + ": " + e[i] + "\t";
+			}
+			alert(s);
+			*/
+		}
 	},
 	
 	observe : function(subject, topic, data) {
