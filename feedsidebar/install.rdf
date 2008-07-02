@@ -14,7 +14,7 @@
                    em:creator="Christopher Finke"
                    em:homepageURL="http://www.chrisfinke.com/addons/feedbar/"
                    em:optionsURL="chrome://feedbar/content/options.xul"
-                   em:iconURL="chrome://feedbar/skin/icons/logo.gif">
+                   em:iconURL="chrome://feedbar/content/skin-common/logo.gif">
     <em:targetApplication RDF:resource="rdf:#$ygf3i2"/>
   </RDF:Description>
 </RDF:RDF>

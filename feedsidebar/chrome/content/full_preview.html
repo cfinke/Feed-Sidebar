@@ -1,0 +1,98 @@
+<html>
+	<head>
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+			}
+		
+			body, h1, h2 {
+				font-size: 10pt;
+				font-family: arial, sans-serif;
+			}
+			
+			h1 {
+				background-color: #2f8fff;
+				padding: 3ex;
+				margin: 0;
+			}
+			
+			h1 a {
+				font-size: 14pt;
+				color: #fff;
+				text-decoration: none;
+			}
+
+			h1 a:hover {
+				text-decoration: underline;
+			}
+			
+			h2 {
+				background-color: #17477f;
+				padding-left: 7ex;
+				vertical-align: middle;
+				padding-top: 8px;
+				padding-bottom: 8px;
+				margin: 0;
+				background-repeat: no-repeat;
+				background-position: 3ex center;
+			}
+			
+			h2, h2 * {
+				color: #fff !important;
+			}
+			
+			h2 img {
+				margin-right: 5px;
+			}
+			
+			#outer-content { 
+				background-color: #fff;
+			}
+			
+			#navigation {
+				padding: 3ex;
+				background-color: #eee;
+			}
+			
+			#content {
+				background-image: url(chrome://feedbar/content/skin-common/lquote.png);
+				background-repeat: no-repeat;
+				background-position: top left;
+				padding: 0px 0px 0px 58px;
+				min-height: 35px;
+				line-height: 1.4;
+				vertical-align: middle;
+			}
+			
+			#outer-outer-content {
+				padding: 10px;
+				padding-top: 14px;
+			}
+			
+			#outer-content {
+				padding: 0px 58px 0px 0px;
+				background-image: url(chrome://feedbar/content/skin-common/rquote.png);
+				background-repeat: no-repeat;
+				background-position: bottom right;
+			}
+			
+			.quote {
+				opacity: .15;
+				padding: 0 3ex 3ex 3ex;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<h2 id="site-info"></h2>
+		<h1 id="title"></h1>
+		<div id="outer-outer-content">
+			<div id="outer-content">
+				<div id="content">
+				</div>
+			</div>
+		</div>
+		<div id="navigation"></div>
+	</body>
+</html>

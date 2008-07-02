@@ -29,7 +29,7 @@ treechildren::-moz-tree-image {
 #search-toggle {
 	padding-top: 3px;
 	padding-left: 12px;
-	list-style-image: url(chrome://feedbar/skin/icons/search.png);
+	list-style-image: url(chrome://feedbar/content/skin-common/search.png);
 }
 
 #search-toggle[checked="true"] {
@@ -43,13 +43,18 @@ treechildren::-moz-tree-image {
 	border-color: #d4dde5 !important;
 }
 
+treechildren::-moz-tree-cell-text(visited) {
+	color: #888;
+}
+
+
 treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected) {
 	background-color: Highlight;
 	color: HighlightText;
 }
 
-treechildren::-moz-tree-cell-text(visited) {
-	color: #bbb;
+treechildren::-moz-tree-cell-text(visited,selected) {
+	color: #ddd;
 }
 
 statusbarpanel {

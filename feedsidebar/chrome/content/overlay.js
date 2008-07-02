@@ -11,7 +11,6 @@ var FEEDBAR = {
 	
 	childData : { },
 	visibleData : [],
-	
 	get rowCount() { return this.visibleData.length; },
 	
 	getCellText : function (idx) {
@@ -298,7 +297,7 @@ var FEEDBAR = {
 					continue;
 				}
 				
-				this.visibleData.splice(idx + itemsInserted + 1, 0, { "id" : null, "label" : " " + toInsert[i].label, "isContainer" : false, "image" : toInsert[i].image, "uri" : toInsert[i].uri, "id" : toInsert[i].id, "visited" : toInsert[i].visited, "description" : toInsert[i].description });
+				this.visibleData.splice(idx + itemsInserted + 1, 0, { "id" : null, "label" : " " + toInsert[i].label, "isContainer" : false, "image" : toInsert[i].image, "uri" : toInsert[i].uri, "id" : toInsert[i].id, "visited" : toInsert[i].visited, "description" : toInsert[i].description, "published" : toInsert[i].published });
 				++itemsInserted;
 			}
 			
@@ -324,7 +323,7 @@ var FEEDBAR = {
 	
     getImageSrc: function(idx){ 
 		if (this.isContainer(idx)) {
-			return "chrome://feedbar/skin/icons/folder.png";
+			return "chrome://feedbar/content/skin-common/folder.png";
 		}
 		else {
 			return this.visibleData[idx].image;
@@ -390,6 +389,8 @@ var FEEDBAR = {
  * Additional custom view functions.
  */
 	
+	previewTimeout : null,
+	
 	/**
 	 * Takes a feedObject hashtable and adds its data to the tree view.
 	 * @param feedObject A hashtable that contains meta-data about the feed and its items
@@ -398,8 +399,6 @@ var FEEDBAR = {
 	searchFilter : [],
 	
 	push : function (feedObject) {
-		Components.utils.import("resource://gre/modules/json.jsm");
-		
 		var toInsert = [];
 		var hasVisible = false;
 		var showReadItems = !this.prefs.getBoolPref("hideReadItems");
@@ -410,6 +409,8 @@ var FEEDBAR = {
 			toInsert.push( { "label" : item.label, "image" : item.image, "visited" : item.visited, "uri" : item.uri, "id" : item.id, "published" : item.published, "description" : item.description } );
 			
 			/*
+			Components.utils.import("resource://gre/modules/json.jsm");
+
 			try {
 				var s = JSON.toString(toInsert);
 			} catch (e) {
@@ -432,6 +433,28 @@ var FEEDBAR = {
 		
 		var folderIdx = -1;
 		var wasLeftOpen = false;
+		
+		var selectedIdx = this.getSelectedIndex();
+		var selFeedId = null;
+		
+		if (selectedIdx >= 0) {
+			if (this.isContainer(selectedIdx)) {
+				selFeedId = this.visibleData[selectedIdx].id;
+			}
+			else {
+				selFeedId = this.visibleData[this.getParentIndex(selectedIdx)].id;
+			}
+		}
+		
+		alert(selFeedId);
+		
+		var reselect = false;
+		
+		if (selFeedId && selFeedId == feedObject.id) {
+			// The selected item is in this feed.
+			
+			reselect = this.visibleData[selectedIdx].id;
+		}
 		
 		// Check if this feed is alredy being displayed.  If it is, toggle it closed so that we can use the toggleOpenState function to 
 		// replace the children.
@@ -470,6 +493,25 @@ var FEEDBAR = {
 			else {
 				if (this.toggleOpenState(folderIdx)) {
 					this.toggleOpenState(folderIdx);
+				}
+			}
+		}
+		
+		if (reselect) {
+			var i = folderIdx;
+			var len = this.visibleData.length;
+			
+			while (i < len) {
+				if (this.visibleData[i].id == reselect) {
+					// Select this item.
+					this.treeBox.view.selection.select(i);
+					break;
+				}
+				
+				++i;
+				
+				if (this.isContainer(i)) {
+					break;
 				}
 			}
 		}
@@ -894,6 +936,12 @@ var FEEDBAR = {
 	onTreeClick : function (event, url) {
 		// Discard right-clicks
 		if (event.which == 3){
+			FEED_GETTER.feedWindow.clearTimeout(FEEDBAR.previewTimeout);
+			return;
+		}
+		
+		if (1 || !navigator.onLine) {
+			FEEDBAR.handleOfflineTreeClick(event, url);
 			return;
 		}
 		
@@ -912,6 +960,8 @@ var FEEDBAR = {
 					// Left-click
 					if (event.detail != 1){
 						// Single-left-clicks are handled by onselect
+						FEED_GETTER.feedWindow.clearTimeout(FEEDBAR.previewTimeout);
+						
 						this.launchUrl(this.getCellLink(targetIdx), event);
 						this.setCellRead(targetIdx, true);
 					}
@@ -1370,5 +1420,76 @@ var FEEDBAR = {
 		}
 		
 		return true;
+	},
+	
+	loadFullPreview : function (idx, event) {
+		var openedTab = gBrowser.addTab("chrome://feedbar/content/full_preview.html");
+		gBrowser.selectedTab = openedTab;
+		var newTab = gBrowser.getBrowserForTab(openedTab);
+		newTab.addEventListener("load", function() { FEEDBAR.previewLoaded(idx, this); }, true);
+	},
+	
+	previewLoaded : function (idx, browser) {
+		var doc = browser.contentDocument.wrappedJSObject;
+		
+		var item = this.visibleData[idx];
+		
+		doc.getElementById("title").innerHTML = '<a href="'+item.uri+'">'+item.label+'</a>';
+		
+		var s = '';
+		for (var i in item) s += i + ": " + item[i] + "<br />";
+		
+		var feed = this.visibleData[this.getParentIndex(idx)];
+		for (var i in feed) s += i + ": " + feed[i] + "<br />";
+		
+		doc.getElementById("content").innerHTML = s;//item.description;
+		
+		var pubDate = new Date();
+		pubDate.setTime(item.published);
+		
+		var nav = '<a href="' + item.uri + '">Permalink</a> &bull; <a href="'+feed.uri+'">Feed Link</a> &bull; <a href="'+feed.siteUri+'">Site Link</a>';
+		nav += " &bull; Published on " + pubDate + " in <a href='"+feed.uri+"'>"+feed.label+"</a>";
+		doc.getElementById("navigation").innerHTML = nav;
+		
+//		var content = "<p class='subtitle'>From <a href='"+feed.uri+"'>" + feed.label + "</a>, published on " + pubDate + ":</p>" + 
+		var content = item.description;
+		doc.getElementById("content").innerHTML = content;
+		
+		doc.getElementById("site-info").innerHTML = '<!-- <img src="'+item.image+'" /> --> From <a href="'+feed.siteUri+'">' + feed.label + '</a>';
+		doc.getElementById("site-info").style.backgroundImage = "url("+item.image+")";
+		
+		this.setCellRead(idx, true);
+	},
+	
+	handleOfflineTreeClick : function(event, url) {
+		var targetIdx = this.getSelectedIndex();
+		
+		if (targetIdx >= 0) {
+			if (!this.isContainer(targetIdx) && !url) {
+				if (event.which == 2){
+					this.loadFullPreview(targetIdx, event);
+				}
+				else if (event.which == 4){
+					this.loadFullPreview(targetIdx, event);
+				}
+				else {
+					// Left-click
+					if (event.detail != 1){
+						// Single-left-clicks are handled by onselect
+						FEED_GETTER.feedWindow.clearTimeout(FEEDBAR.previewTimeout);
+						
+						this.loadFullPreview(targetIdx, event);
+					}
+				}
+			}
+			else {
+				if (url) {
+					this.loadFullPreview(targetIdx, event, url);
+				}
+				
+				return;
+			}
+		}
+		
 	}
 };

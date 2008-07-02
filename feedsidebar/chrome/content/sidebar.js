@@ -72,6 +72,14 @@ var FEEDSIDEBAR = {
 	},
 
 	updateLoadProgress : function (done, total, nextUpdateTime) {
+		if (!navigator.onLine) {
+			document.getElementById("reload-button").setAttribute("disabled", ("import" in Components.utils).toString());
+			document.getElementById("stop-button").setAttribute("disabled","true");
+			
+			FEEDSIDEBAR.progressText.setAttribute("value", FEEDSIDEBAR.strings.getString("feedbar.workingOffline"));
+			return;
+		}
+		
 		try {
 			if (done == total) {
 				var use24HourTime = FEEDSIDEBAR.prefs.getBoolPref("24HourTime");
@@ -290,7 +298,13 @@ var FEEDSIDEBAR = {
 	
 	itemSelect : function (event) {
 		var idx = window.parent.FEEDBAR.getSelectedIndex();
-		FEEDSIDEBAR.showPreview(idx);
+		
+		if (idx) {
+			window.parent.FEEDBAR.previewTimeout = setTimeout(FEEDSIDEBAR.showPreview, 375, idx);
+		}
+		else {
+			FEEDSIDEBAR.showPreview();
+		}
 	},
 	
 	hidePreview : function () {

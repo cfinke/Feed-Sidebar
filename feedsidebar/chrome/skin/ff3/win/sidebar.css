@@ -33,7 +33,7 @@ treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected) {
 #search-toggle  {
 	padding-top: 3px;
 	padding-left: 8px;
-	list-style-image: url(chrome://feedbar/skin/icons/search.png);
+	list-style-image: url(chrome://feedbar/content/skin-common/search.png);
 }
 
 #search-toggle[checked="true"] {

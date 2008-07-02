@@ -91,26 +91,38 @@
 			<preference id="p_autoClose" name="extensions.feedbar.autoClose" type="bool" />
 			<preference id="p_notify" name="extensions.feedbar.notify" type="bool" />
 			<preference id="p_sidebar" name="extensions.feedbar.runInSidebar" type="bool" />
+			<preference id="p_fullPreview" name="extensions.feedbar.showFullPreview" type="bool" />
 		</preferences>
 		<groupbox>
-			<radiogroup id="display-period">
-				<radio label="&feedbar.showAllItems;" id="show-all-radio" oncommand="FEEDBAR_PREFS.showAll();" />
+			<hbox>
+				<label value="&feedbar.updateEvery1;" style="padding-top: 4px;" />
+				<textbox preference="p_update_freq" size="2" />
+				<label value="&feedbar.updateEvery2;" style="padding-top: 4px;"  />
+			</hbox>
+		</groupbox>
+		<groupbox>
+			<radiogroup id="display-period" style="padding-left: 2ex;">
+				<radio label="&feedbar.showAllItemsFull;" id="show-all-radio" oncommand="FEEDBAR_PREFS.showAll();" />
 				<hbox align="center">
 					<radio label="&feedbar.onlyShow1;" oncommand="FEEDBAR_PREFS.showOnly();" />
 					<textbox oninput="FEEDBAR_PREFS.showOnly();" id="display-days" size="2" />
 					<label value="&feedbar.onlyShow2;" />
 				</hbox>
 			</radiogroup>
-			<hbox>
-				<label value="&feedbar.updateEvery1;" style="padding-top: 4px;" />
-				<textbox preference="p_update_freq" size="2" />
-				<label value="&feedbar.updateEvery2;" style="padding-top: 4px;"  />
-			</hbox>
 			<checkbox label="&feedbar.hideReadItems;" preference="p_hide_read" />
+		</groupbox>
+		<groupbox>
 			<checkbox label="&feedbar.autoClose;" preference="p_autoClose" />
 			<checkbox label="&feedbar.24HourTime;" preference="p_24hour" />
 			<checkbox id="growl" label="&feedbar.notifications;" preference="p_notify" />
 			<checkbox label="&feedbar.runInSidebar;" preference="p_sidebar" />
+		</groupbox>
+		<groupbox>
+			<label value="When opening a feed item..." />
+			<radiogroup preference="p_fullPreview" style="padding-left: 2ex;">
+				<radio label="Show the full-size preview in the browser window." value="true" />
+				<radio label="Open the linked webpage (default)." value="false" />
+			</radiogroup>
 		</groupbox>
 	</prefpane>
 </prefwindow>

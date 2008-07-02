@@ -47,6 +47,8 @@ var FEED_GETTER = {
 	
 	currentRequest : null,
 	
+	consecutiveFailures : 0,
+	
 	get lastUpdate() { 
 		// Stored as the number of seconds since the epoch
 		// Should reveal this value as a JavaScript Date object
@@ -162,11 +164,16 @@ var FEED_GETTER = {
 			}
 		}
 		
-		FEED_GETTER.missedUpdate = false;
-		FEED_GETTER.newItemCountPre = FEEDBAR.numUnreadItems();
+		if (navigator.onLine) {
+			FEED_GETTER.missedUpdate = false;
+			FEED_GETTER.newItemCountPre = FEEDBAR.numUnreadItems();
 	
-		FEED_GETTER.findFeeds();
-		FEED_GETTER.loadFeeds();
+			FEED_GETTER.findFeeds();
+			FEED_GETTER.loadFeeds();
+		}
+		else {
+			FEED_GETTER.updateLoadProgress(0,0);
+		}
 		
 		FEED_GETTER.updateTimer = setTimeout(FEED_GETTER.updateFeeds, FEED_GETTER.prefs.getIntPref("updateFrequency") * 60 * 1000, 3);
 	},
@@ -174,6 +181,7 @@ var FEED_GETTER = {
 	stopUpdate : function () {
 		FEED_GETTER.feeds.length = 0;
 		FEED_GETTER.killCurrentRequest();
+		FEED_GETTER.updateLoadProgress(0,0);
 	},
 	
 	searchTimeout : null,
@@ -266,8 +274,19 @@ var FEED_GETTER = {
 	},
 	
 	loadNextFeed : function () {
-		setTimeout(FEED_GETTER.doLoadNextFeed, 500);
-//		FEED_GETTER.doLoadNextFeed();
+		if (!navigator.onLine) {
+			FEED_GETTER.updateLoadProgress(0,0);
+			FEED_GETTER.feeds.length = 0;
+			return;
+		}
+		
+		if (FEED_GETTER.consecutiveFailures >= 6) {
+			FEED_GETTER.consecutiveFailures = 0;
+			FEED_GETTER.stopUpdate();
+		}
+		else {
+			setTimeout(FEED_GETTER.doLoadNextFeed, 500);
+		}
 	},
 	
 	doLoadNextFeed : function () {
@@ -294,6 +313,8 @@ var FEED_GETTER = {
 						
 						try {
 							if (req.status == 200){
+								FEED_GETTER.consecutiveFailures = 0;
+								
 								var feedOb = null;
 								
 								try {
@@ -304,8 +325,13 @@ var FEED_GETTER = {
 									FEED_GETTER.addError(feed.name, url, e.message, 5);
 								}
 							}
+							else {
+								++FEED_GETTER.consecutiveFailures;
+							}
 						}
 						catch (e) {
+							++FEED_GETTER.consecutiveFailures;
+							
 							if (e.name == "NS_ERROR_NOT_AVAILABLE"){
 								FEED_GETTER.addError(feed.name, url, FEED_GETTER.strings.getString("feedbar.errors.unavailable"), 3);
 							}
@@ -454,6 +480,14 @@ var FEED_GETTER = {
 				return false;
 			}
 		}
+	},
+
+	online : function () {
+		FEED_GETTER.updateFeeds('online');
+	},
+
+	offline : function () {
+		FEED_GETTER.stopUpdate();
 	},
 
 	updateLoadProgress : function (done, total) {
