@@ -822,6 +822,7 @@ var FEEDBAR = {
 			
 			this.childData = JSON.fromString(data);
 			this.refreshTree();
+			this.updateNotifier();
 		} catch (e) {
 			// logFeedbarMsg("Error: " + e);
 			// alert(e);

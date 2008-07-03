@@ -186,14 +186,11 @@ var FEED_GETTER = {
 		var feedURL = livemarkService.getFeedURI(livemarkId).spec;
 		var feedName = bookmarkService.getItemTitle(livemarkId);
 		
-		logFeedbarMsg(1);
-		
 		FEED_GETTER.feeds.push({ name : feedName, feed : feedURL });
 		FEED_GETTER.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : livemarkId, uri : feedURL };
-		logFeedbarMsg(2);
+
 		FEED_GETTER.feedsToLoad++;
 		FEED_GETTER.updateLoadProgress(0, FEED_GETTER.feedsToLoad);
-		logFeedbarMsg(3);
 		
 		FEED_GETTER.newItemCountPre = FEEDBAR.numUnreadItems();
 		FEED_GETTER.loadNextFeed();
@@ -295,29 +292,22 @@ var FEED_GETTER = {
 	},
 	
 	loadNextFeed : function () {
-		logFeedbarMsg(4);
-		
 		if (!navigator.onLine) {
 			FEED_GETTER.updateLoadProgress(0,0);
 			FEED_GETTER.feeds.length = 0;
 			return;
 		}
-		logFeedbarMsg(5);
 		
 		if (FEED_GETTER.consecutiveFailures >= 6) {
 			FEED_GETTER.consecutiveFailures = 0;
 			FEED_GETTER.stopUpdate();
 		}
 		else {
-			logFeedbarMsg(6);
-			
 			setTimeout(FEED_GETTER.doLoadNextFeed, 500);
 		}
 	},
 	
 	doLoadNextFeed : function () {
-		logFeedbarMsg(7);
-		
 		var feed = FEED_GETTER.feeds.shift();
 		
 		if (feed){
