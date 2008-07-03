@@ -52,3 +52,7 @@
 <!ENTITY feedbar.notifications "Show pop-up notifications when new items are detected.">
 
 <!ENTITY feedbar.runInSidebar "Only check for updates when the sidebar is open.">
+
+<!ENTITY feedbar.previewQuestion "When opening a feed item...">
+<!ENTITY feedbar.previewAnswer1 "Open the linked webpage (default).">
+<!ENTITY feedbar.previewAnswer2 "Show the full item description in the browser window.">

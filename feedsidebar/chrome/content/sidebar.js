@@ -300,7 +300,7 @@ var FEEDSIDEBAR = {
 		var idx = window.parent.FEEDBAR.getSelectedIndex();
 		
 		if (idx) {
-			window.parent.FEEDBAR.previewTimeout = setTimeout(FEEDSIDEBAR.showPreview, 375, idx);
+			window.parent.FEEDBAR.previewTimeout = setTimeout(FEEDSIDEBAR.showPreview, 450, idx);
 		}
 		else {
 			FEEDSIDEBAR.showPreview();
@@ -396,7 +396,8 @@ var FEEDSIDEBAR = {
 	},
 	
 	noFeedsFoundCallback : function () {
-		alert(FEEDSIDEBAR.strings.getString("feedbar.errors.noFeedsFoundMore"));
+		var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);
+		promptService.alert(window, FEEDSIDEBAR.strings.getString("feedbar.errors.noFeedsFound"), FEEDSIDEBAR.strings.getString("feedbar.errors.noFeedsFoundMore"));
 	},
 	
 	clearNotify : function () {

@@ -446,8 +446,6 @@ var FEEDBAR = {
 			}
 		}
 		
-		alert(selFeedId);
-		
 		var reselect = false;
 		
 		if (selFeedId && selFeedId == feedObject.id) {
@@ -517,6 +515,10 @@ var FEEDBAR = {
 		}
 		
 		this.updateNotifier();
+	},
+	
+	selectNone : function () {
+		this.treeBox.view.selection.select(-1);
 	},
 	
 	updateNotifier : function () {
@@ -683,15 +685,17 @@ var FEEDBAR = {
 	},
 	
 	getSelectedIndex : function () {
-		var range = this.selection.getRangeCount();
+		if (this.selection) {
+			var range = this.selection.getRangeCount();
 		
-		for (var i = 0; i < range; i++) {
-			var start = {};
-			var end = {};
-			this.selection.getRangeAt(i, start, end);
-			return start.value;
+			for (var i = 0; i < range; i++) {
+				var start = {};
+				var end = {};
+				this.selection.getRangeAt(i, start, end);
+				return start.value;
+			}
 		}
-
+		
 		return -1;
 	},
 	
@@ -801,8 +805,6 @@ var FEEDBAR = {
 		try {
 			Components.utils.import("resource://gre/modules/json.jsm");
 			
-			var data = JSON.toString(this.childData);
-			
 			var file = Components.classes['@mozilla.org/file/directory_service;1']
                             .getService(Components.interfaces.nsIProperties) //changed by <asqueella@gmail.com>
                             .get("ProfD", Components.interfaces.nsIFile);
@@ -821,11 +823,44 @@ var FEEDBAR = {
 			this.childData = JSON.fromString(data);
 			this.refreshTree();
 		} catch (e) {
+			// logFeedbarMsg("Error: " + e);
 			// alert(e);
 		}
 		
 		setTimeout(FEEDBAR.showFirstRun, 1500);
-		setTimeout(FEED_GETTER.updateFeeds, 2500, 1);
+		// setTimeout(FEED_GETTER.updateFeeds, 2500, 1);
+	},
+	
+	tryAndRemoveFeed : function (livemarkId) {
+		for (var i in this.childData) {
+			if (this.childData[i].livemarkId == livemarkId) {
+				var feedId = i;
+				delete this.childData[i];
+				
+				var len = this.visibleData.length;
+				
+				for (var j = 0; j < len; j++) {
+					if (this.isContainer(j) && this.visibleData[j].id == feedId) {
+						// Remove this.
+						var itemsRemoved = 1;
+						
+						for (var k = j + 1; k < len; k++) {
+							if (this.isContainer(k)) {
+								break;
+							}
+							
+							++itemsRemoved;
+						}
+						
+						this.visibleData.splice(j, itemsRemoved);
+						try { this.treeBox.rowCountChanged(j, (itemsRemoved * -1)); } catch (sidebarNotOpen) { }
+						break;
+					}
+				}
+				
+				break;
+			}
+		}
 	},
 	
 	showFirstRun : function () {
@@ -838,8 +873,6 @@ var FEEDBAR = {
 	
 	unload : function () {
 		this.prefs.removeObserver("", this);
-		
-		this.prefs.setIntPref("lastUpdate", 0);
 		
 		try {
 			Components.utils.import("resource://gre/modules/json.jsm");
@@ -858,6 +891,8 @@ var FEEDBAR = {
 			foStream.write(data, data.length);
 			foStream.close();
 		} catch (e) {
+			this.prefs.setIntPref("lastUpdate", 0);
+		
 			/*
 			var s = '';
 			for (var i in e) {
@@ -940,7 +975,7 @@ var FEEDBAR = {
 			return;
 		}
 		
-		if (1 || !navigator.onLine) {
+		if (!url && (this.prefs.getBoolPref("showFullPreview") || !navigator.onLine)) {
 			FEEDBAR.handleOfflineTreeClick(event, url);
 			return;
 		}
@@ -1030,23 +1065,22 @@ var FEEDBAR = {
 			}
 		}
 		
+		var hideRead = this.prefs.getBoolPref("hideReadItems");
+		
 		if (this.confirmOpenTabs(numItems)) {
 			for (var i = 0; i < this.visibleData.length; i++) {
 				if (!this.isContainer(i)) {
-					this.launchUrl(this.getCellLink(i), { which : 2, detail : 1});
+					if (!navigator.onLine || this.prefs.getBoolPref("showFullPreview")) {
+						this.loadFullPreview(i, { 'which' : 2, detail : 1}, hideRead);
+					}
+					else {
+						this.launchUrl(this.getCellLink(i), { which : 2, detail : 1});
+					}
 				}
 			}
 			
-			var itemsRemoved = this.visibleData.length;
-
-			this.visibleData.splice(0, itemsRemoved);
-			try { this.treeBox.rowCountChanged(0, -itemsRemoved); } catch (sidebarNotOpen) { }
-		}
-		
-		this.updateNotifier();
-		
-		if (this.prefs.getBoolPref("autoClose")) {
-			toggleSidebar('feedbar');
+			this.markAllAsRead();
+			this.updateNotifier();
 		}
 	},
 	
@@ -1058,14 +1092,22 @@ var FEEDBAR = {
 			++numItems;
 		}
 		
+		var hideRead = this.prefs.getBoolPref("hideReadItems");
+		
 		if (this.confirmOpenTabs(numItems)) {
 			var idx = folderIdx + 1;
 			
 			for (var i = 0; i < numItems; i++) {
-				this.launchUrl(this.getCellLink(idx + i), { which : 2, detail : 1});
+				if (!navigator.onLine || this.prefs.getBoolPref("showFullPreview")) {
+					this.loadFullPreview(idx + i, { 'which' : 2, detail : 1}, hideRead);
+				}
+				else {
+					this.launchUrl(this.getCellLink(idx + i), { which : 2, detail : 1});
+				}
 			}
 			
 			this.markFeedAsRead(folderIdx);
+			this.updateNotifier();
 		}
 	},
 	
@@ -1251,8 +1293,17 @@ var FEEDBAR = {
 		
 		try {
 			var bookmarkService = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
-			var livemarkId = this.getCellLivemarkId(idx);
-			bookmarkService.removeFolder(livemarkId);
+			
+			try {
+				var livemarkId = this.getCellLivemarkId(idx);
+				bookmarkService.removeFolder(livemarkId);
+			} catch (e) {
+				this.tryAndRemoveFeed(livemarkId);
+			}
+			
+			/*
+			
+			// This section is now covered by the bookmark listener.
 			
 			delete this.childData[feedKey];
 			
@@ -1262,6 +1313,7 @@ var FEEDBAR = {
 			
 			this.visibleData.splice(idx, 1);
 			try { this.treeBox.rowCountChanged(idx, -1); } catch (sidebarNotOpen) { }
+			*/
 		} catch (e) {
 			function createSelection(node) {
 				var items = [ node ];
@@ -1422,43 +1474,56 @@ var FEEDBAR = {
 		return true;
 	},
 	
-	loadFullPreview : function (idx, event) {
-		var openedTab = gBrowser.addTab("chrome://feedbar/content/full_preview.html");
-		gBrowser.selectedTab = openedTab;
-		var newTab = gBrowser.getBrowserForTab(openedTab);
-		newTab.addEventListener("load", function() { FEEDBAR.previewLoaded(idx, this); }, true);
-	},
-	
-	previewLoaded : function (idx, browser) {
-		var doc = browser.contentDocument.wrappedJSObject;
+	loadFullPreview : function (idx, event, dontMark) {
+		if (event.ctrlKey || event.metaKey || event.which == 2 || event.which == 4) {
+			var openedTab = gBrowser.addTab("chrome://feedbar/content/full_preview.html?idx="+idx);
+			gBrowser.selectedTab = openedTab;
+		}
+		else {
+			var openedTab = gBrowser.selectedTab;
+			content.document.location.href = "chrome://feedbar/content/full_preview.html?idx="+idx;
+		}
 		
 		var item = this.visibleData[idx];
 		
-		doc.getElementById("title").innerHTML = '<a href="'+item.uri+'">'+item.label+'</a>';
-		
-		var s = '';
-		for (var i in item) s += i + ": " + item[i] + "<br />";
-		
+		var itemLabel = item.label;
+		var itemUri = item.uri;
 		var feed = this.visibleData[this.getParentIndex(idx)];
-		for (var i in feed) s += i + ": " + feed[i] + "<br />";
-		
-		doc.getElementById("content").innerHTML = s;//item.description;
-		
+		var feedUri = feed.uri;
+		var feedLabel = feed.label;
+		var siteUri = feed.siteUri;
+		var image = item.image;
 		var pubDate = new Date();
 		pubDate.setTime(item.published);
 		
-		var nav = '<a href="' + item.uri + '">Permalink</a> &bull; <a href="'+feed.uri+'">Feed Link</a> &bull; <a href="'+feed.siteUri+'">Site Link</a>';
-		nav += " &bull; Published on " + pubDate + " in <a href='"+feed.uri+"'>"+feed.label+"</a>";
-		doc.getElementById("navigation").innerHTML = nav;
+		function onTabLoaded() { 
+			this.removeEventListener("load", onTabLoaded, true);
+			
+			var doc = this.contentDocument.wrappedJSObject;
+
+			doc.title = itemLabel;
+
+			doc.getElementById("title").innerHTML = '<a href="'+itemUri+'">'+itemLabel+'</a>';
+
+			var nav = '<a href="' + itemUri + '">'+FEEDBAR.strings.getString("feedbar.permalink")+'</a> &bull; <a href="'+feedUri+'">'+FEEDBAR.strings.getString("feedbar.feedLink")+'</a> &bull; <a href="'+siteUri+'">'+FEEDBAR.strings.getString("feedbar.siteLink")+"</a> &bull; " + FEEDBAR.strings.getFormattedString("feedbar.publishedOn", [pubDate, feedUri, feedLabel]);
+			doc.getElementById("navigation").innerHTML = nav;
+
+			var content = item.description;
+			doc.getElementById("content").innerHTML = content;
+
+			doc.getElementById("site-info").innerHTML = FEEDBAR.strings.getFormattedString("feedbar.previewHeader", [siteUri, feedLabel]);
+			doc.getElementById("site-info").style.backgroundImage = "url("+image+")";
+			
+			if (!dontMark) {
+				FEEDBAR.setCellRead(idx, true);
+			}
+		}
 		
-//		var content = "<p class='subtitle'>From <a href='"+feed.uri+"'>" + feed.label + "</a>, published on " + pubDate + ":</p>" + 
-		var content = item.description;
-		doc.getElementById("content").innerHTML = content;
-		
-		doc.getElementById("site-info").innerHTML = '<!-- <img src="'+item.image+'" /> --> From <a href="'+feed.siteUri+'">' + feed.label + '</a>';
-		doc.getElementById("site-info").style.backgroundImage = "url("+item.image+")";
-		
-		this.setCellRead(idx, true);
+		var newTab = gBrowser.getBrowserForTab(openedTab);
+		newTab.addEventListener("load", onTabLoaded, true);
+	},
+	
+	previewLoaded : function (idx, browser, title) {
 	},
 	
 	handleOfflineTreeClick : function(event, url) {

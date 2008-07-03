@@ -114,11 +114,11 @@
 					<image id="feedbarTooltipImage"/>
 					<vbox flex="1">
 						<description id="feedbarTooltipFeedName" crop="end" />
-						<description id="feedbarTooltipName" crop="end" onclick="window.parent.FEEDBAR.onTreeClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;" />
+						<description id="feedbarTooltipName" crop="end" onclick="window.parent.FEEDBAR.handleOfflineTreeClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;" />
 						<description id="feedbarTooltipURL" crop="end" onclick="window.parent.FEEDBAR.onTreeClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;"/>
 					</vbox>
 					<vbox pack="start" align="start">
-						<toolbarbutton id="close-preview" class="tabs-closebutton" oncommand="window.parent.FEEDBAR.markAsRead(true); FEEDSIDEBAR.hidePreview();" tooltiptext="&feedbar.preview.markAsRead;" />
+						<toolbarbutton id="close-preview" class="tabs-closebutton" oncommand="window.parent.FEEDBAR.markAsRead(true); FEEDSIDEBAR.hidePreview(); window.parent.FEEDBAR.selectNone();" tooltiptext="&feedbar.preview.markAsRead;" />
 					</vbox>
 				</hbox>
 				<groupbox id="feedbarTooltipSummaryGroupbox" flex="1">

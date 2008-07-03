@@ -19,4 +19,4 @@ zip -rq ../feedsidebar.xpi *
 cd ../
 rm -rf .tmp_xpi_dir/
 cp feedsidebar.xpi ~/Desktop/
-#scp feedsidebar.xpi cfinke@efinke.com:~/www/feedbar.xpi
+scp feedsidebar.xpi cfinke@efinke.com:~/www/feedbar.xpi

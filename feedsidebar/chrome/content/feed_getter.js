@@ -97,6 +97,7 @@ var FEED_GETTER = {
 		FEED_GETTER.ta = document.createElementNS("http://www.w3.org/1999/xhtml", "textarea");
 		
 		FEED_GETTER.updateLoadProgress(0,0);
+		FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
 	},
 	
 	unload : function () {
@@ -176,6 +177,26 @@ var FEED_GETTER = {
 		}
 		
 		FEED_GETTER.updateTimer = setTimeout(FEED_GETTER.updateFeeds, FEED_GETTER.prefs.getIntPref("updateFrequency") * 60 * 1000, 3);
+	},
+	
+	updateSingleFeed : function (livemarkId) {
+		var livemarkService = Components.classes["@mozilla.org/browser/livemark-service;2"]
+								.getService(Components.interfaces.nsILivemarkService);
+		var bookmarkService = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
+		var feedURL = livemarkService.getFeedURI(livemarkId).spec;
+		var feedName = bookmarkService.getItemTitle(livemarkId);
+		
+		logFeedbarMsg(1);
+		
+		FEED_GETTER.feeds.push({ name : feedName, feed : feedURL });
+		FEED_GETTER.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : livemarkId, uri : feedURL };
+		logFeedbarMsg(2);
+		FEED_GETTER.feedsToLoad++;
+		FEED_GETTER.updateLoadProgress(0, FEED_GETTER.feedsToLoad);
+		logFeedbarMsg(3);
+		
+		FEED_GETTER.newItemCountPre = FEEDBAR.numUnreadItems();
+		FEED_GETTER.loadNextFeed();
 	},
 	
 	stopUpdate : function () {
@@ -274,22 +295,29 @@ var FEED_GETTER = {
 	},
 	
 	loadNextFeed : function () {
+		logFeedbarMsg(4);
+		
 		if (!navigator.onLine) {
 			FEED_GETTER.updateLoadProgress(0,0);
 			FEED_GETTER.feeds.length = 0;
 			return;
 		}
+		logFeedbarMsg(5);
 		
 		if (FEED_GETTER.consecutiveFailures >= 6) {
 			FEED_GETTER.consecutiveFailures = 0;
 			FEED_GETTER.stopUpdate();
 		}
 		else {
+			logFeedbarMsg(6);
+			
 			setTimeout(FEED_GETTER.doLoadNextFeed, 500);
 		}
 	},
 	
 	doLoadNextFeed : function () {
+		logFeedbarMsg(7);
+		
 		var feed = FEED_GETTER.feeds.shift();
 		
 		if (feed){
@@ -353,7 +381,7 @@ var FEED_GETTER = {
 		}
 		else {
 			FEED_GETTER.updateLoadProgress(0, 0);
-
+			
 			if (FEED_GETTER.prefs.getBoolPref("notify")) {
 				var newItems = FEEDBAR.numUnreadItems() - FEED_GETTER.newItemCountPre;
 			
@@ -491,6 +519,8 @@ var FEED_GETTER = {
 	},
 
 	updateLoadProgress : function (done, total) {
+		if (done == total) FEED_GETTER.feedsToLoad = 0;
+		
 		var win = FEED_GETTER.feedWindow; 
 		
 		if (win && win.FEEDSIDEBAR) {
@@ -506,7 +536,7 @@ var FEED_GETTER = {
 	},
 	
 	killCurrentRequest : function () {
-		FEED_GETTER.currentRequest.abort();
+		try { FEED_GETTER.currentRequest.abort(); } catch (noCurrentRequest) { }
 	},
 	
 	addError : function (feedName, feedUrl, error, priority) {
@@ -713,7 +743,6 @@ FeedbarParseListener.prototype = {
 				
 				if (!itemObject.published) {
 					itemObject.published = new Date();
-					logFeedbarMsg(item.updated);
 				}
 				
 				itemObject.label = FEED_GETTER.decodeEntities(item.title.plainText().replace(/<[^>]+>/g, ""));
@@ -727,6 +756,8 @@ FeedbarParseListener.prototype = {
 				else {
 					itemObject.description = FEED_GETTER.strings.getString("feedbar.noSummary");
 				}
+				
+				itemObject.description = itemObject.description.replace(/<script[^>]*>[\s\S]+<\/script>/gim, "");
 				
 				itemObject.visited = FEED_GETTER.history.isVisitedURL(itemObject.uri, itemObject.id);
 				
