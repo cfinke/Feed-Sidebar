@@ -1,20 +1,21 @@
-<!ENTITY feedbar.buttonLabel "Ungelesene Feed-Beiträge">
-<!ENTITY feedbar.sidebarTitle "Ungelesene Feed-Beiträge">
+<!ENTITY feedbar.buttonLabel "Ungelesene Beiträge">
+<!ENTITY feedbar.sidebarTitle "Ungelesene Beiträge">
 <!ENTITY feedbar.buttonTooltip "Stellt die ungelesenen Feed-Beiträge der dynamischen Lesezeichen in der Sidebar da">
 <!ENTITY feedbar.accesskey "R">
-<!ENTITY feedbar.preview.markAsRead "RSS-Feed oder Beitrag als gelesen markieren">
+<!ENTITY feedbar.preview.markAsRead "Feed oder Beitrag als gelesen markieren">
 <!ENTITY feedbar.preview.summary "Zusammenfassung">
 <!ENTITY feedbar.open "Öffnen">
 <!ENTITY feedbar.openInTab "In neuem Tab öffnen">
 <!ENTITY feedbar.openAllInTabs "Alle Beiträge in Tabs öffnen">
-<!ENTITY feedbar.openUnreadInTabs "Open Unread Items in Tabs">
+<!ENTITY feedbar.openUnreadInTabs "Ungelesene Einträge in Tabs öffnen">
 <!ENTITY feedbar.openFeedInTabs "Feed in Tabs öffnen">
 <!ENTITY feedbar.openUnreadFeedInTabs "Ungelesene Beiträge des Feeds in Tabs öffnen">
 <!ENTITY feedbar.markAsRead "Als gelesen markieren">
 <!ENTITY feedbar.markAsUnread "Als ungelesen markieren">
 <!ENTITY feedbar.markFeedAsRead "Feed als gelesen markieren">
 <!ENTITY feedbar.markFeedAsUnread "Feed als ungelesen markieren">
-<!ENTITY feedbar.markAllAsRead "Alles als gelesen markieren">
+<!ENTITY feedbar.markAllAsRead "Alle als gelesen markieren">
+<!ENTITY feedbar.markAllAsUnread "Alle als ungelesen markieren">
 <!ENTITY feedbar.reloadFeeds "Feed aktualisieren">
 <!ENTITY feedbar.stopFeedUpdate "Aktualisierung abbrechen">
 <!ENTITY feedbar.minutes "Minuten">
@@ -29,11 +30,20 @@
 <!ENTITY feedbar.showLastDay "Letzte 24 Stunden">
 <!ENTITY feedbar.showLastWeek "Letzte Woche">
 <!ENTITY feedbar.showLastMonth "Letzter Monat">
+<!ENTITY feedbar.copyTitle "Titel kopieren">
+<!ENTITY feedbar.copyLink "Adresse kopieren">
 <!ENTITY feedbar.unsubscribe "Abonnement beenden">
 <!ENTITY feedbar.options "Einstellungen">
 <!ENTITY feedbar.hideReadItems "Gelesene Beiträge ausblenden">
 <!ENTITY feedbar.updateEvery1 "Feed aller ">
 <!ENTITY feedbar.updateEvery2 "Minuten aktualisieren">
+<!ENTITY feedbar.showAllItemsFull "Alle Einträge unabhängig vom Alter anzeigen">
 <!ENTITY feedbar.onlyShow1 "Nur die Beiträge der letzten">
 <!ENTITY feedbar.onlyShow2 "Tage anzeigen. (0 für alle Beiträge)">
 <!ENTITY feedbar.24HourTime "24-Stunden-Format benutzen">
+<!ENTITY feedbar.autoClose "Sidebar automatisch schließen, wenn alle Einträge als gelesen markiert werden">
+<!ENTITY feedbar.notifications "Benachrichtigungen über neue Einträge anzeigen">
+<!ENTITY feedbar.runInSidebar "Nur nach neuen Einträgen suchen, wenn die Sidebar geöffnet ist">
+<!ENTITY feedbar.previewQuestion "Beim Öffnen eines Eintrages...">
+<!ENTITY feedbar.previewAnswer1 "Die verlinkte Webseite öffnen (Standard)">
+<!ENTITY feedbar.previewAnswer2 "Die vollständige Beschreibung des Eintrags im Browserfenster anzeigen">
