@@ -9,7 +9,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="feedbar@efinke.com"
                    em:name="Feed Sidebar"
-                   em:version="3.0.1pre"
+                   em:version="3.0.1"
                    em:description="Displays the items from your Live Bookmarks in the sidebar."
                    em:creator="Christopher Finke"
                    em:homepageURL="http://www.chrisfinke.com/addons/feedbar/"
