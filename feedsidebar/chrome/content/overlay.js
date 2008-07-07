@@ -523,10 +523,10 @@ var FEEDBAR = {
 	
 	updateNotifier : function () {
 		if (this.hasUnreadItems()) {
-			document.getElementById("feedbar-button").setAttribute("new","true");
+			try { document.getElementById("feedbar-button").setAttribute("new","true"); } catch (e) { }
 		}
 		else {
-			document.getElementById("feedbar-button").setAttribute("new","false");
+			try { document.getElementById("feedbar-button").setAttribute("new","false"); } catch (e) { }
 		}
 	},
 	
