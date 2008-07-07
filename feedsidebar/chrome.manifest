@@ -17,8 +17,8 @@ locale      feedbar     pl-PL               jar:chrome/feedsidebar.jar!/locale/p
 #locale      feedbar     ru-RU               jar:chrome/feedsidebar.jar!/locale/ru-RU/
 #locale      feedbar     pt-BR               jar:chrome/feedsidebar.jar!/locale/pt-BR/
 #locale      feedbar     sk-SK               jar:chrome/feedsidebar.jar!/locale/sk-SK/
-#locale      feedbar     zh-CN               jar:chrome/feedsidebar.jar!/locale/zh-CN/
-#locale      feedbar     zh-TW               jar:chrome/feedsidebar.jar!/locale/zh-TW/
+locale      feedbar     zh-CN               jar:chrome/feedsidebar.jar!/locale/zh-CN/
+locale      feedbar     zh-TW               jar:chrome/feedsidebar.jar!/locale/zh-TW/
 
 overlay     chrome://browser/content/browser.xul                chrome://feedbar/content/overlay.xul
 
