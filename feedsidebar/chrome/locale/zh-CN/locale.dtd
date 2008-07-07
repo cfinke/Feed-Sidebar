@@ -15,6 +15,7 @@
 <!ENTITY feedbar.markFeedAsRead "标记订阅为已读">
 <!ENTITY feedbar.markFeedAsUnread "标记订阅为未读">
 <!ENTITY feedbar.markAllAsRead "标记全部为已读">
+<!ENTITY feedbar.markAllAsUnread "标记全部为未读">
 <!ENTITY feedbar.reloadFeeds "更新订阅">
 <!ENTITY feedbar.stopFeedUpdate "取消更新订阅">
 <!ENTITY feedbar.minutes "分钟">
@@ -29,11 +30,20 @@
 <!ENTITY feedbar.showLastDay "显示上一天">
 <!ENTITY feedbar.showLastWeek "显示上一个星期">
 <!ENTITY feedbar.showLastMonth "显示上一个月">
+<!ENTITY feedbar.copyTitle "复制标题">
+<!ENTITY feedbar.copyLink "复制链接">
 <!ENTITY feedbar.unsubscribe "未订阅">
 <!ENTITY feedbar.options "选项">
 <!ENTITY feedbar.hideReadItems "隐藏已读项目">
 <!ENTITY feedbar.updateEvery1 "每隔">
 <!ENTITY feedbar.updateEvery2 "分钟更新订阅">
+<!ENTITY feedbar.showAllItemsFull "显示全部项目">
 <!ENTITY feedbar.onlyShow1 "只显示最近">
 <!ENTITY feedbar.onlyShow2 "天的项目(0 显示全部)">
 <!ENTITY feedbar.24HourTime "使用 24 小时制">
+<!ENTITY feedbar.autoClose "当标记全部项目为已读后关闭侧栏">
+<!ENTITY feedbar.notifications "当找到新项目后显示弹出通知">
+<!ENTITY feedbar.runInSidebar "仅当侧栏打开时检查更新">
+<!ENTITY feedbar.previewQuestion "当打开一个订阅项目时...">
+<!ENTITY feedbar.previewAnswer1 "打开链接到的页面 (默认)">
+<!ENTITY feedbar.previewAnswer2 "显示该订阅的全部内容">

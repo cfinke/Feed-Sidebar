@@ -15,6 +15,7 @@
 <!ENTITY feedbar.markFeedAsRead "設定即時書籤為已閱讀">
 <!ENTITY feedbar.markFeedAsUnread "標示即時書籤為未閱讀">
 <!ENTITY feedbar.markAllAsRead "設定全部為已閱讀">
+<!ENTITY feedbar.markAllAsUnread "設定全部為未閱讀">
 <!ENTITY feedbar.reloadFeeds "重新載入">
 <!ENTITY feedbar.stopFeedUpdate "取消即時書籤更新">
 <!ENTITY feedbar.minutes "分">
@@ -29,11 +30,20 @@
 <!ENTITY feedbar.showLastDay "顯示最近幾天">
 <!ENTITY feedbar.showLastWeek "顯示最近幾週">
 <!ENTITY feedbar.showLastMonth "顯示最近幾月">
+<!ENTITY feedbar.copyTitle "複製標題">
+<!ENTITY feedbar.copyLink "複製連結">
 <!ENTITY feedbar.unsubscribe "取消訂閱">
 <!ENTITY feedbar.options "選項">
 <!ENTITY feedbar.hideReadItems "隱藏已閱讀的項目">
 <!ENTITY feedbar.updateEvery1 "更新即時書籤 每">
 <!ENTITY feedbar.updateEvery2 "分鐘">
+<!ENTITY feedbar.showAllItemsFull "顯示所有項目，不管新舊時間">
 <!ENTITY feedbar.onlyShow1 "只顯示最近的項目">
 <!ENTITY feedbar.onlyShow2 "天。（輸入 0 表示顯示全部）">
 <!ENTITY feedbar.24HourTime "使用 24 時制">
+<!ENTITY feedbar.autoClose "自動關閉側邊列當我設定為全部已閱讀">
+<!ENTITY feedbar.notifications "顯示浮動提醒視窗當有新訊息時">
+<!ENTITY feedbar.runInSidebar "只有在開啟側邊列時才檢查即時書籤更新">
+<!ENTITY feedbar.previewQuestion "當開啟即時書籤項目時...">
+<!ENTITY feedbar.previewAnswer1 "開啟連結網站。（預設）">
+<!ENTITY feedbar.previewAnswer2 "顯示所有項目說明於瀏覽視窗。">
