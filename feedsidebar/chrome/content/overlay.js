@@ -389,6 +389,9 @@ var FEEDBAR = {
  * Additional custom view functions.
  */
 	
+	_batchCount : 0,
+	db : null,
+	
 	previewTimeout : null,
 	
 	/**
@@ -611,7 +614,7 @@ var FEEDBAR = {
 		
 		try { insert.execute(); } catch (duplicateKey) { }
 		
-		try { db.close(); } catch (e) { }
+		this.closeDB(db);
 		
 		// Find it in the childData object to set its "visited" property permanently.
 		var parentIdx = this.getParentIndex(idx);
@@ -658,7 +661,7 @@ var FEEDBAR = {
 		
 		try { deleteSql.execute(); } catch (e) { }
 		
-		try { db.close(); } catch (e) { }
+		this.closeDB(db);
 		
 		// Find it in the childData object to set its "visited" property permanently.
 		var parentIdx = this.getParentIndex(idx);
@@ -800,7 +803,7 @@ var FEEDBAR = {
 			db.executeSimpleSQL("CREATE TABLE IF NOT EXISTS state (id TEXT PRIMARY KEY, open INTEGER)");
 		}
 		
-		try { db.close(); } catch (e) { }
+		this.closeDB(db);
 		
 		try {
 			Components.utils.import("resource://gre/modules/json.jsm");
@@ -923,6 +926,8 @@ var FEEDBAR = {
 	},
 	
 	refreshTree : function () {
+		this.startBatch();
+		
 		// Clear out visible data.
 		var rows = this.visibleData.length;
 		
@@ -935,6 +940,7 @@ var FEEDBAR = {
 		}
 		
 		this.updateNotifier();
+		this.endBatch();
 	},
 	
 	wasLeftOpen : function (idx) {
@@ -956,7 +962,7 @@ var FEEDBAR = {
 			select.reset();
 		}
 		
-		try { db.close() } catch (e) { } 
+		this.closeDB(db);
 		
 		return openContainer;
 	},
@@ -1042,7 +1048,11 @@ var FEEDBAR = {
 			}
 		}
 		
-		try { db.close() } catch (e) { }
+		this.closeDB(db);
+	},
+	
+	get inBatch() { 
+		return (FEEDBAR._batchCount > 0);
 	},
 	
 	openItem : function () {
@@ -1139,6 +1149,8 @@ var FEEDBAR = {
 	},
 	
 	markFeedAsUnread : function (folderIdx) {
+		this.startBatch();
+		
 		var wasOpen = this.isContainerOpen(folderIdx);
 		
 		if (!wasOpen) {
@@ -1174,9 +1186,12 @@ var FEEDBAR = {
 		}
 
 		this.updateNotifier();
+		this.endBatch();
 	},
 	
 	markFeedAsRead : function (folderIdx) {
+		this.startBatch();
+
 		var wasOpen = this.isContainerOpen(folderIdx);
 		
 		if (!wasOpen) {
@@ -1224,9 +1239,26 @@ var FEEDBAR = {
 		}
 
 		this.updateNotifier();
+		this.endBatch();
+	},
+	
+	startBatch : function () {
+		++this._batchCount;
+		if (!this.db) this.db = this.getDB();
+	},
+	
+	endBatch : function () {
+		--this._batchCount;
+		
+		if (!this._batchCount) {
+			try { this.db.close(); } catch (e) { }
+			this.db = null;
+		}
 	},
 	
 	markAllAsRead : function () {
+		this.startBatch();
+		
 		if (this.prefs.getBoolPref("hideReadItems")) {
 			while (this.visibleData.length > 0) {
 				this.markFeedAsRead(0);
@@ -1245,9 +1277,13 @@ var FEEDBAR = {
 		if (this.prefs.getBoolPref("autoClose") && this.prefs.getBoolPref("hideReadItems")) {
 			toggleSidebar('feedbar');
 		}
+		
+		this.endBatch();
 	},
 	
 	markAllAsUnread : function () {
+		this.startBatch();
+		
 		var len = this.visibleData.length;
 		
 		for (var i = 0; i < len; i++) {
@@ -1255,6 +1291,8 @@ var FEEDBAR = {
 				this.markFeedAsUnread(i);
 			}
 		}
+		
+		this.endBatch();
 	},
 	
 	clipboard : {
@@ -1441,6 +1479,10 @@ var FEEDBAR = {
 	},
 	
 	getDB : function () {
+		if (this.db) {
+			return this.db;
+		}
+		
 		var file = Components.classes["@mozilla.org/file/directory_service;1"]
 		                     .getService(Components.interfaces.nsIProperties)
 		                     .get("ProfD", Components.interfaces.nsIFile);
@@ -1451,6 +1493,12 @@ var FEEDBAR = {
 		var mDBConn = storageService.openDatabase(file);
 		
 		return mDBConn;
+	},
+	
+	closeDB : function (db) {
+		if (!this.inBatch) {
+			try { db.close(); } catch (e) { }
+		}
 	},
 	
 	passesFilter : function (str) {
