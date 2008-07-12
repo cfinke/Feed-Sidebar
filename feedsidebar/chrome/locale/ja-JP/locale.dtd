@@ -6,15 +6,16 @@
 <!ENTITY feedbar.preview.summary "要約">
 <!ENTITY feedbar.open "開く">
 <!ENTITY feedbar.openInTab "新しいタブで開く">
-<!ENTITY feedbar.openAllInTabs "タブですべて開く">
-<!ENTITY feedbar.openUnreadInTabs "タブで未読の項目を開く">
-<!ENTITY feedbar.openFeedInTabs "タブでフィードを開く">
-<!ENTITY feedbar.openUnreadFeedInTabs "タブで未読フィードの項目を開く">
+<!ENTITY feedbar.openAllInTabs "すべてタブで開く">
+<!ENTITY feedbar.openUnreadInTabs "未読の項目をタブで開く">
+<!ENTITY feedbar.openFeedInTabs "フィードをタブで開く">
+<!ENTITY feedbar.openUnreadFeedInTabs "未読フィードの項目をタブで開く">
 <!ENTITY feedbar.markAsRead "既読にする">
 <!ENTITY feedbar.markAsUnread "未読にする">
 <!ENTITY feedbar.markFeedAsRead "フィードを既読にする">
 <!ENTITY feedbar.markFeedAsUnread "フィードを未読にする">
 <!ENTITY feedbar.markAllAsRead "すべて既読にする">
+<!ENTITY feedbar.markAllAsUnread "すべて未読にする">
 <!ENTITY feedbar.reloadFeeds "フィードを再読み込み">
 <!ENTITY feedbar.stopFeedUpdate "フィードの更新を中止する">
 <!ENTITY feedbar.minutes "分">
@@ -29,11 +30,20 @@
 <!ENTITY feedbar.showLastDay "1日分を表示">
 <!ENTITY feedbar.showLastWeek "今週分を表示">
 <!ENTITY feedbar.showLastMonth "今月分を表示">
+<!ENTITY feedbar.copyTitle "題名をコピー">
+<!ENTITY feedbar.copyLink "リンクをコピー">
 <!ENTITY feedbar.unsubscribe "購読解除">
 <!ENTITY feedbar.options "オプション">
-<!ENTITY feedbar.hideReadItems "読んだ項目を非表示にする">
+<!ENTITY feedbar.hideReadItems "読んだ項目を非表示にする。">
 <!ENTITY feedbar.updateEvery1 "フィードを">
 <!ENTITY feedbar.updateEvery2 "分ごとに更新する。">
+<!ENTITY feedbar.showAllItemsFull "時期に関係なく、すべての項目を表示する。">
 <!ENTITY feedbar.onlyShow1 "最後の">
-<!ENTITY feedbar.onlyShow2 "日分の項目のみ表示する。(0 ですべて表示)">
-<!ENTITY feedbar.24HourTime "24時間制を利用する">
+<!ENTITY feedbar.onlyShow2 "日分の項目のみ表示する。">
+<!ENTITY feedbar.24HourTime "24時間制を利用する。">
+<!ENTITY feedbar.autoClose "すべての項目を既読にしたら自動的にサイドバーを閉じる。">
+<!ENTITY feedbar.notifications "新着項目が見つかったらポップアップ通知を表示する。">
+<!ENTITY feedbar.runInSidebar "サイドバーが開いている時だけ更新を確認する。">
+<!ENTITY feedbar.previewQuestion "フィード項目を開く際は…">
+<!ENTITY feedbar.previewAnswer1 "リンクされた Web ページを開く (既定)。">
+<!ENTITY feedbar.previewAnswer2 "ブラウザウィンドウに項目の全記述を表示する。">

@@ -1,16 +1,21 @@
 <!ENTITY feedbar.buttonLabel "Ongelezen feedberichten">
 <!ENTITY feedbar.sidebarTitle "Ongelezen feedberichten">
-<!ENTITY feedbar.buttonTooltip "Toont nieuwe berichten van uw Live Bladwijzers in de zijbalk">
+<!ENTITY feedbar.buttonTooltip "Toont nieuwe berichten van uw Livebladwijzers in de zijbalk">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "Feed of bericht als gelezen markeren">
 <!ENTITY feedbar.preview.summary "Samenvatting">
 <!ENTITY feedbar.open "Openen">
 <!ENTITY feedbar.openInTab "In nieuw tabblad openen">
 <!ENTITY feedbar.openAllInTabs "Alles in tabbladen openen">
+<!ENTITY feedbar.openUnreadInTabs "Ongelezen berichten in tabbladen openen">
 <!ENTITY feedbar.openFeedInTabs "Feed in tabbladen openen">
+<!ENTITY feedbar.openUnreadFeedInTabs "Ongelezen feedberichten in tabbladen openen">
 <!ENTITY feedbar.markAsRead "Als gelezen markeren">
+<!ENTITY feedbar.markAsUnread "Als ongelezen markeren">
 <!ENTITY feedbar.markFeedAsRead "Feed als gelezen markeren">
+<!ENTITY feedbar.markFeedAsUnread "Feed als ongelezen markeren">
 <!ENTITY feedbar.markAllAsRead "Alles als gelezen markeren">
+<!ENTITY feedbar.markAllAsUnread "Alles als ongelezen markeren">
 <!ENTITY feedbar.reloadFeeds "Feeds verversen">
 <!ENTITY feedbar.stopFeedUpdate "Feedverversing afbreken">
 <!ENTITY feedbar.minutes "minuten">
@@ -25,3 +30,20 @@
 <!ENTITY feedbar.showLastDay "Laatste dag weergeven">
 <!ENTITY feedbar.showLastWeek "Laatste week weergeven">
 <!ENTITY feedbar.showLastMonth "Laatste maand weergeven">
+<!ENTITY feedbar.copyTitle "Titel kopiëren">
+<!ENTITY feedbar.copyLink "Koppeling kopiëren">
+<!ENTITY feedbar.unsubscribe "Abonnement opzeggen">
+<!ENTITY feedbar.options "Opties">
+<!ENTITY feedbar.hideReadItems "Gelezen berichten verbergen">
+<!ENTITY feedbar.updateEvery1 "Feeds elke">
+<!ENTITY feedbar.updateEvery2 "minuten verversen.">
+<!ENTITY feedbar.showAllItemsFull "Alle berichten weergeven onafhankelijk van leeftijd">
+<!ENTITY feedbar.onlyShow1 "Alleen berichten uit de laatste">
+<!ENTITY feedbar.onlyShow2 "dagen weergeven.">
+<!ENTITY feedbar.24HourTime "24-uursklok gebruiken">
+<!ENTITY feedbar.autoClose "Zijbalk automatisch sluiten wanneer alle berichten als gelezen zijn gemarkeerd.">
+<!ENTITY feedbar.notifications "Pop-upberichten weergeven wanneer nieuwe berichten worden gevonden.">
+<!ENTITY feedbar.runInSidebar "Alleen op updates controleren wanneer de zijbalk is geopend.">
+<!ENTITY feedbar.previewQuestion "Bij openen van een feedbericht...">
+<!ENTITY feedbar.previewAnswer1 "De gekoppelde webpagina openen (standaard).">
+<!ENTITY feedbar.previewAnswer2 "De volledige artikelbeschrijving in het browservenster weergeven.">

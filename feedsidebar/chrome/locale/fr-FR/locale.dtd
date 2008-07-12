@@ -2,15 +2,20 @@
 <!ENTITY feedbar.sidebarTitle "Détail des flux non lus">
 <!ENTITY feedbar.buttonTooltip "Voir dans le panneau latéral les marque-pages dynamiques n&apos;ayant pas été lus">
 <!ENTITY feedbar.accesskey "F">
-<!ENTITY feedbar.preview.markAsRead "Marquer le flux ou l&apos;élément comme étant lu">
+<!ENTITY feedbar.preview.markAsRead "Marquer le flux ou l&apos;élément comme lu">
 <!ENTITY feedbar.preview.summary "Résumé">
 <!ENTITY feedbar.open "Ouvrir">
 <!ENTITY feedbar.openInTab "Ouvrir dans un nouvel onglet">
 <!ENTITY feedbar.openAllInTabs "Tout ouvrir dans des onglets">
+<!ENTITY feedbar.openUnreadInTabs "Ouvrir les éléments non lus dans des onglets">
 <!ENTITY feedbar.openFeedInTabs "Ouvrir tout ce flux dans des onglets">
+<!ENTITY feedbar.openUnreadFeedInTabs "Ouvrir les éléments de flux non lus dans des onglets">
 <!ENTITY feedbar.markAsRead "Marquer comme lu">
+<!ENTITY feedbar.markAsUnread "Marquer comme non lu">
 <!ENTITY feedbar.markFeedAsRead "Marquer tout le flux comme lu">
-<!ENTITY feedbar.markAllAsRead "Tout marquer comme étant lu">
+<!ENTITY feedbar.markFeedAsUnread "Marquer le flux comme non lu">
+<!ENTITY feedbar.markAllAsRead "Tout marquer comme lu">
+<!ENTITY feedbar.markAllAsUnread "Tout marquer comme non lu">
 <!ENTITY feedbar.reloadFeeds "Actualiser les flux">
 <!ENTITY feedbar.stopFeedUpdate "Annuler la mise à jour des flux">
 <!ENTITY feedbar.minutes "minutes">
@@ -25,3 +30,20 @@
 <!ENTITY feedbar.showLastDay "Voir le dernier jour">
 <!ENTITY feedbar.showLastWeek "Voir la dernière semaine">
 <!ENTITY feedbar.showLastMonth "Voir le dernier mois">
+<!ENTITY feedbar.copyTitle "Copier le titre">
+<!ENTITY feedbar.copyLink "Copier le lien">
+<!ENTITY feedbar.unsubscribe "Se désabonner">
+<!ENTITY feedbar.options "Options">
+<!ENTITY feedbar.hideReadItems "Masquer les éléments lus">
+<!ENTITY feedbar.updateEvery1 "Actualiser les flux toutes les">
+<!ENTITY feedbar.updateEvery2 "minutes.">
+<!ENTITY feedbar.showAllItemsFull "Afficher tous les éléments, quelle que soit leur ancienneté">
+<!ENTITY feedbar.onlyShow1 "N&apos;afficher que les éléments depuis les">
+<!ENTITY feedbar.onlyShow2 "derniers jours.">
+<!ENTITY feedbar.24HourTime "Utiliser le système 24 heures">
+<!ENTITY feedbar.autoClose "Fermer automatiquement le panneau latéral quand tous les éléments sont marqués comme lus.">
+<!ENTITY feedbar.notifications "Afficher des notifications par popup quand de nouveaux éléments sont détectés.">
+<!ENTITY feedbar.runInSidebar "Ne vérifier les mises à jour que quand le panneau latéral est ouvert.">
+<!ENTITY feedbar.previewQuestion "Lors de l&apos;ouverture de l&apos;élément d&apos;un flux…">
+<!ENTITY feedbar.previewAnswer1 "Ouvrir le lien de la page Web (par défaut).">
+<!ENTITY feedbar.previewAnswer2 "Afficher la description complète de l&apos;élément dans la fenêtre du navigateur.">

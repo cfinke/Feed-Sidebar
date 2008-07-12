@@ -1,18 +1,23 @@
 <!ENTITY feedbar.buttonLabel "Непрочитанные новости">
 <!ENTITY feedbar.sidebarTitle "Непрочитанные новости">
-<!ENTITY feedbar.buttonTooltip "Показать новости ленты новостей в боковой панели">
+<!ENTITY feedbar.buttonTooltip "Показать новости в боковой панели">
 <!ENTITY feedbar.accesskey "н">
 <!ENTITY feedbar.preview.markAsRead "Отметить новость прочитанной">
 <!ENTITY feedbar.preview.summary "Краткое описание">
 <!ENTITY feedbar.open "Открыть">
 <!ENTITY feedbar.openInTab "Открыть в новой вкладке">
-<!ENTITY feedbar.openAllInTabs "Открыть всё во вкладках">
+<!ENTITY feedbar.openAllInTabs "Открыть все новости во вкладках">
+<!ENTITY feedbar.openUnreadInTabs "Открыть непрочитанные записи во вкладках">
 <!ENTITY feedbar.openFeedInTabs "Открыть новости во вкладках">
-<!ENTITY feedbar.markAsRead "Отметить как прочитанное">
+<!ENTITY feedbar.openUnreadFeedInTabs "Открыть непрочитанные новости во вкладках">
+<!ENTITY feedbar.markAsRead "Отметить как прочитанную">
+<!ENTITY feedbar.markAsUnread "Отметить как непрочитанное">
 <!ENTITY feedbar.markFeedAsRead "Отметить ленту как прочитанную">
+<!ENTITY feedbar.markFeedAsUnread "Отметить ленту как непрочитанную">
 <!ENTITY feedbar.markAllAsRead "Отметить всё как прочитанное">
+<!ENTITY feedbar.markAllAsUnread "Отметить всё как непрочитанное">
 <!ENTITY feedbar.reloadFeeds "Обновить ленты новостей">
-<!ENTITY feedbar.stopFeedUpdate "Отменить обновление ленты">
+<!ENTITY feedbar.stopFeedUpdate "Отменить обновление">
 <!ENTITY feedbar.minutes "минут">
 <!ENTITY feedbar.hour "час">
 <!ENTITY feedbar.hours "часа(ов)">
@@ -25,3 +30,20 @@
 <!ENTITY feedbar.showLastDay "Новости за последний день">
 <!ENTITY feedbar.showLastWeek "Новости за последнюю неделю">
 <!ENTITY feedbar.showLastMonth "Новости за последний месяц">
+<!ENTITY feedbar.copyTitle "Копировать заголовок">
+<!ENTITY feedbar.copyLink "Копировать ссылку">
+<!ENTITY feedbar.unsubscribe "Отписаться">
+<!ENTITY feedbar.options "Настройки">
+<!ENTITY feedbar.hideReadItems "Скрывать прочитанные записи">
+<!ENTITY feedbar.updateEvery1 "Проверять обновления лент каждые">
+<!ENTITY feedbar.updateEvery2 "минут(ы).">
+<!ENTITY feedbar.showAllItemsFull "Показывать все записи">
+<!ENTITY feedbar.onlyShow1 "Показывать записи за последние">
+<!ENTITY feedbar.onlyShow2 "дня (дней).">
+<!ENTITY feedbar.24HourTime "Использовать 24-часовой формат времени">
+<!ENTITY feedbar.autoClose "Закрывать боковую панель при отсутствии непрочитанных записей.">
+<!ENTITY feedbar.notifications "Показывать всплывающие оповещения о новых записях.">
+<!ENTITY feedbar.runInSidebar "Проверять обновления только при открытой боковой панели.">
+<!ENTITY feedbar.previewQuestion "При открытии новости…">
+<!ENTITY feedbar.previewAnswer1 "Открывать страницу новости (по умолчанию).">
+<!ENTITY feedbar.previewAnswer2 "Показать новость в окне браузера.">
