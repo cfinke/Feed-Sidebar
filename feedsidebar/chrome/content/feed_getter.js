@@ -709,7 +709,9 @@ FeedbarParseListener.prototype = {
 				
 				if (itemObject.uri.match(/\/\/news\.google\.com\/.*\?/)){
 					var q = itemObject.uri.indexOf("?");
-					itemObject.uri = itemObject.uri.substring(0, q) + ("&" + itemObject.uri.substring(q)).replace(/&(ct|cid|ei)=[^&]*/g, "").substring(1);
+					itemObject.uri = itemObject.uri.match(/url=(https?:\/\/.*)$/i)[1];
+					itemObject.uri = decodeURIComponent(itemObject.uri.split("&")[0]);
+//					itemObject.uri = itemObject.uri.substring(0, q) + ("&" + itemObject.uri.substring(q)).replace(/&(ct|cid|ei)=[^&]*/g, "").substring(1);
 				}
 				
 				if (!itemObject.id) itemObject.id = itemObject.uri;
