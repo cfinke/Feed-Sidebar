@@ -1,3 +1,49 @@
-<!ENTITY feedbar.buttonLabel "Unread Feed Items">
-<!ENTITY feedbar.sidebarTitle "Unread Feed Items">
-<!ENTITY feedbar.buttonTooltip "Show the new items from your Live Bookmarks in the sidebar">
+<!ENTITY feedbar.buttonLabel "Správy z Aktívnych záložiek">
+<!ENTITY feedbar.sidebarTitle "Správy z Aktívnych záložiek">
+<!ENTITY feedbar.buttonTooltip "Zobraziť správy z Aktívnych záložiek v bočnom paneli">
+<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.markAsRead "Označiť kanál alebo správu ako prečítanú">
+<!ENTITY feedbar.preview.summary "Súčet">
+<!ENTITY feedbar.open "Otvoriť">
+<!ENTITY feedbar.openInTab "Otvoriť na novej karte">
+<!ENTITY feedbar.openAllInTabs "Otvoriť všetky na nových kartách">
+<!ENTITY feedbar.openUnreadInTabs "Otvoriť neprečítané na nových kartách">
+<!ENTITY feedbar.openFeedInTabs "Otvoriť kanál na nových kartách">
+<!ENTITY feedbar.openUnreadFeedInTabs "Otvoriť neprečítané správy z kanálu na nových kartách">
+<!ENTITY feedbar.markAsRead "Označiť ako prečítané">
+<!ENTITY feedbar.markAsUnread "Označiť ako neprečítané">
+<!ENTITY feedbar.markFeedAsRead "Označiť kanál ako prečítaný">
+<!ENTITY feedbar.markFeedAsUnread "Označiť kanál ako neprečítaný">
+<!ENTITY feedbar.markAllAsRead "Označiť všetko ako prečítané">
+<!ENTITY feedbar.markAllAsUnread "Označiť všetko ako neprečítané">
+<!ENTITY feedbar.reloadFeeds "Aktualizovať kanály">
+<!ENTITY feedbar.stopFeedUpdate "Zrušiť načítavanie kanálov">
+<!ENTITY feedbar.minutes "minút">
+<!ENTITY feedbar.hour "hodina">
+<!ENTITY feedbar.hours "hodiny">
+<!ENTITY feedbar.showLastTooltip "Časový limit zobrazených správ">
+<!ENTITY feedbar.showLastDaysPre "Zobraziť posledné">
+<!ENTITY feedbar.showLastDaysPost "dni">
+<!ENTITY feedbar.showLastWeeksPre "Zobraziť posledné">
+<!ENTITY feedbar.showLastWeeksPost "týždne">
+<!ENTITY feedbar.showAllItems "Zobraziť všetky správy">
+<!ENTITY feedbar.showLastDay "Zobraziť posledný deň">
+<!ENTITY feedbar.showLastWeek "Zobraziť posledný týždeň">
+<!ENTITY feedbar.showLastMonth "Zobraziť posledný mesiac">
+<!ENTITY feedbar.copyTitle "Kopírovať názov">
+<!ENTITY feedbar.copyLink "Kopírovať odkaz">
+<!ENTITY feedbar.unsubscribe "Neodoberať">
+<!ENTITY feedbar.options "Nastavenia">
+<!ENTITY feedbar.hideReadItems "Skryť prečítané správy">
+<!ENTITY feedbar.updateEvery1 "Aktualizovať kanály každých">
+<!ENTITY feedbar.updateEvery2 "minút.">
+<!ENTITY feedbar.showAllItemsFull "Zobraziť všetky správy bez ohľadu na vek">
+<!ENTITY feedbar.onlyShow1 "Zobraziť len správy za posledných">
+<!ENTITY feedbar.onlyShow2 "dní.">
+<!ENTITY feedbar.24HourTime "Používať 24 hodinový formát">
+<!ENTITY feedbar.autoClose "Automaticky zatvoriť bočný panel pri označení všetkých správ ako prečítané.">
+<!ENTITY feedbar.notifications "Zobraziť pop-up notifikáciu pri načítaní nových správ.">
+<!ENTITY feedbar.runInSidebar "Aktualizovať kanály len keď je zobrazený bočný panel.">
+<!ENTITY feedbar.previewQuestion "Pri otváraní správy...">
+<!ENTITY feedbar.previewAnswer1 "Otvoriť stránku z odkazu (štandardne).">
+<!ENTITY feedbar.previewAnswer2 "Zobraziť plný text správy v okne prehliadača.">

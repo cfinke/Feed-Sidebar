@@ -1,16 +1,21 @@
 <!ENTITY feedbar.buttonLabel "Feed Sidebar">
 <!ENTITY feedbar.sidebarTitle "Feed Sidebar">
-<!ENTITY feedbar.buttonTooltip "Mostra i nuovi elementi dei segnalibri Live nella barra laterale">
+<!ENTITY feedbar.buttonTooltip "Mostra i segnalibri Live nella barra laterale">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "Segna il feed o l&apos;elemento come letto">
 <!ENTITY feedbar.preview.summary "Sommario">
 <!ENTITY feedbar.open "Apri">
 <!ENTITY feedbar.openInTab "Apri in nuova scheda">
 <!ENTITY feedbar.openAllInTabs "Apri tutti in schede">
+<!ENTITY feedbar.openUnreadInTabs "Apri gli elementi non letti in schede">
 <!ENTITY feedbar.openFeedInTabs "Apri feed in schede">
+<!ENTITY feedbar.openUnreadFeedInTabs "Apri gli elementi dei feed non letti in schede">
 <!ENTITY feedbar.markAsRead "Segna come letto">
+<!ENTITY feedbar.markAsUnread "Segna come non letto">
 <!ENTITY feedbar.markFeedAsRead "Segna feed come letto">
+<!ENTITY feedbar.markFeedAsUnread "Segna feed come non letto">
 <!ENTITY feedbar.markAllAsRead "Segna tutti come letti">
+<!ENTITY feedbar.markAllAsUnread "Segna tutti come non letti">
 <!ENTITY feedbar.reloadFeeds "Ricarica feed">
 <!ENTITY feedbar.stopFeedUpdate "Annulla aggiornamento dei feed">
 <!ENTITY feedbar.minutes "minuti">
@@ -25,3 +30,20 @@
 <!ENTITY feedbar.showLastDay "Visualizza feed dell&apos;ultimo giorno">
 <!ENTITY feedbar.showLastWeek "Visualizza feed dell&apos;ultima settimana">
 <!ENTITY feedbar.showLastMonth "Visualizza feed dell&apos;ultimo mese">
+<!ENTITY feedbar.copyTitle "Copia titolo">
+<!ENTITY feedbar.copyLink "Copia link">
+<!ENTITY feedbar.unsubscribe "Elimina feed">
+<!ENTITY feedbar.options "Opzioni">
+<!ENTITY feedbar.hideReadItems "Nascondi gli elementi letti">
+<!ENTITY feedbar.updateEvery1 "Minuti prima dell&apos;aggiornamento successivo:">
+<!ENTITY feedbar.updateEvery2 "minutes.">
+<!ENTITY feedbar.showAllItemsFull "Visualizza tutti i feed senza tenere conto dell&apos;età">
+<!ENTITY feedbar.onlyShow1 "Visualizza solo i feed del seguente numero di ultimi giorni:">
+<!ENTITY feedbar.onlyShow2 "days.">
+<!ENTITY feedbar.24HourTime "Utilizza il formato dell&apos;orario di 24 ore">
+<!ENTITY feedbar.autoClose "Chiudi automaticamente la barra laterale quando si segnano tutti gli elementi come letti">
+<!ENTITY feedbar.notifications "Mostra un avviso a pop-up quando vengono rilevati nuovi elementi">
+<!ENTITY feedbar.runInSidebar "Controlla gli aggiornamenti dei feed solo quando la barra laterale è aperta">
+<!ENTITY feedbar.previewQuestion "Azione da eseguire quando si apre un elemento di feed">
+<!ENTITY feedbar.previewAnswer1 "Visualizza la pagina relativa (azione predefinita)">
+<!ENTITY feedbar.previewAnswer2 "Visualizza la descrizione completa dell&apos;elemento nella finestra del browser">
