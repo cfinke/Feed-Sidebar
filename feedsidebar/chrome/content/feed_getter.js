@@ -737,7 +737,12 @@ FeedbarParseListener.prototype = {
 					itemObject.published = new Date();
 				}
 				
-				itemObject.label = FEED_GETTER.decodeEntities(item.title.plainText().replace(/<[^>]+>/g, ""));
+				if (item.title) {
+					itemObject.label = FEED_GETTER.decodeEntities(item.title.plainText().replace(/<[^>]+>/g, ""));
+				}
+				else {
+					itemObject.label = item.updated;
+				}
 				
 				if (item.summary && item.summary.text) {
 					itemObject.description = item.summary.text;
