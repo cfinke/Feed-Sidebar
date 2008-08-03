@@ -114,7 +114,7 @@
 					<image id="feedbarTooltipImage"/>
 					<vbox flex="1">
 						<description id="feedbarTooltipFeedName" crop="end" />
-						<description id="feedbarTooltipName" crop="end" onclick="window.parent.FEEDBAR.handleOfflineTreeClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;" />
+						<description id="feedbarTooltipName" crop="end" onclick="window.parent.FEEDBAR.handlePreviewNameClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;" />
 						<description id="feedbarTooltipURL" crop="end" onclick="window.parent.FEEDBAR.onTreeClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;"/>
 					</vbox>
 					<vbox pack="start" align="start">

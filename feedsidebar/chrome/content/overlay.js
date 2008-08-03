@@ -1575,6 +1575,17 @@ var FEEDBAR = {
 	previewLoaded : function (idx, browser, title) {
 	},
 	
+	handlePreviewNameClick : function (event, url) {
+		var targetIdx = this.getSelectedIndex();
+		
+		if (this.isContainer(targetIdx)) {
+			this.launchUrl(url, event);	
+		}
+		else {
+			this.handleOfflineTreeClick(event, url);
+		}
+	},
+	
 	handleOfflineTreeClick : function(event, url) {
 		var targetIdx = this.getSelectedIndex();
 		
