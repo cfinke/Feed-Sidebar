@@ -56,3 +56,6 @@
 <!ENTITY feedbar.previewQuestion "When opening a feed item...">
 <!ENTITY feedbar.previewAnswer1 "Open the linked webpage (default).">
 <!ENTITY feedbar.previewAnswer2 "Show the full item description in the browser window.">
+
+<!ENTITY feedbar.showAllItemsButtonLabel "All">
+<!ENTITY feedbar.alwaysOpenInNewTab "Always open items in new tabs">
