@@ -1455,7 +1455,7 @@ var FEEDBAR = {
 	},
 	
 	launchUrl : function (url, event) {
-		if ((event.which == 2) || (event.which == 1 && (event.ctrlKey || event.metaKey))){
+		if (this.prefs.getBoolPref("openInNewTab") || (event.which == 2) || (event.which == 1 && (event.ctrlKey || event.metaKey))){
 			this._addTab(url);
 		}
 		else if (event.which == 1){
