@@ -671,7 +671,15 @@ FeedbarParseListener.prototype = {
 			feedObject.siteUri = feedObject.uri;
 		}
 		
-		feedObject.label = feed.title.plainText();
+		try {
+			feedObject.label = FEED_GETTER.feedData[result.uri.resolve("").toLowerCase()].name;
+		} catch (e) {
+			feedObject.label = feed.title.plainText();
+		}
+		
+		if (!feedObject.label) {
+			feedObject.label = feed.title.plainText();
+		}
 		
 		if (feed.summary && feed.summary.text) {
 			feedObject.description = feed.summary.text;//plainText();

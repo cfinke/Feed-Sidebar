@@ -520,6 +520,16 @@ var FEEDBAR = {
 		this.updateNotifier();
 	},
 	
+	renameFeed : function (id, label) {
+		for (var idx = 0; idx < this.visibleData.length; idx++) {
+			if (this.isContainer(idx) && this.getCellLivemarkId(idx) == id) {
+				this.visibleData[idx].label = " " + label.replace(/^\s+/g, "");
+				try { this.treeBox.invalidateRow(idx); } catch (sidebarNotOpen) { alert(sidebarNotOpen); }
+				break;
+			}
+		}
+	},
+	
 	selectNone : function () {
 		this.treeBox.view.selection.select(-1);
 	},

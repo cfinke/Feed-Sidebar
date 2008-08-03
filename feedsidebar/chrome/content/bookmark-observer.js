@@ -26,6 +26,9 @@ var feedbarBookmarkObserver = {
 			FEEDBAR.tryAndRemoveFeed(id);
 			FEED_GETTER.updateSingleFeed(id);
 		}
+		else if (property == 'title') {
+			FEEDBAR.renameFeed(id, value);
+		}
 	},
 	
 	onItemVisited: function(id, visitID, time) {
