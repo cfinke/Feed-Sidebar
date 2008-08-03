@@ -16,3 +16,5 @@ pref("extensions.feedbar.notify", true);
 
 pref("extensions.feedbar.runInSidebar", false);
 pref("extensions.feedbar.showFullPreview", false);
+
+pref("extensions.feedbar.openInNewTab", false);
