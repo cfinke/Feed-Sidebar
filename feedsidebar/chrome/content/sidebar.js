@@ -9,18 +9,33 @@ var FEEDSIDEBAR = {
 	
 	init : function () {
 		FEEDSIDEBAR.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.feedbar.");	
+		FEEDSIDEBAR.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
+		FEEDSIDEBAR.prefs.addObserver("", FEEDSIDEBAR, false);
 		
 		document.getElementById("feed_tree").view = window.parent.FEEDBAR;
 		
 		FEEDSIDEBAR.checkFrequencyItem(FEEDSIDEBAR.prefs.getIntPref("updateFrequency"));
 		FEEDSIDEBAR.checkPeriodItem(FEEDSIDEBAR.prefs.getIntPref("displayPeriod"));	
 		document.getElementById("search-box").value = FEEDSIDEBAR.prefs.getCharPref("filter");
+		document.getElementById("all-toggle").checked = !FEEDSIDEBAR.prefs.getBoolPref("hideReadItems");
 		
 		window.parent.FEED_GETTER.sidebarPing();
 	},
 	
 	unload : function () {
 		window.parent.FEED_GETTER.sidebarPung();
+	},
+	
+	observe : function(subject, topic, data) {
+		if (topic != "nsPref:changed") {
+			return;
+		}
+		
+		switch(data) {
+			case "hideReadItems":
+				document.getElementById("all-toggle").checked = !FEEDSIDEBAR.prefs.getBoolPref("hideReadItems");
+			break;
+		}
 	},
 	
 	searchTimeout : null,
