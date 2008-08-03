@@ -144,7 +144,7 @@ var FEEDSIDEBAR = {
 								options[i].setAttribute("hidden", "false");
 							break;
 							case 'markAllAsRead':
-								options[i].setAttribute("hidden", "false");
+								options[i].setAttribute("hidden", "true");
 								options[i].disabled = !unreadItems;
 							break;
 							case 'openFeedInTabs':
@@ -164,7 +164,7 @@ var FEEDSIDEBAR = {
 								options[i].setAttribute("hidden", (!hideReadItems).toString());
 							break;
 							case 'markAllAsUnread':
-								options[i].setAttribute("hidden", hideReadItems.toString());
+								options[i].setAttribute("hidden", "true");
 								options[i].disabled = !readItems;
 							break;
 						}
@@ -214,11 +214,11 @@ var FEEDSIDEBAR = {
 								options[i].disabled = !readFeedItems;
 							break;
 							case 'markAllAsUnread':
-								options[i].setAttribute("hidden", hideReadItems.toString());
+								options[i].setAttribute("hidden", "true");
 								options[i].disabled = !readItems;
 							break;
 							case 'markAllAsRead':
-								options[i].setAttribute("hidden", "false");
+								options[i].setAttribute("hidden", "true");
 								options[i].disabled = !unreadItems;
 							break;
 						}
