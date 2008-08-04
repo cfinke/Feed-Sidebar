@@ -1,5 +1,5 @@
 var FEEDBAR = {
-	
+beginTime : [],
 /**
  * Functions required for implementation of tree view methods
  */
@@ -1253,14 +1253,26 @@ var FEEDBAR = {
 	},
 	
 	startBatch : function () {
+		//this.beginTime.push(new Date());
+		
 		++this._batchCount;
 		if (!this.db) this.db = this.getDB();
+		
+		if (!this.db.transactionInProgress) this.db.beginTransactionAs(this.db.TRANSACTION_DEFERRED);
 	},
 	
 	endBatch : function () {
+		/*
+		var endTime = new Date();
+		var ms = endTime.getTime() - this.beginTime.pop().getTime();
+		
+		logFeedbarMsg("Milliseconds: " + ms);
+		*/
+		
 		--this._batchCount;
 		
 		if (!this._batchCount) {
+			this.db.commitTransaction();
 			try { this.db.close(); } catch (e) { }
 			this.db = null;
 		}
