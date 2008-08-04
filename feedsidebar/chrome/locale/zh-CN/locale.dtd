@@ -22,10 +22,10 @@
 <!ENTITY feedbar.hour "小时">
 <!ENTITY feedbar.hours "小时">
 <!ENTITY feedbar.showLastTooltip "按时间限制显示项目">
-<!ENTITY feedbar.showLastDaysPre "最近　">
-<!ENTITY feedbar.showLastDaysPost "　天">
-<!ENTITY feedbar.showLastWeeksPre "最近　">
-<!ENTITY feedbar.showLastWeeksPost "　星期">
+<!ENTITY feedbar.showLastDaysPre "最近">
+<!ENTITY feedbar.showLastDaysPost "天">
+<!ENTITY feedbar.showLastWeeksPre "最近">
+<!ENTITY feedbar.showLastWeeksPost "星期">
 <!ENTITY feedbar.showAllItems "全部项目">
 <!ENTITY feedbar.showLastDay "昨天">
 <!ENTITY feedbar.showLastWeek "上星期">
@@ -39,11 +39,13 @@
 <!ENTITY feedbar.updateEvery2 "分钟更新订阅">
 <!ENTITY feedbar.showAllItemsFull "显示全部项目">
 <!ENTITY feedbar.onlyShow1 "只显示最近">
-<!ENTITY feedbar.onlyShow2 "天的项目(0 显示全部)">
+<!ENTITY feedbar.onlyShow2 "天的项目">
 <!ENTITY feedbar.24HourTime "使用 24 小时制">
 <!ENTITY feedbar.autoClose "当标记全部项目为已读后关闭侧栏">
-<!ENTITY feedbar.notifications "当找到新项目后弹出通知">
+<!ENTITY feedbar.notifications "当找到新项目时弹出通知">
 <!ENTITY feedbar.runInSidebar "仅当侧栏打开时检查更新">
 <!ENTITY feedbar.previewQuestion "当打开一个项目时...">
 <!ENTITY feedbar.previewAnswer1 "打开链接到的页面 (默认)">
 <!ENTITY feedbar.previewAnswer2 "显示该订阅的全部描述">
+<!ENTITY feedbar.showAllItemsButtonLabel "全部">
+<!ENTITY feedbar.alwaysOpenInNewTab "总是在新标签页打开项目">
