@@ -1,0 +1,27 @@
+<!ENTITY feedbar.buttonLabel "Hírfolyamok">
+<!ENTITY feedbar.sidebarTitle "Hírfolyamok">
+<!ENTITY feedbar.buttonTooltip "Az Élő könyvjelzők megjelenítése az oldalsávon">
+<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.markAsRead "Hírfolyam vagy elem megjelölése olvasottként">
+<!ENTITY feedbar.preview.summary "Összegzés">
+<!ENTITY feedbar.open "Megnyitás">
+<!ENTITY feedbar.openInTab "Megnyitás új fülön">
+<!ENTITY feedbar.openAllInTabs "Összes megnyitása füleken">
+<!ENTITY feedbar.openUnreadInTabs "Olvasatlan elemek megnyitása füleken">
+<!ENTITY feedbar.openFeedInTabs "Hírfolyamok megnyitása füleken">
+<!ENTITY feedbar.openUnreadFeedInTabs "Olvasatlan hírfolyamok megnyitása füleken">
+<!ENTITY feedbar.markAsRead "Megjelölés olvasottként">
+<!ENTITY feedbar.markAsUnread "Megjelölés olvasatlanként">
+<!ENTITY feedbar.markFeedAsRead "Hírfolyam megjelölése olvasottként">
+<!ENTITY feedbar.markFeedAsUnread "Hírfolyam megjelölése olvasatlanként">
+<!ENTITY feedbar.markAllAsRead "Összes megjelölése olvasottként">
+<!ENTITY feedbar.markAllAsUnread "Összes megjelölése olvasatlanként">
+<!ENTITY feedbar.reloadFeeds "Hírfolyamok újratöltése">
+<!ENTITY feedbar.stopFeedUpdate "Hírfolyamok frissítésének megszakítása">
+<!ENTITY feedbar.minutes "perc">
+<!ENTITY feedbar.hour "óra">
+<!ENTITY feedbar.hours "óra">
+<!ENTITY feedbar.showLastTooltip "Megjelenített elemek korlátozása kor alapján">
+<!ENTITY feedbar.showLastDaysPre "Utolsó megjelenítése">
+<!ENTITY feedbar.showLastDaysPost "nap">
+<!ENTITY feedbar.showLastWeeksPre "Utolsó megjelenítése">
