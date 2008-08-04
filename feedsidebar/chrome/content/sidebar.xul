@@ -88,7 +88,7 @@
 			</toolbar>
 			<toolbar id="search-bar" persist="collapsed">
 				<textbox id="search-box" flex="1" oninput="FEEDSIDEBAR.onSearchInput(this.value);" />
-				<toolbarbutton id="all-toggle" label="&feedbar.showAllItemsButtonLabel;" checked="false" persist="checked" oncommand="FEEDSIDEBAR.prefs.setBoolPref('hideReadItems', this.checked);" />
+				<toolbarbutton id="all-toggle" tooltiptext="&feedbar.showAll.tooltip;" label="&feedbar.showAllItemsButtonLabel;" checked="false" persist="checked" oncommand="FEEDSIDEBAR.prefs.setBoolPref('hideReadItems', this.checked);" />
 			</toolbar>
 		</toolbox>
 		<vbox flex="1">
