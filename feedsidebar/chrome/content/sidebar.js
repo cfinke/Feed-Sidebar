@@ -24,12 +24,14 @@ var FEEDSIDEBAR = {
 	
 	unload : function () {
 		window.parent.FEED_GETTER.sidebarPung();
+		FEEDSIDEBAR.prefs.removeObserver("", FEEDSIDEBAR);
 	},
 	
 	observe : function(subject, topic, data) {
 		if (topic != "nsPref:changed") {
 			return;
 		}
+		
 		
 		switch(data) {
 			case "hideReadItems":
