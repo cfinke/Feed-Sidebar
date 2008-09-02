@@ -762,6 +762,23 @@ FeedbarParseListener.prototype = {
 					itemObject.description = FEED_GETTER.strings.getString("feedbar.noSummary");
 				}
 				
+				if (item.enclosures && item.enclosures.length > 0) {
+					var len = item.enclosures.length;
+					var imgs = "";
+					for (var j = 0; j < len; j++) {
+						var enc = item.enclosures.queryElementAt(j, Components.interfaces.nsIWritablePropertyBag2);
+						
+						if (enc.hasKey("type") && enc.get("type").indexOf("image") != 0) {
+							imgs += '<br /><a href="' + enc.get("url") + '">'+FEED_GETTER.strings.getString("feedbar.download")+'</a>';
+						}
+						else if (enc.hasKey("url")) {
+							imgs += '<br /><img src="' + enc.get("url") + '" />';
+						}
+					}
+					
+					itemObject.description = itemObject.description + imgs;
+				}
+				
 				itemObject.description = itemObject.description.replace(/<script[^>]*>[\s\S]+<\/script>/gim, "");
 				
 				itemObject.visited = FEED_GETTER.history.isVisitedURL(itemObject.uri, itemObject.id);
