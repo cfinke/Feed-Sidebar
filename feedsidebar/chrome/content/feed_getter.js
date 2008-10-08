@@ -1,4 +1,13 @@
+var feedParser = null;
+
 var FEED_GETTER = {
+	parser : null,
+	parseListener : null,
+	ioService : Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService),
+	
+	dbFile : null,
+	storageService : Components.classes["@mozilla.org/storage/service;1"].getService(Components.interfaces.mozIStorageService),
+	
 	get progressText() { return document.getElementById("feedbar-loading-text"); },
 	get previewPane() { return document.getElementById("feedbar-preview"); },
 	get nextUpdateDisplay() { return document.getElementById("feedbar-nextupdate-text"); },
@@ -98,6 +107,15 @@ var FEED_GETTER = {
 		
 		FEED_GETTER.updateLoadProgress(0,0);
 		FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
+		
+		//FEED_GETTER.parser = Components.classes["@mozilla.org/feed-processor;1"].createInstance(Components.interfaces.nsIFeedProcessor);
+		FEED_GETTER.parseListener = FeedbarParseListener;
+		//FEED_GETTER.parser.listener = FEED_GETTER.parseListener;
+		
+		this.dbFile = Components.classes["@mozilla.org/file/directory_service;1"]
+						                     .getService(Components.interfaces.nsIProperties)
+						                     .get("ProfD", Components.interfaces.nsIFile);
+		this.dbFile.append("feedbar.sqlite");
 	},
 	
 	unload : function () {
@@ -332,12 +350,12 @@ var FEED_GETTER = {
 						try {
 							if (req.status == 200){
 								FEED_GETTER.consecutiveFailures = 0;
-								
+
 								var feedOb = null;
 								
 								try {
 									// Trim it.
-									FEED_GETTER.queueForParsing(req.responseText.replace(/^\s\s*/, '').replace(/\s\s*$/, ''), url);
+									FEED_GETTER.queueForParsing(req.responseText.replace(/^\s+|\s+$/, ''), url);
 								} catch (e) {
 									// Parse error
 									FEED_GETTER.addError(feed.name, url, e.message, 5);
@@ -361,6 +379,7 @@ var FEED_GETTER = {
 				};
 				
 				req.send(null);
+				
 				FEED_GETTER.loadTimer = setTimeout(FEED_GETTER.killCurrentRequest, 1000 * 15);
 			}
 			catch (e) {
@@ -392,20 +411,12 @@ var FEED_GETTER = {
 	},
 	
 	queueForParsing : function (feedText, feedURL) {
-		var ioService = Components.classes["@mozilla.org/network/io-service;1"]
-						.getService(Components.interfaces.nsIIOService);
-
-		var data = feedText;
-		var uri = ioService.newURI(feedURL, null, null);
-
-		if (data.length) {
-			var parser = Components.classes["@mozilla.org/feed-processor;1"]
-							.createInstance(Components.interfaces.nsIFeedProcessor);
-			var listener = new FeedbarParseListener();
-
+		feedParser = Components.classes["@mozilla.org/feed-processor;1"].createInstance(Components.interfaces.nsIFeedProcessor);
+		feedParser.listener = FEED_GETTER.parseListener;
+		
+		if (feedText.length) {
 			try {
-				parser.listener = listener;
-				parser.parseFromString(data, uri);
+				feedParser.parseFromString(feedText, FEED_GETTER.ioService.newURI(feedURL, null, null));
 			} catch (e) {
 				throw (e);
 			}
@@ -562,16 +573,7 @@ var FEED_GETTER = {
 	},
 	
 	getDB : function () {
-		var file = Components.classes["@mozilla.org/file/directory_service;1"]
-		                     .getService(Components.interfaces.nsIProperties)
-		                     .get("ProfD", Components.interfaces.nsIFile);
-		file.append("feedbar.sqlite");
-
-		var storageService = Components.classes["@mozilla.org/storage/service;1"]
-		                        .getService(Components.interfaces.mozIStorageService);
-		var mDBConn = storageService.openDatabase(file);
-		
-		return mDBConn;
+		return FEED_GETTER.storageService.openDatabase(FEED_GETTER.dbFile);
 	},
 	
 	decodeEntities : function (str) {
@@ -623,11 +625,7 @@ var FEED_GETTER = {
     }
 };
 
-function FeedbarParseListener() {
-	return this;
-}
-
-FeedbarParseListener.prototype = {
+var FeedbarParseListener = {
 	handleResult: function(result) {
 		if (result.bozo) {
 			// Get feed name
