@@ -8,6 +8,7 @@ skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/ff3
 locale      feedbar     be-BY               jar:chrome/feedsidebar.jar!/locale/be-BY/
 locale      feedbar     de-DE               jar:chrome/feedsidebar.jar!/locale/de-DE/
 locale      feedbar     en-US               jar:chrome/feedsidebar.jar!/locale/en-US/
+locale      feedbar     es-ES               jar:chrome/feedsidebar.jar!/locale/es-ES/
 locale      feedbar     fr-FR               jar:chrome/feedsidebar.jar!/locale/fr-FR/
 locale      feedbar     fy-NL               jar:chrome/feedsidebar.jar!/locale/fy-NL/
 locale      feedbar     hu-HU               jar:chrome/feedsidebar.jar!/locale/hu-HU/
