@@ -44,7 +44,7 @@ treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected) {
 	padding-left: 4px;
 }
 
-#new-tab-button, #cut-button, #history-button, #stop-button {
+#new-window-button, #cut-button, #history-button, #stop-button {
 	margin-top: 1px !important;
 	padding-right: 8px;
 }
