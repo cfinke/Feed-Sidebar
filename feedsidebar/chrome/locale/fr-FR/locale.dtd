@@ -3,13 +3,10 @@
 <!ENTITY feedbar.buttonTooltip "Voir dans le panneau latéral les marque-pages dynamiques n&apos;ayant pas été lus">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "Marquer le flux ou l&apos;élément comme lu">
-<!ENTITY feedbar.preview.summary "Résumé">
 <!ENTITY feedbar.open "Ouvrir">
 <!ENTITY feedbar.openInTab "Ouvrir dans un nouvel onglet">
 <!ENTITY feedbar.openAllInTabs "Tout ouvrir dans des onglets">
-<!ENTITY feedbar.openUnreadInTabs "Ouvrir les éléments non lus dans des onglets">
 <!ENTITY feedbar.openFeedInTabs "Ouvrir tout ce flux dans des onglets">
-<!ENTITY feedbar.openUnreadFeedInTabs "Ouvrir les éléments de flux non lus dans des onglets">
 <!ENTITY feedbar.markAsRead "Marquer comme lu">
 <!ENTITY feedbar.markAsUnread "Marquer comme non lu">
 <!ENTITY feedbar.markFeedAsRead "Marquer tout le flux comme lu">

@@ -3,13 +3,10 @@
 <!ENTITY feedbar.buttonTooltip "Toan de nije items fan jo Live Blêdwizers yn de sidebalke">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "Markearje feed of item as lêzen">
-<!ENTITY feedbar.preview.summary "Gearfetting">
 <!ENTITY feedbar.open "Iepenje">
 <!ENTITY feedbar.openInTab "Iepenje yn nij ljepblêd">
 <!ENTITY feedbar.openAllInTabs "Iepenje alles yn ljepblêden">
-<!ENTITY feedbar.openUnreadInTabs "Iepenje net lêzen items yn ljepblêden">
 <!ENTITY feedbar.openFeedInTabs "Iepenje feed yn ljepblêden">
-<!ENTITY feedbar.openUnreadFeedInTabs "Iepenje net lêzen feeditems yn ljepblêden">
 <!ENTITY feedbar.markAsRead "Markearje as lêzen">
 <!ENTITY feedbar.markAsUnread "Markearje as net lêzen">
 <!ENTITY feedbar.markFeedAsRead "Markearje feed as lêzen">

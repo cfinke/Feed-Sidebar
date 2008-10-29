@@ -3,13 +3,10 @@
 <!ENTITY feedbar.buttonTooltip "ライブブックマークから項目をサイドバーに表示します">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "フィードまたは項目を既読にする">
-<!ENTITY feedbar.preview.summary "要約">
 <!ENTITY feedbar.open "開く">
 <!ENTITY feedbar.openInTab "新しいタブで開く">
 <!ENTITY feedbar.openAllInTabs "すべてタブで開く">
-<!ENTITY feedbar.openUnreadInTabs "未読の項目をタブで開く">
 <!ENTITY feedbar.openFeedInTabs "フィードをタブで開く">
-<!ENTITY feedbar.openUnreadFeedInTabs "未読フィードの項目をタブで開く">
 <!ENTITY feedbar.markAsRead "既読にする">
 <!ENTITY feedbar.markAsUnread "未読にする">
 <!ENTITY feedbar.markFeedAsRead "フィードを既読にする">

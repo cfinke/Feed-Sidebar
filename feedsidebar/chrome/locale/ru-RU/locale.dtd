@@ -3,13 +3,10 @@
 <!ENTITY feedbar.buttonTooltip "Показать новости в боковой панели">
 <!ENTITY feedbar.accesskey "н">
 <!ENTITY feedbar.preview.markAsRead "Отметить новость прочитанной">
-<!ENTITY feedbar.preview.summary "Краткое описание">
 <!ENTITY feedbar.open "Открыть">
 <!ENTITY feedbar.openInTab "Открыть в новой вкладке">
 <!ENTITY feedbar.openAllInTabs "Открыть все новости во вкладках">
-<!ENTITY feedbar.openUnreadInTabs "Открыть непрочитанные записи во вкладках">
 <!ENTITY feedbar.openFeedInTabs "Открыть новости во вкладках">
-<!ENTITY feedbar.openUnreadFeedInTabs "Открыть непрочитанные новости во вкладках">
 <!ENTITY feedbar.markAsRead "Отметить как прочитанную">
 <!ENTITY feedbar.markAsUnread "Отметить как непрочитанное">
 <!ENTITY feedbar.markFeedAsRead "Отметить ленту как прочитанную">

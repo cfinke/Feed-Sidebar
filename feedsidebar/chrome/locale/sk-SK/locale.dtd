@@ -3,13 +3,10 @@
 <!ENTITY feedbar.buttonTooltip "Zobraziť správy z Aktívnych záložiek v bočnom paneli">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "Označiť kanál alebo správu ako prečítanú">
-<!ENTITY feedbar.preview.summary "Súčet">
 <!ENTITY feedbar.open "Otvoriť">
 <!ENTITY feedbar.openInTab "Otvoriť na novej karte">
 <!ENTITY feedbar.openAllInTabs "Otvoriť všetky na nových kartách">
-<!ENTITY feedbar.openUnreadInTabs "Otvoriť neprečítané na nových kartách">
 <!ENTITY feedbar.openFeedInTabs "Otvoriť kanál na nových kartách">
-<!ENTITY feedbar.openUnreadFeedInTabs "Otvoriť neprečítané správy z kanálu na nových kartách">
 <!ENTITY feedbar.markAsRead "Označiť ako prečítané">
 <!ENTITY feedbar.markAsUnread "Označiť ako neprečítané">
 <!ENTITY feedbar.markFeedAsRead "Označiť kanál ako prečítaný">

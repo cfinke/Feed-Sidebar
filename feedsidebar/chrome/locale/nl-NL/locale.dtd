@@ -3,13 +3,10 @@
 <!ENTITY feedbar.buttonTooltip "Toont de berichten van uw Livebladwijzers in de zijbalk">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "Feed of bericht als gelezen markeren">
-<!ENTITY feedbar.preview.summary "Samenvatting">
 <!ENTITY feedbar.open "Openen">
 <!ENTITY feedbar.openInTab "In nieuw tabblad openen">
 <!ENTITY feedbar.openAllInTabs "Alles in tabbladen openen">
-<!ENTITY feedbar.openUnreadInTabs "Ongelezen berichten in tabbladen openen">
 <!ENTITY feedbar.openFeedInTabs "Feed in tabbladen openen">
-<!ENTITY feedbar.openUnreadFeedInTabs "Ongelezen feedberichten in tabbladen openen">
 <!ENTITY feedbar.markAsRead "Als gelezen markeren">
 <!ENTITY feedbar.markAsUnread "Als ongelezen markeren">
 <!ENTITY feedbar.markFeedAsRead "Feed als gelezen markeren">

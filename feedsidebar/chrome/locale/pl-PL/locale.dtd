@@ -3,13 +3,10 @@
 <!ENTITY feedbar.buttonTooltip "Wyświetla w panelu bocznym nowe wiadomości z dynamicznych zakładek">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "Oznacz kanał/wiadomość jako przeczytaną">
-<!ENTITY feedbar.preview.summary "Opis">
 <!ENTITY feedbar.open "Otwórz">
 <!ENTITY feedbar.openInTab "Otwórz w nowej karcie">
 <!ENTITY feedbar.openAllInTabs "Otwórz wszystkie w kartach">
-<!ENTITY feedbar.openUnreadInTabs "Otwórz nieprzeczytane wiadomości w kartach">
 <!ENTITY feedbar.openFeedInTabs "Otwórz kanał w nowej karcie">
-<!ENTITY feedbar.openUnreadFeedInTabs "Otwórz nieprzeczytane wiadomości kanału w katach">
 <!ENTITY feedbar.markAsRead "Oznacz jako przeczytane">
 <!ENTITY feedbar.markAsUnread "Oznacz jako nieprzeczytane">
 <!ENTITY feedbar.markFeedAsRead "Oznacz kanał jako przeczytany">

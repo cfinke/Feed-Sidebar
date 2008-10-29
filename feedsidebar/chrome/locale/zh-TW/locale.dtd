@@ -3,13 +3,10 @@
 <!ENTITY feedbar.buttonTooltip "從您的即時書籤中顯示新的資訊於側邊列">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "設定為已閱讀">
-<!ENTITY feedbar.preview.summary "簡介">
 <!ENTITY feedbar.open "開啟">
 <!ENTITY feedbar.openInTab "開啟於新分頁">
 <!ENTITY feedbar.openAllInTabs "開啟全部於新分頁">
-<!ENTITY feedbar.openUnreadInTabs "開啟未閱讀訊息於分頁">
 <!ENTITY feedbar.openFeedInTabs "開啟即時訊息於新分頁">
-<!ENTITY feedbar.openUnreadFeedInTabs "開啟未閱讀的即時書籤於分頁">
 <!ENTITY feedbar.markAsRead "設定為已閱讀">
 <!ENTITY feedbar.markAsUnread "標示為未閱讀">
 <!ENTITY feedbar.markFeedAsRead "設定即時書籤為已閱讀">

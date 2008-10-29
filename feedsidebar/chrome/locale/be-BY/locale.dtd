@@ -3,7 +3,6 @@
 <!ENTITY feedbar.buttonTooltip "Паказаць навіны стужкі навінаў у бакавой панэлі">
 <!ENTITY feedbar.accesskey "н">
 <!ENTITY feedbar.preview.markAsRead "Адзначыць навіну прачытанае">
-<!ENTITY feedbar.preview.summary "Кароткае апісанне">
 <!ENTITY feedbar.open "Адкрыць">
 <!ENTITY feedbar.openInTab "Адкрыць у новай укладцы">
 <!ENTITY feedbar.openAllInTabs "Адкрыць усё ва ўкладках">

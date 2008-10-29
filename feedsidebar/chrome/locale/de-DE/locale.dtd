@@ -3,13 +3,10 @@
 <!ENTITY feedbar.buttonTooltip "Stellt die ungelesenen Feed-Beiträge der dynamischen Lesezeichen in der Sidebar da">
 <!ENTITY feedbar.accesskey "R">
 <!ENTITY feedbar.preview.markAsRead "Feed oder Beitrag als gelesen markieren">
-<!ENTITY feedbar.preview.summary "Zusammenfassung">
 <!ENTITY feedbar.open "Öffnen">
 <!ENTITY feedbar.openInTab "In neuem Tab öffnen">
 <!ENTITY feedbar.openAllInTabs "Alle Beiträge in Tabs öffnen">
-<!ENTITY feedbar.openUnreadInTabs "Ungelesene Einträge in Tabs öffnen">
 <!ENTITY feedbar.openFeedInTabs "Feed in Tabs öffnen">
-<!ENTITY feedbar.openUnreadFeedInTabs "Ungelesene Beiträge des Feeds in Tabs öffnen">
 <!ENTITY feedbar.markAsRead "Als gelesen markieren">
 <!ENTITY feedbar.markAsUnread "Als ungelesen markieren">
 <!ENTITY feedbar.markFeedAsRead "Feed als gelesen markieren">

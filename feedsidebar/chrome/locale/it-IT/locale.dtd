@@ -3,13 +3,10 @@
 <!ENTITY feedbar.buttonTooltip "Mostra i segnalibri Live nella barra laterale">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "Segna il feed o l&apos;elemento come letto">
-<!ENTITY feedbar.preview.summary "Sommario">
 <!ENTITY feedbar.open "Apri">
 <!ENTITY feedbar.openInTab "Apri in nuova scheda">
 <!ENTITY feedbar.openAllInTabs "Apri tutti in schede">
-<!ENTITY feedbar.openUnreadInTabs "Apri gli elementi non letti in schede">
 <!ENTITY feedbar.openFeedInTabs "Apri feed in schede">
-<!ENTITY feedbar.openUnreadFeedInTabs "Apri gli elementi dei feed non letti in schede">
 <!ENTITY feedbar.markAsRead "Segna come letto">
 <!ENTITY feedbar.markAsUnread "Segna come non letto">
 <!ENTITY feedbar.markFeedAsRead "Segna feed come letto">

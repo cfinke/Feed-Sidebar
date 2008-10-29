@@ -3,13 +3,10 @@
 <!ENTITY feedbar.buttonTooltip "在侧栏显示实时书签里的项目">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "标记订阅或项目为已读">
-<!ENTITY feedbar.preview.summary "简介">
 <!ENTITY feedbar.open "打开">
 <!ENTITY feedbar.openInTab "在新标签页打开">
 <!ENTITY feedbar.openAllInTabs "在标签页打开全部项目">
-<!ENTITY feedbar.openUnreadInTabs "在新标签页打开未读项目">
 <!ENTITY feedbar.openFeedInTabs "在标签页打开订阅">
-<!ENTITY feedbar.openUnreadFeedInTabs "在新标签页打开未读订阅项目">
 <!ENTITY feedbar.markAsRead "标记为已读">
 <!ENTITY feedbar.markAsUnread "标记为未读">
 <!ENTITY feedbar.markFeedAsRead "标记订阅为已读">

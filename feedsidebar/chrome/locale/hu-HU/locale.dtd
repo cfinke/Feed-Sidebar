@@ -3,13 +3,10 @@
 <!ENTITY feedbar.buttonTooltip "Az Élő könyvjelzők megjelenítése az oldalsávon">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "Hírfolyam vagy elem megjelölése olvasottként">
-<!ENTITY feedbar.preview.summary "Összegzés">
 <!ENTITY feedbar.open "Megnyitás">
 <!ENTITY feedbar.openInTab "Megnyitás új lapon">
 <!ENTITY feedbar.openAllInTabs "Összes megnyitása lapokon">
-<!ENTITY feedbar.openUnreadInTabs "Olvasatlan elemek megnyitása lapokon">
 <!ENTITY feedbar.openFeedInTabs "Hírfolyamok megnyitása lapokon">
-<!ENTITY feedbar.openUnreadFeedInTabs "Olvasatlan hírfolyamok megnyitása lapokon">
 <!ENTITY feedbar.markAsRead "Megjelölés olvasottként">
 <!ENTITY feedbar.markAsUnread "Megjelölés olvasatlanként">
 <!ENTITY feedbar.markFeedAsRead "Hírfolyam megjelölése olvasottként">

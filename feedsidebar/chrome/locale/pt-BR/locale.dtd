@@ -3,7 +3,6 @@
 <!ENTITY feedbar.buttonTooltip "Mostra os novos itens das suas assinaturas de Favoritos na barra lateral">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "Marcar feed ou item como lido">
-<!ENTITY feedbar.preview.summary "Resumo">
 <!ENTITY feedbar.open "Abrir">
 <!ENTITY feedbar.openInTab "Abrir em nova aba">
 <!ENTITY feedbar.openAllInTabs "Abrir tudo em abas">
