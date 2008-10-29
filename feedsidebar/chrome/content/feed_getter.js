@@ -1,8 +1,5 @@
-var feedParser = null;
-
 var FEED_GETTER = {
 	parser : null,
-	parseListener : null,
 	ioService : Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService),
 	
 	dbFile : null,
@@ -107,10 +104,6 @@ var FEED_GETTER = {
 		
 		FEED_GETTER.updateLoadProgress(0,0);
 		FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
-		
-		//FEED_GETTER.parser = Components.classes["@mozilla.org/feed-processor;1"].createInstance(Components.interfaces.nsIFeedProcessor);
-		FEED_GETTER.parseListener = FeedbarParseListener;
-		//FEED_GETTER.parser.listener = FEED_GETTER.parseListener;
 		
 		this.dbFile = Components.classes["@mozilla.org/file/directory_service;1"]
 						                     .getService(Components.interfaces.nsIProperties)
@@ -411,12 +404,14 @@ var FEED_GETTER = {
 	},
 	
 	queueForParsing : function (feedText, feedURL) {
-		feedParser = Components.classes["@mozilla.org/feed-processor;1"].createInstance(Components.interfaces.nsIFeedProcessor);
-		feedParser.listener = FEED_GETTER.parseListener;
+		var feedParser = Components.classes["@mozilla.org/feed-processor;1"].createInstance(Components.interfaces.nsIFeedProcessor);
+		feedParser.listener = FeedbarParseListener;
+		
+		var uri = FEED_GETTER.ioService.newURI(feedURL, null, null);
 		
 		if (feedText.length) {
 			try {
-				feedParser.parseFromString(feedText, FEED_GETTER.ioService.newURI(feedURL, null, null));
+				feedParser.parseFromString(feedText, uri);
 			} catch (e) {
 				throw (e);
 			}
@@ -425,7 +420,7 @@ var FEED_GETTER = {
 			throw({ message : "Feed has no content." });
 		}
 
-		return this;
+		return;
 	},
 	
 	setDisplayPeriod : function (days) {
@@ -461,46 +456,35 @@ var FEED_GETTER = {
 	
 	history : {
 		hService : Components.classes["@mozilla.org/browser/global-history;2"].getService(Components.interfaces.nsIGlobalHistory2),
-		ioService : Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService),
 		
-		URI : null,
-		
-		isVisitedURL : function(url, guid){
+		isVisitedURL : function(uri, guid){
 			try {
-				FEED_GETTER.history.URI = this.ioService.newURI(url, null, null);
-				var visited = FEED_GETTER.history.hService.isVisited(FEED_GETTER.history.URI);
+				var visited = this.hService.isVisited(uri);
+//				return visited;
+				var db = FEED_GETTER.getDB();
 				
 				if (!visited) {
-					var db = FEED_GETTER.getDB();
-
-					var select = db.createStatement("SELECT id FROM history WHERE id=?1");
+					var select = db.createStatement("SELECT id FROM history WHERE id=?1 LIMIT 1");
 					select.bindStringParameter(0, guid);
-
+					
 					try {
 						while (select.executeStep()) {
 							visited = true;
-							break;
 						}
 					} catch (e) {
-						logFeedbarMsg(e);
 					} finally {	
 						select.reset();
 					}
-					
-					try { db.close(); } catch (e) {}					
 				}
 				else {
-					// Add to DB
-					var db = FEED_GETTER.getDB();
-
 					var insert = db.createStatement("INSERT INTO history (id, date) VALUES (?1, ?2)");
 					insert.bindUTF8StringParameter(0, guid);
 					insert.bindInt64Parameter(1, (new Date().getTime()));
 					
 					try { insert.execute(); } catch (alreadyExists) { }
-
-					try { db.close(); } catch (e) { }
 				}
+				
+				FEED_GETTER.closeDB(db);
 				
 				return visited;
 			} catch (e) {
@@ -572,8 +556,48 @@ var FEED_GETTER = {
 		}
 	},
 	
+	db : null,
+	_batchCount : 0,
+	
+	startBatch : function () {
+		++this._batchCount;
+		if (!this.db) this.db = this.getDB();
+	},
+	
+	endBatch : function () {
+		--this._batchCount;
+		
+		if (!this._batchCount) {
+			try { this.db.close(); } catch (e) { }
+			this.db = null;
+		}
+	},
+	
+	get inBatch() { 
+		return (this._batchCount > 0);
+	},
+	
 	getDB : function () {
-		return FEED_GETTER.storageService.openDatabase(FEED_GETTER.dbFile);
+		if (this.db) {
+			return this.db;
+		}
+		
+		var file = Components.classes["@mozilla.org/file/directory_service;1"]
+		                     .getService(Components.interfaces.nsIProperties)
+		                     .get("ProfD", Components.interfaces.nsIFile);
+		file.append("feedbar.sqlite");
+
+		var storageService = Components.classes["@mozilla.org/storage/service;1"]
+		                        .getService(Components.interfaces.mozIStorageService);
+		var mDBConn = storageService.openDatabase(file);
+		
+		return mDBConn;
+	},
+	
+	closeDB : function (db) {
+		if (!this.inBatch) {
+			try { db.close(); } catch (e) { }
+		}
 	},
 	
 	decodeEntities : function (str) {
@@ -627,23 +651,25 @@ var FEED_GETTER = {
 
 var FeedbarParseListener = {
 	handleResult: function(result) {
+		var resolvedUri = result.uri.resolve("");
+		var feedDataKey = resolvedUri.toLowerCase();
+		
 		if (result.bozo) {
-			// Get feed name
-			FEED_GETTER.addError(FEED_GETTER.feedData[result.uri.resolve("").toLowerCase()].name, result.uri.resolve(""), FEED_GETTER.strings.getString("feedbar.errors.parseError"), 5);
+			FEED_GETTER.addError(FEED_GETTER.feedData[feedDataKey].name, resolvedUri, FEED_GETTER.strings.getString("feedbar.errors.parseError"), 5);
 			return;
 		}
 		
 		var feed = result.doc;
 		
 		if (!feed) {
-			FEED_GETTER.addError(FEED_GETTER.feedData[result.uri.resolve("").toLowerCase()].name, result.uri.resolve(""), FEED_GETTER.strings.getString("feedbar.errors.invalidUrl"), 5);
+			FEED_GETTER.addError(FEED_GETTER.feedData[feedDataKey].name, resolvedUri, FEED_GETTER.strings.getString("feedbar.errors.invalidUrl"), 5);
 			return;
 		}
 		
 		try {
 			feed.QueryInterface(Components.interfaces.nsIFeed);
 		} catch (e) {
-			FEED_GETTER.addError(FEED_GETTER.feedData[result.uri.resolve("").toLowerCase()].name, result.uri.resolve(""), FEED_GETTER.strings.getString("feedbar.errors.invalidFeed"), 5);
+			FEED_GETTER.addError(FEED_GETTER.feedData[feedDataKey].name, resolvedUri, FEED_GETTER.strings.getString("feedbar.errors.invalidFeed"), 5);
 			return;
 		}
 		
@@ -654,14 +680,12 @@ var FeedbarParseListener = {
 			uri : "",
 			siteUri : "",
 			items : [],
-			id : "",
 			livemarkId : ""
 		};
 		
-		feedObject.id = result.uri.resolve("");
-		feedObject.uri = result.uri.resolve("");
+		feedObject.uri = resolvedUri;
 		
-		feedObject.livemarkId = FEED_GETTER.feedData[feedObject.uri.toLowerCase()].bookmarkId;
+		feedObject.livemarkId = FEED_GETTER.feedData[feedDataKey].bookmarkId;
 		
 		try {
 			feedObject.siteUri = feed.link.resolve("");
@@ -670,7 +694,7 @@ var FeedbarParseListener = {
 		}
 		
 		try {
-			feedObject.label = FEED_GETTER.feedData[result.uri.resolve("").toLowerCase()].name;
+			feedObject.label = FEED_GETTER.feedData[feedDataKey].name;
 		} catch (e) {
 			feedObject.label = feed.title.plainText();
 		}
@@ -680,10 +704,10 @@ var FeedbarParseListener = {
 		}
 		
 		if (feed.summary && feed.summary.text) {
-			feedObject.description = feed.summary.text;//plainText();
+			feedObject.description = feed.summary.text;
 		}
 		else if (feed.content && feed.content.text) {
-			feedObject.description = feed.content.text;//plainText();
+			feedObject.description = feed.content.text;
 		}
 		else if (feed.subtitle && feed.subtitle.text) {
 			feedObject.description = feed.subtitle.text;
@@ -695,6 +719,8 @@ var FeedbarParseListener = {
 		feedObject.image = feedObject.siteUri.substr(0, (feedObject.siteUri.indexOf("/", 9) + 1)) + "favicon.ico";
 		
 		var numItems = feed.items.length;
+		
+		FEED_GETTER.startBatch();
 		
 		for (var i = 0; i < numItems; i++) {
 			var item = feed.items.queryElementAt(i, Components.interfaces.nsIFeedEntry);
@@ -717,7 +743,7 @@ var FeedbarParseListener = {
 					var q = itemObject.uri.indexOf("?");
 					itemObject.uri = itemObject.uri.match(/url=(https?:\/\/.*)$/i)[1];
 					itemObject.uri = decodeURIComponent(itemObject.uri.split("&")[0]);
-//					itemObject.uri = itemObject.uri.substring(0, q) + ("&" + itemObject.uri.substring(q)).replace(/&(ct|cid|ei)=[^&]*/g, "").substring(1);
+					itemObject.uri = itemObject.uri.substring(0, q) + ("&" + itemObject.uri.substring(q)).replace(/&(ct|cid|ei)=[^&]* /g, "").substring(1);
 				}
 				
 				if (!itemObject.id) itemObject.id = itemObject.uri;
@@ -736,7 +762,7 @@ var FeedbarParseListener = {
 					// Feedburner
 					itemObject.image = feedObject.siteUri.substr(0, (feedObject.siteUri.indexOf("/", 9) + 1)) + "favicon.ico";
 				}
-			
+				
 				itemObject.published = Date.parse(item.updated);
 				
 				if (!itemObject.published) {
@@ -779,18 +805,22 @@ var FeedbarParseListener = {
 				
 				itemObject.description = itemObject.description.replace(/<script[^>]*>[\s\S]+<\/script>/gim, "");
 				
-				itemObject.visited = FEED_GETTER.history.isVisitedURL(itemObject.uri, itemObject.id);
+				itemObject.visited = FEED_GETTER.history.isVisitedURL(item.link, itemObject.id);
 				
 				feedObject.items.push(itemObject);
-				
 			} catch (e) {
-				// FEED_GETTER.addError(FEED_GETTER.feedData[feedObject.link].name, feedObject.link, e, 5);
 				// Don't show a notification here, since they can become legion.
 				logFeedbarMsg(e);
 			}
 		}
 		
+		FEED_GETTER.endBatch();
+		
+		delete result;
+		
 		FEEDBAR.push(feedObject);
+		
+		delete feedObject;
 		
 		return;
 	}

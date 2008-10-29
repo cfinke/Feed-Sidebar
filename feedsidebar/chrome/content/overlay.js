@@ -521,11 +521,11 @@ beginTime : [],
 		
 		var db = this.getDB();
 		
-		var feedId = this.getFeedId(feedObject.id);
+		var feedId = this.getFeedId(feedObject.uri);
 		
 		if (feedId == 0) {
 			var insert = db.createStatement("INSERT INTO feeds (guid, livemarkId, label, uri, siteUri, description, image) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)");
-			insert.bindUTF8StringParameter(0, feedObject.id);
+			insert.bindUTF8StringParameter(0, feedObject.uri);
 			insert.bindInt64Parameter(1, feedObject.livemarkId);
 			insert.bindUTF8StringParameter(2, feedObject.label);
 			insert.bindUTF8StringParameter(3, feedObject.uri);
@@ -539,7 +539,7 @@ beginTime : [],
 		}
 		else {
 			var update = db.createStatement("UPDATE feeds SET guid=?1, livemarkId=?2, label=?3, uri=?4, siteUri=?5, description=?6, image=?7 WHERE id=?8");
-			update.bindUTF8StringParameter(0, feedObject.id);
+			update.bindUTF8StringParameter(0, feedObject.uri);
 			update.bindInt64Parameter(1, feedObject.livemarkId);
 			update.bindUTF8StringParameter(2, feedObject.label);
 			update.bindUTF8StringParameter(3, feedObject.uri);
