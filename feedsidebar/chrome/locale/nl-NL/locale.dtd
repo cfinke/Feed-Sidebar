@@ -1,6 +1,6 @@
-<!ENTITY feedbar.buttonLabel "Ongelezen feedberichten">
-<!ENTITY feedbar.sidebarTitle "Ongelezen feedberichten">
-<!ENTITY feedbar.buttonTooltip "Toont nieuwe berichten van uw Livebladwijzers in de zijbalk">
+<!ENTITY feedbar.buttonLabel "Feeds">
+<!ENTITY feedbar.sidebarTitle "Feeds">
+<!ENTITY feedbar.buttonTooltip "Toont de berichten van uw Livebladwijzers in de zijbalk">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "Feed of bericht als gelezen markeren">
 <!ENTITY feedbar.preview.summary "Samenvatting">
@@ -47,3 +47,6 @@
 <!ENTITY feedbar.previewQuestion "Bij openen van een feedbericht...">
 <!ENTITY feedbar.previewAnswer1 "De gekoppelde webpagina openen (standaard).">
 <!ENTITY feedbar.previewAnswer2 "De volledige artikelbeschrijving in het browservenster weergeven.">
+<!ENTITY feedbar.showAllItemsButtonLabel "Alles">
+<!ENTITY feedbar.showAll.tooltip "Weergave van zowel gelezen als ongelezen berichten inschakelen.">
+<!ENTITY feedbar.alwaysOpenInNewTab "Berichten altijd in nieuwe tabbalden openen">

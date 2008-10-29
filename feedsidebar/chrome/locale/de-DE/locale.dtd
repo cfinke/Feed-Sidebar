@@ -39,7 +39,7 @@
 <!ENTITY feedbar.updateEvery2 "Minuten aktualisieren">
 <!ENTITY feedbar.showAllItemsFull "Alle Einträge unabhängig vom Alter anzeigen">
 <!ENTITY feedbar.onlyShow1 "Nur die Beiträge der letzten">
-<!ENTITY feedbar.onlyShow2 "Tage anzeigen. (0 für alle Beiträge)">
+<!ENTITY feedbar.onlyShow2 "Tage anzeigen">
 <!ENTITY feedbar.24HourTime "24-Stunden-Format verwenden">
 <!ENTITY feedbar.autoClose "Sidebar automatisch schließen, wenn alle Einträge als gelesen markiert werden">
 <!ENTITY feedbar.notifications "Benachrichtigungen über neue Einträge anzeigen">
@@ -47,3 +47,6 @@
 <!ENTITY feedbar.previewQuestion "Beim Öffnen eines Eintrages...">
 <!ENTITY feedbar.previewAnswer1 "Die verlinkte Webseite öffnen (Standard)">
 <!ENTITY feedbar.previewAnswer2 "Die vollständige Beschreibung des Eintrags im Browserfenster anzeigen">
+<!ENTITY feedbar.showAllItemsButtonLabel "Alle Einträge">
+<!ENTITY feedbar.showAll.tooltip "Sowohl gelesene als ungelese Einträge anzeigen">
+<!ENTITY feedbar.alwaysOpenInNewTab "Immer in neuen Tabs öffnen">

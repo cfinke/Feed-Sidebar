@@ -36,8 +36,10 @@
 <!ENTITY feedbar.options "Opzioni">
 <!ENTITY feedbar.hideReadItems "Nascondi gli elementi letti">
 <!ENTITY feedbar.updateEvery1 "Minuti prima dell&apos;aggiornamento successivo:">
+<!ENTITY feedbar.updateEvery2 " ">
 <!ENTITY feedbar.showAllItemsFull "Visualizza tutti i feed senza tenere conto dell&apos;età">
 <!ENTITY feedbar.onlyShow1 "Visualizza solo i feed del seguente numero di ultimi giorni:">
+<!ENTITY feedbar.onlyShow2 " ">
 <!ENTITY feedbar.24HourTime "Utilizza il formato dell&apos;orario di 24 ore">
 <!ENTITY feedbar.autoClose "Chiudi automaticamente la barra laterale quando si segnano tutti gli elementi come letti">
 <!ENTITY feedbar.notifications "Mostra un avviso a pop-up quando vengono rilevati nuovi elementi">
@@ -45,3 +47,6 @@
 <!ENTITY feedbar.previewQuestion "Azione da eseguire quando si apre un elemento di feed">
 <!ENTITY feedbar.previewAnswer1 "Visualizza la pagina relativa (azione predefinita)">
 <!ENTITY feedbar.previewAnswer2 "Visualizza la descrizione completa dell&apos;elemento nella finestra del browser">
+<!ENTITY feedbar.showAllItemsButtonLabel "Visualizza tutto">
+<!ENTITY feedbar.showAll.tooltip "Visualizza gli elementi letti e quelli non letti">
+<!ENTITY feedbar.alwaysOpenInNewTab "Apri gli elementi in nuove schede">

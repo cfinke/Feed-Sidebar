@@ -47,3 +47,6 @@
 <!ENTITY feedbar.previewQuestion "Pri otváraní správy...">
 <!ENTITY feedbar.previewAnswer1 "Otvoriť stránku z odkazu (štandardne).">
 <!ENTITY feedbar.previewAnswer2 "Zobraziť plný text správy v okne prehliadača.">
+<!ENTITY feedbar.showAllItemsButtonLabel "Všetky">
+<!ENTITY feedbar.showAll.tooltip "Povoliť zobrazenie prečítaných aj neprečítaných správ.">
+<!ENTITY feedbar.alwaysOpenInNewTab "Správy otvárať vždy v nových kartách">

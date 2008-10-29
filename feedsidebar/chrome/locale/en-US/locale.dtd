@@ -3,13 +3,10 @@
 <!ENTITY feedbar.buttonTooltip "Show the items from your Live Bookmarks in the sidebar">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "Mark feed or item as read">
-<!ENTITY feedbar.preview.summary "Summary">
 <!ENTITY feedbar.open "Open">
 <!ENTITY feedbar.openInTab "Open in New Tab">
 <!ENTITY feedbar.openAllInTabs "Open All in Tabs">
-<!ENTITY feedbar.openUnreadInTabs "Open Unread Items in Tabs">
 <!ENTITY feedbar.openFeedInTabs "Open Feed in Tabs">
-<!ENTITY feedbar.openUnreadFeedInTabs "Open Unread Feed Items in Tabs">
 <!ENTITY feedbar.markAsRead "Mark as Read">
 <!ENTITY feedbar.markAsUnread "Mark as Unread">
 <!ENTITY feedbar.markFeedAsRead "Mark Feed as Read">

@@ -1,0 +1,52 @@
+<!ENTITY feedbar.buttonLabel "Suministros RSS">
+<!ENTITY feedbar.sidebarTitle "Suministros RSS">
+<!ENTITY feedbar.buttonTooltip "Mostrar los elementos de los Marcadores dinámicos en la barra lateral">
+<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.markAsRead "Marcar suministro RSS o elemento como leído">
+<!ENTITY feedbar.preview.summary "Resumen">
+<!ENTITY feedbar.open "Abrir">
+<!ENTITY feedbar.openInTab "Abrir en una pestaña nueva">
+<!ENTITY feedbar.openAllInTabs "Abrir todo en pestañas">
+<!ENTITY feedbar.openUnreadInTabs "Abrir elementos no leídos en pestañas">
+<!ENTITY feedbar.openFeedInTabs "Abrir suministro RSS en pestañas">
+<!ENTITY feedbar.openUnreadFeedInTabs "Abrir suministros RSS no leídos en pestañas">
+<!ENTITY feedbar.markAsRead "Marcar como leído">
+<!ENTITY feedbar.markAsUnread "Marcar como no leído">
+<!ENTITY feedbar.markFeedAsRead "Marcar suministro RSS como leído">
+<!ENTITY feedbar.markFeedAsUnread "Marcar suministro RSS como no leído">
+<!ENTITY feedbar.markAllAsRead "Marcar todo como leído">
+<!ENTITY feedbar.markAllAsUnread "Marcar todo como no leído">
+<!ENTITY feedbar.reloadFeeds "Recargar suministros RSS">
+<!ENTITY feedbar.stopFeedUpdate "Cancelar actualización de suministro RSS">
+<!ENTITY feedbar.minutes "minutos">
+<!ENTITY feedbar.hour "hora">
+<!ENTITY feedbar.hours "horas">
+<!ENTITY feedbar.showLastTooltip "Limitar la antigüedad de los elementos mostrados">
+<!ENTITY feedbar.showLastDaysPre "Mostrar último">
+<!ENTITY feedbar.showLastDaysPost "días">
+<!ENTITY feedbar.showLastWeeksPre "Mostrar último">
+<!ENTITY feedbar.showLastWeeksPost "semanas">
+<!ENTITY feedbar.showAllItems "Mostrar todos los elementos">
+<!ENTITY feedbar.showLastDay "Mostrar último día">
+<!ENTITY feedbar.showLastWeek "Mostrar última semana">
+<!ENTITY feedbar.showLastMonth "Mostrar último mes">
+<!ENTITY feedbar.copyTitle "Copiar título">
+<!ENTITY feedbar.copyLink "Copiar enlace">
+<!ENTITY feedbar.unsubscribe "Dejar de estar suscrito">
+<!ENTITY feedbar.options "Opciones">
+<!ENTITY feedbar.hideReadItems "Ocultar elementos leídos">
+<!ENTITY feedbar.updateEvery1 "Actualizar suministros RSS cada">
+<!ENTITY feedbar.updateEvery2 "minutos.">
+<!ENTITY feedbar.showAllItemsFull "Mostrar todos los elementos, independientemente de su antigüedad">
+<!ENTITY feedbar.onlyShow1 "Mostrar sólo los elementos de los últimos">
+<!ENTITY feedbar.onlyShow2 "días.">
+<!ENTITY feedbar.24HourTime "Utilizar formato 24-horas">
+<!ENTITY feedbar.autoClose "Cerrar automáticamente la barra lateral al marcar todos elementos como leídos.">
+<!ENTITY feedbar.notifications "Mostrar notificaciones emergentes cuando se detenten nuevos elementos.">
+<!ENTITY feedbar.runInSidebar "Comprobar actualizaciones sólo cuando la barra lateral esté abierta.">
+<!ENTITY feedbar.previewQuestion "Cuando se abra un elemento de un suministro RSS...">
+<!ENTITY feedbar.previewAnswer1 "Abrir la página enlazada (por defecto).">
+<!ENTITY feedbar.previewAnswer2 "Mostrar la descripción completa del elemento en la ventana del navegador.">
+<!ENTITY feedbar.showAllItemsButtonLabel "Todos">
+<!ENTITY feedbar.showAll.tooltip "Activar la visualización de elementos leídos y no leídos.">
+<!ENTITY feedbar.alwaysOpenInNewTab "Abrir siempre elementos en nuevas pestañas">

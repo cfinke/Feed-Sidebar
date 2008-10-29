@@ -1,4 +1,4 @@
-<!ENTITY feedbar.buttonLabel "Feedbar">
+<!ENTITY feedbar.buttonLabel "FeedSidebar">
 <!ENTITY feedbar.sidebarTitle "Wiadomości">
 <!ENTITY feedbar.buttonTooltip "Wyświetla w panelu bocznym nowe wiadomości z dynamicznych zakładek">
 <!ENTITY feedbar.accesskey "F">
@@ -19,13 +19,13 @@
 <!ENTITY feedbar.reloadFeeds "Odśwież kanały">
 <!ENTITY feedbar.stopFeedUpdate "Nie aktualizuj kanału">
 <!ENTITY feedbar.minutes "min">
-<!ENTITY feedbar.hour "h">
-<!ENTITY feedbar.hours "h">
+<!ENTITY feedbar.hour "godz.">
+<!ENTITY feedbar.hours "godz.">
 <!ENTITY feedbar.showLastTooltip "Przedział czasowy z jakiego będą wyświetlane wiadomości">
-<!ENTITY feedbar.showLastDaysPre "Wyświetl z ostatnich">
-<!ENTITY feedbar.showLastDaysPost "dni">
-<!ENTITY feedbar.showLastWeeksPre "Wyświetl z ostatnich">
-<!ENTITY feedbar.showLastWeeksPost "tygodni">
+<!ENTITY feedbar.showLastDaysPre "Wyświetl z ostatnich ">
+<!ENTITY feedbar.showLastDaysPost " dni">
+<!ENTITY feedbar.showLastWeeksPre "Wyświetl z ostatnich ">
+<!ENTITY feedbar.showLastWeeksPost " tygodni">
 <!ENTITY feedbar.showAllItems "Wyświetl wszystkie wiadomości">
 <!ENTITY feedbar.showLastDay "Wyświetl wiadomości z dnia dzisiejszego">
 <!ENTITY feedbar.showLastWeek "Wyświetl wiadomości z ostatniego tygodnia">
@@ -34,16 +34,19 @@
 <!ENTITY feedbar.copyLink "Kopiuj odnośnik">
 <!ENTITY feedbar.unsubscribe "Anuluj subskrypcję">
 <!ENTITY feedbar.options "Opcje">
-<!ENTITY feedbar.hideReadItems "Nie wyświetlaj przeczytane wiadomości">
+<!ENTITY feedbar.hideReadItems "Nie wyświetlaj przeczytanych wiadomości">
 <!ENTITY feedbar.updateEvery1 "Aktualizuj kanał co">
-<!ENTITY feedbar.updateEvery2 "min.">
-<!ENTITY feedbar.showAllItemsFull "Wyświetlaj wszystkie elementy, bez względu na czas publikacji">
+<!ENTITY feedbar.updateEvery2 "min">
+<!ENTITY feedbar.showAllItemsFull "Wyświetlaj wszystkie wiadomości, bez względu na czas publikacji">
 <!ENTITY feedbar.onlyShow1 "Wyświetlaj tylko wiadomości z ostatnich">
-<!ENTITY feedbar.onlyShow2 "dni. (Wprowadź 0, aby wyświetlać wszystkie)">
+<!ENTITY feedbar.onlyShow2 "dni.">
 <!ENTITY feedbar.24HourTime "Wyświetlaj czas w formacie 24 godzinnym">
-<!ENTITY feedbar.autoClose "Zamykaj automatycznie panel boczny po oznaczeniu wszystkich elementów jako przeczytanych">
-<!ENTITY feedbar.notifications "Wyświetlaj powiadomienia po wykryciu nowych elementów">
+<!ENTITY feedbar.autoClose "Zamykaj panel boczny po oznaczeniu wszystkich wiadomości jako przeczytanych">
+<!ENTITY feedbar.notifications "Wyświetlaj powiadomienia po wykryciu nowych wiadomości">
 <!ENTITY feedbar.runInSidebar "Sprawdzaj aktualizacje, gdy panel boczny jest otwarty">
-<!ENTITY feedbar.previewQuestion "Gdy jest otwierany element kanału...">
-<!ENTITY feedbar.previewAnswer1 "Otwieraj skojarzoną witrynę (domyślnie)">
-<!ENTITY feedbar.previewAnswer2 "Wyświetlaj pełny opis elementu w oknie przeglądarki">
+<!ENTITY feedbar.previewQuestion "Gdy jest otwierana wiadomość z kanału:">
+<!ENTITY feedbar.previewAnswer1 "otwieraj skojarzoną witrynę (domyślnie)">
+<!ENTITY feedbar.previewAnswer2 "wyświetlaj całą wiadomość w oknie przeglądarki">
+<!ENTITY feedbar.showAllItemsButtonLabel "Wszystkie">
+<!ENTITY feedbar.showAll.tooltip "Włącz, aby wyświetlać przeczytane i nieprzeczytane wiadomości">
+<!ENTITY feedbar.alwaysOpenInNewTab "Otwieraj wiadomości zawsze w nowych kartach">

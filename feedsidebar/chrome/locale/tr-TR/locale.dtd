@@ -1,0 +1,27 @@
+<!ENTITY feedbar.buttonLabel "Beslemeler">
+<!ENTITY feedbar.sidebarTitle "Beslemeler">
+<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.summary "Özet">
+<!ENTITY feedbar.open "Aç">
+<!ENTITY feedbar.openInTab "Yeni Sekmede Aç">
+<!ENTITY feedbar.openAllInTabs "Hepsini Yeni Sekmede Aç">
+<!ENTITY feedbar.openUnreadInTabs "Okunmamış ögeleri Yeni Sekmede Aç">
+<!ENTITY feedbar.openUnreadFeedInTabs "Okunmamış besleme ögelerini sekmede aç">
+<!ENTITY feedbar.markAsRead "Okundu Olarak İşaretle">
+<!ENTITY feedbar.markAsUnread "Okunmadı Olarak İşaretle">
+<!ENTITY feedbar.markFeedAsRead "Beslemeyi okundu olarak işaretle">
+<!ENTITY feedbar.markFeedAsUnread "Beslemeyi okunmadı olarak işaretle">
+<!ENTITY feedbar.markAllAsRead "Hepsini okundu olarak işaretle">
+<!ENTITY feedbar.markAllAsUnread "Hepsini okunmadı olarak işaretle">
+<!ENTITY feedbar.reloadFeeds "Beslemeleri Yenile">
+<!ENTITY feedbar.stopFeedUpdate "Besleme güncelleştirmesini iptal et">
+<!ENTITY feedbar.minutes "dakika">
+<!ENTITY feedbar.hour "saat">
+<!ENTITY feedbar.hours "saat">
+<!ENTITY feedbar.showLastDaysPre "Sonuncusunu göster">
+<!ENTITY feedbar.showLastDaysPost "gün">
+<!ENTITY feedbar.showLastWeeksPre "Sonuncusunu göster">
+<!ENTITY feedbar.showLastWeeksPost "hafta">
+<!ENTITY feedbar.showAllItems "Tüm ögeleri göster">
+<!ENTITY feedbar.options "Seçenekler">
+<!ENTITY feedbar.showAllItemsButtonLabel "Hepsi">

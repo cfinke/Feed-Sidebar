@@ -47,3 +47,6 @@
 <!ENTITY feedbar.previewQuestion "Lors de l&apos;ouverture de l&apos;élément d&apos;un flux…">
 <!ENTITY feedbar.previewAnswer1 "Ouvrir le lien de la page Web (par défaut).">
 <!ENTITY feedbar.previewAnswer2 "Afficher la description complète de l&apos;élément dans la fenêtre du navigateur.">
+<!ENTITY feedbar.showAllItemsButtonLabel "Tous">
+<!ENTITY feedbar.showAll.tooltip "Activer l&apos;affichage les éléments lus et non lus.">
+<!ENTITY feedbar.alwaysOpenInNewTab "Toujours ouvrir les éléments dans de nouveaux onglets">

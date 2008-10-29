@@ -48,4 +48,5 @@
 <!ENTITY feedbar.previewAnswer1 "リンクされた Web ページを開く (既定)。">
 <!ENTITY feedbar.previewAnswer2 "ブラウザウィンドウに項目の全記述を表示する。">
 <!ENTITY feedbar.showAllItemsButtonLabel "すべて">
+<!ENTITY feedbar.showAll.tooltip "既読と未読の両方ともに項目の表示を有効にします。">
 <!ENTITY feedbar.alwaysOpenInNewTab "常に項目を新しいタブで開く">

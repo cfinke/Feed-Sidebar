@@ -5,11 +5,11 @@
 <!ENTITY feedbar.preview.markAsRead "Hírfolyam vagy elem megjelölése olvasottként">
 <!ENTITY feedbar.preview.summary "Összegzés">
 <!ENTITY feedbar.open "Megnyitás">
-<!ENTITY feedbar.openInTab "Megnyitás új fülön">
-<!ENTITY feedbar.openAllInTabs "Összes megnyitása füleken">
-<!ENTITY feedbar.openUnreadInTabs "Olvasatlan elemek megnyitása füleken">
-<!ENTITY feedbar.openFeedInTabs "Hírfolyamok megnyitása füleken">
-<!ENTITY feedbar.openUnreadFeedInTabs "Olvasatlan hírfolyamok megnyitása füleken">
+<!ENTITY feedbar.openInTab "Megnyitás új lapon">
+<!ENTITY feedbar.openAllInTabs "Összes megnyitása lapokon">
+<!ENTITY feedbar.openUnreadInTabs "Olvasatlan elemek megnyitása lapokon">
+<!ENTITY feedbar.openFeedInTabs "Hírfolyamok megnyitása lapokon">
+<!ENTITY feedbar.openUnreadFeedInTabs "Olvasatlan hírfolyamok megnyitása lapokon">
 <!ENTITY feedbar.markAsRead "Megjelölés olvasottként">
 <!ENTITY feedbar.markAsUnread "Megjelölés olvasatlanként">
 <!ENTITY feedbar.markFeedAsRead "Hírfolyam megjelölése olvasottként">
@@ -22,6 +22,31 @@
 <!ENTITY feedbar.hour "óra">
 <!ENTITY feedbar.hours "óra">
 <!ENTITY feedbar.showLastTooltip "Megjelenített elemek korlátozása kor alapján">
-<!ENTITY feedbar.showLastDaysPre "Utolsó megjelenítése">
-<!ENTITY feedbar.showLastDaysPost "nap">
-<!ENTITY feedbar.showLastWeeksPre "Utolsó megjelenítése">
+<!ENTITY feedbar.showLastDaysPre "Utolsó">
+<!ENTITY feedbar.showLastDaysPost "nap mutatása">
+<!ENTITY feedbar.showLastWeeksPre "Utolsó">
+<!ENTITY feedbar.showLastWeeksPost "hét mutatása">
+<!ENTITY feedbar.showAllItems "Összes elem mutatása">
+<!ENTITY feedbar.showLastDay "Utolsó nap mutatása">
+<!ENTITY feedbar.showLastWeek "Utolsó hét mutatása">
+<!ENTITY feedbar.showLastMonth "Utolsó hónap mutatása">
+<!ENTITY feedbar.copyTitle "Cím másolása">
+<!ENTITY feedbar.copyLink "Hivatkozás másolása">
+<!ENTITY feedbar.unsubscribe "Leiratkozás">
+<!ENTITY feedbar.options "Beállítások">
+<!ENTITY feedbar.hideReadItems "Olvasott elemek elrejtése">
+<!ENTITY feedbar.updateEvery1 "Hírfolyamok frissítése">
+<!ENTITY feedbar.updateEvery2 "percenként.">
+<!ENTITY feedbar.showAllItemsFull "Összes hír megjelenítése, kortól függetlenül.">
+<!ENTITY feedbar.onlyShow1 "Csak az utolsó">
+<!ENTITY feedbar.onlyShow2 "nap híreinek megjelenítése.">
+<!ENTITY feedbar.24HourTime "24-órás idő használata">
+<!ENTITY feedbar.autoClose "Oldalsáv automatikus bezáráa az összes hír olvasottként megjelelölésekor.">
+<!ENTITY feedbar.notifications "Felugró értesítés megjelenítése új hírek érkezésekor.">
+<!ENTITY feedbar.runInSidebar "Frissítések keresése csak az oldalsáv nyitott állapota esetén.">
+<!ENTITY feedbar.previewQuestion "Új hír megnyitásakor...">
+<!ENTITY feedbar.previewAnswer1 "A hivatkozott weboldal megnyitása (alapértelmezett).">
+<!ENTITY feedbar.previewAnswer2 "A teljes összegzés megjelenítése a böngészőablakban.">
+<!ENTITY feedbar.showAllItemsButtonLabel "Mind">
+<!ENTITY feedbar.showAll.tooltip "Olvasott és olvasott elemek megjelenítése.">
+<!ENTITY feedbar.alwaysOpenInNewTab "Hírek megnyitása mindig új lapon.">
