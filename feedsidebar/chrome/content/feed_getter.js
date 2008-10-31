@@ -587,9 +587,7 @@ var FEED_GETTER = {
 		                     .get("ProfD", Components.interfaces.nsIFile);
 		file.append("feedbar.sqlite");
 
-		var storageService = Components.classes["@mozilla.org/storage/service;1"]
-		                        .getService(Components.interfaces.mozIStorageService);
-		var mDBConn = storageService.openDatabase(file);
+		var mDBConn = FEED_GETTER.storageService.openDatabase(file);
 		
 		return mDBConn;
 	},
