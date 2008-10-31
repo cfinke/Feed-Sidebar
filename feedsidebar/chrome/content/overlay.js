@@ -1,5 +1,8 @@
 var FEEDBAR = {
-beginTime : [],
+	storageService : Components.classes["@mozilla.org/storage/service;1"].getService(Components.interfaces.mozIStorageService),
+	
+	beginTime : [],
+	
 /**
  * Functions required for implementation of tree view methods
  */
@@ -1743,9 +1746,7 @@ beginTime : [],
 		                     .get("ProfD", Components.interfaces.nsIFile);
 		file.append("feedbar.sqlite");
 
-		var storageService = Components.classes["@mozilla.org/storage/service;1"]
-		                        .getService(Components.interfaces.mozIStorageService);
-		var mDBConn = storageService.openDatabase(file);
+		var mDBConn = FEEDBAR.storageService.openDatabase(file);
 		
 		return mDBConn;
 	},
