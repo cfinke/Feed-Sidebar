@@ -316,12 +316,15 @@ var FEEDSIDEBAR = {
 	itemSelect : function (event) {
 		var idx = window.parent.FEEDBAR.getSelectedIndex();
 		
-		if (idx) {
-			window.parent.FEEDBAR.previewTimeout = setTimeout(FEEDSIDEBAR.showPreview, 450, idx);
-		}
-		else {
+		if (idx < 0) {
 			FEEDSIDEBAR.showPreview();
 		}
+		else {
+			window.parent.FEEDBAR.previewTimeout = setTimeout(FEEDSIDEBAR.showPreview, 450, idx);
+		}
+		
+		event.stopPropagation();
+		event.preventDefault();
 	},
 	
 	hidePreview : function () {
@@ -337,7 +340,7 @@ var FEEDSIDEBAR = {
 	showPreview : function (idx) {
 		var tt = FEEDSIDEBAR.previewPane;
 		
-		if ((idx < 0)) {
+		if (typeof idx == 'undefined' || (idx < 0)) {
 			FEEDSIDEBAR.hidePreview();
 		}
 		else {
@@ -421,3 +424,8 @@ var FEEDSIDEBAR = {
 		document.getElementById("sidebar-notify").removeAllNotifications();
 	}
 };
+
+function logFeedbarMsg(m) {
+	var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
+	consoleService.logStringMessage("FEEDBAR: " + m);
+}
