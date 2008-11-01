@@ -1,8 +1,5 @@
 var FEEDBAR = {
-	storageService : Components.classes["@mozilla.org/storage/service;1"].getService(Components.interfaces.mozIStorageService),
-	
-	beginTime : [],
-	
+beginTime : [],
 /**
  * Functions required for implementation of tree view methods
  */
@@ -12,6 +9,7 @@ var FEEDBAR = {
 	
 	selection : null,
 	
+	childData : { },
 	visibleData : [],
 	get rowCount() { return this.visibleData.length; },
 	
@@ -114,70 +112,35 @@ var FEEDBAR = {
 	},
 	
 	hasVisibleItems : function (idx) {
-		var rv = false;
-		var feedId = 0;
-		
-		var db = this.getDB();
-		
 		var key = this.visibleData[idx].id;
-		
 		var feedName = this.getCellText(idx);
-		
-		var select = db.createStatement("SELECT id FROM feeds WHERE guid=?1");
-		select.bindUTF8StringParameter(0, key);
-	
-		try {
-			while (select.executeStep()) {
-				feedId = select.getInt32(0);
-				break;
-			}
-		} catch (e) {
-			alert(e);
-		} finally {
-			select.reset();
-		}
+		var toInsert = this.childData[key].items;
+		var itemsInserted = 0;
 		
 		var displayPeriod = this.prefs.getIntPref("displayPeriod");
-
+		var showReadItems = !this.prefs.getBoolPref("hideReadItems");
+		
 		if (displayPeriod > 0) {
 			var mustBeAfter = (new Date()).getTime() - (displayPeriod * 24 * 60 * 60 * 1000);
 		}
-		else {
-			var mustBeAfter = 0;
-		}
 		
-		var showReadItems = !this.prefs.getBoolPref("hideReadItems");
-		
-		select = db.createStatement("SELECT label, description FROM items WHERE feed=?1 AND published >= ?2 AND visited <= ?3");
-		select.bindInt32Parameter(0, feedId);
-		select.bindInt64Parameter(1, mustBeAfter);
-		
-		if (showReadItems) {
-			select.bindInt32Parameter(2, 1);
-		}
-		else {
-			select.bindInt32Parameter(2, 0);
-		}
-		
-		try {
-			while (select.executeStep()) {
-				var label = select.getUTF8String(0);
-				var description = select.getUTF8String(1);
-				
-				if (!this.passesFilter(feedName + " " + label + " " + description)) {
-					rv = true;
-					break;
-				}
+		for (var i = 0; i < toInsert.length; i++){
+			if (!showReadItems && toInsert[i].visited) {
+				continue;
 			}
-		} catch (e) {
-			alert(e);
-		} finally {
-			select.reset();
+			
+			if ((displayPeriod > 0) && (toInsert[i].published < mustBeAfter)) {
+				continue;
+			}
+			
+			if (!this.passesFilter(feedName + " " + toInsert[i].label + " " + toInsert[i].description)) {
+				continue;
+			}
+			
+			return true;
 		}
 		
-		this.closeDB(db);
-		
-		return rv;
+		return false;
 	},
 	
 	numUnreadItems : function (idx) {
@@ -229,56 +192,8 @@ var FEEDBAR = {
 			return false;
 		}
 	},
-	
-	getFeedId : function (guid) {
-		var feedId = 0;
 
-		var db = this.getDB();
-		var select = db.createStatement("SELECT id FROM feeds WHERE guid=?1");
-		select.bindUTF8StringParameter(0, guid);
-		
-		try {
-			while (select.executeStep()) {
-				feedId = select.getInt32(0);
-				break;
-			}
-		} catch (e) {
-			alert(e);
-		} finally {
-			select.reset();
-		}
-		
-		this.closeDB(db);
-		
-		return feedId;
-	},
-	
-	getFeedGUID : function (id) {
-		var feedGuid = '';
-
-		var db = this.getDB();
-		var select = db.createStatement("SELECT guid FROM feeds WHERE id=?1");
-		select.bindInt64Parameter(0, id);
-		
-		try {
-			while (select.executeStep()) {
-				feedGuid = select.getUTF8String(0);
-				break;
-			}
-		} catch (e) {
-			alert(e);
-		} finally {
-			select.reset();
-		}
-		
-		this.closeDB(db);
-		
-		return feedGuid;
-	},
-	
 	hasUnreadItems : function (idx) {
-		var rv = false;
-		
 		if (typeof idx == 'undefined') {
 			var len = this.visibleData.length;
 			
@@ -293,44 +208,33 @@ var FEEDBAR = {
 		
 		var key = this.visibleData[idx].id;
 		var feedName = this.getCellText(idx);
-		
-		var feedId = this.getFeedId(key);
-		var db = this.getDB();
+		var toInsert = this.childData[key].items;
+		var itemsInserted = 0;
 		
 		var displayPeriod = this.prefs.getIntPref("displayPeriod");
-
+		var showReadItems = !this.prefs.getBoolPref("hideReadItems");
+		
 		if (displayPeriod > 0) {
 			var mustBeAfter = (new Date()).getTime() - (displayPeriod * 24 * 60 * 60 * 1000);
 		}
-		else {
-			var mustBeAfter = 0;
-		}
 		
-		var showReadItems = !this.prefs.getBoolPref("hideReadItems");
-		
-		select = db.createStatement("SELECT label, description FROM items WHERE feed=?1 AND published >= ?2 AND visited = 0");
-		select.bindInt32Parameter(0, feedId);
-		select.bindInt64Parameter(1, mustBeAfter);
-		
-		try {
-			while (select.executeStep()) {
-				var label = select.getUTF8String(0);
-				var description = select.getUTF8String(1);
-				
-				if (this.passesFilter(feedName + " " + label + " " + description)) {
-					rv = true;
-					break;
-				}
+		for (var i = 0; i < toInsert.length; i++){
+			if ((displayPeriod > 0) && (toInsert[i].published < mustBeAfter)) {
+				continue;
 			}
-		} catch (e) {
-			alert(e);
-		} finally {
-			select.reset();
+			
+			if (!this.passesFilter(feedName + " " + toInsert[i].label + toInsert[i].description)) {
+				continue;
+			}
+			
+			if (toInsert[i].visited) {
+				continue;
+			}
+			
+			return true;
 		}
 		
-		this.closeDB(db);
-		
-		return rv;
+		return false;
 	},
 	
 	toggleOpenState : function (idx) {
@@ -365,8 +269,7 @@ var FEEDBAR = {
 			
 			var key = this.visibleData[idx].id;
 			var feedName = this.getCellText(idx);
-			
-			var feedId = this.getFeedId(key);
+			var toInsert = this.childData[key].items;
 			var itemsInserted = 0;
 			
 			// Optimize: if changing the display period to be *more* restrictive, we don't need to
@@ -375,48 +278,28 @@ var FEEDBAR = {
 			// Optimize: ^ The same with the search filter.
 			
 			var displayPeriod = this.prefs.getIntPref("displayPeriod");
-
+			var showReadItems = !this.prefs.getBoolPref("hideReadItems");
+			
 			if (displayPeriod > 0) {
 				var mustBeAfter = (new Date()).getTime() - (displayPeriod * 24 * 60 * 60 * 1000);
 			}
-			else {
-				var mustBeAfter = 0;
-			}
-
-			var showReadItems = !this.prefs.getBoolPref("hideReadItems");
-
-			var db = this.getDB();
-
-			select = db.createStatement("SELECT label, description, image, uri, guid, visited, published FROM items WHERE feed=?1 AND published >= ?2 AND visited <= ?3");
-			select.bindInt32Parameter(0, feedId);
-			select.bindInt64Parameter(1, mustBeAfter);
-
-			if (showReadItems) {
-				select.bindInt32Parameter(2, 1);
-			}
-			else {
-				select.bindInt32Parameter(2, 0);
-			}
-
-			try {
-				while (select.executeStep()) {
-					var label = select.getUTF8String(0);
-					var description = select.getUTF8String(1);
-
-					if (!this.passesFilter(feedName + " " + label + " " + description)) {
-						continue;
-					}
-
-					++itemsInserted;
-					this.visibleData.splice(idx + itemsInserted, 0, { "id" : null, "label" : " " + label, "isContainer" : false, "image" : select.getUTF8String(2), "uri" : select.getUTF8String(3), "id" : select.getUTF8String(4), "visited" : select.getInt32(5), "description" : description, "published" : select.getInt64(6) });
+			
+			for (var i = 0; i < toInsert.length; i++){
+				if (!showReadItems && toInsert[i].visited) {
+					continue;
 				}
-			} catch (e) {
-				alert(e);
-			} finally {
-				select.reset();
+				
+				if ((displayPeriod > 0) && (toInsert[i].published < mustBeAfter)) {
+					continue;
+				}
+				
+				if (!this.passesFilter(feedName + " " + toInsert[i].label + toInsert[i].description)) {
+					continue;
+				}
+				
+				this.visibleData.splice(idx + itemsInserted + 1, 0, { "id" : null, "label" : " " + toInsert[i].label, "isContainer" : false, "image" : toInsert[i].image, "uri" : toInsert[i].uri, "id" : toInsert[i].id, "visited" : toInsert[i].visited, "description" : toInsert[i].description, "published" : toInsert[i].published });
+				++itemsInserted;
 			}
-
-			this.closeDB(db);
 			
 			if (itemsInserted == 0) {
 				// If it's empty, get rid of it.
@@ -519,98 +402,37 @@ var FEEDBAR = {
 	searchFilter : [],
 	
 	push : function (feedObject) {
+		var toInsert = [];
 		var hasVisible = false;
 		var showReadItems = !this.prefs.getBoolPref("hideReadItems");
 		
-		var db = this.getDB();
-		
-		var feedId = this.getFeedId(feedObject.uri);
-		
-		if (feedId == 0) {
-			var insert = db.createStatement("INSERT INTO feeds (guid, livemarkId, label, uri, siteUri, description, image) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)");
-			insert.bindUTF8StringParameter(0, feedObject.uri);
-			insert.bindInt64Parameter(1, feedObject.livemarkId);
-			insert.bindUTF8StringParameter(2, feedObject.label);
-			insert.bindUTF8StringParameter(3, feedObject.uri);
-			insert.bindUTF8StringParameter(4, feedObject.siteUri);
-			insert.bindUTF8StringParameter(5, feedObject.description);
-			insert.bindUTF8StringParameter(6, feedObject.image);
-			insert.execute();
-			insert.reset();
-			
-			feedId = db.lastInsertRowID;
-		}
-		else {
-			var update = db.createStatement("UPDATE feeds SET guid=?1, livemarkId=?2, label=?3, uri=?4, siteUri=?5, description=?6, image=?7 WHERE id=?8");
-			update.bindUTF8StringParameter(0, feedObject.uri);
-			update.bindInt64Parameter(1, feedObject.livemarkId);
-			update.bindUTF8StringParameter(2, feedObject.label);
-			update.bindUTF8StringParameter(3, feedObject.uri);
-			update.bindUTF8StringParameter(4, feedObject.siteUri);
-			update.bindUTF8StringParameter(5, feedObject.description);
-			update.bindUTF8StringParameter(6, feedObject.image);
-			update.bindInt64Parameter(7, feedId);
-			update.execute();
-			update.reset();
-			
-			var del = db.createStatement("DELETE FROM items WHERE feed=?1");
-			del.bindInt64Parameter(0, feedId);
-			del.execute();
-			del.reset();
-		}
-		
 		for (var i = 0; i < feedObject.items.length; i++) {
 			var item = feedObject.items[i];
-			var insert = db.createStatement("INSERT INTO items (feed, label, image, visited, uri, guid, published, description) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)");
-			insert.bindInt64Parameter(0, feedId);
-			insert.bindUTF8StringParameter(1, item.label);
-			insert.bindUTF8StringParameter(2, item.image);
-			insert.bindInt32Parameter(3, item.visited);
-			insert.bindUTF8StringParameter(4, item.uri);
-			insert.bindUTF8StringParameter(5, item.id);
-			insert.bindInt64Parameter(6, item.published);
-			insert.bindUTF8StringParameter(7, item.description);
-			insert.execute();
-			insert.reset();
+			
+			toInsert.push( { "label" : item.label, "image" : item.image, "visited" : item.visited, "uri" : item.uri, "id" : item.id, "published" : item.published, "description" : item.description } );
+			
+			/*
+			Components.utils.import("resource://gre/modules/json.jsm");
+
+			try {
+				var s = JSON.toString(toInsert);
+			} catch (e) {
+				var s = '';
+				for (var x in item) {
+					s += x + ": " + item[x] + "\t";
+				}
+				alert("Found it: " + s);
+				return;
+			}
+			*/
 			
 			if (showReadItems || !item.visited) {
 				hasVisible = true;
 			}
 		}
 		
-		this.closeDB(db);
-		
-		this.addToTree(feedId, hasVisible);
-	},
-	
-	addToTree : function (feedId, hasVisible) {
-		if (typeof hasVisible == 'undefined') {
-			hasVisible = true;
-		}
-		
-		var db = this.getDB();
-		
-		var select = db.createStatement("SELECT guid, livemarkId, label, uri, siteUri, description, image FROM feeds WHERE id=?1");
-		select.bindInt64Parameter(0, feedId);
-		
-		try {
-			while (select.executeStep()) {
-				var feedGuid = select.getUTF8String(0);
-				var livemarkId = select.getInt64(1);
-				var feedLabel = select.getUTF8String(2);
-				var feedUri = select.getUTF8String(3);
-				var feedSiteUri = select.getUTF8String(4);
-				var feedDescription = select.getUTF8String(5);
-				var feedImage = select.getUTF8String(6);
-				break;
-			}
-		} catch (e) {
-			alert(e);
-		} finally {
-			select.reset();
-		}
-		
-		this.closeDB(db);
+		this.childData[feedObject.id] = { "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : feedObject.label, "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri, "siteUri" : feedObject.siteUri, "description" : feedObject.description, "image" : feedObject.image, "items" : [] };
+		this.childData[feedObject.id].items = toInsert;
 		
 		var folderIdx = -1;
 		var wasLeftOpen = false;
@@ -629,7 +451,7 @@ var FEEDBAR = {
 		
 		var reselect = false;
 		
-		if (selFeedId && selFeedId == feedGuid) {
+		if (selFeedId && selFeedId == feedObject.id) {
 			// The selected item is in this feed.
 			
 			reselect = this.visibleData[selectedIdx].id;
@@ -638,7 +460,7 @@ var FEEDBAR = {
 		// Check if this feed is alredy being displayed.  If it is, toggle it closed so that we can use the toggleOpenState function to 
 		// replace the children.
 		for (var idx = 0; idx < this.visibleData.length; idx++) {
-			if (this.isContainer(idx) && this.getCellID(idx) == feedGuid) {
+			if (this.isContainer(idx) && this.getCellID(idx) == feedObject.id) {
 				var folderIdx = idx;
 				
 				if (this.isContainerOpen(folderIdx)) {
@@ -657,12 +479,12 @@ var FEEDBAR = {
 		
 		if (hasVisible) {
 			if (folderIdx < 0) {
-				this.visibleData.push({ "id" : feedGuid, "livemarkId" : livemarkId, "label" : " " + feedLabel.replace(/^\s+/g, ""), "isContainer" : true, "isOpen" : false, "uri" : feedUri, "siteUri" : feedSiteUri, "description" : feedDescription, "image" : feedImage });
+				this.visibleData.push({ "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : " " + feedObject.label.replace(/^\s+/g, ""), "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri, "siteUri" : feedObject.siteUri, "description" : feedObject.description, "image" : feedObject.image });
 				try { this.treeBox.rowCountChanged(this.rowCount - 1, 1); } catch (sidebarNotOpen) { }
 				folderIdx = this.rowCount - 1;
 			}
 			
-			wasLeftOpen = wasLeftOpen || this.wasLeftOpen(feedGuid);
+			wasLeftOpen = wasLeftOpen || this.wasLeftOpen(feedObject.id);
 			
 			if (wasLeftOpen) {
 				// Re-use the toggling code so that we don't have to manually add
@@ -695,8 +517,6 @@ var FEEDBAR = {
 			}
 		}
 		
-		this.closeDB(db);
-		
 		this.updateNotifier();
 	},
 	
@@ -721,6 +541,11 @@ var FEEDBAR = {
 		else {
 			try { document.getElementById("feedbar-button").setAttribute("new","false"); } catch (e) { }
 		}
+	},
+	
+	pushFromChildData : function (feedId) {
+		var feedObject = this.childData[feedId];
+		this.push(feedObject);
 	},
 	
 	filter : function (dontRefresh) {
@@ -799,15 +624,18 @@ var FEEDBAR = {
 		
 		try { insert.execute(); } catch (duplicateKey) { }
 		
-		// Set its visited property permanently in the DB.
-		var update = db.createStatement("UPDATE items SET visited=1 WHERE guid=?1");
-		update.bindUTF8StringParameter(0, cellID);
-		update.execute();
-		update.reset();
-		
 		this.closeDB(db);
 		
+		// Find it in the childData object to set its "visited" property permanently.
 		var parentIdx = this.getParentIndex(idx);
+		var parentID = this.getCellID(parentIdx);
+		
+		for (var i = 0; i < this.childData[parentID].items.length; i++) {
+			if (this.childData[parentID].items[i].id == cellID) {
+				this.childData[parentID].items[i].visited = true;
+				break;
+			}
+		}
 		
 		if (this.prefs.getBoolPref("hideReadItems") && updateUI) {
 			var rowsRemoved = 1;
@@ -843,18 +671,20 @@ var FEEDBAR = {
 		
 		try { deleteSql.execute(); } catch (e) { }
 		
-		// Set the "visited" property permanently
-		var update = db.createStatement("UPDATE items SET visited=0 WHERE guid=?1");
-		update.bindUTF8StringParameter(0, cellID);
-		update.execute();
-		update.reset();
-		
 		this.closeDB(db);
 		
+		// Find it in the childData object to set its "visited" property permanently.
 		var parentIdx = this.getParentIndex(idx);
+		var parentID = this.getCellID(parentIdx);
+		
+		for (var i = 0; i < this.childData[parentID].items.length; i++) {
+			if (this.childData[parentID].items[i].id == cellID) {
+				this.childData[parentID].items[i].visited = false;
+				break;
+			}
+		}
 		
 		this.visibleData[idx].visited = false;
-		this.visibleData[parentIdx].visited = false;
 		
 		// Parent style may have changed.
 		try { this.treeBox.invalidateRow(parentIdx); } catch (sidebarNotOpen) { }
@@ -982,21 +812,14 @@ var FEEDBAR = {
 		if (!db.tableExists("state")) {
 			db.executeSimpleSQL("CREATE TABLE IF NOT EXISTS state (id TEXT PRIMARY KEY, open INTEGER)");
 		}
-		if (!db.tableExists("feeds")) {
-			db.executeSimpleSQL("CREATE TABLE IF NOT EXISTS feeds (id INTEGER PRIMARY KEY, guid TEXT, livemarkId INTEGER, label TEXT, open INTEGER DEFAULT 0, uri TEXT, siteUri TEXT, description TEXT, image TEXT)");
-		}
-		if (!db.tableExists("items")) {
-			db.executeSimpleSQL("CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY, feed INTEGER, label TEXT, image TEXT, visited INTEGER, uri TEXT, guid TEXT, published INTEGER, description TEXT)");
-		}
 		
 		this.closeDB(db);
 		
 		try {
-			/*
 			Components.utils.import("resource://gre/modules/json.jsm");
 			
 			var file = Components.classes['@mozilla.org/file/directory_service;1']
-                            .getService(Components.interfaces.nsIProperties)
+                            .getService(Components.interfaces.nsIProperties) //changed by <asqueella@gmail.com>
                             .get("ProfD", Components.interfaces.nsIFile);
 			file.append("feedbar.cache");
 			
@@ -1011,7 +834,6 @@ var FEEDBAR = {
 			siStream.close();
 			
 			this.childData = JSON.fromString(data);
-			*/
 			this.refreshTree();
 			this.updateNotifier();
 		} catch (e) {
@@ -1024,54 +846,32 @@ var FEEDBAR = {
 	},
 	
 	tryAndRemoveFeed : function (livemarkId) {
-		var db = this.getDB();
-		
-		var select = db.createStatement("SELECT id, guid FROM feeds WHERE livemarkId=?1");
-		select.bindInt64Parameter(0, livemarkId);
-		
-		var feedId = 0;
-		var feedGuid = '';
-		
-		try {
-			while (select.executeStep()) {
-				feedId = select.getInt64(0);
-				feedGuid = select.getUTF8String(1);
-				break;
-			}
-		} catch (e) {
-		} finally {
-			select.reset();
-		}
-		
-		var del = db.createStatement("DELETE FROM feeds WHERE id=?1");
-		del.bindInt64Parameter(0, feedId);
-		del.execute();
-		del.reset();
-		
-		del = db.createStatement("DELETE FROM items WHERE feed=?1");
-		del.bindInt64Parameter(0, feedId);
-		del.execute();
-		del.reset();
-
-		this.closeDB(db);
-
-		var len = this.visibleData.length;
-		
-		for (var j = 0; j < len; j++) {
-			if (this.isContainer(j) && this.visibleData[j].id == feedGuid) {
-				// Remove this.
-				var itemsRemoved = 1;
+		for (var i in this.childData) {
+			if (this.childData[i].livemarkId == livemarkId) {
+				var feedId = i;
+				delete this.childData[i];
 				
-				for (var k = j + 1; k < len; k++) {
-					if (this.isContainer(k)) {
+				var len = this.visibleData.length;
+				
+				for (var j = 0; j < len; j++) {
+					if (this.isContainer(j) && this.visibleData[j].id == feedId) {
+						// Remove this.
+						var itemsRemoved = 1;
+						
+						for (var k = j + 1; k < len; k++) {
+							if (this.isContainer(k)) {
+								break;
+							}
+							
+							++itemsRemoved;
+						}
+						
+						this.visibleData.splice(j, itemsRemoved);
+						try { this.treeBox.rowCountChanged(j, (itemsRemoved * -1)); } catch (sidebarNotOpen) { }
 						break;
 					}
-					
-					++itemsRemoved;
 				}
 				
-				this.visibleData.splice(j, itemsRemoved);
-				try { this.treeBox.rowCountChanged(j, (itemsRemoved * -1)); } catch (sidebarNotOpen) { }
 				break;
 			}
 		}
@@ -1089,7 +889,6 @@ var FEEDBAR = {
 		this.prefs.removeObserver("", this);
 		
 		try {
-			/*
 			Components.utils.import("resource://gre/modules/json.jsm");
 			
 			var data = JSON.toString(this.childData);
@@ -1105,7 +904,6 @@ var FEEDBAR = {
 			foStream.init(file, flags, 0664, 0);
 			foStream.write(data, data.length);
 			foStream.close();
-			*/
 		} catch (e) {
 			this.prefs.setIntPref("lastUpdate", 0);
 		
@@ -1146,20 +944,10 @@ var FEEDBAR = {
 		this.visibleData.splice(0, rows);
 		try { this.treeBox.rowCountChanged(0, -rows); } catch (sidebarNotOpen) { }
 		
-		var db = this.getDB();
-		var select = db.createStatement("SELECT id FROM feeds");
-		
-		try {
-			while (select.executeStep()) {
-				this.addToTree(select.getInt64(0));
-			}
-		} catch (e) {
-			alert(e);
-		} finally {
-			select.reset();
+		// Re-populate the tree.
+		for (var i in this.childData) {
+			this.pushFromChildData(i);
 		}
-		
-		this.closeDB(db);
 		
 		this.updateNotifier();
 		this.endBatch();
@@ -1321,13 +1109,6 @@ var FEEDBAR = {
 		var numItems = 0;
 		var folderIdx = this.getSelectedIndex();
 		
-		var wasOpen = true;
-		
-		if (!this.isContainerOpen(folderIdx)) {
-			wasOpen = false;
-			this.toggleOpenState(folderIdx);
-		}
-		
 		for (var i = folderIdx + 1; (i < this.visibleData.length && !this.isContainer(i)); i++) {
 			++numItems;
 		}
@@ -1348,9 +1129,6 @@ var FEEDBAR = {
 			
 			this.markFeedAsRead(folderIdx);
 			this.updateNotifier();
-		}
-		else if (!wasOpen) {
-			this.toggleOpenState(folderIdx);
 		}
 	},
 	
@@ -1389,7 +1167,7 @@ var FEEDBAR = {
 			// Open the feed so that it's children can be marked.
 			// Not optimal.
 			// Optimize: Don't rely on the visibleData array for marking a feed as read.
-			// Mark the child items as read in the db and then remove the entire 
+			// Mark the child items as read in the childData array and then remove the entire 
 			// feed from the visibleData array, whether it's open or not.
 			this.toggleOpenState(folderIdx);
 		}
@@ -1430,7 +1208,7 @@ var FEEDBAR = {
 			// Open the feed so that it's children can be marked.
 			// Not optimal.
 			// Optimize: Don't rely on the visibleData array for marking a feed as read.
-			// Mark the child items as read in the db and then remove the entire 
+			// Mark the child items as read in the childData array and then remove the entire 
 			// feed from the visibleData array, whether it's open or not.
 			this.toggleOpenState(folderIdx);
 		}
@@ -1583,6 +1361,20 @@ var FEEDBAR = {
 			} catch (e) {
 				this.tryAndRemoveFeed(livemarkId);
 			}
+			
+			/*
+			
+			// This section is now covered by the bookmark listener.
+			
+			delete this.childData[feedKey];
+			
+			if (this.isContainerOpen(idx)) {
+				this.toggleOpenState(idx);
+			}
+			
+			this.visibleData.splice(idx, 1);
+			try { this.treeBox.rowCountChanged(idx, -1); } catch (sidebarNotOpen) { }
+			*/
 		} catch (e) {
 			function createSelection(node) {
 				var items = [ node ];
@@ -1624,35 +1416,7 @@ var FEEDBAR = {
 				BookmarksCommand.deleteBookmark(selection);
 				
 				// Remove this feed from both visibledata and childdata
-				var db = this.getDB();
-
-				var select = db.createStatement("SELECT id FROM feeds WHERE guid=?1");
-				select.bindUTF8StringParameter(0, feedKey);
-
-				var feedId = 0;
-				var feedGuid = feedKey;
-
-				try {
-					while (select.executeStep()) {
-						feedId = select.getInt64(0);
-						break;
-					}
-				} catch (e) {
-				} finally {
-					select.reset();
-				}
-
-				var del = db.createStatement("DELETE FROM feeds WHERE id=?1");
-				del.bindInt64Parameter(0, feedId);
-				del.execute();
-				del.reset();
-
-				del = db.createStatement("DELETE FROM items WHERE feed=?1");
-				del.bindInt64Parameter(0, feedId);
-				del.execute();
-				del.reset();
-
-				this.closeDB(db);
+				delete this.childData[feedKey];
 				
 				if (this.isContainerOpen(idx)) {
 					this.toggleOpenState(idx);
@@ -1746,7 +1510,9 @@ var FEEDBAR = {
 		                     .get("ProfD", Components.interfaces.nsIFile);
 		file.append("feedbar.sqlite");
 
-		var mDBConn = FEEDBAR.storageService.openDatabase(file);
+		var storageService = Components.classes["@mozilla.org/storage/service;1"]
+		                        .getService(Components.interfaces.mozIStorageService);
+		var mDBConn = storageService.openDatabase(file);
 		
 		return mDBConn;
 	},

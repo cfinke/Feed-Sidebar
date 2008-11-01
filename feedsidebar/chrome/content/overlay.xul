@@ -12,10 +12,9 @@
 		
 		window.addEventListener("load", function (event) { FEEDBAR.load(); }, false);
 		window.addEventListener("unload", function (event) { FEEDBAR.unload(); }, false);
-	
 		window.addEventListener("load", function (event) { FEED_GETTER.init(); }, false);
 		window.addEventListener("unload", function (event) { FEED_GETTER.unload(); }, false);
-	
+		
 		window.addEventListener("offline", function (event) { FEED_GETTER.offline(); }, false);
 		window.addEventListener("online", function (event) { FEED_GETTER.online(); }, false);
 		
