@@ -53,7 +53,7 @@
 	<vbox flex="1">
 		<toolbox id="navigator-toolbox" class="toolbox-top">
 			<toolbar id="nav-bar" iconsize="small" class="toolbar-primary chromeclass-toolbar">
-				<toolbarbutton id="new-tab-button" style="margin-top: 6px;" class="toolbarbutton-1 chromeclass-toolbar-additional" command="open-all-in-tabs" />
+				<toolbarbutton id="new-window-button" style="margin-top: 6px;" class="toolbarbutton-1 chromeclass-toolbar-additional" command="open-all-in-tabs" />
 				<toolbarbutton id="cut-button"  style="margin-top: 6px;" class="toolbarbutton-1 chromeclass-toolbar-additional" command="mark-all-as-read" />
 				<toolbarbutton id="history-button" class="toolbarbutton-1 chromeclass-toolbar-additional" type="menu" orient="horizontal" tooltiptext="&feedbar.showLastTooltip;">
 					<menupopup id="period-menu" command="update-period">
@@ -87,7 +87,7 @@
 				<toolbarbutton id="search-toggle" checked="false" persist="checked" oncommand="document.getElementById('search-bar').collapsed = !document.getElementById('search-bar').collapsed; this.checked = !document.getElementById('search-bar').collapsed;" />
 			</toolbar>
 			<toolbar id="search-bar" persist="collapsed">
-				<textbox id="search-box" flex="1" oninput="FEEDSIDEBAR.onSearchInput(this.value);" />
+				<textbox id="search-box" type="search" flex="1" oninput="FEEDSIDEBAR.onSearchInput(this.value);" />
 				<toolbarbutton id="all-toggle" tooltiptext="&feedbar.showAll.tooltip;" label="&feedbar.showAllItemsButtonLabel;" checked="false" persist="checked" oncommand="FEEDSIDEBAR.prefs.setBoolPref('hideReadItems', this.checked);" />
 			</toolbar>
 		</toolbox>
