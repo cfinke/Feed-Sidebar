@@ -748,7 +748,7 @@ FeedbarParseListener.prototype = {
 				}
 				
 				if (item.title) {
-					itemObject.label = FEED_GETTER.decodeEntities(item.title.plainText().replace(/<[^>]+>/g, ""));
+					itemObject.label = FEED_GETTER.decodeEntities(item.title.plainText());
 				}
 				else {
 					itemObject.label = item.updated;

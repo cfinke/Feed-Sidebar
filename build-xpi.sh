@@ -1,4 +1,3 @@
-rm feedsidebar.xpi
 rm -rf .tmp_xpi_dir/
 
 chmod -R 0777 feedsidebar/
@@ -15,8 +14,6 @@ zip -rq ../feedsidebar.jar *
 rm -rf *
 mv ../feedsidebar.jar ./
 cd ../
-zip -rq ../feedsidebar.xpi *
+zip -rq ~/Desktop/feedsidebar.xpi *
 cd ../
 rm -rf .tmp_xpi_dir/
-cp feedsidebar.xpi ~/Desktop/
-#scp feedsidebar.xpi cfinke@efinke.com:~/www/feedbar.xpi
