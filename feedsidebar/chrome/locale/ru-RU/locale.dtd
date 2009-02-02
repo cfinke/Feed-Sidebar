@@ -44,3 +44,6 @@
 <!ENTITY feedbar.previewQuestion "При открытии новости…">
 <!ENTITY feedbar.previewAnswer1 "Открывать страницу новости (по умолчанию).">
 <!ENTITY feedbar.previewAnswer2 "Показать новость в окне браузера.">
+<!ENTITY feedbar.showAllItemsButtonLabel "All">
+<!ENTITY feedbar.showAll.tooltip "Enable to show both read and unread items.">
+<!ENTITY feedbar.alwaysOpenInNewTab "Always open items in new tabs">

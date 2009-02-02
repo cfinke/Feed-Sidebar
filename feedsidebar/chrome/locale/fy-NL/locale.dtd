@@ -44,3 +44,6 @@
 <!ENTITY feedbar.previewQuestion "As in feeditem iepenet wurdt...">
 <!ENTITY feedbar.previewAnswer1 "iepenje de keppele webside (standert).">
 <!ENTITY feedbar.previewAnswer2 "toan de folsleine itemomskriuwing yn it browserskerm.">
+<!ENTITY feedbar.showAllItemsButtonLabel "All">
+<!ENTITY feedbar.showAll.tooltip "Enable to show both read and unread items.">
+<!ENTITY feedbar.alwaysOpenInNewTab "Always open items in new tabs">

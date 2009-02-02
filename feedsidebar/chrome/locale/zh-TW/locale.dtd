@@ -44,3 +44,6 @@
 <!ENTITY feedbar.previewQuestion "當開啟即時書籤項目時...">
 <!ENTITY feedbar.previewAnswer1 "開啟連結網站。（預設）">
 <!ENTITY feedbar.previewAnswer2 "顯示所有項目說明於瀏覽視窗。">
+<!ENTITY feedbar.showAllItemsButtonLabel "All">
+<!ENTITY feedbar.showAll.tooltip "Enable to show both read and unread items.">
+<!ENTITY feedbar.alwaysOpenInNewTab "Always open items in new tabs">
