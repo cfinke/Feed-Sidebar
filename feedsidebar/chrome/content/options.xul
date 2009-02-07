@@ -96,18 +96,18 @@
 		</preferences>
 		<groupbox>
 			<hbox>
-				<label value="&feedbar.updateEvery1;" style="padding-top: 4px;" />
-				<textbox preference="p_update_freq" size="2" />
-				<label value="&feedbar.updateEvery2;" style="padding-top: 4px;"  />
+				<label value="&feedbar.updateEvery1;" style="padding-top: 4px;" control="updateFreq"/>
+				<textbox id="updateFreq" preference="p_update_freq" size="2" aria-labelledby="updateFreq updateFreqUnit"/>
+				<label id="updateFreqUnit" value="&feedbar.updateEvery2;" style="padding-top: 4px;"  />				
 			</hbox>
 		</groupbox>
 		<groupbox>
 			<radiogroup id="display-period" style="padding-left: 2ex;">
 				<radio label="&feedbar.showAllItemsFull;" id="show-all-radio" oncommand="FEEDBAR_PREFS.showAll();" />
 				<hbox align="center">
-					<radio label="&feedbar.onlyShow1;" oncommand="FEEDBAR_PREFS.showOnly();" />
-					<textbox oninput="FEEDBAR_PREFS.showOnly();" id="display-days" size="2" />
-					<label value="&feedbar.onlyShow2;" />
+					<radio id="showOnlyRadio" label="&feedbar.onlyShow1;" oncommand="FEEDBAR_PREFS.showOnly();" />
+					<textbox oninput="FEEDBAR_PREFS.showOnly();" id="display-days" size="2" aria-labelledby="showOnlyRadio display-days onlyShowUnit"/>
+					<label id="onlyShowUnit" value="&feedbar.onlyShow2;" />
 				</hbox>
 			</radiogroup>
 			<checkbox label="&feedbar.hideReadItems;" preference="p_hide_read" />
@@ -119,8 +119,8 @@
 			<checkbox label="&feedbar.runInSidebar;" preference="p_sidebar" />
 		</groupbox>
 		<groupbox>
-			<label value="&feedbar.previewQuestion;" />
-			<radiogroup preference="p_fullPreview" style="padding-left: 2ex;">
+			<label value="&feedbar.previewQuestion;" control="fullPreview"/>
+			<radiogroup id="fullPreview" preference="p_fullPreview" style="padding-left: 2ex;">
 				<radio label="&feedbar.previewAnswer1;" value="false" />
 				<radio label="&feedbar.previewAnswer2;" value="true" />
 			</radiogroup>

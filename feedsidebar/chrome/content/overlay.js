@@ -1010,8 +1010,8 @@ beginTime : [],
 				}
 				else {
 					// Left-click
-					if (event.detail != 1){
-						// Single-left-clicks are handled by onselect
+                    if (event.detail != 1 || event.which == 13){
+                        // Single-left-clicks are handled by onselect
 						FEED_GETTER.feedWindow.clearTimeout(FEEDBAR.previewTimeout);
 						
 						this.launchUrl(this.getCellLink(targetIdx), event);
@@ -1467,13 +1467,13 @@ beginTime : [],
 	},
 	
 	launchUrl : function (url, event) {
-		if (this.prefs.getBoolPref("openInNewTab") || (event.which == 2) || (event.which == 1 && (event.ctrlKey || event.metaKey))){
+		if (this.prefs.getBoolPref("openInNewTab") || (event.which == 2) || (event.which == 1 && (event.ctrlKey || event.metaKey) && (event.ctrlKey || event.metaKey))){
 			this._addTab(url);
 		}
-		else if (event.which == 1){
+		else if (event.which == 1 || (event.which == 13 && !event.shiftKey)){
 			this._inTab(url);
 		}
-		else if (event.which == 4){
+		else if (event.which == 4 || (event.which == 13 && event.shiftKey)){
 			window.open(url);
 		}
 	},

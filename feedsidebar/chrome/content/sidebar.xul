@@ -99,6 +99,7 @@
 					class="plain"
 					seltype="single"
 					onclick="window.parent.FEEDBAR.onTreeClick(event);"
+                    onkeypress="window.parent.FEEDBAR.onTreeClick(event);"
 					onselect="FEEDSIDEBAR.itemSelect(event);"
 					ondblclick="window.parent.FEEDBAR.onTreeDblClick(event);"
 					hidecolumnpicker="true"
