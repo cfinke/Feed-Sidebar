@@ -96,9 +96,13 @@ var FEED_GETTER = {
 		
 		FEED_GETTER.ta = document.createElementNS("http://www.w3.org/1999/xhtml", "textarea");
 		
-		FEED_GETTER.updateLoadProgress(0,0);
-		FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
+		setTimeout(
+		    function () {
+		        FEED_GETTER.updateLoadProgress(0,0);
+		        FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
+		    }, 10000);
 	},
+	
 	
 	unload : function () {
 		try { FEED_GETTER.currentRequest.abort(); } catch (noNeed) { }

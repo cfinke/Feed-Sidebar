@@ -27,7 +27,7 @@
 		<command id="force-reload" oncommand="window.parent.FEED_GETTER.updateFeeds();" tooltiptext="&feedbar.reloadFeeds;" />
 		<command id="set-reload-interval" oncommand="window.parent.FEED_GETTER.setUpdateFrequency(event.target.getAttribute('value')); event.stopPropagation();" />
 		<command id="update-period" oncommand="window.parent.FEED_GETTER.setDisplayPeriod(event.target.getAttribute('value')); event.stopPropagation();" />
-		<command id="sort" oncommand="window.parent.FEEDBAR.sort(event.target.getAttribute('value')); event.stopPropagation();" />
+		<command id="sort" oncommand="window.parent.FEEDBAR.sort(event.target.getAttribute('value'), true); event.stopPropagation();" />
 	</commandset>
 	<popupset id="mainPopupSet">
 		<popup id="feedbarContextMenu" onpopupshowing="return FEEDSIDEBAR.contextMenu.customize(this);">

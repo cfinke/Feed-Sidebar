@@ -391,7 +391,7 @@ beginTime : [],
 	
 	isSorting : false,
 	
-	sort : function (sortType) {
+	sort : function (sortType, selectedByUser) {
 	    if (this.isSorting) {
 	        return;
 	    }
@@ -399,6 +399,17 @@ beginTime : [],
 	    this.isSorting = true;
 	    
 	    if (!sortType) sortType = this.prefs.getCharPref("lastSort");
+	    
+	    if (selectedByUser) {
+	        if (sortType == this.prefs.getCharPref("lastSort")) {
+	            if (sortType.indexOf("-desc") != -1) {
+	                sortType = sortType.replace("-desc", "");
+	            }
+	            else {
+	                sortType = sortType + "-desc";
+	            }
+            }
+	    }
 	    
 	    this.prefs.setCharPref("lastSort", sortType);
 	    
@@ -420,34 +431,42 @@ beginTime : [],
 			}
 		}
 		
+		var multiplier = 1;
+		
 		// Define the sorting function.
 	    switch (sortType) {
+	        case 'default-desc':
+	            multiplier = -1;
 	        case 'default':
 	            function sorter(a, b) {
 	                if (a.livemarkId < b.livemarkId) {
-	                    return -1;
+	                    return -1 * multiplier;
 	                }
 	                
-	                return 1;
+	                return 1 * multiplier;
                 }
 	        break;
+	        case 'updated-desc':
+	            multiplier = -1;
 	        case 'updated':
     	        function sorter(a, b) {
     	            if (b.lastUpdated < a.lastUpdated) {
-    	                return -1;
+    	                return -1 * multiplier;
     	            }
     	            
-    	            return 1;
+    	            return 1 * multiplier;
     	        }
 	        break;
+	        case 'name-desc':
+	            multiplier = -1;
 	        case 'name':
 	        default:
     			function sorter(a, b) {
     			    if (a.label.toLowerCase() < b.label.toLowerCase()) {
-    			        return -1;
+    			        return -1 * multiplier;
     			    }
 
-    		        return 1;
+    		        return 1 * multiplier;
     		    }
 	        break;
         }
