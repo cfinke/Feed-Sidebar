@@ -27,6 +27,7 @@
 		<command id="force-reload" oncommand="window.parent.FEED_GETTER.updateFeeds();" tooltiptext="&feedbar.reloadFeeds;" />
 		<command id="set-reload-interval" oncommand="window.parent.FEED_GETTER.setUpdateFrequency(event.target.getAttribute('value')); event.stopPropagation();" />
 		<command id="update-period" oncommand="window.parent.FEED_GETTER.setDisplayPeriod(event.target.getAttribute('value')); event.stopPropagation();" />
+		<command id="sort" oncommand="window.parent.FEEDBAR.sort(event.target.getAttribute('value')); event.stopPropagation();" />
 	</commandset>
 	<popupset id="mainPopupSet">
 		<popup id="feedbarContextMenu" onpopupshowing="return FEEDSIDEBAR.contextMenu.customize(this);">
@@ -82,6 +83,13 @@
 						<menuitem type="radio" name="frequency" value="240" label="4 &feedbar.hours;" />
 						<menuitem type="radio" name="frequency" value="300" label="5 &feedbar.hours;" />
 					</menupopup>
+				</toolbarbutton>
+				<toolbarbutton id="downloads-button" class="toolbarbutton-1 chromeclass-toolbar-additional" orient="horizontal" type="menu" tooltiptext="&feedbar.sortBy;">
+				    <menupopup id="sort-menu" command="sort">
+    			        <menuitem type="radio" name="frequency" value="default" label="&feedbar.sort.default;" />
+    			        <menuitem type="radio" name="frequency" value="name" label="&feedbar.sort.name;" />
+    			        <menuitem type="radio" name="frequency" value="updated" label="&feedbar.sort.updated;" />
+				    </menupopup>
 				</toolbarbutton>
 				<spacer flex="1" />
 				<toolbarbutton id="search-toggle" checked="false" persist="checked" oncommand="document.getElementById('search-bar').collapsed = !document.getElementById('search-bar').collapsed; this.checked = !document.getElementById('search-bar').collapsed;" />

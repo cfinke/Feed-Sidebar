@@ -63,3 +63,7 @@ statusbarpanel {
 	background-color: #949393;
 	border-top: 1px solid #505050;
 }
+
+#downloads-button dropmarker {
+    display: none;
+}

@@ -389,6 +389,89 @@ beginTime : [],
  * Additional custom view functions.
  */
 	
+	isSorting : false,
+	
+	sort : function (sortType) {
+	    if (this.isSorting) {
+	        return;
+	    }
+	    
+	    this.isSorting = true;
+	    
+	    if (!sortType) sortType = this.prefs.getCharPref("lastSort");
+	    
+	    this.prefs.setCharPref("lastSort", sortType);
+	    
+		this.startBatch();
+        
+        // Collapse all the containers.
+		var len = this.visibleData.length;
+        
+		for (var i = 0; i < len; i++) {
+			if (this.isContainer(i)) {
+				if (this.isContainerOpen(i)) {
+					this.toggleOpenState(i);
+					this.visibleData[i].shouldBeOpen = true;
+					len = this.visibleData.length;
+				}
+				else {
+				    this.visibleData[i].shouldBeOpen = false;
+			    }
+			}
+		}
+		
+		// Define the sorting function.
+	    switch (sortType) {
+	        case 'default':
+	            function sorter(a, b) {
+	                if (a.livemarkId < b.livemarkId) {
+	                    return -1;
+	                }
+	                
+	                return 1;
+                }
+	        break;
+	        case 'updated':
+    	        function sorter(a, b) {
+    	            if (b.lastUpdated < a.lastUpdated) {
+    	                return -1;
+    	            }
+    	            
+    	            return 1;
+    	        }
+	        break;
+	        case 'name':
+	        default:
+    			function sorter(a, b) {
+    			    if (a.label.toLowerCase() < b.label.toLowerCase()) {
+    			        return -1;
+    			    }
+
+    		        return 1;
+    		    }
+	        break;
+        }
+        
+        // Sort just the containers.
+		this.visibleData.sort(sorter);
+		
+		// Uncollapse the containers that were not collapsed
+		var len = this.visibleData.length;
+		
+		try { this.treeBox.invalidateRange(0, len); } catch (sidebarNotOpen) { }
+		
+		for (var i = len - 1; i >= 0; i--) {
+		    if (this.visibleData[i].shouldBeOpen) {
+		        this.visibleData[i].shouldBeOpen = false;
+		        this.toggleOpenState(i);
+		    }
+	    }
+        
+		this.endBatch();
+		
+		this.isSorting = false;
+    },
+    
 	_batchCount : 0,
 	db : null,
 	
@@ -479,7 +562,7 @@ beginTime : [],
 		
 		if (hasVisible) {
 			if (folderIdx < 0) {
-				this.visibleData.push({ "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : " " + feedObject.label.replace(/^\s+/g, ""), "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri, "siteUri" : feedObject.siteUri, "description" : feedObject.description, "image" : feedObject.image });
+				this.visibleData.push({ "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : " " + feedObject.label.replace(/^\s+/g, ""), "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri, "siteUri" : feedObject.siteUri, "description" : feedObject.description, "image" : feedObject.image, "lastUpdated": FEEDBAR.childData[feedObject.id].items[0].published });
 				try { this.treeBox.rowCountChanged(this.rowCount - 1, 1); } catch (sidebarNotOpen) { }
 				folderIdx = this.rowCount - 1;
 			}
@@ -518,6 +601,7 @@ beginTime : [],
 		}
 		
 		this.updateNotifier();
+		this.sort();
 	},
 	
 	renameFeed : function (id, label) {

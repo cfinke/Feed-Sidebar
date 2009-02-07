@@ -18,3 +18,5 @@ pref("extensions.feedbar.runInSidebar", false);
 pref("extensions.feedbar.showFullPreview", false);
 
 pref("extensions.feedbar.openInNewTab", false);
+
+pref("extensions.feedbar.lastSort", "name");

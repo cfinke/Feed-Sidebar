@@ -47,3 +47,7 @@ treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected) {
 	padding-left: 12px;
 	list-style-image: url(chrome://feedbar/skin/icons/search.png);
 }
+
+#downloads-button dropmarker {
+    display: none;
+}

@@ -56,3 +56,8 @@ treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected) {
 #reload-button {
 	margin-top: 0px !important;
 }
+
+
+#downloads-button dropmarker {
+    display: none;
+}

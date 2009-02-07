@@ -16,6 +16,8 @@ var FEEDSIDEBAR = {
 		
 		FEEDSIDEBAR.checkFrequencyItem(FEEDSIDEBAR.prefs.getIntPref("updateFrequency"));
 		FEEDSIDEBAR.checkPeriodItem(FEEDSIDEBAR.prefs.getIntPref("displayPeriod"));	
+		FEEDSIDEBAR.checkSortItem(FEEDSIDEBAR.prefs.getCharPref("lastSort"));
+		
 		document.getElementById("search-box").value = FEEDSIDEBAR.prefs.getCharPref("filter");
 		document.getElementById("all-toggle").checked = !FEEDSIDEBAR.prefs.getBoolPref("hideReadItems");
 		
@@ -87,6 +89,20 @@ var FEEDSIDEBAR = {
 			}
 		}
 	},
+	
+	checkSortItem : function (sort) {
+		var sortMenu = document.getElementById('sort-menu');
+		var sorts = sortMenu.getElementsByTagName("menuitem");
+		
+		for (var i = 0; i < sorts.length; i++){
+			if (sorts[i].getAttribute("value") == sort){
+				sorts[i].setAttribute("checked","true");
+			}
+			else {
+				sorts[i].setAttribute("checked","false");
+			}
+		}
+    },
 
 	updateLoadProgress : function (done, total, nextUpdateTime) {
 		if (!navigator.onLine) {
