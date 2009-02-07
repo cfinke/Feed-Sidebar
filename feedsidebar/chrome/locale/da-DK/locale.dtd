@@ -1,0 +1,49 @@
+<!ENTITY feedbar.buttonLabel "Feeds">
+<!ENTITY feedbar.sidebarTitle "Feeds">
+<!ENTITY feedbar.buttonTooltip "Vis emnerne fra dine Live Bogmærker i sidebjælken">
+<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.markAsRead "Marker feed eller emne som læst">
+<!ENTITY feedbar.open "Åbn">
+<!ENTITY feedbar.openInTab "Åbn i nyt faneblad">
+<!ENTITY feedbar.openAllInTabs "Åbn alle i faneblade">
+<!ENTITY feedbar.openFeedInTabs "Åbn feed i faneblade">
+<!ENTITY feedbar.markAsRead "Marker som læst">
+<!ENTITY feedbar.markAsUnread "Marker som ulæst">
+<!ENTITY feedbar.markFeedAsRead "Marker feed som læst">
+<!ENTITY feedbar.markFeedAsUnread "Marker feed som ulæst">
+<!ENTITY feedbar.markAllAsRead "Marker alle som læst">
+<!ENTITY feedbar.markAllAsUnread "Marker alle som ulæste">
+<!ENTITY feedbar.reloadFeeds "Genindlæs feeds">
+<!ENTITY feedbar.stopFeedUpdate "Annuller feed-opdatering">
+<!ENTITY feedbar.minutes "minutter">
+<!ENTITY feedbar.hour "time">
+<!ENTITY feedbar.hours "timer">
+<!ENTITY feedbar.showLastTooltip "Begræns alderen på de viste emner">
+<!ENTITY feedbar.showLastDaysPre "Vis seneste">
+<!ENTITY feedbar.showLastDaysPost "dage">
+<!ENTITY feedbar.showLastWeeksPre "Vis seneste">
+<!ENTITY feedbar.showLastWeeksPost "uger">
+<!ENTITY feedbar.showAllItems "Vis alle emner">
+<!ENTITY feedbar.showLastDay "Seneste døgn">
+<!ENTITY feedbar.showLastWeek "Vis seneste uge">
+<!ENTITY feedbar.showLastMonth "Vis seneste måned">
+<!ENTITY feedbar.copyTitle "Kopier titel">
+<!ENTITY feedbar.copyLink "Kopier link">
+<!ENTITY feedbar.unsubscribe "Slet abonnement">
+<!ENTITY feedbar.options "Indstillinger">
+<!ENTITY feedbar.hideReadItems "Skjul læste emner">
+<!ENTITY feedbar.updateEvery1 "Opdater feeds hvert">
+<!ENTITY feedbar.updateEvery2 "minut.">
+<!ENTITY feedbar.showAllItemsFull "Vis alle emner uanset alder">
+<!ENTITY feedbar.onlyShow1 "Vis kun emner fra de sidste">
+<!ENTITY feedbar.onlyShow2 "dage.">
+<!ENTITY feedbar.24HourTime "Brug 24-timers ur">
+<!ENTITY feedbar.autoClose "Luk automatisk sidebjælken når alle emner markeres som læst.">
+<!ENTITY feedbar.notifications "Vis pop-up besked når nye emner er fundet.">
+<!ENTITY feedbar.runInSidebar "Check kun for opdateringer når sidebjælken er åben.">
+<!ENTITY feedbar.previewQuestion "Når et feed-emne åbnes...">
+<!ENTITY feedbar.previewAnswer1 "Åbn hjemmesiden (standard).">
+<!ENTITY feedbar.previewAnswer2 "Vis hele emnebeskrivelsen i browservinduet.">
+<!ENTITY feedbar.showAllItemsButtonLabel "Alle">
+<!ENTITY feedbar.showAll.tooltip "Aktiver visning af både læste og ulæste emner.">
+<!ENTITY feedbar.alwaysOpenInNewTab "Åbn altid emner i nye faneblade.">

@@ -8,11 +8,8 @@
 <!ENTITY feedbar.openAllInTabs "Abrir tudo em abas">
 <!ENTITY feedbar.openFeedInTabs "Abrir feed em abas">
 <!ENTITY feedbar.markAsRead "Marcar como lido">
-<!ENTITY feedbar.markAsUnread "Mark as Unread">
 <!ENTITY feedbar.markFeedAsRead "Marcar feed como lido">
-<!ENTITY feedbar.markFeedAsUnread "Mark Feed as Unread">
 <!ENTITY feedbar.markAllAsRead "Marcar todos como lidos">
-<!ENTITY feedbar.markAllAsUnread "Mark All as Unread">
 <!ENTITY feedbar.reloadFeeds "Recarregar feeds">
 <!ENTITY feedbar.stopFeedUpdate "Cancelar atualização do feed">
 <!ENTITY feedbar.minutes "minutos">
@@ -27,23 +24,3 @@
 <!ENTITY feedbar.showLastDay "Mostrar último dia">
 <!ENTITY feedbar.showLastWeek "Mostrar última semana">
 <!ENTITY feedbar.showLastMonth "Mostrar último mês">
-<!ENTITY feedbar.copyTitle "Copy Title">
-<!ENTITY feedbar.copyLink "Copy Link">
-<!ENTITY feedbar.unsubscribe "Unsubscribe">
-<!ENTITY feedbar.options "Options">
-<!ENTITY feedbar.hideReadItems "Hide read items">
-<!ENTITY feedbar.updateEvery1 "Update feeds every">
-<!ENTITY feedbar.updateEvery2 "minutes.">
-<!ENTITY feedbar.showAllItemsFull "Show all items, regardless of age">
-<!ENTITY feedbar.onlyShow1 "Only show items from the last">
-<!ENTITY feedbar.onlyShow2 "days.">
-<!ENTITY feedbar.24HourTime "Use 24-hour time">
-<!ENTITY feedbar.autoClose "Automatically close the sidebar when marking all items as read.">
-<!ENTITY feedbar.notifications "Show pop-up notifications when new items are detected.">
-<!ENTITY feedbar.runInSidebar "Only check for updates when the sidebar is open.">
-<!ENTITY feedbar.previewQuestion "When opening a feed item...">
-<!ENTITY feedbar.previewAnswer1 "Open the linked webpage (default).">
-<!ENTITY feedbar.previewAnswer2 "Show the full item description in the browser window.">
-<!ENTITY feedbar.showAllItemsButtonLabel "All">
-<!ENTITY feedbar.showAll.tooltip "Enable to show both read and unread items.">
-<!ENTITY feedbar.alwaysOpenInNewTab "Always open items in new tabs">

@@ -1,12 +1,9 @@
 <!ENTITY feedbar.buttonLabel "Beslemeler">
 <!ENTITY feedbar.sidebarTitle "Beslemeler">
-<!ENTITY feedbar.buttonTooltip "Show the items from your Live Bookmarks in the sidebar">
 <!ENTITY feedbar.accesskey "F">
-<!ENTITY feedbar.preview.markAsRead "Mark feed or item as read">
 <!ENTITY feedbar.open "Aç">
 <!ENTITY feedbar.openInTab "Yeni Sekmede Aç">
 <!ENTITY feedbar.openAllInTabs "Hepsini Yeni Sekmede Aç">
-<!ENTITY feedbar.openFeedInTabs "Open Feed in Tabs">
 <!ENTITY feedbar.markAsRead "Okundu Olarak İşaretle">
 <!ENTITY feedbar.markAsUnread "Okunmadı Olarak İşaretle">
 <!ENTITY feedbar.markFeedAsRead "Beslemeyi okundu olarak işaretle">
@@ -18,32 +15,10 @@
 <!ENTITY feedbar.minutes "dakika">
 <!ENTITY feedbar.hour "saat">
 <!ENTITY feedbar.hours "saat">
-<!ENTITY feedbar.showLastTooltip "Limit the age of the items shown">
 <!ENTITY feedbar.showLastDaysPre "Sonuncusunu göster">
 <!ENTITY feedbar.showLastDaysPost "gün">
 <!ENTITY feedbar.showLastWeeksPre "Sonuncusunu göster">
 <!ENTITY feedbar.showLastWeeksPost "hafta">
 <!ENTITY feedbar.showAllItems "Tüm ögeleri göster">
-<!ENTITY feedbar.showLastDay "Show last day">
-<!ENTITY feedbar.showLastWeek "Show last week">
-<!ENTITY feedbar.showLastMonth "Show last month">
-<!ENTITY feedbar.copyTitle "Copy Title">
-<!ENTITY feedbar.copyLink "Copy Link">
-<!ENTITY feedbar.unsubscribe "Unsubscribe">
 <!ENTITY feedbar.options "Seçenekler">
-<!ENTITY feedbar.hideReadItems "Hide read items">
-<!ENTITY feedbar.updateEvery1 "Update feeds every">
-<!ENTITY feedbar.updateEvery2 "minutes.">
-<!ENTITY feedbar.showAllItemsFull "Show all items, regardless of age">
-<!ENTITY feedbar.onlyShow1 "Only show items from the last">
-<!ENTITY feedbar.onlyShow2 "days.">
-<!ENTITY feedbar.24HourTime "Use 24-hour time">
-<!ENTITY feedbar.autoClose "Automatically close the sidebar when marking all items as read.">
-<!ENTITY feedbar.notifications "Show pop-up notifications when new items are detected.">
-<!ENTITY feedbar.runInSidebar "Only check for updates when the sidebar is open.">
-<!ENTITY feedbar.previewQuestion "When opening a feed item...">
-<!ENTITY feedbar.previewAnswer1 "Open the linked webpage (default).">
-<!ENTITY feedbar.previewAnswer2 "Show the full item description in the browser window.">
 <!ENTITY feedbar.showAllItemsButtonLabel "Hepsi">
-<!ENTITY feedbar.showAll.tooltip "Enable to show both read and unread items.">
-<!ENTITY feedbar.alwaysOpenInNewTab "Always open items in new tabs">

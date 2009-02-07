@@ -6,6 +6,7 @@ skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/ff3
 skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/ff3/mac/ appversion>=3 os=Darwin
 
 locale      feedbar     be-BY               jar:chrome/feedsidebar.jar!/locale/be-BY/
+locale      feedbar     da-DK               jar:chrome/feedsidebar.jar!/locale/da-DK/
 locale      feedbar     de-DE               jar:chrome/feedsidebar.jar!/locale/de-DE/
 locale      feedbar     en-US               jar:chrome/feedsidebar.jar!/locale/en-US/
 locale      feedbar     es-ES               jar:chrome/feedsidebar.jar!/locale/es-ES/

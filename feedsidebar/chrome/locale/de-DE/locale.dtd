@@ -1,11 +1,11 @@
 <!ENTITY feedbar.buttonLabel "Ungelesene Beiträge">
 <!ENTITY feedbar.sidebarTitle "Ungelesene Beiträge">
-<!ENTITY feedbar.buttonTooltip "Stellt die ungelesenen Feed-Beiträge der dynamischen Lesezeichen in der Sidebar da">
+<!ENTITY feedbar.buttonTooltip "Stellt die ungelesenen Feed-Beiträge der dynamischen Lesezeichen in der Sidebar dar">
 <!ENTITY feedbar.accesskey "R">
-<!ENTITY feedbar.preview.markAsRead "Feed oder Beitrag als gelesen markieren">
+<!ENTITY feedbar.preview.markAsRead "Feed oder Eintrag als gelesen markieren">
 <!ENTITY feedbar.open "Öffnen">
 <!ENTITY feedbar.openInTab "In neuem Tab öffnen">
-<!ENTITY feedbar.openAllInTabs "Alle Beiträge in Tabs öffnen">
+<!ENTITY feedbar.openAllInTabs "Alle Einträge in Tabs öffnen">
 <!ENTITY feedbar.openFeedInTabs "Feed in Tabs öffnen">
 <!ENTITY feedbar.markAsRead "Als gelesen markieren">
 <!ENTITY feedbar.markAsUnread "Als ungelesen markieren">
@@ -13,16 +13,16 @@
 <!ENTITY feedbar.markFeedAsUnread "Feed als ungelesen markieren">
 <!ENTITY feedbar.markAllAsRead "Alle als gelesen markieren">
 <!ENTITY feedbar.markAllAsUnread "Alle als ungelesen markieren">
-<!ENTITY feedbar.reloadFeeds "Feed aktualisieren">
+<!ENTITY feedbar.reloadFeeds "Feeds aktualisieren">
 <!ENTITY feedbar.stopFeedUpdate "Aktualisierung abbrechen">
 <!ENTITY feedbar.minutes "Minuten">
 <!ENTITY feedbar.hour "Stunde">
 <!ENTITY feedbar.hours "Stunden">
-<!ENTITY feedbar.showLastTooltip "Beiträge zeitlich filtern">
-<!ENTITY feedbar.showLastDaysPre "Letzte ">
-<!ENTITY feedbar.showLastDaysPost " Tage">
-<!ENTITY feedbar.showLastWeeksPre "Letzte ">
-<!ENTITY feedbar.showLastWeeksPost " Wochen">
+<!ENTITY feedbar.showLastTooltip "Anzeige der Einträge zeitlich begrenzen">
+<!ENTITY feedbar.showLastDaysPre "Letzte">
+<!ENTITY feedbar.showLastDaysPost "Tage">
+<!ENTITY feedbar.showLastWeeksPre "Letzte">
+<!ENTITY feedbar.showLastWeeksPost "Wochen">
 <!ENTITY feedbar.showAllItems "Alle">
 <!ENTITY feedbar.showLastDay "Letzte 24 Stunden">
 <!ENTITY feedbar.showLastWeek "Letzte Woche">
@@ -32,18 +32,18 @@
 <!ENTITY feedbar.unsubscribe "Abonnement beenden">
 <!ENTITY feedbar.options "Einstellungen">
 <!ENTITY feedbar.hideReadItems "Gelesene Beiträge ausblenden">
-<!ENTITY feedbar.updateEvery1 "Feed alle ">
+<!ENTITY feedbar.updateEvery1 "Feed alle">
 <!ENTITY feedbar.updateEvery2 "Minuten aktualisieren">
 <!ENTITY feedbar.showAllItemsFull "Alle Einträge unabhängig vom Alter anzeigen">
-<!ENTITY feedbar.onlyShow1 "Nur die Beiträge der letzten">
+<!ENTITY feedbar.onlyShow1 "Nur die Einträge der letzten">
 <!ENTITY feedbar.onlyShow2 "Tage anzeigen">
 <!ENTITY feedbar.24HourTime "24-Stunden-Format verwenden">
 <!ENTITY feedbar.autoClose "Sidebar automatisch schließen, wenn alle Einträge als gelesen markiert werden">
 <!ENTITY feedbar.notifications "Benachrichtigungen über neue Einträge anzeigen">
 <!ENTITY feedbar.runInSidebar "Nur bei geöffneter Sidebar nach neuen Einträgen suchen">
-<!ENTITY feedbar.previewQuestion "Beim Öffnen eines Eintrages...">
+<!ENTITY feedbar.previewQuestion "Beim Öffnen eines Eintrags...">
 <!ENTITY feedbar.previewAnswer1 "Die verlinkte Webseite öffnen (Standard)">
-<!ENTITY feedbar.previewAnswer2 "Die vollständige Beschreibung des Eintrags im Browserfenster anzeigen">
+<!ENTITY feedbar.previewAnswer2 "Die vollständige Beschreibung des Eintrags im Browser-Fenster anzeigen">
 <!ENTITY feedbar.showAllItemsButtonLabel "Alle Einträge">
-<!ENTITY feedbar.showAll.tooltip "Sowohl gelesene als ungelese Einträge anzeigen">
-<!ENTITY feedbar.alwaysOpenInNewTab "Immer in neuen Tabs öffnen">
+<!ENTITY feedbar.showAll.tooltip "Sowohl gelesene als auch ungelesene Einträge anzeigen">
+<!ENTITY feedbar.alwaysOpenInNewTab "Einträge immer in neuen Tabs öffnen">
