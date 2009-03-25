@@ -513,21 +513,6 @@ beginTime : [],
 			
 			toInsert.push( { "label" : item.label, "image" : item.image, "visited" : item.visited, "uri" : item.uri, "id" : item.id, "published" : item.published, "description" : item.description } );
 			
-			/*
-			Components.utils.import("resource://gre/modules/json.jsm");
-
-			try {
-				var s = JSON.toString(toInsert);
-			} catch (e) {
-				var s = '';
-				for (var x in item) {
-					s += x + ": " + item[x] + "\t";
-				}
-				alert("Found it: " + s);
-				return;
-			}
-			*/
-			
 			if (showReadItems || !item.visited) {
 				hasVisible = true;
 			}
@@ -581,9 +566,68 @@ beginTime : [],
 		
 		if (hasVisible) {
 			if (folderIdx < 0) {
-				this.visibleData.push({ "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : " " + feedObject.label.replace(/^\s+/g, ""), "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri, "siteUri" : feedObject.siteUri, "description" : feedObject.description, "image" : feedObject.image, "lastUpdated": FEEDBAR.childData[feedObject.id].items[0].published });
-				try { this.treeBox.rowCountChanged(this.rowCount - 1, 1); } catch (sidebarNotOpen) { }
-				folderIdx = this.rowCount - 1;
+			    var sortType = this.prefs.getCharPref("lastSort");
+			    var toPush = { "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : " " + feedObject.label.replace(/^\s+/g, ""), "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri, "siteUri" : feedObject.siteUri, "description" : feedObject.description, "image" : feedObject.image, "lastUpdated": FEEDBAR.childData[feedObject.id].items[0].published };
+                
+        		var multiplier = 1;
+
+        		// Define the sorting function.
+        	    switch (sortType) {
+        	        case 'default-desc':
+        	            multiplier = -1;
+        	        case 'default':
+        	            function sorter(a, b) {
+        	                if (a.livemarkId < b.livemarkId) {
+        	                    return -1 * multiplier;
+        	                }
+
+        	                return 1 * multiplier;
+                        }
+        	        break;
+        	        case 'updated-desc':
+        	            multiplier = -1;
+        	        case 'updated':
+            	        function sorter(a, b) {
+            	            if (b.lastUpdated < a.lastUpdated) {
+            	                return -1 * multiplier;
+            	            }
+
+            	            return 1 * multiplier;
+            	        }
+        	        break;
+        	        case 'name-desc':
+        	            multiplier = -1;
+        	        case 'name':
+        	        default:
+            			function sorter(a, b) {
+            			    if (a.label.toLowerCase() < b.label.toLowerCase()) {
+            			        return -1 * multiplier;
+            			    }
+
+            		        return 1 * multiplier;
+            		    }
+        	        break;
+                }
+                
+                var inserted = false;
+                
+                var i = 0;
+                
+                for (i = 0; i < this.visibleData.length; i++) {
+                    if (this.isContainer(i) && sorter(toPush, this.visibleData[i]) <= 0) {
+        				this.visibleData.splice(i, 0, toPush);
+        				inserted = true;
+                        break;
+                    }
+                }
+                
+                if (!inserted) {
+                    this.visibleData.push(toPush);
+                    i = this.visibleData.length - 1;
+                }
+                
+				try { this.treeBox.rowCountChanged(i, 1); } catch (sidebarNotOpen) { }
+				folderIdx = i;
 			}
 			
 			wasLeftOpen = wasLeftOpen || this.wasLeftOpen(feedObject.id);
@@ -620,7 +664,6 @@ beginTime : [],
 		}
 		
 		this.updateNotifier();
-		this.sort();
 	},
 	
 	renameFeed : function (id, label) {
@@ -940,8 +983,6 @@ beginTime : [],
 			this.refreshTree();
 			this.updateNotifier();
 		} catch (e) {
-			// logFeedbarMsg("Error: " + e);
-			// alert(e);
 		}
 		
 		setTimeout(FEEDBAR.showFirstRun, 1500);
@@ -1009,14 +1050,6 @@ beginTime : [],
 			foStream.close();
 		} catch (e) {
 			this.prefs.setIntPref("lastUpdate", 0);
-		
-			/*
-			var s = '';
-			for (var i in e) {
-				s += i + ": " + e[i] + "\t";
-			}
-			alert(s);
-			*/
 		}
 	},
 	
@@ -1219,15 +1252,19 @@ beginTime : [],
 		var hideRead = this.prefs.getBoolPref("hideReadItems");
 		
 		if (this.confirmOpenTabs(numItems)) {
-			var idx = folderIdx + 1;
+			var i = numItems;
 			
-			for (var i = 0; i < numItems; i++) {
+			while (i > 0) {
+			    var itemIdx = folderIdx + i;
+			    
 				if (!navigator.onLine || this.prefs.getBoolPref("showFullPreview")) {
-					this.loadFullPreview(idx + i, { 'which' : 2, detail : 1}, hideRead);
+					this.loadFullPreview(itemIdx, { 'which' : 2, detail : 1}, hideRead);
 				}
 				else {
-					this.launchUrl(this.getCellLink(idx + i), { which : 2, detail : 1});
+					this.launchUrl(this.getCellLink(itemIdx), { which : 2, detail : 1});
 				}
+				
+				--i;
 			}
 			
 			this.markFeedAsRead(folderIdx);

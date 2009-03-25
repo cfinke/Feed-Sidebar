@@ -1,4 +1,6 @@
 var FEED_GETTER = {
+    pendingUpdate : false,
+    
 	get progressText() { return document.getElementById("feedbar-loading-text"); },
 	get previewPane() { return document.getElementById("feedbar-preview"); },
 	get nextUpdateDisplay() { return document.getElementById("feedbar-nextupdate-text"); },
@@ -96,6 +98,8 @@ var FEED_GETTER = {
 		
 		FEED_GETTER.ta = document.createElementNS("http://www.w3.org/1999/xhtml", "textarea");
 		
+		FEED_GETTER.pendingUpdate = true;
+		
 		setTimeout(
 		    function () {
 		        FEED_GETTER.updateLoadProgress(0,0);
@@ -130,12 +134,14 @@ var FEED_GETTER = {
 	},
 	
 	sidebarPing : function () {
+	    if (FEED_GETTER.pendingUpdate) return;
+	    
 		if (FEED_GETTER.nextUpdate <= new Date() || FEED_GETTER.missedUpdate) {
 			FEED_GETTER.updateFeeds(2);
 		}
 		else {
 			if (FEED_GETTER.feeds.length > 0) {
-				FEED_GETTER.updateLoadProgress(FEED_GETTER.feedsToLoad - FEED_GETTER.feeds.length, FEED_GETTER.feedsToLoad);
+				FEED_GETTER.updateLoadProgress(FEED_GETTER.feedsToLoad - FEED_GETTER.feeds.length);
 			}
 			else {
 				FEED_GETTER.updateLoadProgress(0,0);
@@ -194,7 +200,7 @@ var FEED_GETTER = {
 		FEED_GETTER.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : livemarkId, uri : feedURL };
 
 		FEED_GETTER.feedsToLoad++;
-		FEED_GETTER.updateLoadProgress(0, FEED_GETTER.feedsToLoad);
+		FEED_GETTER.updateLoadProgress(0);
 		
 		FEED_GETTER.newItemCountPre = FEEDBAR.numUnreadItems();
 		FEED_GETTER.loadNextFeed();
@@ -279,6 +285,7 @@ var FEED_GETTER = {
 		}
 		
 		FEED_GETTER.feedsToLoad = FEED_GETTER.feeds.length;
+		
 		FEED_GETTER.feedsLoaded = 0;
 	},
 	
@@ -291,7 +298,7 @@ var FEED_GETTER = {
 			FEED_GETTER.notifyNoFeeds();
 		}
 		
-		FEED_GETTER.updateLoadProgress(0, FEED_GETTER.feedsToLoad);
+		FEED_GETTER.updateLoadProgress(0);
 		FEED_GETTER.loadNextFeed();
 	},
 	
@@ -359,7 +366,7 @@ var FEED_GETTER = {
 							}
 						}
 						
-						FEED_GETTER.updateLoadProgress(++FEED_GETTER.feedsLoaded, FEED_GETTER.feedsToLoad);
+						FEED_GETTER.updateLoadProgress(++FEED_GETTER.feedsLoaded);
 						FEED_GETTER.loadNextFeed();
 					}
 				};
@@ -369,7 +376,7 @@ var FEED_GETTER = {
 			}
 			catch (e) {
 				FEED_GETTER.addError(feed.name, url, e.name, 3);
-				FEED_GETTER.updateLoadProgress(++FEED_GETTER.feedsLoaded, FEED_GETTER.feedsToLoad);
+				FEED_GETTER.updateLoadProgress(++FEED_GETTER.feedsLoaded);
 				FEED_GETTER.loadNextFeed();
 			}
 		}
@@ -446,7 +453,6 @@ var FEED_GETTER = {
 		}
 		else {
 			var msUntil = newNextUpdateTime.getTime() - now.getTime();
-			FEED_GETTER.nextUpdate = newNextUpdateTime;
 			FEED_GETTER.updateLoadProgress(0, 0);
 			FEED_GETTER.updateTimer = setTimeout(FEED_GETTER.updateFeeds, msUntil, 5);
 		}
@@ -513,19 +519,27 @@ var FEED_GETTER = {
 	},
 
 	updateLoadProgress : function (done, total) {
-		if (done == total) FEED_GETTER.feedsToLoad = 0;
+	    FEED_GETTER.pendingUpdate = false;
+	    
+	    if (typeof total != 'undefined') {
+	        FEED_GETTER.feedsToLoad = total;
+        }
+        
+		if (done >= FEED_GETTER.feedsToLoad) {
+		    FEED_GETTER.feedsToLoad = 0;
+	    }
 		
 		var win = FEED_GETTER.feedWindow; 
 		
 		if (win && win.FEEDSIDEBAR) {
-			if (done == total) {
+			if (done >= FEED_GETTER.feedsToLoad) {
 				var nextUpdateTime = FEED_GETTER.nextUpdate;
 			}
 			else {
 				var nextUpdateTime = null;
 			}
 			
-			win.FEEDSIDEBAR.updateLoadProgress(done, total, nextUpdateTime);
+			win.FEEDSIDEBAR.updateLoadProgress(done, FEED_GETTER.feedsToLoad, nextUpdateTime);
 		}
 	},
 	

@@ -17,6 +17,22 @@
 		window.addEventListener("load", function (event) { FEEDSIDEBAR.init(); }, false);
 		window.addEventListener("unload", function (event) { FEEDSIDEBAR.unload(); }, false);
 		
+        function handleBrowserClick(event) {  
+            // Only react to left mouse clicks  
+            if (event.button != 0)  
+                return;  
+
+            // Default action on link clicks is to go to this link, cancel it  
+            event.preventDefault();  
+
+            if (event.target instanceof HTMLAnchorElement && event.target.href)  {
+                var browser = window.parent.gBrowser;
+
+    		    var theTab = browser.addTab(event.target.href);
+    		    browser.selectedTab = theTab;
+            }
+        }
+		
 		]]>
 	</script>
 	<commandset id="mainCommandSet">
@@ -27,7 +43,7 @@
 		<command id="force-reload" oncommand="window.parent.FEED_GETTER.updateFeeds();" tooltiptext="&feedbar.reloadFeeds;" />
 		<command id="set-reload-interval" oncommand="window.parent.FEED_GETTER.setUpdateFrequency(event.target.getAttribute('value')); event.stopPropagation();" />
 		<command id="update-period" oncommand="window.parent.FEED_GETTER.setDisplayPeriod(event.target.getAttribute('value')); event.stopPropagation();" />
-		<command id="sort" oncommand="window.parent.FEEDBAR.sort(event.target.getAttribute('value'), true); event.stopPropagation();" />
+		<command id="sort" oncommand="var srt = event.target.getAttribute('value'); window.parent.FEEDBAR.sort(srt, true); FEEDSIDEBAR.checkSortItem(srt); event.stopPropagation();" />
 	</commandset>
 	<popupset id="mainPopupSet">
 		<popup id="feedbarContextMenu" onpopupshowing="return FEEDSIDEBAR.contextMenu.customize(this);">
@@ -46,6 +62,14 @@
 			<menuseparator />
 			<menuitem option="copyTitle" label="&feedbar.copyTitle;" oncommand="window.parent.FEEDBAR.copyTitle();" />
 			<menuitem option="copyLink" label="&feedbar.copyLink;" oncommand="window.parent.FEEDBAR.copyLink();" />
+			<menuseparator />
+			<menu option="sortBy" label="&feedbar.sortBy;">
+			    <menupopup id="sort-context-menu" command="sort">
+			        <menuitem type="radio" name="cm-frequency" value="default" label="&feedbar.sort.default;" />
+			        <menuitem type="radio" name="cm-frequency" value="name" label="&feedbar.sort.name;" />
+			        <menuitem type="radio" name="cm-frequency" value="updated" label="&feedbar.sort.updated;" />
+			    </menupopup>
+			</menu>
 			<menuseparator />
 			<menuitem option="unsubscribe" label="&feedbar.unsubscribe;" oncommand="window.parent.FEEDBAR.unsubscribe();" />
 			<menuitem option="options" label="&feedbar.options;" oncommand="FEEDSIDEBAR.options();" />
@@ -132,7 +156,7 @@
 					</vbox>
 				</hbox>
 				<groupbox id="feedbarTooltipSummaryGroupbox" flex="1">
-					<iframe flex="1" id="content-frame" onclick="return window.parent.contentAreaClick(event, true);" src="chrome://feedbar/content/preview.html" disablehistory="true"></iframe>
+					<iframe flex="1" id="content-frame" onclick="handleBrowserClick(event);" src="data:text/html,%3Chtml%3E%3Chead%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ebody%20*%2C%20body%20%7Bfont-size%3A%209pt%3Bfont-family%3A%20arial%2C%20sans-serif%3B%7D%3C%2Fstyle%3E%3C%2Fhead%3E%3Cbody%3E%3C%2Fbody%3E%3C%2Fhtml%3E" disablehistory="true" type="content"></iframe>
 				</groupbox>
 			</vbox>
 		</vbox>

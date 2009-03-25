@@ -8,6 +8,15 @@ var FEEDSIDEBAR = {
 	prefs : null,
 	
 	init : function () {
+	    var frame = document.getElementById("content-frame");
+	    
+	    frame.docShell.allowAuth = false;
+        frame.docShell.allowImages = true;
+        frame.docShell.allowJavascript = false;
+        frame.docShell.allowMetaRedirects = false
+        frame.docShell.allowPlugins = false;
+        frame.docShell.allowSubframes = false;
+        
 		FEEDSIDEBAR.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.feedbar.");	
 		FEEDSIDEBAR.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 		FEEDSIDEBAR.prefs.addObserver("", FEEDSIDEBAR, false);
@@ -91,17 +100,22 @@ var FEEDSIDEBAR = {
 	},
 	
 	checkSortItem : function (sort) {
-		var sortMenu = document.getElementById('sort-menu');
-		var sorts = sortMenu.getElementsByTagName("menuitem");
+		var sortMenus = [ document.getElementById('sort-menu'),document.getElementById('sort-context-menu') ];
 		
-		for (var i = 0; i < sorts.length; i++){
-			if (sorts[i].getAttribute("value") == sort){
-				sorts[i].setAttribute("checked","true");
-			}
-			else {
-				sorts[i].setAttribute("checked","false");
-			}
-		}
+		for (var i = 0; i < sortMenus.length; i++) {
+		    var sortMenu = sortMenus[i];
+		    
+    		var sorts = sortMenu.getElementsByTagName("menuitem");
+		
+    		for (var i = 0; i < sorts.length; i++){
+    			if (sorts[i].getAttribute("value") == sort){
+    				sorts[i].setAttribute("checked","true");
+    			}
+    			else {
+    				sorts[i].setAttribute("checked","false");
+    			}
+    		}
+    	}
     },
 
 	updateLoadProgress : function (done, total, nextUpdateTime) {
@@ -174,6 +188,7 @@ var FEEDSIDEBAR = {
 							case 'options':
 							case 'copyTitle':
 							case 'copyLink':
+							case 'sortBy':
 								options[i].setAttribute("hidden", "false");
 							break;
 							case 'markAllAsRead':
@@ -228,6 +243,7 @@ var FEEDSIDEBAR = {
 							case 'options':
 							case 'copyTitle':
 							case 'copyLink':
+							case 'sortBy':
 								options[i].setAttribute("hidden", "false");
 							break;
 							case 'markFeedAsRead':
@@ -283,6 +299,7 @@ var FEEDSIDEBAR = {
 						break;
 						case 'options':
 						case 'openUnreadInTabs':
+						case 'sortBy':
 							options[i].setAttribute("hidden", "false");
 						break;
 						case 'openAllInTabs':
@@ -362,8 +379,14 @@ var FEEDSIDEBAR = {
 		else {
 			var maxLength = 60;
 			var descr = window.parent.FEEDBAR.getCellDescription(idx);
-			document.getElementById("content-frame").contentDocument.body.innerHTML = descr;
+			var target = document.getElementById("content-frame").contentDocument.body;
+			target.innerHTML = "";
 			
+			var fragment = Components.classes["@mozilla.org/feed-unescapehtml;1"]  
+                                      .getService(Components.interfaces.nsIScriptableUnescapeHTML)  
+                                      .parseFragment(descr, false, null, target);
+            target.appendChild(fragment);
+            
 			if (window.parent.FEEDBAR.isContainer(idx)){
 				var title = window.parent.FEEDBAR.getCellLink(idx).replace(/^\s+|\s+$/g, "");
 				var feedName = window.parent.FEEDBAR.getCellText(idx).replace(/^\s+|\s+$/g, "");
