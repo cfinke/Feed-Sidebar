@@ -41,7 +41,7 @@
 <!ENTITY feedbar.hideReadItems "Hide read items">
 
 <!-- Update feeds every # minutes. -->
-<!ENTITY feedbar.updateEvery1 "Update feeds every">
+<!ENTITY feedbar.updateEvery1 "Update each feed every">
 <!ENTITY feedbar.updateEvery2 "minutes.">
 
 <!-- Only show items from the last # days. -->

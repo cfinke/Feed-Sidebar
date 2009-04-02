@@ -567,7 +567,7 @@ beginTime : [],
 		if (hasVisible) {
 			if (folderIdx < 0) {
 			    var sortType = this.prefs.getCharPref("lastSort");
-			    var toPush = { "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : " " + feedObject.label.replace(/^\s+/g, ""), "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri, "siteUri" : feedObject.siteUri, "description" : feedObject.description, "image" : feedObject.image, "lastUpdated": FEEDBAR.childData[feedObject.id].items[0].published };
+			    var toPush = { "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : " " + feedObject.label.replace(/^\s+/g, ""), "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri, "siteUri" : feedObject.siteUri, "description" : feedObject.description, "image" : feedObject.image, "lastUpdated": FEEDBAR.childData[feedObject.id].items[0].published, "lastRedrawn" : new Date().getTime() };
                 
         		var multiplier = 1;
 
@@ -757,6 +757,24 @@ beginTime : [],
 	getCellRead : function (idx) {
 		return this.visibleData[idx].visited;
 	},
+	
+	getCellAge : function (idx) {
+	    if (this.isContainer(idx)) {
+	        try {
+	            var redrawnMS = this.visibleData[idx].lastRedrawn;
+	        } catch (e) {
+	            return 100000;
+	        }
+	        
+	        var now = new Date().getTime();
+	        
+	        var age = now - redrawnMS;
+	        
+	        return age;
+        }
+        
+        return false;
+    },
 	
 	setCellRead : function (idx, updateUI) {
 		var cellID = this.getCellID(idx);
@@ -962,8 +980,9 @@ beginTime : [],
 		this.closeDB(db);
 		
 		try {
-			Components.utils.import("resource://gre/modules/json.jsm");
-			
+		    var nativeJSON = Components.classes["@mozilla.org/dom/json;1"]
+                             .createInstance(Components.interfaces.nsIJSON);
+            
 			var file = Components.classes['@mozilla.org/file/directory_service;1']
                             .getService(Components.interfaces.nsIProperties) //changed by <asqueella@gmail.com>
                             .get("ProfD", Components.interfaces.nsIFile);
@@ -979,10 +998,11 @@ beginTime : [],
 			data += siStream.read(-1);
 			siStream.close();
 			
-			this.childData = JSON.fromString(data);
+		    this.childData = nativeJSON.decode(data);
 			this.refreshTree();
 			this.updateNotifier();
 		} catch (e) {
+		    logFeedbarMsg(e);
 		}
 		
 		setTimeout(FEEDBAR.showFirstRun, 1500);
@@ -1012,6 +1032,7 @@ beginTime : [],
 						
 						this.visibleData.splice(j, itemsRemoved);
 						try { this.treeBox.rowCountChanged(j, (itemsRemoved * -1)); } catch (sidebarNotOpen) { }
+						
 						break;
 					}
 				}
@@ -1019,6 +1040,8 @@ beginTime : [],
 				break;
 			}
 		}
+		
+		FEED_GETTER.removeAFeed(livemarkId);
 	},
 	
 	showFirstRun : function () {
@@ -1033,9 +1056,9 @@ beginTime : [],
 		this.prefs.removeObserver("", this);
 		
 		try {
-			Components.utils.import("resource://gre/modules/json.jsm");
-			
-			var data = JSON.toString(this.childData);
+		    var nativeJSON = Components.classes["@mozilla.org/dom/json;1"]
+                             .createInstance(Components.interfaces.nsIJSON);
+            var data = nativeJSON.encode(this.childData);
 			
 			var file = Components.classes['@mozilla.org/file/directory_service;1']
                             .getService(Components.interfaces.nsIProperties)
@@ -1049,7 +1072,7 @@ beginTime : [],
 			foStream.write(data, data.length);
 			foStream.close();
 		} catch (e) {
-			this.prefs.setIntPref("lastUpdate", 0);
+		    alert(e);
 		}
 	},
 	
@@ -1339,9 +1362,19 @@ beginTime : [],
 		this.endBatch();
 	},
 	
-	markFeedAsRead : function (folderIdx) {
+	markFeedAsRead : function (folderIdx, checkRedrawnTime) {
+	    if (checkRedrawnTime) {
+            var age = this.getCellAge(folderIdx);
+            
+            if (age && age < 3000) {
+                // Don't mark any feed that was updated in the last 3 seconds.
+                // ToDo: No need to ignore marking this one if nothing changed the last time it was refreshed.
+                return;
+            }
+        }
+        
 		this.startBatch();
-
+        
 		var wasOpen = this.isContainerOpen(folderIdx);
 		
 		if (!wasOpen) {
@@ -1402,13 +1435,6 @@ beginTime : [],
 	},
 	
 	endBatch : function () {
-		/*
-		var endTime = new Date();
-		var ms = endTime.getTime() - this.beginTime.pop().getTime();
-		
-		logFeedbarMsg("Milliseconds: " + ms);
-		*/
-		
 		--this._batchCount;
 		
 		if (!this._batchCount) {
@@ -1422,8 +1448,8 @@ beginTime : [],
 		this.startBatch();
 		
 		if (this.prefs.getBoolPref("hideReadItems")) {
-			while (this.visibleData.length > 0) {
-				this.markFeedAsRead(0);
+		    for (var i = this.visibleData.length - 1; i >= 0; i--) {
+				this.markFeedAsRead(i, true);
 			}
 		}
 		else {
@@ -1431,12 +1457,14 @@ beginTime : [],
 			
 			for (var i = 0; i < len; i++) {
 				if (this.isContainer(i)) {
-					this.markFeedAsRead(i);
+					this.markFeedAsRead(i, true);
 				}
 			}
 		}
 		
 		if (this.prefs.getBoolPref("autoClose") && this.prefs.getBoolPref("hideReadItems")) {
+	        // ToDo: Check that all the items were marked as read.
+	        
 			toggleSidebar('feedbar');
 		}
 		

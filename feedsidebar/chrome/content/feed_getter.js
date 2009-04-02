@@ -1,11 +1,6 @@
 var FEED_GETTER = {
-    pendingUpdate : false,
-    
-	get progressText() { return document.getElementById("feedbar-loading-text"); },
-	get previewPane() { return document.getElementById("feedbar-preview"); },
-	get nextUpdateDisplay() { return document.getElementById("feedbar-nextupdate-text"); },
 	get strings() { return document.getElementById("feedbar-string-bundle"); },
-	get displayPeriod() { return FEED_GETTER.prefs.getIntPref("displayPeriod"); },
+	
 	get feedWindow() { 
 		try {
 			var sidebar = document.getElementById("sidebar-box");
@@ -30,66 +25,18 @@ var FEED_GETTER = {
 		return false;
 	},
 	
+	ta : null,
+	
 	prefs : null,
 	missedUpdate : false,
 	
 	newItemCountPre : 0,
 	
-	feedsToLoad : 0,
-	feedsLoaded : 0,
-	
-	updateTimer : null,
 	loadTimer : null,
-	req : null,
-	
-	feeds : [],
-	
 	feedData : { },
-	textarea : null,
-	
 	currentRequest : null,
 	
 	consecutiveFailures : 0,
-	
-	get lastUpdate() { 
-		// Stored as the number of seconds since the epoch
-		// Should reveal this value as a JavaScript Date object
-		
-		var secondsBetween, timestamp = 0;
-		var updateObj = new Date();
-		
-		try {
-			timestamp = FEED_GETTER.prefs.getIntPref("lastUpdate");
-		} catch (e) {
-			secondsBetween = FEED_GETTER.prefs.getIntPref("updateFrequency") * 60;
-			timestamp = Math.round(updateObj.getTime() / 1000);
-			timestamp -= secondsBetween;
-		}
-		
-		updateObj.setTime(timestamp * 1000);
-		
-		return updateObj;
-	},
-	
-	set lastUpdate(dateOb) {
-		var timestamp = Math.round(dateOb.getTime() / 1000);
-		FEED_GETTER.prefs.setIntPref("lastUpdate", timestamp);
-	},
-	
-	get nextUpdate() { 
-		var lastUpdate = FEED_GETTER.lastUpdate;
-		var milliBetween = FEED_GETTER.prefs.getIntPref("updateFrequency") * 60 * 1000;
-		var lastMilli = lastUpdate.getTime();
-		
-		if (lastMilli == 0) {
-			return new Date();
-		}
-		else {
-			var nextUpdate = new Date();
-			nextUpdate.setTime(lastUpdate.getTime() + milliBetween);
-			return nextUpdate;
-		}
-	},
 	
 	init : function () {
 		FEED_GETTER.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.feedbar.");	
@@ -98,18 +45,11 @@ var FEED_GETTER = {
 		
 		FEED_GETTER.ta = document.createElementNS("http://www.w3.org/1999/xhtml", "textarea");
 		
-		FEED_GETTER.pendingUpdate = true;
-		
-		setTimeout(
-		    function () {
-		        FEED_GETTER.updateLoadProgress(0,0);
-		        FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
-		    }, 10000);
+		FEED_GETTER.startFetchingFeeds();
 	},
 	
-	
 	unload : function () {
-		try { FEED_GETTER.currentRequest.abort(); } catch (noNeed) { }
+		FEED_GETTER.killCurrentRequest();
 		FEED_GETTER.prefs.removeObserver("", FEED_GETTER);
 	},
 	
@@ -121,74 +61,229 @@ var FEED_GETTER = {
 		switch(data) {
 			case "updateFrequency":
 				if (FEED_GETTER.prefs.getIntPref("updateFrequency") < 1) {
-					FEED_GETTER.prefs.setIntPref("updateFrequency", 1);
+					FEED_GETTER.prefs.setIntPref("updateFrequency", 0);
 				}
-				else {
-					FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
-				}
-			break;
-			case "24HourTime":
-				FEED_GETTER.updateLoadProgress(0,0);
+				
+				FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
 			break;
 		}
 	},
 	
-	sidebarPing : function () {
-	    if (FEED_GETTER.pendingUpdate) return;
+	feedUpdateTimeout : null,
+	feedsToFetch : [],
+	feedIndex : 0,
+	secondsBetweenFeeds : 1,
+	
+	startFetchingFeeds : function () {
+	    FEED_GETTER.feedsToFetch = [];
+	    FEED_GETTER.feedIndex = 0;
 	    
-		if (FEED_GETTER.nextUpdate <= new Date() || FEED_GETTER.missedUpdate) {
-			FEED_GETTER.updateFeeds(2);
+		var livemarkService = Components.classes["@mozilla.org/browser/livemark-service;2"].getService(Components.interfaces.nsILivemarkService);
+		var bookmarkService = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
+		var anno = Components.classes["@mozilla.org/browser/annotation-service;1"].getService(Components.interfaces.nsIAnnotationService);
+		var livemarkIds = anno.getItemsWithAnnotation("livemark/feedURI", {});
+
+		for (var i = 0; i < livemarkIds.length; i++){
+			var feedURL = livemarkService.getFeedURI(livemarkIds[i]).spec;
+			var feedName = bookmarkService.getItemTitle(livemarkIds[i]);
+			FEED_GETTER.feedsToFetch.push({ name : feedName, feed : feedURL });
+			FEED_GETTER.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : livemarkIds[i], uri : feedURL };
 		}
-		else {
-			if (FEED_GETTER.feeds.length > 0) {
-				FEED_GETTER.updateLoadProgress(FEED_GETTER.feedsToLoad - FEED_GETTER.feeds.length);
-			}
-			else {
-				FEED_GETTER.updateLoadProgress(0,0);
-			}
+		
+		if (FEED_GETTER.feedsToFetch.length == 0) {
+		    FEED_GETTER.notifyNoFeeds();
 		}
+		
+		setTimeout(function () {
+		    FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
+		}, 5000);
+    },
+    
+    removeAFeed : function (livemarkId) {
+        for (feedURL in FEED_GETTER.feedData) {
+            var feed = FEED_GETTER.feedData[feedURL];
+            
+            if (feed.bookmarkId == livemarkId) {
+                delete FEED_GETTER.feedData[feedURL];
+                
+                for (var i = 0; i < FEED_GETTER.feedsToFetch.length; i++) {
+                    if (FEED_GETTER.feedsToFetch[i].feed == feedURL) {
+                        FEED_GETTER.feedsToFetch.splice(i, 1);
+                        return true;
+                    }
+                }
+                
+                break;
+            }
+        }
+        
+        return false;
+    },
+	
+	rapidUpdate : 0,
+	
+    updateAFeed : function (indexOverride) {
+        function setTimeoutForNext() {
+            if (FEED_GETTER.rapidUpdate) {
+                var interval = 0.5;
+            }
+            else {
+                if (FEED_GETTER.secondsBetweenFeeds == 0) {
+                    var interval = 60;
+                }
+                else {
+                    var interval = FEED_GETTER.secondsBetweenFeeds;
+                }
+            }
+            
+		    FEED_GETTER.feedUpdateTimeout = setTimeout(function () { FEED_GETTER.updateAFeed(); }, interval * 1000);
+	    }
+		
+        clearTimeout(FEED_GETTER.feedUpdateTimeout);
+        
+        var win = FEED_GETTER.feedWindow;
+        
+        if (!navigator.onLine || 
+            FEED_GETTER.feedsToFetch.length == 0 ||
+            FEED_GETTER.secondsBetweenFeeds == 0 ||
+            (FEED_GETTER.prefs.getBoolPref("runInSidebar") && !FEED_GETTER.sidebarIsOpen())
+            ){
+            
+    		if (win && win.FEEDSIDEBAR) {
+    		    var statusText = win.document.getElementById("feedbar-loading-text")
+    		    statusText.setAttribute("value", "");
+    		    statusText.setAttribute("tooltiptext", "");
+    		    statusText.setAttribute("url", "");
+    		    
+                if (!navigator.onLine) {
+        		    statusText.setAttribute("value", "Offline.");
+        		    statusText.setAttribute("tooltiptext", "");
+        		    statusText.setAttribute("url", "");
+                }
+        	}
+        	
+		    setTimeoutForNext();
+		    return;
+		}
+		
+		if (FEED_GETTER.rapidUpdate) {
+		    FEED_GETTER.rapidUpdate--;
+		    
+		    if (!FEED_GETTER.rapidUpdate) {
+                FEED_GETTER.stopUpdate();
+	        }
+		}
+		
+        if (FEED_GETTER.feedIndex >= FEED_GETTER.feedsToFetch.length) {
+            FEED_GETTER.feedIndex = 0;
+        }
+                
+        FEED_GETTER.newItemCountPre = FEEDBAR.numUnreadItems();
+        
+        var feedIndex = FEED_GETTER.feedIndex;
+        
+        if (indexOverride) {
+            feedIndex = indexOverride;
+        }
+        else {
+            ++FEED_GETTER.feedIndex;
+        }
+        
+        if (feedIndex == 0) {
+            this.prefs.setIntPref("lastUpdate", Math.round(new Date().getTime() / 1000));
+        }
+        
+        var feed = FEED_GETTER.feedsToFetch[feedIndex];
+        
+	    var url = feed.feed;
+		
+		if (win && win.FEEDSIDEBAR) {
+		    var statusText = win.document.getElementById("feedbar-loading-text");
+		    statusText.setAttribute("value", "Updating "+(feedIndex+1)+" of "+FEED_GETTER.feedsToFetch.length+" (" + feed.name + ")...");
+            statusText.setAttribute("tooltiptext", url);
+		    statusText.setAttribute("url", url);
+	    }
+		
+		var req = new XMLHttpRequest();
+		FEED_GETTER.currentRequest = req;
+		
+		try {
+			req.open("GET", url, true);
+			
+			req.onreadystatechange = function (event) {
+				if (req.readyState == 4) {
+					clearTimeout(FEED_GETTER.loadTimer);
+					FEED_GETTER.currentRequest = null;
+					setTimeoutForNext();
+					
+					try {
+						if (req.status == 200){
+							FEED_GETTER.consecutiveFailures = 0;
+							
+							var feedOb = null;
+							
+							try {
+								// Trim it.
+								FEED_GETTER.queueForParsing(req.responseText.replace(/^\s\s*/, '').replace(/\s\s*$/, ''), url);
+							} catch (e) {
+								// Parse error
+								FEED_GETTER.addError(feed.name, url, e.message, 5);
+							}
+						}
+						else {
+							++FEED_GETTER.consecutiveFailures;
+						}
+					}
+					catch (e) {
+						++FEED_GETTER.consecutiveFailures;
+						
+						if (e.name == "NS_ERROR_NOT_AVAILABLE"){
+							FEED_GETTER.addError(feed.name, url, FEED_GETTER.strings.getString("feedbar.errors.unavailable"), 3);
+						}
+					}
+				}
+			};
+			
+			req.send(null);
+			FEED_GETTER.loadTimer = setTimeout(FEED_GETTER.killCurrentRequest, 1000 * 15);
+		}
+		catch (e) {
+			FEED_GETTER.addError(feed.name, url, e.name, 3);
+			setTimeoutForNext();
+		}
+    },
+	
+	sidebarPing : function () {
+	    FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
+	    
+	    if (FEED_GETTER.rapidUpdate) {
+    	    var win = FEED_GETTER.feedWindow;
+		
+    		if (win && win.FEEDSIDEBAR) {
+    			win.document.getElementById("stop-button").setAttribute("disabled","false");
+    			win.document.getElementById("reload-button").setAttribute("disabled","true");
+    		}
+    	}
 	},
 	
 	sidebarPung : function () {
 		if (FEED_GETTER.prefs.getBoolPref("runInSidebar")) {
-			if (FEED_GETTER.feeds.length > 0) {
-				FEED_GETTER.stopUpdate();
-			}
+			FEED_GETTER.stopUpdate();
 		}
 	},
 	
-	updateFeeds : function (source) {
-		if (FEED_GETTER.feeds.length > 0) {
-			// Already in the middle of an update.
-			return true;
-		}
+	updateAllFeeds : function () {
+	    FEED_GETTER.rapidUpdate = FEED_GETTER.feedsToFetch.length;
+	    FEED_GETTER.updateAFeed();
+	    
+		var win = FEED_GETTER.feedWindow;
 		
-		if (FEED_GETTER.updateTimer) {
-			window.clearTimeout(FEED_GETTER.updateTimer);
+		if (win && win.FEEDSIDEBAR) {
+			win.document.getElementById("stop-button").setAttribute("disabled","false");
+			win.document.getElementById("reload-button").setAttribute("disabled","true");
 		}
-		
-		if (FEED_GETTER.prefs.getBoolPref("runInSidebar")) {
-			if (!FEED_GETTER.sidebarIsOpen()){
-				FEED_GETTER.missedUpdate = true;
-				FEED_GETTER.updateTimer = setTimeout(FEED_GETTER.updateFeeds, FEED_GETTER.prefs.getIntPref("updateFrequency") * 60 * 1000, 3);
-				return;
-			}
-		}
-		
-		if (navigator.onLine) {
-			FEED_GETTER.missedUpdate = false;
-			FEED_GETTER.newItemCountPre = FEEDBAR.numUnreadItems();
-	
-			FEED_GETTER.findFeeds();
-			FEED_GETTER.loadFeeds();
-		}
-		else {
-			FEED_GETTER.updateLoadProgress(0,0);
-		}
-		
-		FEED_GETTER.updateTimer = setTimeout(FEED_GETTER.updateFeeds, FEED_GETTER.prefs.getIntPref("updateFrequency") * 60 * 1000, 3);
-	},
-	
+    },
+    
 	updateSingleFeed : function (livemarkId) {
 		var livemarkService = Components.classes["@mozilla.org/browser/livemark-service;2"]
 								.getService(Components.interfaces.nsILivemarkService);
@@ -196,211 +291,27 @@ var FEED_GETTER = {
 		var feedURL = livemarkService.getFeedURI(livemarkId).spec;
 		var feedName = bookmarkService.getItemTitle(livemarkId);
 		
-		FEED_GETTER.feeds.push({ name : feedName, feed : feedURL });
+		FEED_GETTER.feedsToFetch.push({ name : feedName, feed : feedURL });
 		FEED_GETTER.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : livemarkId, uri : feedURL };
 
-		FEED_GETTER.feedsToLoad++;
-		FEED_GETTER.updateLoadProgress(0);
-		
-		FEED_GETTER.newItemCountPre = FEEDBAR.numUnreadItems();
-		FEED_GETTER.loadNextFeed();
+	    FEED_GETTER.updateAFeed(FEED_GETTER.feedsToFetch.length - 1);
 	},
 	
 	stopUpdate : function () {
-		FEED_GETTER.feeds.length = 0;
+		// If the interval is set to 1 second right now, reset that.
+		FEED_GETTER.rapidUpdate = 0;
+		
 		FEED_GETTER.killCurrentRequest();
-		FEED_GETTER.updateLoadProgress(0,0);
+		
+		var win = FEED_GETTER.feedWindow;
+		
+		if (win && win.FEEDSIDEBAR) {
+			win.document.getElementById("stop-button").setAttribute("disabled","true");
+			win.document.getElementById("reload-button").setAttribute("disabled","false");
+		}
 	},
 	
 	searchTimeout : null,
-	
-	findFeeds : function () {
-		FEED_GETTER.feedData.length = 0;
-		
-		var livemarkService = Components.classes["@mozilla.org/browser/livemark-service;2"];
-		
-		if (livemarkService) {
-			// Firefox 3+
-			livemarkService = livemarkService.getService(Components.interfaces.nsILivemarkService);
-			var bookmarkService = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
-			var anno = Components.classes["@mozilla.org/browser/annotation-service;1"].getService(Components.interfaces.nsIAnnotationService);
-			var livemarkIds = anno.getItemsWithAnnotation("livemark/feedURI", {});
-			
-			for (var i = 0; i < livemarkIds.length; i++){
-				var feedURL = livemarkService.getFeedURI(livemarkIds[i]).spec;
-				var feedName = bookmarkService.getItemTitle(livemarkIds[i]);
-				FEED_GETTER.feeds.push({ name : feedName, feed : feedURL });
-				FEED_GETTER.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : livemarkIds[i], uri : feedURL };
-			}
-		}
-		else {
-			// Firefox 2-
-			if (!RDF) initServices();
-			if (!BMSVC) initBMService();
-		
-			var root = RDF.GetResource("NC:BookmarksRoot");
-			var feedURLArc = RDF.GetResource("http://home.netscape.com/NC-rdf#FeedURL");
-			var nameArc = RDF.GetResource("http://home.netscape.com/NC-rdf#Name");
-		
-			var folders = [ root ];
-		
-			FEED_GETTER.feeds.length = 0;
-		
-			while (folders.length > 0){
-				RDFC.Init(BMDS, folders.shift());
-		
-				var elements = RDFC.GetElements();
-		
-				while(elements.hasMoreElements()) {
-					var element = elements.getNext();
-					element.QueryInterface(Components.interfaces.nsIRDFResource);
-		
-					var type = BookmarksUtils.resolveType(element);
-				
-					if ((type == "Folder") || (type == "PersonalToolbarFolder")){
-						folders.push(element);
-					}
-					else if (type == 'Livemark') {
-						var res = RDF.GetResource(element.Value);
-						var target = BMDS.GetTarget(res, feedURLArc, true);
-					
-						if (target) {
-							var feedURL = target.QueryInterface(kRDFLITIID).Value;
-												
-							var target = BMDS.GetTarget(res, nameArc, true);
-						
-							if (target) {
-								var feedName = target.QueryInterface(kRDFLITIID).Value;
-							}
-							else {
-								var feedName = feedURL;
-							}
-						
-							FEED_GETTER.feeds.push({ name : feedName, feed : feedURL });
-							FEED_GETTER.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : -1, uri : feedURL };
-						}
-					}
-				}
-			}
-		}
-		
-		FEED_GETTER.feedsToLoad = FEED_GETTER.feeds.length;
-		
-		FEED_GETTER.feedsLoaded = 0;
-	},
-	
-	loadFeeds : function () {
-		FEED_GETTER.lastUpdate = new Date();
-		
-		FEED_GETTER.clearNotify();
-		
-		if (FEED_GETTER.feedsToLoad == 0){
-			FEED_GETTER.notifyNoFeeds();
-		}
-		
-		FEED_GETTER.updateLoadProgress(0);
-		FEED_GETTER.loadNextFeed();
-	},
-	
-	loadNextFeed : function () {
-		if (!navigator.onLine) {
-			FEED_GETTER.updateLoadProgress(0,0);
-			FEED_GETTER.feeds.length = 0;
-			return;
-		}
-		
-		if (FEED_GETTER.consecutiveFailures >= 6) {
-			FEED_GETTER.consecutiveFailures = 0;
-			FEED_GETTER.stopUpdate();
-		}
-		else {
-			setTimeout(FEED_GETTER.doLoadNextFeed, 500);
-		}
-	},
-	
-	doLoadNextFeed : function () {
-		var feed = FEED_GETTER.feeds.shift();
-		
-		if (feed){
-			var url = feed.feed;
-			
-			var win = FEED_GETTER.feedWindow;
-			
-			if (win && win.FEEDSIDEBAR) {
-				try { win.FEEDSIDEBAR.progressText.setAttribute("tooltiptext",url); } catch (sidebarClosed) { }
-			}
-			
-			var req = new XMLHttpRequest();
-			FEED_GETTER.currentRequest = req;
-			
-			try {
-				req.open("GET", url, true);
-				
-				req.onreadystatechange = function (event) {
-					if (req.readyState == 4) {
-						clearTimeout(FEED_GETTER.loadTimer);
-						
-						try {
-							if (req.status == 200){
-								FEED_GETTER.consecutiveFailures = 0;
-								
-								var feedOb = null;
-								
-								try {
-									// Trim it.
-									FEED_GETTER.queueForParsing(req.responseText.replace(/^\s\s*/, '').replace(/\s\s*$/, ''), url);
-								} catch (e) {
-									// Parse error
-									FEED_GETTER.addError(feed.name, url, e.message, 5);
-								}
-							}
-							else {
-								++FEED_GETTER.consecutiveFailures;
-							}
-						}
-						catch (e) {
-							++FEED_GETTER.consecutiveFailures;
-							
-							if (e.name == "NS_ERROR_NOT_AVAILABLE"){
-								FEED_GETTER.addError(feed.name, url, FEED_GETTER.strings.getString("feedbar.errors.unavailable"), 3);
-							}
-						}
-						
-						FEED_GETTER.updateLoadProgress(++FEED_GETTER.feedsLoaded);
-						FEED_GETTER.loadNextFeed();
-					}
-				};
-				
-				req.send(null);
-				FEED_GETTER.loadTimer = setTimeout(FEED_GETTER.killCurrentRequest, 1000 * 15);
-			}
-			catch (e) {
-				FEED_GETTER.addError(feed.name, url, e.name, 3);
-				FEED_GETTER.updateLoadProgress(++FEED_GETTER.feedsLoaded);
-				FEED_GETTER.loadNextFeed();
-			}
-		}
-		else {
-			FEED_GETTER.updateLoadProgress(0, 0);
-			
-			if (FEED_GETTER.prefs.getBoolPref("notify")) {
-				var newItems = FEEDBAR.numUnreadItems() - FEED_GETTER.newItemCountPre;
-			
-				if (newItems > 0) {
-					if (newItems == 1) {
-						var titleString = FEED_GETTER.strings.getString("feedbar.newItemTitle");
-						var bodyString = FEED_GETTER.strings.getString("feedbar.newItemBody");
-					}
-					else {
-						var titleString = FEED_GETTER.strings.getString("feedbar.newItemsTitle");
-						var bodyString = FEED_GETTER.strings.getFormattedString("feedbar.newItemsBody", [ newItems ]);
-					}
-						
-					FEED_GETTER.growl(titleString, bodyString);
-				}
-			}
-		}
-	},
 	
 	queueForParsing : function (feedText, feedURL) {
 		var ioService = Components.classes["@mozilla.org/network/io-service;1"]
@@ -437,26 +348,30 @@ var FEED_GETTER = {
 	},
 	
 	setReloadInterval : function (minutes) {
-		var lastUpdate = FEED_GETTER.lastUpdate;
+    	clearTimeout(FEED_GETTER.feedUpdateTimeout);
+    	
+    	var numFeeds = FEED_GETTER.feedsToFetch.length;
+		var interval = minutes;
 		
-		clearTimeout(FEED_GETTER.updateTimer);
-		
-		var newMSBetween = minutes * 60 * 1000;
-		
-		var newNextUpdateTime = new Date();
-		newNextUpdateTime.setTime(lastUpdate.getTime() + newMSBetween);
-		
-		var now = new Date();
-		
-		if (newNextUpdateTime.getTime() <= now.getTime()) {
-			FEED_GETTER.updateFeeds(4);
+		if (numFeeds == 0) {
+		    numFeeds = interval;
 		}
-		else {
-			var msUntil = newNextUpdateTime.getTime() - now.getTime();
-			FEED_GETTER.updateLoadProgress(0, 0);
-			FEED_GETTER.updateTimer = setTimeout(FEED_GETTER.updateFeeds, msUntil, 5);
-		}
-	},
+		
+		FEED_GETTER.secondsBetweenFeeds = Math.ceil((interval * 60) / numFeeds);
+        
+        // Check if it's been more than $minutes minutes since the last full update.
+	    var lastUpdate = this.prefs.getIntPref("lastUpdate") * 1000; 
+	    var now = new Date().getTime();
+	    
+	    var minutesSince = (now - lastUpdate) / 1000 / 60;
+	    
+	    if (minutesSince > minutes) {
+	        FEED_GETTER.updateAllFeeds();
+        }
+        else {
+    	    FEED_GETTER.updateAFeed();
+        }
+    },
 	
 	history : {
 		hService : Components.classes["@mozilla.org/browser/global-history;2"].getService(Components.interfaces.nsIGlobalHistory2),
@@ -511,36 +426,11 @@ var FEED_GETTER = {
 	},
 
 	online : function () {
-		FEED_GETTER.updateFeeds('online');
+	    FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
 	},
 
 	offline : function () {
 		FEED_GETTER.stopUpdate();
-	},
-
-	updateLoadProgress : function (done, total) {
-	    FEED_GETTER.pendingUpdate = false;
-	    
-	    if (typeof total != 'undefined') {
-	        FEED_GETTER.feedsToLoad = total;
-        }
-        
-		if (done >= FEED_GETTER.feedsToLoad) {
-		    FEED_GETTER.feedsToLoad = 0;
-	    }
-		
-		var win = FEED_GETTER.feedWindow; 
-		
-		if (win && win.FEEDSIDEBAR) {
-			if (done >= FEED_GETTER.feedsToLoad) {
-				var nextUpdateTime = FEED_GETTER.nextUpdate;
-			}
-			else {
-				var nextUpdateTime = null;
-			}
-			
-			win.FEEDSIDEBAR.updateLoadProgress(done, FEED_GETTER.feedsToLoad, nextUpdateTime);
-		}
 	},
 	
 	killCurrentRequest : function () {
@@ -817,6 +707,26 @@ FeedbarParseListener.prototype = {
 		FEEDBAR.push(feedObject);
 		
 		delete feedObject;
+		
+		var unread = FEEDBAR.numUnreadItems();
+		
+		if (unread > FEED_GETTER.newItemCountPre) {
+			if (FEED_GETTER.prefs.getBoolPref("notify")) {
+			    var newItems = unread - FEED_GETTER.newItemCountPre;
+			    
+			    if (newItems == 1) {
+					var titleString = feedObject.label;
+					var bodyString = feedObject.items[0].label;
+//					var bodyString = FEED_GETTER.strings.getString("feedbar.newItemBody");
+				}
+				else {
+					var titleString = feedObject.label;
+					var bodyString = FEED_GETTER.strings.getFormattedString("feedbar.newItemsBody", [ newItems ]);
+				}
+					
+				FEED_GETTER.growl(titleString, bodyString, feedObject.image);
+			}
+	    }
 		
 		return;
 	}

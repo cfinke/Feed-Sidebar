@@ -87,7 +87,6 @@
 			<preference id="p_hide_read" name="extensions.feedbar.hideReadItems" type="bool" />
 			<preference id="p_update_freq" name="extensions.feedbar.updateFrequency" type="int" />
 			<preference id="p_show_days" name="extensions.feedbar.displayPeriod" type="int" />
-			<preference id="p_24hour" name="extensions.feedbar.24HourTime" type="bool" />
 			<preference id="p_autoClose" name="extensions.feedbar.autoClose" type="bool" />
 			<preference id="p_notify" name="extensions.feedbar.notify" type="bool" />
 			<preference id="p_sidebar" name="extensions.feedbar.runInSidebar" type="bool" />
@@ -114,7 +113,6 @@
 		</groupbox>
 		<groupbox>
 			<checkbox label="&feedbar.autoClose;" preference="p_autoClose" />
-			<checkbox label="&feedbar.24HourTime;" preference="p_24hour" />
 			<checkbox id="growl" label="&feedbar.notifications;" preference="p_notify" />
 			<checkbox label="&feedbar.runInSidebar;" preference="p_sidebar" />
 		</groupbox>

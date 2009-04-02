@@ -26,11 +26,15 @@
             event.preventDefault();  
 
             if (event.target instanceof HTMLAnchorElement && event.target.href)  {
-                var browser = window.parent.gBrowser;
-
-    		    var theTab = browser.addTab(event.target.href);
-    		    browser.selectedTab = theTab;
+                addTab(event.target.href);
             }
+        }
+        
+        function addTab(url) {
+            var browser = window.parent.gBrowser;
+
+    	    var theTab = browser.addTab(url);
+    	    browser.selectedTab = theTab;
         }
 		
 		]]>
@@ -40,7 +44,7 @@
 		<command id="mark-all-as-read" oncommand="window.parent.FEEDBAR.markAllAsRead();" tooltiptext="&feedbar.markAllAsRead;" />
 		<command id="mark-all-as-unread" oncommand="window.parent.FEEDBAR.markAllAsUnread();" tooltiptext="&feedbar.markAllAsUnread;" />
 		<command id="stop-update" oncommand="window.parent.FEED_GETTER.stopUpdate();" tooltiptext="&feedbar.stopFeedUpdate;" />
-		<command id="force-reload" oncommand="window.parent.FEED_GETTER.updateFeeds();" tooltiptext="&feedbar.reloadFeeds;" />
+		<command id="force-reload" oncommand="window.parent.FEED_GETTER.updateAllFeeds();" tooltiptext="&feedbar.reloadFeeds;" />
 		<command id="set-reload-interval" oncommand="window.parent.FEED_GETTER.setUpdateFrequency(event.target.getAttribute('value')); event.stopPropagation();" />
 		<command id="update-period" oncommand="window.parent.FEED_GETTER.setDisplayPeriod(event.target.getAttribute('value')); event.stopPropagation();" />
 		<command id="sort" oncommand="var srt = event.target.getAttribute('value'); window.parent.FEEDBAR.sort(srt, true); FEEDSIDEBAR.checkSortItem(srt); event.stopPropagation();" />
@@ -106,6 +110,7 @@
 						<menuitem type="radio" name="frequency" value="180" label="3 &feedbar.hours;" />
 						<menuitem type="radio" name="frequency" value="240" label="4 &feedbar.hours;" />
 						<menuitem type="radio" name="frequency" value="300" label="5 &feedbar.hours;" />
+						<menuitem type="radio" name="frequency" value="0" label="Disable Auto-Updates" />
 					</menupopup>
 				</toolbarbutton>
 				<toolbarbutton id="downloads-button" class="toolbarbutton-1 chromeclass-toolbar-additional" orient="horizontal" type="menu" tooltiptext="&feedbar.sortBy;">
@@ -159,11 +164,11 @@
 					<iframe flex="1" id="content-frame" onclick="handleBrowserClick(event);" src="data:text/html,%3Chtml%3E%3Chead%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ebody%20*%2C%20body%20%7Bfont-size%3A%209pt%3Bfont-family%3A%20arial%2C%20sans-serif%3B%7D%3C%2Fstyle%3E%3C%2Fhead%3E%3Cbody%3E%3C%2Fbody%3E%3C%2Fhtml%3E" disablehistory="true" type="content"></iframe>
 				</groupbox>
 			</vbox>
+			<hbox id="feed-sidebar-statusbar">
+    			<statusbarpanel pack="end" align="center" flex="1" style="padding-top: 4px;" id="feedbar-loading-text-container" onclick="window.parent.FEED_GETTER.killCurrentRequest();">
+    				<description id="feedbar-loading-text" value="" onclick="if (this.getAttribute('url')) { addTab(this.getAttribute('url')); }" />
+    			</statusbarpanel>
+    		</hbox>
 		</vbox>
-		<hbox id="feedbar-statusbar">
-			<statusbarpanel pack="end" align="center" flex="1" style="padding-top: 4px;" id="feedbar-loading-text-container" onclick="window.parent.FEED_GETTER.killCurrentRequest();">
-				<description id="feedbar-loading-text" value="" />
-			</statusbarpanel>
-		</hbox>
 	</vbox>
 </page>

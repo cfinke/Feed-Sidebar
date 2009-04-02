@@ -1,9 +1,6 @@
 var FEEDSIDEBAR = {
-	get progressText() { return document.getElementById("feedbar-loading-text"); },
 	get previewPane() { return document.getElementById("feedbar-preview"); },
-	get nextUpdateDisplay() { return document.getElementById("feedbar-nextupdate-text"); },
 	get strings() { return document.getElementById("feedbar-string-bundle"); },
-	get displayPeriod() { return FEEDSIDEBAR.prefs.getIntPref("displayPeriod"); },
 	
 	prefs : null,
 	
@@ -118,47 +115,6 @@ var FEEDSIDEBAR = {
     	}
     },
 
-	updateLoadProgress : function (done, total, nextUpdateTime) {
-		if (!navigator.onLine) {
-			document.getElementById("reload-button").setAttribute("disabled", ("import" in Components.utils).toString());
-			document.getElementById("stop-button").setAttribute("disabled","true");
-			
-			FEEDSIDEBAR.progressText.setAttribute("value", FEEDSIDEBAR.strings.getString("feedbar.workingOffline"));
-			return;
-		}
-		
-		try {
-			if (done == total) {
-				var use24HourTime = FEEDSIDEBAR.prefs.getBoolPref("24HourTime");
-			
-				var timeText = '';
-				timeText += ((nextUpdateTime.getHours() > 12 && !use24HourTime) ? nextUpdateTime.getHours() - 12 : nextUpdateTime.getHours());
-			
-				if (use24HourTime && parseInt(timeText) < 10) {
-					timeText = "0" + timeText;
-				}
-			
-				if (timeText == "0") timeText = "12";
-				timeText += ":";
-			
-				if (nextUpdateTime.getMinutes() < 10) timeText += "0";
-				timeText += nextUpdateTime.getMinutes();
-				timeText += " ";
-			
-				if (!use24HourTime) timeText += (nextUpdateTime.getHours() > 11) ? FEEDSIDEBAR.strings.getString("feedbar.time.pm") : FEEDSIDEBAR.strings.getString("feedbar.time.am");
-			
-				document.getElementById("reload-button").setAttribute("disabled","false");
-				document.getElementById("stop-button").setAttribute("disabled","true");
-				FEEDSIDEBAR.progressText.setAttribute("value", FEEDSIDEBAR.strings.getFormattedString("feedbar.nextUpdate", [timeText]) );
-			}
-			else {
-				document.getElementById("reload-button").setAttribute("disabled","true");
-				document.getElementById("stop-button").setAttribute("disabled","false");
-				FEEDSIDEBAR.progressText.setAttribute("value", FEEDSIDEBAR.strings.getFormattedString("feedbar.checkingFeeds", [done, total]));
-			}
-		} catch (e) { }
-	},
-	
 	options : function () {
 		openDialog("chrome://feedbar/content/options.xul", "", "chrome,titlebar,toolbar,centerscreen");
 	},

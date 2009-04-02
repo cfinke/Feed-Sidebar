@@ -50,11 +50,8 @@ var feedbarBookmarkObserver = {
 	},
 };
 
-try {
-	var bmsvc = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].
-            		getService(Components.interfaces.nsINavBookmarksService);
-	bmsvc.addObserver(feedbarBookmarkObserver, false);
+var bmsvc = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].
+        		getService(Components.interfaces.nsINavBookmarksService);
+bmsvc.addObserver(feedbarBookmarkObserver, false);
 
-	window.addEventListener("unload", function () { bmsvc.removeObserver(feedbarBookmarkObserver); }, false);
-} catch (firefox2) {
-}
+window.addEventListener("unload", function () { bmsvc.removeObserver(feedbarBookmarkObserver); }, false);
