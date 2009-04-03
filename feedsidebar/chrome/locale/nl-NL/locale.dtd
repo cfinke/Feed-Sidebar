@@ -41,7 +41,6 @@
 <!ENTITY feedbar.showAllItemsFull "Alle berichten weergeven onafhankelijk van leeftijd">
 <!ENTITY feedbar.onlyShow1 "Alleen berichten uit de laatste">
 <!ENTITY feedbar.onlyShow2 "dagen weergeven.">
-<!ENTITY feedbar.24HourTime "24-uursklok gebruiken">
 <!ENTITY feedbar.autoClose "Zijbalk automatisch sluiten wanneer alle berichten als gelezen zijn gemarkeerd.">
 <!ENTITY feedbar.notifications "Pop-upberichten weergeven wanneer nieuwe berichten worden gevonden.">
 <!ENTITY feedbar.runInSidebar "Alleen op updates controleren wanneer de zijbalk is geopend.">

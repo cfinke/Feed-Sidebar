@@ -37,7 +37,6 @@
 <!ENTITY feedbar.showAllItemsFull "Mostrar todos los elementos, independientemente de su antigüedad">
 <!ENTITY feedbar.onlyShow1 "Mostrar sólo los elementos de los últimos">
 <!ENTITY feedbar.onlyShow2 "días.">
-<!ENTITY feedbar.24HourTime "Utilizar formato 24-horas">
 <!ENTITY feedbar.autoClose "Cerrar automáticamente la barra lateral al marcar todos elementos como leídos.">
 <!ENTITY feedbar.notifications "Mostrar notificaciones emergentes cuando se detenten nuevos elementos.">
 <!ENTITY feedbar.runInSidebar "Comprobar actualizaciones sólo cuando la barra lateral esté abierta.">

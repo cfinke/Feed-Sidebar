@@ -41,7 +41,6 @@
 <!ENTITY feedbar.showAllItemsFull "時期に関係なく、すべての項目を表示する。">
 <!ENTITY feedbar.onlyShow1 "最後の">
 <!ENTITY feedbar.onlyShow2 "日分の項目のみ表示する。">
-<!ENTITY feedbar.24HourTime "24時間制を利用する。">
 <!ENTITY feedbar.autoClose "すべての項目を既読にしたら自動的にサイドバーを閉じる。">
 <!ENTITY feedbar.notifications "新着項目が見つかったらポップアップ通知を表示する。">
 <!ENTITY feedbar.runInSidebar "サイドバーが開いている時だけ更新を確認する。">

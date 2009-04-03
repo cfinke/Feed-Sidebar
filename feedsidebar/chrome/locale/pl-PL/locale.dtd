@@ -41,7 +41,6 @@
 <!ENTITY feedbar.showAllItemsFull "Wyświetlaj wszystkie wiadomości, bez względu na czas publikacji">
 <!ENTITY feedbar.onlyShow1 "Wyświetlaj tylko wiadomości z ostatnich">
 <!ENTITY feedbar.onlyShow2 "dni.">
-<!ENTITY feedbar.24HourTime "Wyświetlaj czas w formacie 24 godzinnym">
 <!ENTITY feedbar.autoClose "Zamykaj panel boczny po oznaczeniu wszystkich wiadomości jako przeczytanych">
 <!ENTITY feedbar.notifications "Wyświetlaj powiadomienia po wykryciu nowych wiadomości">
 <!ENTITY feedbar.runInSidebar "Sprawdzaj aktualizacje, gdy panel boczny jest otwarty">

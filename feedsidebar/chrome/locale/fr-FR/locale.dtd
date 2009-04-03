@@ -41,7 +41,6 @@
 <!ENTITY feedbar.showAllItemsFull "Afficher tous les éléments, quelle que soit leur ancienneté">
 <!ENTITY feedbar.onlyShow1 "N&apos;afficher que les éléments depuis les">
 <!ENTITY feedbar.onlyShow2 "derniers jours.">
-<!ENTITY feedbar.24HourTime "Utiliser le système 24 heures">
 <!ENTITY feedbar.autoClose "Fermer automatiquement le panneau latéral quand tous les éléments sont marqués comme lus.">
 <!ENTITY feedbar.notifications "Afficher des notifications par popup quand de nouveaux éléments sont détectés.">
 <!ENTITY feedbar.runInSidebar "Ne vérifier les mises à jour que quand le panneau latéral est ouvert.">

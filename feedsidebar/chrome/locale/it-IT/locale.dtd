@@ -41,7 +41,6 @@
 <!ENTITY feedbar.showAllItemsFull "Visualizza tutti i feed senza tenere conto dell&apos;età">
 <!ENTITY feedbar.onlyShow1 "Visualizza solo i feed del seguente numero di ultimi giorni:">
 <!ENTITY feedbar.onlyShow2 " ">
-<!ENTITY feedbar.24HourTime "Utilizza il formato dell&apos;orario di 24 ore">
 <!ENTITY feedbar.autoClose "Chiudi automaticamente la barra laterale quando si segnano tutti gli elementi come letti">
 <!ENTITY feedbar.notifications "Mostra un avviso a pop-up quando vengono rilevati nuovi elementi">
 <!ENTITY feedbar.runInSidebar "Controlla gli aggiornamenti dei feed solo quando la barra laterale è aperta">

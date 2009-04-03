@@ -41,7 +41,6 @@
 <!ENTITY feedbar.showAllItemsFull "显示全部项目">
 <!ENTITY feedbar.onlyShow1 "只显示最近">
 <!ENTITY feedbar.onlyShow2 "天的项目">
-<!ENTITY feedbar.24HourTime "使用 24 小时制">
 <!ENTITY feedbar.autoClose "当标记全部项目为已读后关闭侧栏">
 <!ENTITY feedbar.notifications "当找到新项目时弹出通知">
 <!ENTITY feedbar.runInSidebar "仅当侧栏打开时检查更新">

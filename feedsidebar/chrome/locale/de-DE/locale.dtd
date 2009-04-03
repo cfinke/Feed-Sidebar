@@ -37,7 +37,6 @@
 <!ENTITY feedbar.showAllItemsFull "Alle Einträge unabhängig vom Alter anzeigen">
 <!ENTITY feedbar.onlyShow1 "Nur die Einträge der letzten">
 <!ENTITY feedbar.onlyShow2 "Tage anzeigen">
-<!ENTITY feedbar.24HourTime "24-Stunden-Format verwenden">
 <!ENTITY feedbar.autoClose "Sidebar automatisch schließen, wenn alle Einträge als gelesen markiert werden">
 <!ENTITY feedbar.notifications "Benachrichtigungen über neue Einträge anzeigen">
 <!ENTITY feedbar.runInSidebar "Nur bei geöffneter Sidebar nach neuen Einträgen suchen">

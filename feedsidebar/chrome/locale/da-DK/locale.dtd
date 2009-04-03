@@ -41,7 +41,6 @@
 <!ENTITY feedbar.showAllItemsFull "Vis alle emner uanset alder">
 <!ENTITY feedbar.onlyShow1 "Vis kun emner fra de sidste">
 <!ENTITY feedbar.onlyShow2 "dage.">
-<!ENTITY feedbar.24HourTime "Brug 24-timers ur">
 <!ENTITY feedbar.autoClose "Luk automatisk sidebjælken når alle emner markeres som læst.">
 <!ENTITY feedbar.notifications "Vis pop-up besked når nye emner er fundet.">
 <!ENTITY feedbar.runInSidebar "Check kun for opdateringer når sidebjælken er åben.">

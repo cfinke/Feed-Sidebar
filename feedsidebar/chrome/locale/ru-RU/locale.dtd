@@ -37,7 +37,6 @@
 <!ENTITY feedbar.showAllItemsFull "Показывать все записи">
 <!ENTITY feedbar.onlyShow1 "Показывать записи за последние">
 <!ENTITY feedbar.onlyShow2 "дня (дней).">
-<!ENTITY feedbar.24HourTime "Использовать 24-часовой формат времени">
 <!ENTITY feedbar.autoClose "Закрывать боковую панель при отсутствии непрочитанных записей.">
 <!ENTITY feedbar.notifications "Показывать всплывающие оповещения о новых записях.">
 <!ENTITY feedbar.runInSidebar "Проверять обновления только при открытой боковой панели.">

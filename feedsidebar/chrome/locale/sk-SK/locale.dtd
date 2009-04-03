@@ -41,7 +41,6 @@
 <!ENTITY feedbar.showAllItemsFull "Zobraziť všetky správy bez ohľadu na vek">
 <!ENTITY feedbar.onlyShow1 "Zobraziť len správy za posledných">
 <!ENTITY feedbar.onlyShow2 "dní.">
-<!ENTITY feedbar.24HourTime "Používať 24 hodinový formát">
 <!ENTITY feedbar.autoClose "Automaticky zatvoriť bočný panel pri označení všetkých správ ako prečítané.">
 <!ENTITY feedbar.notifications "Zobraziť pop-up notifikáciu pri načítaní nových správ.">
 <!ENTITY feedbar.runInSidebar "Aktualizovať kanály len keď je zobrazený bočný panel.">

@@ -37,7 +37,6 @@
 <!ENTITY feedbar.showAllItemsFull "Toan alle items, los fan de leeftyd">
 <!ENTITY feedbar.onlyShow1 "Toan allinnich items fan de lêste">
 <!ENTITY feedbar.onlyShow2 "dagen. (Jou 0 om alles te sjen)">
-<!ENTITY feedbar.24HourTime "Brûk 24-oeren tiid">
 <!ENTITY feedbar.autoClose "Slut automatysk de sidebalke as alle items as lêze markeard wurde.">
 <!ENTITY feedbar.notifications "Toan pop-up notifikaasje as der nije items binne.">
 <!ENTITY feedbar.runInSidebar "Kontrolearje allinne op fernijings as de sidebalke ipen is.">
