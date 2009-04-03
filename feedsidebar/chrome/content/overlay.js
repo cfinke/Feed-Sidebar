@@ -983,7 +983,7 @@ beginTime : [],
 		    var nativeJSON = Components.classes["@mozilla.org/dom/json;1"]
                              .createInstance(Components.interfaces.nsIJSON);
             
-			var file = Components.classes['@mozilla.org/file/directory_service;1']
+            var file = Components.classes['@mozilla.org/file/directory_service;1']
                             .getService(Components.interfaces.nsIProperties) //changed by <asqueella@gmail.com>
                             .get("ProfD", Components.interfaces.nsIFile);
 			file.append("feedbar.cache");
@@ -1072,7 +1072,6 @@ beginTime : [],
 			foStream.write(data, data.length);
 			foStream.close();
 		} catch (e) {
-		    alert(e);
 		}
 	},
 	
@@ -1449,7 +1448,9 @@ beginTime : [],
 		
 		if (this.prefs.getBoolPref("hideReadItems")) {
 		    for (var i = this.visibleData.length - 1; i >= 0; i--) {
-				this.markFeedAsRead(i, true);
+		        if (this.isContainer(i)) {
+				    this.markFeedAsRead(i, true);
+				}
 			}
 		}
 		else {

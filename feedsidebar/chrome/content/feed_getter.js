@@ -70,6 +70,7 @@ var FEED_GETTER = {
 	},
 	
 	feedUpdateTimeout : null,
+	statusTextTimeout : null,
 	feedsToFetch : [],
 	feedIndex : 0,
 	secondsBetweenFeeds : 1,
@@ -122,6 +123,17 @@ var FEED_GETTER = {
 	
 	rapidUpdate : 0,
 	
+	clearStatusText : function () {
+	    var win = FEED_GETTER.feedWindow;
+        
+        if (win) {
+    	    var statusText = win.document.getElementById("feedbar-loading-text")
+    	    statusText.setAttribute("value", "");
+    	    statusText.setAttribute("tooltiptext", "");
+    	    statusText.setAttribute("url", "");
+    	}
+    },
+	
     updateAFeed : function (indexOverride) {
         function setTimeoutForNext() {
             if (FEED_GETTER.rapidUpdate) {
@@ -130,6 +142,8 @@ var FEED_GETTER = {
             else {
                 if (FEED_GETTER.secondsBetweenFeeds == 0) {
                     var interval = 60;
+                    
+                    FEED_GETTER.clearStatusText();
                 }
                 else {
                     var interval = FEED_GETTER.secondsBetweenFeeds;
@@ -140,25 +154,21 @@ var FEED_GETTER = {
 	    }
 		
         clearTimeout(FEED_GETTER.feedUpdateTimeout);
+        clearTimeout(FEED_GETTER.statusTextTimeout);
         
         var win = FEED_GETTER.feedWindow;
         
         if (!navigator.onLine || 
             FEED_GETTER.feedsToFetch.length == 0 ||
-            FEED_GETTER.secondsBetweenFeeds == 0 ||
+            (!FEED_GETTER.rapidUpdate && FEED_GETTER.secondsBetweenFeeds == 0) ||
             (FEED_GETTER.prefs.getBoolPref("runInSidebar") && !FEED_GETTER.sidebarIsOpen())
             ){
             
     		if (win && win.FEEDSIDEBAR) {
-    		    var statusText = win.document.getElementById("feedbar-loading-text")
-    		    statusText.setAttribute("value", "");
-    		    statusText.setAttribute("tooltiptext", "");
-    		    statusText.setAttribute("url", "");
+    		    FEED_GETTER.clearStatusText();
     		    
                 if (!navigator.onLine) {
         		    statusText.setAttribute("value", "Offline.");
-        		    statusText.setAttribute("tooltiptext", "");
-        		    statusText.setAttribute("url", "");
                 }
         	}
         	
@@ -213,6 +223,8 @@ var FEED_GETTER = {
 			req.onreadystatechange = function (event) {
 				if (req.readyState == 4) {
 					clearTimeout(FEED_GETTER.loadTimer);
+					FEED_GETTER.statusTextTimeout = setTimeout(function () { FEED_GETTER.clearStatusText(); }, 5000);
+					
 					FEED_GETTER.currentRequest = null;
 					setTimeoutForNext();
 					
@@ -254,11 +266,13 @@ var FEED_GETTER = {
     },
 	
 	sidebarPing : function () {
-	    FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
-	    
+//	    if (this.prefs.getBoolPref("runInSidebar")) {
+  //  	    FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
+    //    }
+    
 	    if (FEED_GETTER.rapidUpdate) {
     	    var win = FEED_GETTER.feedWindow;
-		
+	
     		if (win && win.FEEDSIDEBAR) {
     			win.document.getElementById("stop-button").setAttribute("disabled","false");
     			win.document.getElementById("reload-button").setAttribute("disabled","true");
@@ -365,7 +379,7 @@ var FEED_GETTER = {
 	    
 	    var minutesSince = (now - lastUpdate) / 1000 / 60;
 	    
-	    if (minutesSince > minutes) {
+	    if ((minutes != 0) && (minutesSince > minutes)) {
 	        FEED_GETTER.updateAllFeeds();
         }
         else {
@@ -661,6 +675,8 @@ FeedbarParseListener.prototype = {
 				else {
 					itemObject.label = item.updated;
 				}
+				
+				itemObject.label = itemObject.label.replace(/\s+/, " ");
 				
 				if (item.summary && item.summary.text) {
 					itemObject.description = item.summary.text;
