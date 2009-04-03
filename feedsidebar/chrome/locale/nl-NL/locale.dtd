@@ -27,6 +27,10 @@
 <!ENTITY feedbar.showLastDay "Laatste dag weergeven">
 <!ENTITY feedbar.showLastWeek "Laatste week weergeven">
 <!ENTITY feedbar.showLastMonth "Laatste maand weergeven">
+<!ENTITY feedbar.sortBy "Sorteren op…">
+<!ENTITY feedbar.sort.name "Naam">
+<!ENTITY feedbar.sort.default "Standaard">
+<!ENTITY feedbar.sort.updated "Laatst bijgewerkt">
 <!ENTITY feedbar.copyTitle "Titel kopiëren">
 <!ENTITY feedbar.copyLink "Koppeling kopiëren">
 <!ENTITY feedbar.unsubscribe "Abonnement opzeggen">
@@ -41,9 +45,9 @@
 <!ENTITY feedbar.autoClose "Zijbalk automatisch sluiten wanneer alle berichten als gelezen zijn gemarkeerd.">
 <!ENTITY feedbar.notifications "Pop-upberichten weergeven wanneer nieuwe berichten worden gevonden.">
 <!ENTITY feedbar.runInSidebar "Alleen op updates controleren wanneer de zijbalk is geopend.">
-<!ENTITY feedbar.previewQuestion "Bij openen van een feedbericht...">
+<!ENTITY feedbar.previewQuestion "Bij openen van een feedbericht…">
 <!ENTITY feedbar.previewAnswer1 "De gekoppelde webpagina openen (standaard).">
 <!ENTITY feedbar.previewAnswer2 "De volledige artikelbeschrijving in het browservenster weergeven.">
 <!ENTITY feedbar.showAllItemsButtonLabel "Alles">
 <!ENTITY feedbar.showAll.tooltip "Weergave van zowel gelezen als ongelezen berichten inschakelen.">
-<!ENTITY feedbar.alwaysOpenInNewTab "Berichten altijd in nieuwe tabbalden openen">
+<!ENTITY feedbar.alwaysOpenInNewTab "Berichten altijd in nieuwe tabbladen openen">

@@ -27,6 +27,10 @@
 <!ENTITY feedbar.showLastDay "Voir le dernier jour">
 <!ENTITY feedbar.showLastWeek "Voir la dernière semaine">
 <!ENTITY feedbar.showLastMonth "Voir le dernier mois">
+<!ENTITY feedbar.sortBy "Trier par…">
+<!ENTITY feedbar.sort.name "Nom">
+<!ENTITY feedbar.sort.default "Par défaut">
+<!ENTITY feedbar.sort.updated "Dernière mise à jour">
 <!ENTITY feedbar.copyTitle "Copier le titre">
 <!ENTITY feedbar.copyLink "Copier le lien">
 <!ENTITY feedbar.unsubscribe "Se désabonner">

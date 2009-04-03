@@ -27,6 +27,10 @@
 <!ENTITY feedbar.showLastDay "Zobraziť posledný deň">
 <!ENTITY feedbar.showLastWeek "Zobraziť posledný týždeň">
 <!ENTITY feedbar.showLastMonth "Zobraziť posledný mesiac">
+<!ENTITY feedbar.sortBy "Usporiadať podľa">
+<!ENTITY feedbar.sort.name "Meno">
+<!ENTITY feedbar.sort.default "Prednastavené">
+<!ENTITY feedbar.sort.updated "Posledná aktualizácia">
 <!ENTITY feedbar.copyTitle "Kopírovať názov">
 <!ENTITY feedbar.copyLink "Kopírovať odkaz">
 <!ENTITY feedbar.unsubscribe "Neodoberať">

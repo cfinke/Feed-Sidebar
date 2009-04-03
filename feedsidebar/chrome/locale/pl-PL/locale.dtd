@@ -2,7 +2,7 @@
 <!ENTITY feedbar.sidebarTitle "Wiadomości">
 <!ENTITY feedbar.buttonTooltip "Wyświetla w panelu bocznym nowe wiadomości z dynamicznych zakładek">
 <!ENTITY feedbar.accesskey "F">
-<!ENTITY feedbar.preview.markAsRead "Oznacz kanał/wiadomość jako przeczytaną">
+<!ENTITY feedbar.preview.markAsRead "Oznacz kanał/wiadomość jako przeczytane">
 <!ENTITY feedbar.open "Otwórz">
 <!ENTITY feedbar.openInTab "Otwórz w nowej karcie">
 <!ENTITY feedbar.openAllInTabs "Otwórz wszystkie w kartach">
@@ -19,14 +19,18 @@
 <!ENTITY feedbar.hour "godz.">
 <!ENTITY feedbar.hours "godz.">
 <!ENTITY feedbar.showLastTooltip "Przedział czasowy z jakiego będą wyświetlane wiadomości">
-<!ENTITY feedbar.showLastDaysPre "Wyświetl z ostatnich ">
-<!ENTITY feedbar.showLastDaysPost " dni">
-<!ENTITY feedbar.showLastWeeksPre "Wyświetl z ostatnich ">
-<!ENTITY feedbar.showLastWeeksPost " tygodni">
+<!ENTITY feedbar.showLastDaysPre "Wyświetl z ostatnich">
+<!ENTITY feedbar.showLastDaysPost "dni">
+<!ENTITY feedbar.showLastWeeksPre "Wyświetl z ostatnich">
+<!ENTITY feedbar.showLastWeeksPost "tygodni">
 <!ENTITY feedbar.showAllItems "Wyświetl wszystkie wiadomości">
 <!ENTITY feedbar.showLastDay "Wyświetl wiadomości z dnia dzisiejszego">
 <!ENTITY feedbar.showLastWeek "Wyświetl wiadomości z ostatniego tygodnia">
 <!ENTITY feedbar.showLastMonth "Wyświetl wiadomości z ostatniego miesiąca">
+<!ENTITY feedbar.sortBy "Sortuj wg…">
+<!ENTITY feedbar.sort.name "Nazwy">
+<!ENTITY feedbar.sort.default "Domyślnie">
+<!ENTITY feedbar.sort.updated "Ostatnio zaktualizowanych">
 <!ENTITY feedbar.copyTitle "Kopiuj tytuł">
 <!ENTITY feedbar.copyLink "Kopiuj odnośnik">
 <!ENTITY feedbar.unsubscribe "Anuluj subskrypcję">

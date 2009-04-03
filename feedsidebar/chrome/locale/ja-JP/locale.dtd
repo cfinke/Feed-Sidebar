@@ -27,6 +27,10 @@
 <!ENTITY feedbar.showLastDay "1日分を表示">
 <!ENTITY feedbar.showLastWeek "今週分を表示">
 <!ENTITY feedbar.showLastMonth "今月分を表示">
+<!ENTITY feedbar.sortBy "並び替え...">
+<!ENTITY feedbar.sort.name "名前">
+<!ENTITY feedbar.sort.default "既定">
+<!ENTITY feedbar.sort.updated "最終更新">
 <!ENTITY feedbar.copyTitle "題名をコピー">
 <!ENTITY feedbar.copyLink "リンクをコピー">
 <!ENTITY feedbar.unsubscribe "購読解除">

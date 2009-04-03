@@ -3,13 +3,10 @@
 <!ENTITY feedbar.buttonTooltip "Mostrar los elementos de los Marcadores dinámicos en la barra lateral">
 <!ENTITY feedbar.accesskey "F">
 <!ENTITY feedbar.preview.markAsRead "Marcar suministro RSS o elemento como leído">
-<!ENTITY feedbar.preview.summary "Resumen">
 <!ENTITY feedbar.open "Abrir">
 <!ENTITY feedbar.openInTab "Abrir en una pestaña nueva">
 <!ENTITY feedbar.openAllInTabs "Abrir todo en pestañas">
-<!ENTITY feedbar.openUnreadInTabs "Abrir elementos no leídos en pestañas">
 <!ENTITY feedbar.openFeedInTabs "Abrir suministro RSS en pestañas">
-<!ENTITY feedbar.openUnreadFeedInTabs "Abrir suministros RSS no leídos en pestañas">
 <!ENTITY feedbar.markAsRead "Marcar como leído">
 <!ENTITY feedbar.markAsUnread "Marcar como no leído">
 <!ENTITY feedbar.markFeedAsRead "Marcar suministro RSS como leído">

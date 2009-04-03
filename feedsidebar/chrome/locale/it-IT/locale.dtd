@@ -13,23 +13,27 @@
 <!ENTITY feedbar.markFeedAsUnread "Segna feed come non letto">
 <!ENTITY feedbar.markAllAsRead "Segna tutti come letti">
 <!ENTITY feedbar.markAllAsUnread "Segna tutti come non letti">
-<!ENTITY feedbar.reloadFeeds "Ricarica feed">
-<!ENTITY feedbar.stopFeedUpdate "Annulla aggiornamento dei feed">
+<!ENTITY feedbar.reloadFeeds "Ricarica i feed">
+<!ENTITY feedbar.stopFeedUpdate "Annulla l&apos;aggiornamento dei feed">
 <!ENTITY feedbar.minutes "minuti">
 <!ENTITY feedbar.hour "ora">
 <!ENTITY feedbar.hours "ore">
 <!ENTITY feedbar.showLastTooltip "Imposta quali elementi visualizzare in base al tempo trascorso">
-<!ENTITY feedbar.showLastDaysPre "Visualizza feed degli ultimi ">
+<!ENTITY feedbar.showLastDaysPre "Visualizza i feed degli ultimi ">
 <!ENTITY feedbar.showLastDaysPost " giorni">
-<!ENTITY feedbar.showLastWeeksPre "Visualizza feed delle ultime ">
+<!ENTITY feedbar.showLastWeeksPre "Visualizza i feed delle ultime ">
 <!ENTITY feedbar.showLastWeeksPost " settimane">
 <!ENTITY feedbar.showAllItems "Visualizza tutti gli elementi">
-<!ENTITY feedbar.showLastDay "Visualizza feed dell&apos;ultimo giorno">
-<!ENTITY feedbar.showLastWeek "Visualizza feed dell&apos;ultima settimana">
-<!ENTITY feedbar.showLastMonth "Visualizza feed dell&apos;ultimo mese">
-<!ENTITY feedbar.copyTitle "Copia titolo">
-<!ENTITY feedbar.copyLink "Copia link">
-<!ENTITY feedbar.unsubscribe "Elimina feed">
+<!ENTITY feedbar.showLastDay "Visualizza i feed dell&apos;ultimo giorno">
+<!ENTITY feedbar.showLastWeek "Visualizza i feed dell&apos;ultima settimana">
+<!ENTITY feedbar.showLastMonth "Visualizza i feed dell&apos;ultimo mese">
+<!ENTITY feedbar.sortBy "Ordina i feed">
+<!ENTITY feedbar.sort.name "Ordina per nome">
+<!ENTITY feedbar.sort.default "Ordina in modo predefinito">
+<!ENTITY feedbar.sort.updated "Ordina per ultimo aggiornamento">
+<!ENTITY feedbar.copyTitle "Copia il titolo">
+<!ENTITY feedbar.copyLink "Copia il link">
+<!ENTITY feedbar.unsubscribe "Elimina il feed">
 <!ENTITY feedbar.options "Opzioni">
 <!ENTITY feedbar.hideReadItems "Nascondi gli elementi letti">
 <!ENTITY feedbar.updateEvery1 "Minuti prima dell&apos;aggiornamento successivo:">
