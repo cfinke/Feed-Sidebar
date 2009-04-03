@@ -168,7 +168,7 @@ var FEED_GETTER = {
     		    FEED_GETTER.clearStatusText();
     		    
                 if (!navigator.onLine) {
-        		    statusText.setAttribute("value", "Offline.");
+        		    statusText.setAttribute("value", FEED_GETTER.strings.getString("feedbar.workingOffline"));
                 }
         	}
         	
@@ -209,7 +209,7 @@ var FEED_GETTER = {
 		
 		if (win && win.FEEDSIDEBAR) {
 		    var statusText = win.document.getElementById("feedbar-loading-text");
-		    statusText.setAttribute("value", "Updating "+(feedIndex+1)+" of "+FEED_GETTER.feedsToFetch.length+" (" + feed.name + ")...");
+		    statusText.setAttribute("value", FEED_GETTER.strings.getFormattedString("feedbar.statusText", [ (feedIndex+1), FEED_GETTER.feedsToFetch.length, feed.name ]));
             statusText.setAttribute("tooltiptext", url);
 		    statusText.setAttribute("url", url);
 	    }
@@ -347,7 +347,7 @@ var FEED_GETTER = {
 			}
 		}
 		else {
-			throw({ message : "Feed has no content." });
+			throw({ message : FEED_GETTER.strings.getString("feedbar.noContent") });
 		}
 
 		return this;

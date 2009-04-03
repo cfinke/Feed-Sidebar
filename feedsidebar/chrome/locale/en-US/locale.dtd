@@ -49,7 +49,6 @@
 <!ENTITY feedbar.onlyShow1 "Only show items from the last">
 <!ENTITY feedbar.onlyShow2 "days.">
 
-<!ENTITY feedbar.24HourTime "Use 24-hour time">
 <!ENTITY feedbar.autoClose "Automatically close the sidebar when marking all items as read.">
 <!ENTITY feedbar.notifications "Show pop-up notifications when new items are detected.">
 
@@ -62,3 +61,5 @@
 <!ENTITY feedbar.showAllItemsButtonLabel "All">
 <!ENTITY feedbar.showAll.tooltip "Enable to show both read and unread items.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Always open items in new tabs">
+
+<!ENTITY feedbar.updatesDisabled "Disable Auto-Updates">

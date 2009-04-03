@@ -110,7 +110,7 @@
 						<menuitem type="radio" name="frequency" value="180" label="3 &feedbar.hours;" />
 						<menuitem type="radio" name="frequency" value="240" label="4 &feedbar.hours;" />
 						<menuitem type="radio" name="frequency" value="300" label="5 &feedbar.hours;" />
-						<menuitem type="radio" name="frequency" value="0" label="Disable Auto-Updates" />
+						<menuitem type="radio" name="frequency" value="0" label="&feedbar.updatesDisabled;" />
 					</menupopup>
 				</toolbarbutton>
 				<toolbarbutton id="downloads-button" class="toolbarbutton-1 chromeclass-toolbar-additional" orient="horizontal" type="menu" tooltiptext="&feedbar.sortBy;">
