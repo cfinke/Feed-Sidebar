@@ -7,7 +7,6 @@ pref("extensions.feedbar.hideReadItems", true);
 
 pref("extensions.feedbar.filter", "");
 
-pref("extensions.feedbar.firstRun", true);
 pref("extensions.feedbar.lastVersion", "");
 
 pref("extensions.feedbar.autoClose", true);

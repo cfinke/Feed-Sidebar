@@ -890,7 +890,7 @@ beginTime : [],
 		
 		this.filter(true);
 		
-		if (this.prefs.getBoolPref("firstRun")) {
+		if (this.prefs.getCharPref("lastVersion") == "") {
 			// Add the toolbar button.
 			
 			var buttonId = "feedbar-button";
@@ -965,7 +965,7 @@ beginTime : [],
 		
 			// Open the sidebar.
 			toggleSidebar('feedbar');
-			this.prefs.setBoolPref("firstRun", false);
+			this.prefs.setCharPref("lastVersion", "firstrun");
 		}
 		
 		var db = this.getDB();
@@ -1006,7 +1006,6 @@ beginTime : [],
 		}
 		
 		setTimeout(FEEDBAR.showFirstRun, 1500);
-		// setTimeout(FEED_GETTER.updateFeeds, 2500, 1);
 	},
 	
 	tryAndRemoveFeed : function (livemarkId) {
@@ -1045,9 +1044,11 @@ beginTime : [],
 	},
 	
 	showFirstRun : function () {
-		if (FEEDBAR.prefs.getCharPref("lastVersion") != '3.0') {
-			FEEDBAR.prefs.setCharPref("lastVersion","3.0");
-			var theTab = gBrowser.addTab("http://www.chrisfinke.com/firstrun/feedbar/3.0/");
+	    var version = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager).getItemForID("feedbar@efinke.com").version;
+
+		if (FEEDBAR.prefs.getCharPref("lastVersion") != version) {
+			FEEDBAR.prefs.setCharPref("lastVersion",version);
+			var theTab = gBrowser.addTab("http://www.chrisfinke.com/firstrun/feed-sidebar.php");
 			gBrowser.selectedTab = theTab;
 		}
 	},
