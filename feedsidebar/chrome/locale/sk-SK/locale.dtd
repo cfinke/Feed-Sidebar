@@ -50,3 +50,4 @@
 <!ENTITY feedbar.showAllItemsButtonLabel "Všetky">
 <!ENTITY feedbar.showAll.tooltip "Povoliť zobrazenie prečítaných aj neprečítaných správ.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Správy otvárať vždy v nových kartách">
+<!ENTITY feedbar.updatesDisabled "Zakázať automatické aktualizácie.">

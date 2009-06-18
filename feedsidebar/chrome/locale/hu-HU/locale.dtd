@@ -27,6 +27,10 @@
 <!ENTITY feedbar.showLastDay "Utolsó nap mutatása">
 <!ENTITY feedbar.showLastWeek "Utolsó hét mutatása">
 <!ENTITY feedbar.showLastMonth "Utolsó hónap mutatása">
+<!ENTITY feedbar.sortBy "Rendezés...">
+<!ENTITY feedbar.sort.name "név szerint">
+<!ENTITY feedbar.sort.default "Alapértelmezett rendezés">
+<!ENTITY feedbar.sort.updated "legutolsó frissítés alapján">
 <!ENTITY feedbar.copyTitle "Cím másolása">
 <!ENTITY feedbar.copyLink "Hivatkozás másolása">
 <!ENTITY feedbar.unsubscribe "Leiratkozás">
@@ -46,3 +50,4 @@
 <!ENTITY feedbar.showAllItemsButtonLabel "Mind">
 <!ENTITY feedbar.showAll.tooltip "Olvasott és olvasott elemek megjelenítése.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Hírek megnyitása mindig új lapon.">
+<!ENTITY feedbar.updatesDisabled "Automatikus frissítések kikapcsolása">

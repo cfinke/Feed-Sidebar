@@ -50,3 +50,4 @@
 <!ENTITY feedbar.showAllItemsButtonLabel "Wszystkie">
 <!ENTITY feedbar.showAll.tooltip "Włącz, aby wyświetlać przeczytane i nieprzeczytane wiadomości">
 <!ENTITY feedbar.alwaysOpenInNewTab "Otwieraj wiadomości zawsze w nowych kartach">
+<!ENTITY feedbar.updatesDisabled "Wyłącz automatyczną aktualizację">

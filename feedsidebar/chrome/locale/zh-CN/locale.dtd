@@ -50,3 +50,4 @@
 <!ENTITY feedbar.showAllItemsButtonLabel "全部">
 <!ENTITY feedbar.showAll.tooltip "同时显示未读和已读项目">
 <!ENTITY feedbar.alwaysOpenInNewTab "总是在新标签页打开项目">
+<!ENTITY feedbar.updatesDisabled "禁用自动更新">

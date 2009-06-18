@@ -50,3 +50,4 @@
 <!ENTITY feedbar.showAllItemsButtonLabel "Alles">
 <!ENTITY feedbar.showAll.tooltip "Weergave van zowel gelezen als ongelezen berichten inschakelen.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Berichten altijd in nieuwe tabbladen openen">
+<!ENTITY feedbar.updatesDisabled "Automatische updates uitschakelen">

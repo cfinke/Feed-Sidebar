@@ -50,3 +50,4 @@
 <!ENTITY feedbar.showAllItemsButtonLabel "Visualizza tutto">
 <!ENTITY feedbar.showAll.tooltip "Visualizza gli elementi letti e quelli non letti">
 <!ENTITY feedbar.alwaysOpenInNewTab "Apri gli elementi in nuove schede">
+<!ENTITY feedbar.updatesDisabled "Disattiva gli aggiornamenti automatici">

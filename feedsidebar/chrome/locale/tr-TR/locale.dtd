@@ -4,6 +4,7 @@
 <!ENTITY feedbar.open "Aç">
 <!ENTITY feedbar.openInTab "Yeni Sekmede Aç">
 <!ENTITY feedbar.openAllInTabs "Hepsini Yeni Sekmede Aç">
+<!ENTITY feedbar.openFeedInTabs "Beslemeleri Sekmede Aç">
 <!ENTITY feedbar.markAsRead "Okundu Olarak İşaretle">
 <!ENTITY feedbar.markAsUnread "Okunmadı Olarak İşaretle">
 <!ENTITY feedbar.markFeedAsRead "Beslemeyi okundu olarak işaretle">
@@ -20,5 +21,17 @@
 <!ENTITY feedbar.showLastWeeksPre "Sonuncusunu göster">
 <!ENTITY feedbar.showLastWeeksPost "hafta">
 <!ENTITY feedbar.showAllItems "Tüm ögeleri göster">
+<!ENTITY feedbar.showLastDay "Son 1 Günü Göster">
+<!ENTITY feedbar.showLastWeek "Son 1 haftayı göster">
+<!ENTITY feedbar.showLastMonth "Son 1 ayı göster">
+<!ENTITY feedbar.sort.name "İsim">
+<!ENTITY feedbar.sort.default "Varsayılan">
+<!ENTITY feedbar.sort.updated "Son güncelleme">
+<!ENTITY feedbar.copyTitle "Konuyu Kopyala">
+<!ENTITY feedbar.copyLink "Linki Kopyala">
+<!ENTITY feedbar.unsubscribe "Üyelikten Ayrıl">
 <!ENTITY feedbar.options "Seçenekler">
+<!ENTITY feedbar.hideReadItems "Ökunmuş öğeleri gizle">
 <!ENTITY feedbar.showAllItemsButtonLabel "Hepsi">
+<!ENTITY feedbar.alwaysOpenInNewTab "Her zaman yeni öğeleri yeni sekmede göster">
+<!ENTITY feedbar.updatesDisabled "Otomatik Güncelleştirmeyi Kapat">

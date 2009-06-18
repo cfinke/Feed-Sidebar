@@ -50,3 +50,4 @@
 <!ENTITY feedbar.showAllItemsButtonLabel "Tous">
 <!ENTITY feedbar.showAll.tooltip "Activer l&apos;affichage les éléments lus et non lus.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Toujours ouvrir les éléments dans de nouveaux onglets">
+<!ENTITY feedbar.updatesDisabled "Désactiver les mises à jour automatiques">

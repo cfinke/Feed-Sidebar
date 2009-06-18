@@ -50,3 +50,4 @@
 <!ENTITY feedbar.showAllItemsButtonLabel "Alle">
 <!ENTITY feedbar.showAll.tooltip "Aktiver visning af både læste og ulæste emner.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Åbn altid emner i nye faneblade.">
+<!ENTITY feedbar.updatesDisabled "Deaktiver autoopdateringer.">
