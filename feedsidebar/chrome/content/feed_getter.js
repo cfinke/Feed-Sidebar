@@ -51,6 +51,8 @@ var FEED_GETTER = {
 	unload : function () {
 		FEED_GETTER.killCurrentRequest();
 		FEED_GETTER.prefs.removeObserver("", FEED_GETTER);
+		
+		this.closeDB();
 	},
 	
 	observe : function(subject, topic, data) {
@@ -398,9 +400,9 @@ var FEED_GETTER = {
 				FEED_GETTER.history.URI = this.ioService.newURI(url, null, null);
 				var visited = FEED_GETTER.history.hService.isVisited(FEED_GETTER.history.URI);
 				
+				var db = FEED_GETTER.getDB();
+				
 				if (!visited) {
-					var db = FEED_GETTER.getDB();
-
 					var select = db.createStatement("SELECT id FROM history WHERE id=?1");
 					select.bindStringParameter(0, guid);
 
@@ -414,22 +416,16 @@ var FEED_GETTER = {
 					} finally {	
 						select.reset();
 					}
-					
-					try { db.close(); } catch (e) {}					
 				}
 				else {
 					// Add to DB
-					var db = FEED_GETTER.getDB();
-
 					var insert = db.createStatement("INSERT INTO history (id, date) VALUES (?1, ?2)");
 					insert.bindUTF8StringParameter(0, guid);
 					insert.bindInt64Parameter(1, (new Date().getTime()));
 					
 					try { insert.execute(); } catch (alreadyExists) { }
-
-					try { db.close(); } catch (e) { }
 				}
-				
+
 				return visited;
 			} catch (e) {
 				// Malformed URI, probably
@@ -483,17 +479,29 @@ var FEED_GETTER = {
 		}
 	},
 	
+	theFile : null,
+	theDB : null,
+	
 	getDB : function () {
-		var file = Components.classes["@mozilla.org/file/directory_service;1"]
+		if (!this.theFile) {
+			this.theFile = Components.classes["@mozilla.org/file/directory_service;1"]
 		                     .getService(Components.interfaces.nsIProperties)
 		                     .get("ProfD", Components.interfaces.nsIFile);
-		file.append("feedbar.sqlite");
-
-		var storageService = Components.classes["@mozilla.org/storage/service;1"]
-		                        .getService(Components.interfaces.mozIStorageService);
-		var mDBConn = storageService.openDatabase(file);
+			this.theFile.append("feedbar.sqlite");
+		}
 		
-		return mDBConn;
+		if (!this.theDB) {
+			this.theDB = Components.classes["@mozilla.org/storage/service;1"]
+		                 .getService(Components.interfaces.mozIStorageService).openDatabase(this.theFile);
+		}
+		
+		return this.theDB;
+	},
+	
+	closeDB : function () {
+		this.theDB.close();
+		delete this.theDB;
+		this.theDB = null;
 	},
 	
 	decodeEntities : function (str) {
@@ -643,7 +651,7 @@ FeedbarParseListener.prototype = {
 					var q = itemObject.uri.indexOf("?");
 					itemObject.uri = itemObject.uri.match(/url=(https?:\/\/.*)$/i)[1];
 					itemObject.uri = decodeURIComponent(itemObject.uri.split("&")[0]);
-//					itemObject.uri = itemObject.uri.substring(0, q) + ("&" + itemObject.uri.substring(q)).replace(/&(ct|cid|ei)=[^&]*/g, "").substring(1);
+//					itemObject.uri = itemObject.uri.substring(0, q) + ("&" + itemObject.uri.substring(q)).replace(/&(ct|cid|ei)=[^&]* /g, "").substring(1);
 				}
 				
 				if (!itemObject.id) itemObject.id = itemObject.uri;
@@ -653,6 +661,7 @@ FeedbarParseListener.prototype = {
 						// Google news
 						var root = itemObject.uri.match(/url=(https?:\/\/[^\/]+\/)/i)[1];
 						itemObject.favicon = root + "favicon.ico";
+						delete root;
 					}
 					else {
 						itemObject.image = itemObject.uri.substr(0, (itemObject.uri.indexOf("/", 9) + 1)) + "favicon.ico";
@@ -668,6 +677,7 @@ FeedbarParseListener.prototype = {
 				if (!itemObject.published) {
 					itemObject.published = new Date();
 				}
+				
 				
 				if (item.title) {
 					itemObject.label = FEED_GETTER.decodeEntities(item.title.plainText());
@@ -691,6 +701,7 @@ FeedbarParseListener.prototype = {
 				if (item.enclosures && item.enclosures.length > 0) {
 					var len = item.enclosures.length;
 					var imgs = "";
+					
 					for (var j = 0; j < len; j++) {
 						var enc = item.enclosures.queryElementAt(j, Components.interfaces.nsIWritablePropertyBag2);
 						
@@ -703,6 +714,9 @@ FeedbarParseListener.prototype = {
 					}
 					
 					itemObject.description = itemObject.description + imgs;
+					
+					delete len;
+					delete imgs;
 				}
 				
 				itemObject.description = itemObject.description.replace(/<script[^>]*>[\s\S]+<\/script>/gim, "");
@@ -710,19 +724,17 @@ FeedbarParseListener.prototype = {
 				itemObject.visited = FEED_GETTER.history.isVisitedURL(itemObject.uri, itemObject.id);
 				
 				feedObject.items.push(itemObject);
-				
 			} catch (e) {
 				// FEED_GETTER.addError(FEED_GETTER.feedData[feedObject.link].name, feedObject.link, e, 5);
 				// Don't show a notification here, since they can become legion.
 				logFeedbarMsg(e);
 			}
+			
+			delete item;
+			delete itemObject;
 		}
 		
-		delete result;
-		
 		FEEDBAR.push(feedObject);
-		
-		delete feedObject;
 		
 		var unread = FEEDBAR.numUnreadItems();
 		
@@ -743,6 +755,14 @@ FeedbarParseListener.prototype = {
 				FEED_GETTER.growl(titleString, bodyString, feedObject.image);
 			}
 	    }
+	
+		delete unread;
+		delete feedObject;
+		delete resolvedUri;
+		delete feedDataKey;
+		delete feed;
+		delete numItems;
+		delete result;
 		
 		return;
 	}
