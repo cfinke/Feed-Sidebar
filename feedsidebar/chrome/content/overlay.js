@@ -413,8 +413,6 @@ beginTime : [],
 	    
 	    this.prefs.setCharPref("lastSort", sortType);
 	    
-		this.startBatch();
-        
         // Collapse all the containers.
 		var len = this.visibleData.length;
         
@@ -486,8 +484,6 @@ beginTime : [],
 		    }
 	    }
         
-		this.endBatch();
-		
 		this.isSorting = false;
     },
     
@@ -788,8 +784,6 @@ beginTime : [],
 		
 		try { insert.execute(); } catch (duplicateKey) { }
 		
-		this.closeDB(db);
-		
 		// Find it in the childData object to set its "visited" property permanently.
 		var parentIdx = this.getParentIndex(idx);
 		var parentID = this.getCellID(parentIdx);
@@ -834,8 +828,6 @@ beginTime : [],
 		deleteSql.bindUTF8StringParameter(0, cellID);
 		
 		try { deleteSql.execute(); } catch (e) { }
-		
-		this.closeDB(db);
 		
 		// Find it in the childData object to set its "visited" property permanently.
 		var parentIdx = this.getParentIndex(idx);
@@ -977,8 +969,6 @@ beginTime : [],
 			db.executeSimpleSQL("CREATE TABLE IF NOT EXISTS state (id TEXT PRIMARY KEY, open INTEGER)");
 		}
 		
-		this.closeDB(db);
-		
 		try {
 		    var nativeJSON = Components.classes["@mozilla.org/dom/json;1"]
                              .createInstance(Components.interfaces.nsIJSON);
@@ -1074,6 +1064,8 @@ beginTime : [],
 			foStream.close();
 		} catch (e) {
 		}
+		
+		this.closeDB();
 	},
 	
 	observe : function(subject, topic, data) {
@@ -1095,8 +1087,6 @@ beginTime : [],
 	},
 	
 	refreshTree : function () {
-		this.startBatch();
-		
 		// Clear out visible data.
 		var rows = this.visibleData.length;
 		
@@ -1109,7 +1099,6 @@ beginTime : [],
 		}
 		
 		this.updateNotifier();
-		this.endBatch();
 	},
 	
 	wasLeftOpen : function (idx) {
@@ -1130,8 +1119,6 @@ beginTime : [],
 		} finally {
 			select.reset();
 		}
-		
-		this.closeDB(db);
 		
 		return openContainer;
 	},
@@ -1216,8 +1203,6 @@ beginTime : [],
 			} catch (e) {
 			}
 		}
-		
-		this.closeDB(db);
 	},
 	
 	get inBatch() { 
@@ -1322,8 +1307,6 @@ beginTime : [],
 	},
 	
 	markFeedAsUnread : function (folderIdx) {
-		this.startBatch();
-		
 		var wasOpen = this.isContainerOpen(folderIdx);
 		
 		if (!wasOpen) {
@@ -1359,7 +1342,6 @@ beginTime : [],
 		}
 
 		this.updateNotifier();
-		this.endBatch();
 	},
 	
 	markFeedAsRead : function (folderIdx, checkRedrawnTime) {
@@ -1372,8 +1354,6 @@ beginTime : [],
                 return;
             }
         }
-        
-		this.startBatch();
         
 		var wasOpen = this.isContainerOpen(folderIdx);
 		
@@ -1422,31 +1402,9 @@ beginTime : [],
 		}
 
 		this.updateNotifier();
-		this.endBatch();
-	},
-	
-	startBatch : function () {
-		//this.beginTime.push(new Date());
-		
-		++this._batchCount;
-		if (!this.db) this.db = this.getDB();
-		
-		if (!this.db.transactionInProgress) this.db.beginTransactionAs(this.db.TRANSACTION_DEFERRED);
-	},
-	
-	endBatch : function () {
-		--this._batchCount;
-		
-		if (!this._batchCount) {
-			this.db.commitTransaction();
-			try { this.db.close(); } catch (e) { }
-			this.db = null;
-		}
 	},
 	
 	markAllAsRead : function () {
-		this.startBatch();
-		
 		if (this.prefs.getBoolPref("hideReadItems")) {
 		    for (var i = this.visibleData.length - 1; i >= 0; i--) {
 		        if (this.isContainer(i)) {
@@ -1469,13 +1427,9 @@ beginTime : [],
 	        
 			toggleSidebar('feedbar');
 		}
-		
-		this.endBatch();
 	},
 	
 	markAllAsUnread : function () {
-		this.startBatch();
-		
 		var len = this.visibleData.length;
 		
 		for (var i = 0; i < len; i++) {
@@ -1483,8 +1437,6 @@ beginTime : [],
 				this.markFeedAsUnread(i);
 			}
 		}
-		
-		this.endBatch();
 	},
 	
 	clipboard : {
@@ -1670,27 +1622,29 @@ beginTime : [],
 		window.parent.content.document.location.href = url;
 	},
 	
+	theFile : null,
+	theDB : null,
+	
 	getDB : function () {
-		if (this.db) {
-			return this.db;
-		}
-		
-		var file = Components.classes["@mozilla.org/file/directory_service;1"]
+		if (!this.theFile) {
+			this.theFile = Components.classes["@mozilla.org/file/directory_service;1"]
 		                     .getService(Components.interfaces.nsIProperties)
 		                     .get("ProfD", Components.interfaces.nsIFile);
-		file.append("feedbar.sqlite");
-
-		var storageService = Components.classes["@mozilla.org/storage/service;1"]
-		                        .getService(Components.interfaces.mozIStorageService);
-		var mDBConn = storageService.openDatabase(file);
+			this.theFile.append("feedbar.sqlite");
+		}
 		
-		return mDBConn;
+		if (!this.theDB) {
+			this.theDB = Components.classes["@mozilla.org/storage/service;1"]
+		                 .getService(Components.interfaces.mozIStorageService).openDatabase(this.theFile);
+		}
+		
+		return this.theDB;
 	},
 	
-	closeDB : function (db) {
-		if (!this.inBatch) {
-			try { db.close(); } catch (e) { }
-		}
+	closeDB : function () {
+		this.theDB.close();
+		delete this.theDB;
+		this.theDB = null;
 	},
 	
 	passesFilter : function (str) {
