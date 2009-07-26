@@ -50,4 +50,3 @@
 <!ENTITY feedbar.showAllItemsButtonLabel "すべて">
 <!ENTITY feedbar.showAll.tooltip "既読と未読の両方ともに項目の表示を有効にします。">
 <!ENTITY feedbar.alwaysOpenInNewTab "常に項目を新しいタブで開く">
-<!ENTITY feedbar.updatesDisabled "自動更新を無効にする">
