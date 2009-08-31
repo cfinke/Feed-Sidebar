@@ -14,7 +14,7 @@
 <!ENTITY feedbar.markAllAsRead "Segna tutti come letti">
 <!ENTITY feedbar.markAllAsUnread "Segna tutti come non letti">
 <!ENTITY feedbar.reloadFeeds "Ricarica i feed">
-<!ENTITY feedbar.stopFeedUpdate "Annulla l&apos;aggiornamento dei feed">
+<!ENTITY feedbar.stopFeedUpdate "Annulla l'aggiornamento dei feed">
 <!ENTITY feedbar.minutes "minuti">
 <!ENTITY feedbar.hour "ora">
 <!ENTITY feedbar.hours "ore">
