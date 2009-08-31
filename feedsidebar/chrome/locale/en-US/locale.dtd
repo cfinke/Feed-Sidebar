@@ -63,3 +63,10 @@
 <!ENTITY feedbar.alwaysOpenInNewTab "Always open items in new tabs">
 
 <!ENTITY feedbar.updatesDisabled "Disable Auto-Updates">
+
+<!ENTITY feedbar.trendsTitle "Real-time Web Trends">
+<!ENTITY feedbar.trendsP1 "Feed Sidebar wants to know if you'd like to subscribe to a feed of the latest trending search terms on Twitter, Digg, and the rest of the social Web.">
+<!ENTITY feedbar.trendsP2 "Click OK to subscribe to the feed; it will automatically appear in the sidebar, keeping you up-to-date on the latest news and trends from around the Web.  (You can unsubscribe at any time.)">
+<!ENTITY feedbar.trendsP3 "Don't worry, you won't be asked again if you choose not to subscribe.">
+
+<!ENTITY feedbar.checkbox_understand "Yes, I want to subscribe to a feed of trending social topics.">

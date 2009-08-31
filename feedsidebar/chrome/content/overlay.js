@@ -1041,6 +1041,18 @@ beginTime : [],
 			var theTab = gBrowser.addTab("http://www.chrisfinke.com/firstrun/feed-sidebar.php");
 			gBrowser.selectedTab = theTab;
 		}
+
+		// Ask if they want the trending terms feed.
+		
+		if (!FEEDBAR.prefs.getBoolPref("trendRequest")) {
+            FEEDBAR.prefs.setBoolPref("trendRequest", true);
+            
+		    setTimeout(
+		        function () {
+					window.openDialog("chrome://feedbar/content/one-riot-suggestion.xul", "trends", "chrome,dialog,centerscreen,titlebar,alwaysraised,modal");
+                }, 5000
+			);
+        }
 	},
 	
 	unload : function () {
