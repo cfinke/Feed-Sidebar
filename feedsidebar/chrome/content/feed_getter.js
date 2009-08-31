@@ -43,8 +43,6 @@ var FEED_GETTER = {
 		FEED_GETTER.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 		FEED_GETTER.prefs.addObserver("", FEED_GETTER, false);
 		
-		FEED_GETTER.ta = document.createElementNS("http://www.w3.org/1999/xhtml", "textarea");
-		
 		FEED_GETTER.startFetchingFeeds();
 	},
 	
@@ -504,17 +502,24 @@ var FEED_GETTER = {
 		this.theDB = null;
 	},
 	
-	decodeEntities : function (str) {
-		str = str.replace(/&([^\s;]*)\s/g, "&amp;$1 ");
-		str = str.replace(/&\s/g, "&amp; ");
-		
+	decodeEntities : function (aStr) {
+		var	formatConverter = Components.classes["@mozilla.org/widget/htmlformatconverter;1"].createInstance(Components.interfaces.nsIFormatConverter);
+		var fromStr = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
+		fromStr.data = aStr;
+		var toStr = { value: null };
+
 		try {
-			FEED_GETTER.ta.innerHTML = str.replace(/</g,"&lt;").replace(/>/g,"&gt;");
-		} catch (e) {
-			return str;
+			formatConverter.convert("text/html", fromStr, fromStr.toString().length, "text/unicode", toStr, {});
+		} catch(e) {
+			return aStr;
 		}
-		
-		return FEED_GETTER.ta.value;
+
+		if(toStr.value) {
+			toStr = toStr.value.QueryInterface(Components.interfaces.nsISupportsString);
+			return toStr.toString();
+		}
+
+		return aStr;
 	},
 
 	growl : function (title, text, image) {
@@ -660,7 +665,7 @@ FeedbarParseListener.prototype = {
 					if (itemObject.uri.match(/\/\/news\.google\.com\//)){
 						// Google news
 						var root = itemObject.uri.match(/url=(https?:\/\/[^\/]+\/)/i)[1];
-						itemObject.favicon = root + "favicon.ico";
+						itemObject.image = root + "favicon.ico";
 						delete root;
 					}
 					else {
