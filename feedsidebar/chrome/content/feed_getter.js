@@ -653,10 +653,11 @@ FeedbarParseListener.prototype = {
 				itemObject.uri = item.link.resolve("");
 				
 				if (itemObject.uri.match(/\/\/news\.google\.com\/.*\?/)){
-					var q = itemObject.uri.indexOf("?");
-					itemObject.uri = itemObject.uri.match(/url=(https?:\/\/.*)$/i)[1];
-					itemObject.uri = decodeURIComponent(itemObject.uri.split("&")[0]);
-//					itemObject.uri = itemObject.uri.substring(0, q) + ("&" + itemObject.uri.substring(q)).replace(/&(ct|cid|ei)=[^&]* /g, "").substring(1);
+					try {
+						itemObject.uri = decodeURIComponent(itemObject.uri.match(/url=(https?%3A%2F%2F[^&]+)(&.*)?$/i)[1]);
+					} catch (googleChangedTheirURLs) {
+						logFeedbarMsg(":( "+googleChangedTheirURLs);
+					}
 				}
 				
 				if (!itemObject.id) itemObject.id = itemObject.uri;
@@ -664,9 +665,13 @@ FeedbarParseListener.prototype = {
 				if (!itemObject.uri.match(/\/~r\//i)) {
 					if (itemObject.uri.match(/\/\/news\.google\.com\//)){
 						// Google news
-						var root = itemObject.uri.match(/url=(https?:\/\/[^\/]+\/)/i)[1];
-						itemObject.image = root + "favicon.ico";
-						delete root;
+						try {
+							var root = itemObject.uri.match(/url=(https?%3A%2F%2F[a-z0-9\-\.]+%2F)/i)[1];
+							itemObject.image = decodeURIComponent(root) + "favicon.ico";
+							delete root;
+						} catch (e) {
+							itemObject.image = itemObject.uri.substr(0, (itemObject.uri.indexOf("/", 9) + 1)) + "favicon.ico";
+						}
 					}
 					else {
 						itemObject.image = itemObject.uri.substr(0, (itemObject.uri.indexOf("/", 9) + 1)) + "favicon.ico";
