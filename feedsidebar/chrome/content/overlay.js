@@ -992,7 +992,8 @@ beginTime : [],
 			this.refreshTree();
 			this.updateNotifier();
 		} catch (e) {
-		    logFeedbarMsg(e);
+			// Cache does not exist.
+			// logFeedbarMsg(e);
 		}
 		
 		setTimeout(FEEDBAR.showFirstRun, 1500);
@@ -1234,6 +1235,8 @@ beginTime : [],
 	},
 	
 	openAll : function () {
+		var foundOneRiot = false;
+		
 		var numItems = 0;
 		
 		for (var i = 0; i < this.visibleData.length; i++) {
@@ -1251,7 +1254,17 @@ beginTime : [],
 						this.loadFullPreview(i, { 'which' : 2, detail : 1}, hideRead);
 					}
 					else {
-						this.launchUrl(this.getCellLink(i), { which : 2, detail : 1});
+						var url = this.getCellLink(i);
+
+						if (url.indexOf("oneriot.com") != -1 && url.indexOf("86f2f5da-3b24-4a87-bbb3-1ad47525359d") != -1) {
+							if (foundOneRiot) {
+								url = url.split("&")[0];
+							}
+							
+							foundOneRiot = true;
+						}
+
+						this.launchUrl(url, { which : 2, detail : 1});
 					}
 				}
 			}
@@ -1273,6 +1286,7 @@ beginTime : [],
 		
 		if (this.confirmOpenTabs(numItems)) {
 			var i = numItems;
+			var foundOneRiot = false;
 			
 			while (i > 0) {
 			    var itemIdx = folderIdx + i;
@@ -1281,7 +1295,18 @@ beginTime : [],
 					this.loadFullPreview(itemIdx, { 'which' : 2, detail : 1}, hideRead);
 				}
 				else {
-					this.launchUrl(this.getCellLink(itemIdx), { which : 2, detail : 1});
+					var url = this.getCellLink(itemIdx);
+					
+					if (url.indexOf("oneriot.com") != -1 && url.indexOf("86f2f5da-3b24-4a87-bbb3-1ad47525359d") != -1) {
+						if (foundOneRiot) {
+							// Someone is "opening in tabs" a feed with my OneRiot affiliate ID in the links.
+							url = url.split("&")[0];
+						}
+						
+						foundOneRiot = true;
+					}
+					
+					this.launchUrl(url, { which : 2, detail : 1});
 				}
 				
 				--i;
