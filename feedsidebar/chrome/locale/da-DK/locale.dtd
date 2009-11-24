@@ -43,7 +43,7 @@
 <!ENTITY feedbar.onlyShow2 "dage.">
 <!ENTITY feedbar.autoClose "Luk automatisk sidebjælken når alle emner markeres som læst.">
 <!ENTITY feedbar.notifications "Vis pop-up besked når nye emner er fundet.">
-<!ENTITY feedbar.runInSidebar "Check kun for opdateringer når sidebjælken er åben.">
+<!ENTITY feedbar.runInSidebar "Tjek kun for opdateringer når sidebjælken er åben.">
 <!ENTITY feedbar.previewQuestion "Når et feed-emne åbnes...">
 <!ENTITY feedbar.previewAnswer1 "Åbn hjemmesiden (standard).">
 <!ENTITY feedbar.previewAnswer2 "Vis hele emnebeskrivelsen i browservinduet.">
@@ -51,3 +51,8 @@
 <!ENTITY feedbar.showAll.tooltip "Aktiver visning af både læste og ulæste emner.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Åbn altid emner i nye faneblade.">
 <!ENTITY feedbar.updatesDisabled "Deaktiver autoopdateringer.">
+<!ENTITY feedbar.trendsTitle "Real-time webtrends">
+<!ENTITY feedbar.trendsP1 "Feed Sidebar ønsker at vide, om du ønsker at abonnere på et feed med de seneste tendensvisende søgeord på Twitter, Digg og resten af det sociale net.">
+<!ENTITY feedbar.trendsP2 "Klik OK for at abonnere på feed'et; det vil automatisk dukke op i sidebjælken, og holde dig opdateret med de seneste nyheder og trends fra nettet. (Du kan opsige abonnementet når som helst).">
+<!ENTITY feedbar.trendsP3 "Bare rolig, du vil ikke blive spurgt igen, hvis du vælger ikke at abonnere.">
+<!ENTITY feedbar.checkbox_understand "Ja, jeg ønsker at abonnere på et feed med tendensvisende sociale emner.">

@@ -50,3 +50,9 @@
 <!ENTITY feedbar.showAllItemsButtonLabel "Tous">
 <!ENTITY feedbar.showAll.tooltip "Activer l&apos;affichage les éléments lus et non lus.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Toujours ouvrir les éléments dans de nouveaux onglets">
+<!ENTITY feedbar.updatesDisabled "Désactiver les mises à jour automatiques">
+<!ENTITY feedbar.trendsTitle "Tendances du Web en temps réel">
+<!ENTITY feedbar.trendsP1 "Feed Sidebar veut savoir si vous souhaitez vous abonner à un flux concernant les tendances des termes recherchés sur Twitter, Digg et autres sites de Web social.">
+<!ENTITY feedbar.trendsP2 "Cliquez sur OK pour vous abonner à ce flux ; cela apparaîtra automatiquement dans le panneau latéral, vous permettant de rester à jour au sujet des actualités et tendances récentes du Web. (Vous pouvez vous désinscrire à tout moment.)">
+<!ENTITY feedbar.trendsP3 "Ne vous en faites pas, cela ne vous sera plus demandé si vous choisissez de ne pas vous abonner.">
+<!ENTITY feedbar.checkbox_understand "Oui, je souhaite m'abonner au flux correspondant aux tendances des sujets de discussion.">

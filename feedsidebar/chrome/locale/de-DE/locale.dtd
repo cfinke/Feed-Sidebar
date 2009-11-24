@@ -18,7 +18,7 @@
 <!ENTITY feedbar.minutes "Minuten">
 <!ENTITY feedbar.hour "Stunde">
 <!ENTITY feedbar.hours "Stunden">
-<!ENTITY feedbar.showLastTooltip "Anzeige der Einträge zeitlich begrenzen">
+<!ENTITY feedbar.showLastTooltip "Anzeige der Einträge zeitlich eingrenzen">
 <!ENTITY feedbar.showLastDaysPre "Letzte">
 <!ENTITY feedbar.showLastDaysPost "Tage">
 <!ENTITY feedbar.showLastWeeksPre "Letzte">
@@ -27,13 +27,19 @@
 <!ENTITY feedbar.showLastDay "Letzte 24 Stunden">
 <!ENTITY feedbar.showLastWeek "Letzte Woche">
 <!ENTITY feedbar.showLastMonth "Letzter Monat">
+<!ENTITY feedbar.sortBy "Sortieren nach...">
+<!ENTITY feedbar.sort.name "Name">
+<!ENTITY feedbar.sort.default "Standard">
+<!ENTITY feedbar.sort.updated "letzter Aktualisierung">
 <!ENTITY feedbar.copyTitle "Titel kopieren">
 <!ENTITY feedbar.copyLink "Adresse kopieren">
 <!ENTITY feedbar.unsubscribe "Abonnement beenden">
 <!ENTITY feedbar.options "Einstellungen">
 <!ENTITY feedbar.hideReadItems "Gelesene Beiträge ausblenden">
+<!-- Update feeds every # minutes. -->
 <!ENTITY feedbar.updateEvery1 "Feed alle">
 <!ENTITY feedbar.updateEvery2 "Minuten aktualisieren">
+<!-- Only show items from the last # days. -->
 <!ENTITY feedbar.showAllItemsFull "Alle Einträge unabhängig vom Alter anzeigen">
 <!ENTITY feedbar.onlyShow1 "Nur die Einträge der letzten">
 <!ENTITY feedbar.onlyShow2 "Tage anzeigen">
@@ -46,3 +52,9 @@
 <!ENTITY feedbar.showAllItemsButtonLabel "Alle Einträge">
 <!ENTITY feedbar.showAll.tooltip "Sowohl gelesene als auch ungelesene Einträge anzeigen">
 <!ENTITY feedbar.alwaysOpenInNewTab "Einträge immer in neuen Tabs öffnen">
+<!ENTITY feedbar.updatesDisabled "Automatische Aktualisierung deaktivieren">
+<!ENTITY feedbar.trendsTitle "Real-time Web Trends">
+<!ENTITY feedbar.trendsP1 "Feed Sidebar bietet das Abonnieren eines Feeds mit den letzten Suchtrends auf Twitter, Digg und dem restlichen sozialen Netzen an.">
+<!ENTITY feedbar.trendsP2 "Klicken Sie auf OK zum Abonnieren des Feeds. Er befindet sich dann automatisch in der Sidebar und hält Sie über die Neuigkeiten und Trends rum um das Internet auf dem Laufenden.  (Sie können das Abonnement jederzeit löschen.)">
+<!ENTITY feedbar.trendsP3 "Falls Sie den Feed nicht abonnieren, so werden Sie nicht wieder danach gefragt.">
+<!ENTITY feedbar.checkbox_understand "Ja, ich möchte den Feed mit den aktuellsten Trends abonnieren.">

@@ -51,3 +51,8 @@
 <!ENTITY feedbar.showAll.tooltip "Weergave van zowel gelezen als ongelezen berichten inschakelen.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Berichten altijd in nieuwe tabbladen openen">
 <!ENTITY feedbar.updatesDisabled "Automatische updates uitschakelen">
+<!ENTITY feedbar.trendsTitle "Actuele webtrends">
+<!ENTITY feedbar.trendsP1 "Feed Sidebar wil graag weten of u zich wilt abonneren op een feed met de laatste trendzoektermen op Twitter, Digg en de rest van het sociale web.">
+<!ENTITY feedbar.trendsP2 "Klik OK om u te abonneren op de feed; deze verschijnt automatisch in de zijbalk en u wordt vanaf dan op de hoogte gehouden van het laatste nieuws en trends op het web. U kunt het abonnement op elk moment weer opzeggen.">
+<!ENTITY feedbar.trendsP3 "Wees gerust, deze vraag wordt niet opnieuw gesteld als u ervoor kiest u niet te abonneren.">
+<!ENTITY feedbar.checkbox_understand "Ja, ik wil me abonneren op een feed over sociale trendonderwerpen.">

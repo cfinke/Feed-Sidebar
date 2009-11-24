@@ -51,3 +51,8 @@
 <!ENTITY feedbar.showAll.tooltip "Włącz, aby wyświetlać przeczytane i nieprzeczytane wiadomości">
 <!ENTITY feedbar.alwaysOpenInNewTab "Otwieraj wiadomości zawsze w nowych kartach">
 <!ENTITY feedbar.updatesDisabled "Wyłącz automatyczną aktualizację">
+<!ENTITY feedbar.trendsTitle "Trendy spłecznościowe">
+<!ENTITY feedbar.trendsP1 "Czy chcesz subskrybować kanał najczęściej wyszukiwanych zwrotów na Twitterze, Diggu i innych portalach społecznościowych?">
+<!ENTITY feedbar.trendsP2 "Kliknij OK, by subskrybować kanał. Będzie on automatycznie widoczny w panelu bocznym i zostaną wyświetlone ostatnie wiadomości i najczęściej wyszukiwane zwroty. Subskrypcję można anulować w dowolnym czasie.">
+<!ENTITY feedbar.trendsP3 "Po rezygnacji z subskrybowania, to pytanie nie będzie wyświetlane.">
+<!ENTITY feedbar.checkbox_understand "Tak, chcę subskrybować kanał popularnych tematów społecznościowych.">

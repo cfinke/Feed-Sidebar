@@ -36,8 +36,10 @@
 <!ENTITY feedbar.unsubscribe "Elimina il feed">
 <!ENTITY feedbar.options "Opzioni">
 <!ENTITY feedbar.hideReadItems "Nascondi gli elementi letti">
+<!-- Update feeds every # minutes. -->
 <!ENTITY feedbar.updateEvery1 "Minuti prima dell&apos;aggiornamento successivo:">
 <!ENTITY feedbar.updateEvery2 " ">
+<!-- Only show items from the last # days. -->
 <!ENTITY feedbar.showAllItemsFull "Visualizza tutti i feed senza tenere conto dell&apos;età">
 <!ENTITY feedbar.onlyShow1 "Visualizza solo i feed del seguente numero di ultimi giorni:">
 <!ENTITY feedbar.onlyShow2 " ">
@@ -51,3 +53,8 @@
 <!ENTITY feedbar.showAll.tooltip "Visualizza gli elementi letti e quelli non letti">
 <!ENTITY feedbar.alwaysOpenInNewTab "Apri gli elementi in nuove schede">
 <!ENTITY feedbar.updatesDisabled "Disattiva gli aggiornamenti automatici">
+<!ENTITY feedbar.trendsTitle "Tendenze del web in tempo reale">
+<!ENTITY feedbar.trendsP1 "È possibile aggiungere un feed relativo alle ultime tendenze di ricerca su Twitter, Digg ed il resto delle reti sociali">
+<!ENTITY feedbar.trendsP2 "Selezionare la casella qui sotto e fare clic su OK per aggiungere tale feed (eliminabile in qualsiasi momento), che verrà visualizzato automaticamente nella barra laterale permettendo di rimanere aggiornati sulle ultime notizie e tendenze del web">
+<!ENTITY feedbar.trendsP3 "Questo avviso non verrà più mostrato">
+<!ENTITY feedbar.checkbox_understand "Aggiungi il feed delle ultime tendenze di ricerca">

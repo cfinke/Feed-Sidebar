@@ -27,6 +27,10 @@
 <!ENTITY feedbar.showLastDay "Новости за последний день">
 <!ENTITY feedbar.showLastWeek "Новости за последнюю неделю">
 <!ENTITY feedbar.showLastMonth "Новости за последний месяц">
+<!ENTITY feedbar.sortBy "Сортировать по...">
+<!ENTITY feedbar.sort.name "Имя">
+<!ENTITY feedbar.sort.default "По умолчанию">
+<!ENTITY feedbar.sort.updated "Время последнего обновления">
 <!ENTITY feedbar.copyTitle "Копировать заголовок">
 <!ENTITY feedbar.copyLink "Копировать ссылку">
 <!ENTITY feedbar.unsubscribe "Отписаться">
@@ -43,3 +47,12 @@
 <!ENTITY feedbar.previewQuestion "При открытии новости…">
 <!ENTITY feedbar.previewAnswer1 "Открывать страницу новости (по умолчанию).">
 <!ENTITY feedbar.previewAnswer2 "Показать новость в окне браузера.">
+<!ENTITY feedbar.showAllItemsButtonLabel "Все">
+<!ENTITY feedbar.showAll.tooltip "Показывать прочитанные/непрочитанные новости.">
+<!ENTITY feedbar.alwaysOpenInNewTab "Всегда открывать новости в новой вкладке">
+<!ENTITY feedbar.updatesDisabled "Отключить автообновление">
+<!ENTITY feedbar.trendsTitle "Ленты соц.сетей.">
+<!ENTITY feedbar.trendsP1 "Не хотели бы Вы подписаться на ленты новостей из Twitter'а, Digg'а и других соц.сетей?">
+<!ENTITY feedbar.trendsP2 "Нажмите OK, чтобы подписаться не ленты. Лента появится в боковой панели, информируя Вас о последних новостях в сети. (Вы можете отписаться в любое время.)">
+<!ENTITY feedbar.trendsP3 "Не волнуйтесь, если Вы откажетесь, больше Вы этого вопроса не увидите.">
+<!ENTITY feedbar.checkbox_understand "Да, я хочу подписаться на ленты новостей из соц.сетей.">

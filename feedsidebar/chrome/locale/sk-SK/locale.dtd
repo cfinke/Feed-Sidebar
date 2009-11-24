@@ -51,3 +51,8 @@
 <!ENTITY feedbar.showAll.tooltip "Povoliť zobrazenie prečítaných aj neprečítaných správ.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Správy otvárať vždy v nových kartách">
 <!ENTITY feedbar.updatesDisabled "Zakázať automatické aktualizácie.">
+<!ENTITY feedbar.trendsTitle "Aktuálne webové trendy">
+<!ENTITY feedbar.trendsP1 "Feed Sidebar chce vedieť, či sa chcete zapísať na odber posledných trendových vyhľadávacích ýrazov na Twistter, Digg, a zvyšných sociálnych weboch.">
+<!ENTITY feedbar.trendsP2 "Stlačte OK pre zapísanie sa do odberu; odber sa automaticky zobrazí v bočnom panely, informujúc váas o posledných novinkách a trendoch z okolitého webu. (Odpísať sa môžete kedykoľvek.)">
+<!ENTITY feedbar.trendsP3 "Nebudte znepokojený, nebudete vyzvaný znova ak zvolíte nezapísanie sa.">
+<!ENTITY feedbar.checkbox_understand "Ano, chcem byť zapísaný na dostávanie noviniek o trendových sociálnych príspevkoch.">
