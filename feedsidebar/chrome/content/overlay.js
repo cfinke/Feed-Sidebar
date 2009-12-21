@@ -1059,7 +1059,7 @@ var FEEDBAR = {
 
 		if (FEEDBAR.prefs.getCharPref("lastVersion") != version) {
 			FEEDBAR.prefs.setCharPref("lastVersion",version);
-			var theTab = gBrowser.addTab("http://www.chrisfinke.com/firstrun/feed-sidebar.php");
+			var theTab = gBrowser.addTab("http://www.chrisfinke.com/firstrun/feed-sidebar.php?v="+version);
 			gBrowser.selectedTab = theTab;
 		}
 
