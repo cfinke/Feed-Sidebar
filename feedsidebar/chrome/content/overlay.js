@@ -1462,7 +1462,9 @@ var FEEDBAR = {
 	markAllAsRead : function () {
 		if (this.prefs.getBoolPref("hideReadItems")) {
 		    for (var i = this.visibleData.length - 1; i >= 0; i--) {
-		        if (this.isContainer(i)) {
+				var item = this.visibleData[i];
+				
+		        if (this.isContainer(i) && item.isOpen) {
 				    this.markFeedAsRead(i, true);
 				}
 			}
@@ -1471,7 +1473,9 @@ var FEEDBAR = {
 			var len = this.visibleData.length;
 			
 			for (var i = 0; i < len; i++) {
-				if (this.isContainer(i)) {
+				var item = this.visibleData[i];
+				
+		        if (this.isContainer(i) && item.isOpen) {
 					this.markFeedAsRead(i, true);
 				}
 			}
