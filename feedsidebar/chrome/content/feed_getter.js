@@ -388,42 +388,25 @@ var FEED_GETTER = {
     },
 	
 	history : {
-		hService : Components.classes["@mozilla.org/browser/global-history;2"].getService(Components.interfaces.nsIGlobalHistory2),
-		ioService : Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService),
-		
-		URI : null,
-		
 		isVisitedURL : function(url, guid){
+			var db = FEED_GETTER.getDB();
+			var visited = false;
+			
 			try {
-				FEED_GETTER.history.URI = this.ioService.newURI(url, null, null);
-				var visited = FEED_GETTER.history.hService.isVisited(FEED_GETTER.history.URI);
+				var select = db.createStatement("SELECT id FROM history WHERE id=?1");
+				select.bindStringParameter(0, guid);
 				
-				var db = FEED_GETTER.getDB();
-				
-				if (!visited) {
-					var select = db.createStatement("SELECT id FROM history WHERE id=?1");
-					select.bindStringParameter(0, guid);
-
-					try {
-						while (select.executeStep()) {
-							visited = true;
-							break;
-						}
-					} catch (e) {
-						logFeedbarMsg(e);
-					} finally {	
-						select.reset();
+				try {
+					while (select.executeStep()) {
+						visited = true;
+						break;
 					}
+				} catch (e) {
+					logFeedbarMsg(e);
+				} finally {	
+					select.reset();
 				}
-				else {
-					// Add to DB
-					var insert = db.createStatement("INSERT INTO history (id, date) VALUES (?1, ?2)");
-					insert.bindUTF8StringParameter(0, guid);
-					insert.bindInt64Parameter(1, (new Date().getTime()));
-					
-					try { insert.execute(); } catch (alreadyExists) { }
-				}
-
+				
 				return visited;
 			} catch (e) {
 				// Malformed URI, probably
