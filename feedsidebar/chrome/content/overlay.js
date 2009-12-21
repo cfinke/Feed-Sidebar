@@ -987,8 +987,6 @@ var FEEDBAR = {
 			} finally {
 				select.reset();
 			}
-			
-			logFeedbarMsg(this.openStates.toSource());
 		}
 		
 		try {
@@ -1119,8 +1117,6 @@ var FEEDBAR = {
 				}
 			}
 		}
-		
-		logFeedbarMsg(this.openStates.toSource());
 		
 		this.closeDB();
 	},
