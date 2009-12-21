@@ -1,9 +1,12 @@
 var FEEDBAR = {
-beginTime : [],
-/**
- * Functions required for implementation of tree view methods
- */
-
+	beginTime : [],
+	
+	/**
+	 * Functions required for implementation of tree view methods
+	 */
+	
+	openStates : {},
+	
 	treeBox : null,
 	setTree : function (treeBox) { this.treeBox = treeBox; },
 	
@@ -384,10 +387,10 @@ beginTime : [],
 	performActionOnRow : function (action, idx) { },
 	selectionChanged : function () { },
 	setCellValue : function (row, cell, value) { },
-
-/**
- * Additional custom view functions.
- */
+	
+	/**
+	 * Additional custom view functions.
+	 */
 	
 	isSorting : false,
 	
@@ -965,8 +968,27 @@ beginTime : [],
 		if (!db.tableExists("history")) {
 			db.executeSimpleSQL("CREATE TABLE IF NOT EXISTS history (id TEXT PRIMARY KEY, date INTEGER)");
 		}
+		
 		if (!db.tableExists("state")) {
 			db.executeSimpleSQL("CREATE TABLE IF NOT EXISTS state (id TEXT PRIMARY KEY, open INTEGER)");
+		}
+		else {
+			var select = db.createStatement("SELECT id, open FROM state");
+			
+			try {
+				while (select.executeStep()) {
+					var id = select.getString(0);
+					var open = select.getInt32(1);
+					
+					this.openStates[id] = open;
+				}
+			} catch (e) {
+				alert(e);
+			} finally {
+				select.reset();
+			}
+			
+			logFeedbarMsg(this.openStates.toSource());
 		}
 		
 		try {
@@ -1078,6 +1100,28 @@ beginTime : [],
 		} catch (e) {
 		}
 		
+		var db = this.getDB();
+		
+		var empty = db.createStatement("DELETE FROM state");
+		empty.execute();
+		
+		for (id in this.openStates) {
+			if (!this.openStates[id]) {
+				var insert = db.createStatement("INSERT INTO state (id, open) VALUES (?1, 0)");
+				insert.bindStringParameter(0, id);
+				
+				try {
+					insert.execute();
+				} catch (e) {
+					alert(e);
+				} finally {
+					insert.reset();
+				}
+			}
+		}
+		
+		logFeedbarMsg(this.openStates.toSource());
+		
 		this.closeDB();
 	},
 	
@@ -1115,25 +1159,11 @@ beginTime : [],
 	},
 	
 	wasLeftOpen : function (idx) {
-		var openContainer = true;
-		
-		var db = this.getDB();
-		var select = db.createStatement("SELECT open FROM state WHERE id=?1");
-		select.bindStringParameter(0, idx);
-		
-		try {
-			while (select.executeStep()) {
-				if (select.getInt32(0) == 0) {
-					openContainer = false;
-				}
-			}
-		} catch (e) {
-			alert(e);
-		} finally {
-			select.reset();
+		if (idx in this.openStates) {
+			return this.openStates[idx];
 		}
 		
-		return openContainer;
+		return true;
 	},
 	
 	itemSelect : function (event) {
@@ -1198,23 +1228,11 @@ beginTime : [],
 	},
 	
 	storeOpenState : function (cellId, openState) {
-		var db = this.getDB();
-		
-		var insert = db.createStatement("INSERT INTO state (id, open) VALUES (?1, ?2)");
-		insert.bindStringParameter(0, cellId);
-		insert.bindInt32Parameter(1, +openState);
-	
-		try {
-			insert.execute();
-		} catch (e) {
-			var update = db.createStatement("UPDATE state SET open=?1 WHERE id=?2");
-			update.bindInt32Parameter(0, +openState);
-			update.bindStringParameter(1, cellId);
-		
-			try {
-				update.execute();
-			} catch (e) {
-			}
+		if (openState && cellId in this.openStates) {
+			delete this.openStates[cellId];
+		}
+		else if (!openState) {
+			this.openStates[cellId] = openState;
 		}
 	},
 	
@@ -1679,9 +1697,11 @@ beginTime : [],
 	},
 	
 	closeDB : function () {
-		this.theDB.close();
-		delete this.theDB;
-		this.theDB = null;
+		if (this.theDB) {
+			this.theDB.close();
+			delete this.theDB;
+			this.theDB = null;
+		}
 	},
 	
 	passesFilter : function (str) {

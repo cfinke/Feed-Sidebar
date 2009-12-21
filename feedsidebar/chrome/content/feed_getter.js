@@ -497,9 +497,11 @@ var FEED_GETTER = {
 	},
 	
 	closeDB : function () {
-		this.theDB.close();
-		delete this.theDB;
-		this.theDB = null;
+		if (this.theDB) {
+			this.theDB.close();
+			delete this.theDB;
+			this.theDB = null;
+		}
 	},
 	
 	decodeEntities : function (aStr) {
