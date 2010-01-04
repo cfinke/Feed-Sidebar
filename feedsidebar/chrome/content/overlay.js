@@ -1070,7 +1070,7 @@ var FEEDBAR = {
             
 		    setTimeout(
 		        function () {
-					window.openDialog("chrome://feedbar/content/one-riot-suggestion.xul", "trends", "chrome,dialog,centerscreen,titlebar,alwaysraised,modal");
+					window.openDialog("chrome://feedbar/content/one-riot-suggestion.xul", "trends", "chrome,dialog,centerscreen,titlebar,alwaysraised");
                 }, 5000
 			);
         }
