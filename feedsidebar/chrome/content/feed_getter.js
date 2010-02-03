@@ -407,6 +407,8 @@ var FEED_GETTER = {
 					select.reset();
 				}
 				
+				select.finalize();
+				
 				return visited;
 			} catch (e) {
 				// Malformed URI, probably

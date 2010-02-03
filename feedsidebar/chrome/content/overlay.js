@@ -808,6 +808,8 @@ var FEEDBAR = {
 		
 		try { insert.execute(); } catch (duplicateKey) { }
 		
+		insert.finalize();
+		
 		// Find it in the childData object to set its "visited" property permanently.
 		var parentIdx = this.getParentIndex(idx);
 		var parentID = this.getCellID(parentIdx);
@@ -867,6 +869,8 @@ var FEEDBAR = {
 		deleteSql.bindUTF8StringParameter(0, cellID);
 		
 		try { deleteSql.execute(); } catch (e) { }
+		
+		deleteSql.finalize();
 		
 		// Find it in the childData object to set its "visited" property permanently.
 		var parentIdx = this.getParentIndex(idx);
@@ -1023,6 +1027,8 @@ var FEEDBAR = {
 			} finally {
 				select.reset();
 			}
+			
+			select.finalize();
 		}
 		
 		try {
@@ -1138,6 +1144,7 @@ var FEEDBAR = {
 		
 		var empty = db.createStatement("DELETE FROM state");
 		empty.execute();
+		empty.finalize();
 		
 		for (id in this.openStates) {
 			if (!this.openStates[id]) {
@@ -1151,6 +1158,8 @@ var FEEDBAR = {
 				} finally {
 					insert.reset();
 				}
+				
+				insert.finalize();
 			}
 		}
 		
