@@ -16,8 +16,16 @@ var FEEDBAR = {
 	visibleData : [],
 	get rowCount() { return this.visibleData.length; },
 	
-	getCellText : function (idx) {
-		return this.visibleData[idx].label;
+	getCellText : function (idx, col, hideCount) {
+		var cell = this.visibleData[idx];
+		
+		var label = cell.label;
+		
+		if (!hideCount && cell.numUnread) {
+			label += " (" + cell.numUnread + ")";
+		}
+		
+		return label;
 	},
 	
 	getCellDescription : function (idx) {
@@ -505,6 +513,7 @@ var FEEDBAR = {
 	push : function (feedObject) {
 		var toInsert = [];
 		var hasVisible = false;
+		var numUnread = 0;
 		var showReadItems = !this.prefs.getBoolPref("hideReadItems");
 		
 		for (var i = 0; i < feedObject.items.length; i++) {
@@ -514,6 +523,10 @@ var FEEDBAR = {
 			
 			if (showReadItems || !item.visited) {
 				hasVisible = true;
+				
+				if (!item.visited) {
+					numUnread += 1;
+				}
 			}
 		}
 		
@@ -558,6 +571,10 @@ var FEEDBAR = {
 					this.visibleData.splice(folderIdx, 1);
 					try { this.treeBox.rowCountChanged(folderIdx, -1); } catch (sidebarNotOpen) { }
 				}
+				else {
+					this.visibleData[folderIdx].numUnread = numUnread;
+					try { this.treeBox.invalidateRow(folderIdx); } catch (sidebarNotOpen) { alert(sidebarNotOpen); }
+				}
 				
 				break;
 			}
@@ -567,7 +584,11 @@ var FEEDBAR = {
 			if (folderIdx < 0) {
 			    var sortType = this.prefs.getCharPref("lastSort");
 			    var toPush = { "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : " " + feedObject.label.replace(/^\s+/g, ""), "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri, "siteUri" : feedObject.siteUri, "description" : feedObject.description, "image" : feedObject.image, "lastUpdated": FEEDBAR.childData[feedObject.id].items[0].published, "lastRedrawn" : new Date().getTime() };
-                
+			
+				if (numUnread) {
+                	toPush.numUnread = numUnread;
+				}
+
         		var multiplier = 1;
 
         		// Define the sorting function.
@@ -798,6 +819,8 @@ var FEEDBAR = {
 			}
 		}
 		
+		var updateLabel = true;
+		
 		if (this.prefs.getBoolPref("hideReadItems") && updateUI) {
 			var rowsRemoved = 1;
 			
@@ -805,6 +828,8 @@ var FEEDBAR = {
 			if ((parentIdx == (idx - 1)) && ((idx + 1) >= this.visibleData.length || this.isContainer(idx + 1))) {
 				idx = parentIdx;
 				++rowsRemoved;
+				
+				updateLabel = false;
 			}
 			
 			this.visibleData.splice(idx, rowsRemoved);
@@ -816,9 +841,20 @@ var FEEDBAR = {
 			if (updateUI) {
 				try { this.treeBox.invalidateRow(idx); } catch (sidebarNotOpen) { }
 			}
+			else {
+				updateLabel = false;
+			}
 		}
 		
 		this.updateNotifier();
+		
+		if (updateLabel) {
+			/**
+			 * Decrement this folder's number of unread.
+			 */
+			this.visibleData[parentIdx].numUnread--;
+			try { this.treeBox.invalidateRow(parentIdx); } catch (sidebarNotOpen) { alert(sidebarNotOpen); }
+		}
 	},
 
 	setCellUnread : function (idx) {
@@ -1506,7 +1542,7 @@ var FEEDBAR = {
 	
 	copyTitle : function () {
 		var idx = this.getSelectedIndex();
-		var title = this.getCellText(idx).replace(/^\s+/g, "");
+		var title = this.getCellText(idx, 0, true).replace(/^\s+/g, "");
 		this.clipboard.copyString(title);
 	},
 	
