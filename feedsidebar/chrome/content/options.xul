@@ -66,14 +66,14 @@
 				}
 			},
 			
-			showOnly : function () {
+			showOnly : function (days) {
 				document.getElementById("display-days").disabled = false;
-				var days = document.getElementById("display-days").value;
-			
+				
 				if (!days) {
 					days = 1;
-					document.getElementById("display-days").value = 1;
 				}
+				
+				document.getElementById("display-days").value = days;
 				
 				if (this.browserPrefs.getBoolPref("instantApply")) {
 					this.prefs.setIntPref("extensions.feedbar.displayPeriod", parseInt(days, 10));
@@ -104,8 +104,8 @@
 			<radiogroup id="display-period" style="padding-left: 2ex;">
 				<radio label="&feedbar.showAllItemsFull;" id="show-all-radio" oncommand="FEEDBAR_PREFS.showAll();" />
 				<hbox align="center">
-					<radio id="showOnlyRadio" label="&feedbar.onlyShow1;" oncommand="FEEDBAR_PREFS.showOnly();" />
-					<textbox oninput="FEEDBAR_PREFS.showOnly();" id="display-days" size="2" aria-labelledby="showOnlyRadio display-days onlyShowUnit"/>
+					<radio id="showOnlyRadio" label="&feedbar.onlyShow1;" oncommand="FEEDBAR_PREFS.showOnly(document.getElementById('display-days').value);" />
+					<textbox onblur="FEEDBAR_PREFS.showOnly(this.value);" id="display-days" size="2" aria-labelledby="showOnlyRadio display-days onlyShowUnit"/>
 					<label id="onlyShowUnit" value="&feedbar.onlyShow2;" />
 				</hbox>
 			</radiogroup>
