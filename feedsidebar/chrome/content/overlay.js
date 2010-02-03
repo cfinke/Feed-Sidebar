@@ -21,7 +21,7 @@ var FEEDBAR = {
 		
 		var label = cell.label;
 		
-		if (!hideCount && cell.numUnread) {
+		if (this.isContainer(idx) && !this.isContainerOpen(idx) && !hideCount && cell.numUnread) {
 			label += " (" + cell.numUnread + ")";
 		}
 		
