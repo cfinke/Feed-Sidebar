@@ -52,5 +52,9 @@
 			key="&feedbar.accesskey;"
 			command="feedbar"
 			modifiers="accel shift" />
+		<key id="feedbar_key"
+			key="E"
+			command="feedbar"
+			modifiers="accel shift" />			
 	</keyset>
 </overlay>
