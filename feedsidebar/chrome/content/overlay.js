@@ -807,8 +807,7 @@ var FEEDBAR = {
 		insert.bindInt64Parameter(1, (new Date().getTime()));
 		
 		try { insert.execute(); } catch (duplicateKey) { }
-		
-		insert.finalize();
+		try { insert.finalize(); } catch (notNeeded) { }
 		
 		// Find it in the childData object to set its "visited" property permanently.
 		var parentIdx = this.getParentIndex(idx);
