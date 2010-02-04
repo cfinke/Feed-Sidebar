@@ -124,7 +124,7 @@
 				<toolbarbutton id="search-toggle" checked="false" persist="checked" oncommand="document.getElementById('search-bar').collapsed = !document.getElementById('search-bar').collapsed; this.checked = !document.getElementById('search-bar').collapsed;" />
 			</toolbar>
 			<toolbar id="search-bar" persist="collapsed">
-				<textbox id="search-box" type="search" flex="1" oninput="FEEDSIDEBAR.onSearchInput(this.value);" />
+				<textbox id="search-box" type="search" flex="1" oncommand="FEEDSIDEBAR.onSearchInput(this.value);" />
 				<toolbarbutton id="all-toggle" tooltiptext="&feedbar.showAll.tooltip;" label="&feedbar.showAllItemsButtonLabel;" checked="false" persist="checked" oncommand="FEEDSIDEBAR.prefs.setBoolPref('hideReadItems', this.checked);" />
 			</toolbar>
 		</toolbox>
