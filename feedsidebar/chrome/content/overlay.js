@@ -1049,6 +1049,11 @@ var FEEDBAR = {
 			data += siStream.read(-1);
 			siStream.close();
 			
+			// The JSON is stored as UTF-8, but JSON only works properly with Unicode
+			var unicodeConverter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+			unicodeConverter.charset = "UTF-8";
+			data = unicodeConverter.ConvertToUnicode(data);
+			
 		    this.childData = nativeJSON.decode(data);
 			this.refreshTree();
 			this.updateNotifier();
@@ -1121,19 +1126,25 @@ var FEEDBAR = {
 		this.prefs.removeObserver("", this);
 		
 		try {
-		    var nativeJSON = Components.classes["@mozilla.org/dom/json;1"]
-                             .createInstance(Components.interfaces.nsIJSON);
-            var data = nativeJSON.encode(this.childData);
-			
 			var file = Components.classes['@mozilla.org/file/directory_service;1']
                             .getService(Components.interfaces.nsIProperties)
                             .get("ProfD", Components.interfaces.nsIFile);
 			file.append("feedbar.cache");
-			
+
 			var foStream = Components.classes['@mozilla.org/network/file-output-stream;1']
 								.createInstance(Components.interfaces.nsIFileOutputStream);
 			var flags = 0x02 | 0x08 | 0x20; // wronly | create | truncate
 			foStream.init(file, flags, 0664, 0);
+
+		    var nativeJSON = Components.classes["@mozilla.org/dom/json;1"]
+                             .createInstance(Components.interfaces.nsIJSON);
+            var data = nativeJSON.encode(this.childData);
+			
+			// Store the data as UTF-8, not the Unicode that JSON outputs.
+			var unicodeConverter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+			unicodeConverter.charset = "UTF-8";
+			data = unicodeConverter.ConvertFromUnicode(data);
+			
 			foStream.write(data, data.length);
 			foStream.close();
 		} catch (e) {
