@@ -20,6 +20,7 @@ locale      feedbar     pt-BR               jar:chrome/feedsidebar.jar!/locale/p
 locale      feedbar     ru-RU               jar:chrome/feedsidebar.jar!/locale/ru-RU/
 locale      feedbar     sk-SK               jar:chrome/feedsidebar.jar!/locale/sk-SK/
 locale      feedbar     tr-TR               jar:chrome/feedsidebar.jar!/locale/tr-TR/
+locale      feedbar     vi                  jar:chrome/feedsidebar.jar!/locale/vi/
 locale      feedbar     zh-CN               jar:chrome/feedsidebar.jar!/locale/zh-CN/
 locale      feedbar     zh-TW               jar:chrome/feedsidebar.jar!/locale/zh-TW/
 

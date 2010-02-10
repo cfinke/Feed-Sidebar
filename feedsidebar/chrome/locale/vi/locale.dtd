@@ -1,0 +1,58 @@
+<!ENTITY feedbar.buttonLabel "Feeds">
+<!ENTITY feedbar.sidebarTitle "Feeds">
+<!ENTITY feedbar.buttonTooltip "Hiển thị các mục của Live Bookmarks lên thanh nằm bên cạnh màn hình">
+<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.markAsRead "Đánh dấu thành feed hoặc mục tin đã đọc">
+<!ENTITY feedbar.open "Mở">
+<!ENTITY feedbar.openInTab "Mở trên một thẻ mới">
+<!ENTITY feedbar.openAllInTabs "Mở tất cả trên các thẻ">
+<!ENTITY feedbar.openFeedInTabs "Mở Feed trên thẻ">
+<!ENTITY feedbar.markAsRead "Đánh dấu đã đọc">
+<!ENTITY feedbar.markAsUnread "Đánh dấu chưa đọc">
+<!ENTITY feedbar.markFeedAsRead "Đánh dấu Feed đã đọc">
+<!ENTITY feedbar.markFeedAsUnread "Đánh dấu Feed chưa đọc">
+<!ENTITY feedbar.markAllAsRead "Đánh dấu tất cả thành Đã Đọc">
+<!ENTITY feedbar.markAllAsUnread "Đánh dấu tất cả thành Chưa Đọc">
+<!ENTITY feedbar.reloadFeeds "Tải lại các Feeds">
+<!ENTITY feedbar.stopFeedUpdate "Ngừng cập nhật feed">
+<!ENTITY feedbar.minutes "phút">
+<!ENTITY feedbar.hour "tiếng">
+<!ENTITY feedbar.hours "tiếng">
+<!ENTITY feedbar.showLastTooltip "Giới hạn độ cũ của các mục tin được hiển thị">
+<!ENTITY feedbar.showLastDaysPre "Hiển thị cuối cùng">
+<!ENTITY feedbar.showLastDaysPost "ngày">
+<!ENTITY feedbar.showLastWeeksPre "Hiển thị cuối cùng">
+<!ENTITY feedbar.showLastWeeksPost "tuần">
+<!ENTITY feedbar.showAllItems "Hiển thị tất cả các mục">
+<!ENTITY feedbar.showLastDay "Hiển thị ngày cuối">
+<!ENTITY feedbar.showLastWeek "Hiển thị tuần cuối">
+<!ENTITY feedbar.showLastMonth "Hiển thị tháng cuối">
+<!ENTITY feedbar.sortBy "Sắp xếp theo thứ tự...">
+<!ENTITY feedbar.sort.name "Tên">
+<!ENTITY feedbar.sort.default "Mặc định">
+<!ENTITY feedbar.sort.updated "Cập nhật mới nhất">
+<!ENTITY feedbar.copyTitle "Sao chép đề mục">
+<!ENTITY feedbar.copyLink "Sao chép liên kết">
+<!ENTITY feedbar.unsubscribe "Không nhận tin nữa">
+<!ENTITY feedbar.options "Tùy chọn">
+<!ENTITY feedbar.hideReadItems "Ẩn các mục tin đã đọc">
+<!ENTITY feedbar.updateEvery1 "Cập nhật từng feed mỗi">
+<!ENTITY feedbar.updateEvery2 "phút">
+<!ENTITY feedbar.showAllItemsFull "Hiển thị tất cả các mục tin, bất chấp ngày tháng">
+<!ENTITY feedbar.onlyShow1 "Chỉ hiện các mục tin  mới nhất">
+<!ENTITY feedbar.onlyShow2 "ngày.">
+<!ENTITY feedbar.autoClose "Tự động đóng thanh nằm bên cạnh màn hình khi đánh dấu tất cả các mục tin thành Đã Đọc.">
+<!ENTITY feedbar.notifications "Hiển thị thông báo tự bung khi một mục tin mới bị xóa.">
+<!ENTITY feedbar.runInSidebar "Chỉ kiểm tra cập nhật khi thanh nằm cạnh màn hình đang được mở.">
+<!ENTITY feedbar.previewQuestion "Khi mở một mục tin feed...">
+<!ENTITY feedbar.previewAnswer1 "Mở trang web được liên kết (mặc định).">
+<!ENTITY feedbar.previewAnswer2 "Hiển thị đầy đủ miêu tả mục tin trong cửa sổ đọc.">
+<!ENTITY feedbar.showAllItemsButtonLabel "Tất cả">
+<!ENTITY feedbar.showAll.tooltip "Cho phép hiển thị cả mục tin đã đọc và chưa đọc.">
+<!ENTITY feedbar.alwaysOpenInNewTab "Luôn mở các mục tin trên thẻ mới">
+<!ENTITY feedbar.updatesDisabled "Không cho phép tự động cập nhật">
+<!ENTITY feedbar.trendsTitle "Các diễn biến trực tiếp trên mạng">
+<!ENTITY feedbar.trendsP1 "Thanh Feed Sidebar muốn hỏi xem bạn có thích cập nhật các mục tin từ những xu hướng tìm kiếm mới nhất trên Twitter, Digg và các mạng xã hội khác hay không.">
+<!ENTITY feedbar.trendsP2 "Ấn OK để đăng ký nhận bản tin này; nó sẽ tự động hiển thị trên thanh nằm bên cạnh màn hình, giúp bạn luôn cập nhật những tin tức và các xu hướng mới nhất trên mạng. (bạn có thể bỏ chức năng cập nhật này bất cứ lúc nào.)">
+<!ENTITY feedbar.trendsP3 "Đừng lo, bạn sẽ không bị hỏi lại nữa nếu như bạn không đăng ký nhận bản tin.">
+<!ENTITY feedbar.checkbox_understand "Vâng, tôi muốn nhận bản tin về các diễn biến thuộc đề tài xã hội này.">

@@ -1,20 +1,20 @@
-<!ENTITY feedbar.buttonLabel "Suministros RSS">
-<!ENTITY feedbar.sidebarTitle "Suministros RSS">
+<!ENTITY feedbar.buttonLabel "Hilos">
+<!ENTITY feedbar.sidebarTitle "Hilos">
 <!ENTITY feedbar.buttonTooltip "Mostrar los elementos de los Marcadores dinámicos en la barra lateral">
 <!ENTITY feedbar.accesskey "F">
-<!ENTITY feedbar.preview.markAsRead "Marcar suministro RSS o elemento como leído">
+<!ENTITY feedbar.preview.markAsRead "Marcar hilo o elemento como leído">
 <!ENTITY feedbar.open "Abrir">
-<!ENTITY feedbar.openInTab "Abrir en una pestaña nueva">
+<!ENTITY feedbar.openInTab "Abrir en nueva pestaña">
 <!ENTITY feedbar.openAllInTabs "Abrir todo en pestañas">
-<!ENTITY feedbar.openFeedInTabs "Abrir suministro RSS en pestañas">
+<!ENTITY feedbar.openFeedInTabs "Abrir hilo en pestañas">
 <!ENTITY feedbar.markAsRead "Marcar como leído">
 <!ENTITY feedbar.markAsUnread "Marcar como no leído">
-<!ENTITY feedbar.markFeedAsRead "Marcar suministro RSS como leído">
-<!ENTITY feedbar.markFeedAsUnread "Marcar suministro RSS como no leído">
+<!ENTITY feedbar.markFeedAsRead "Marcar hilo como leído">
+<!ENTITY feedbar.markFeedAsUnread "Marcar hilo como no leído">
 <!ENTITY feedbar.markAllAsRead "Marcar todo como leído">
 <!ENTITY feedbar.markAllAsUnread "Marcar todo como no leído">
-<!ENTITY feedbar.reloadFeeds "Recargar suministros RSS">
-<!ENTITY feedbar.stopFeedUpdate "Cancelar actualización de suministro RSS">
+<!ENTITY feedbar.reloadFeeds "Recargar Hilos">
+<!ENTITY feedbar.stopFeedUpdate "Cancelar actualización de hilo">
 <!ENTITY feedbar.minutes "minutos">
 <!ENTITY feedbar.hour "hora">
 <!ENTITY feedbar.hours "horas">
@@ -27,22 +27,32 @@
 <!ENTITY feedbar.showLastDay "Mostrar último día">
 <!ENTITY feedbar.showLastWeek "Mostrar última semana">
 <!ENTITY feedbar.showLastMonth "Mostrar último mes">
+<!ENTITY feedbar.sortBy "Ordenar por...">
+<!ENTITY feedbar.sort.name "Nombre">
+<!ENTITY feedbar.sort.default "Predeterminado">
+<!ENTITY feedbar.sort.updated "Último actualizado">
 <!ENTITY feedbar.copyTitle "Copiar título">
 <!ENTITY feedbar.copyLink "Copiar enlace">
-<!ENTITY feedbar.unsubscribe "Dejar de estar suscrito">
+<!ENTITY feedbar.unsubscribe "Desvincularse">
 <!ENTITY feedbar.options "Opciones">
 <!ENTITY feedbar.hideReadItems "Ocultar elementos leídos">
-<!ENTITY feedbar.updateEvery1 "Actualizar suministros RSS cada">
+<!ENTITY feedbar.updateEvery1 "Actualizar hilos cada">
 <!ENTITY feedbar.updateEvery2 "minutos.">
 <!ENTITY feedbar.showAllItemsFull "Mostrar todos los elementos, independientemente de su antigüedad">
-<!ENTITY feedbar.onlyShow1 "Mostrar sólo los elementos de los últimos">
+<!ENTITY feedbar.onlyShow1 "Mostrar sólo elementos de los últimos">
 <!ENTITY feedbar.onlyShow2 "días.">
-<!ENTITY feedbar.autoClose "Cerrar automáticamente la barra lateral al marcar todos elementos como leídos.">
+<!ENTITY feedbar.autoClose "Cerrar barra lateral al marcar todos elementos como leídos.">
 <!ENTITY feedbar.notifications "Mostrar notificaciones emergentes cuando se detenten nuevos elementos.">
 <!ENTITY feedbar.runInSidebar "Comprobar actualizaciones sólo cuando la barra lateral esté abierta.">
-<!ENTITY feedbar.previewQuestion "Cuando se abra un elemento de un suministro RSS...">
-<!ENTITY feedbar.previewAnswer1 "Abrir la página enlazada (por defecto).">
-<!ENTITY feedbar.previewAnswer2 "Mostrar la descripción completa del elemento en la ventana del navegador.">
+<!ENTITY feedbar.previewQuestion "Cuando se abra un elemento de un hilo...">
+<!ENTITY feedbar.previewAnswer1 "Abrir la página enlazada (predeterminado).">
+<!ENTITY feedbar.previewAnswer2 "Mostrar descripción completa de elemento en la ventana del navegador.">
 <!ENTITY feedbar.showAllItemsButtonLabel "Todos">
 <!ENTITY feedbar.showAll.tooltip "Activar la visualización de elementos leídos y no leídos.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Abrir siempre elementos en nuevas pestañas">
+<!ENTITY feedbar.updatesDisabled "Desactivar Actualizaciones Automáticas">
+<!ENTITY feedbar.trendsTitle "Tendencias Web en tiempo real">
+<!ENTITY feedbar.trendsP1 "Feed Sidebar quiere saber si desea vincularse a un hilo de las últimas tendencias de búsquedas en Twitter, Digg y el resto de redes sociales.">
+<!ENTITY feedbar.trendsP2 "Pulse OK para vincularse a el hilo; aparecerá automáticamente en la barra lateral, manteniendole actualizado de las últimas noticias y tendencias sobre la Web (puede desvincularse en cualquier momento).">
+<!ENTITY feedbar.trendsP3 "No se preocupe, no se le preguntará de nuevo si elige no suscribirse.">
+<!ENTITY feedbar.checkbox_understand "Si, quiero vincularme a un hilo de tendencias sobre temas sociales.">

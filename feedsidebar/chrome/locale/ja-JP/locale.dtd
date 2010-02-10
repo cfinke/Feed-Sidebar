@@ -50,3 +50,9 @@
 <!ENTITY feedbar.showAllItemsButtonLabel "すべて">
 <!ENTITY feedbar.showAll.tooltip "既読と未読の両方ともに項目の表示を有効にします。">
 <!ENTITY feedbar.alwaysOpenInNewTab "常に項目を新しいタブで開く">
+<!ENTITY feedbar.updatesDisabled "自動更新を無効にする">
+<!ENTITY feedbar.trendsTitle "リアルタイム Web トレンド">
+<!ENTITY feedbar.trendsP1 "Feed Sidebar は Twitter や Digg、他のソーシャル Web での最新トレンド検索語に関するフィードを購読されるか知りたいです。">
+<!ENTITY feedbar.trendsP2 "OK をクリックするとフィードを購読します。これは自動的にサイドバーに出現し、Web 全体からの最新ニュースとトレンドであなたを最新の情報通にし続けます。(いつでも購読を解除できます。)">
+<!ENTITY feedbar.trendsP3 "心配無用です、購読を選択しなかったとしても二度とお尋ねすることはありません。">
+<!ENTITY feedbar.checkbox_understand "はい、流行のソーシャルトピックに関するフィードを購読します。">
