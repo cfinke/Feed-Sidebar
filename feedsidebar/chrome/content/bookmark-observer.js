@@ -1,4 +1,7 @@
 var feedbarBookmarkObserver = {
+	onBeforeItemRemoved : function () {
+	},
+	
 	onBeginUpdateBatch: function() {
 		// This method is notified when a batch of changes are about to occur.
 		// Observers can use this to suspend updates to the user-interface, for example
@@ -47,11 +50,10 @@ var feedbarBookmarkObserver = {
 		}
 		
 		throw Cr.NS_ERROR_NO_INTERFACE;
-	},
+	}
 };
 
-var bmsvc = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].
-        		getService(Components.interfaces.nsINavBookmarksService);
+var bmsvc = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
 bmsvc.addObserver(feedbarBookmarkObserver, false);
 
 window.addEventListener("unload", function () { bmsvc.removeObserver(feedbarBookmarkObserver); }, false);
