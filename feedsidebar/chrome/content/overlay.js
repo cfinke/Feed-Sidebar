@@ -1225,6 +1225,34 @@ var FEEDBAR = {
 	onTreeDblClick : function (event) {
 	},
 	
+	onKeyPress : function (event) {
+		// if enter,
+		if (event.keyCode == event.DOM_VK_RETURN || event.keyCode == 13) {
+			// open it
+			
+			if (this.prefs.getBoolPref("showFullPreview") || !navigator.onLine) {
+				FEEDBAR.handleOfflineTreeClick(event);
+				return;
+			}
+		
+			var targetIdx = this.getSelectedIndex();
+		
+			if (targetIdx >= 0) {
+				if (!this.isContainer(targetIdx)) {
+					this.openInTab();
+					this.setCellRead(targetIdx, true);
+					
+					FEED_GETTER.feedWindow.clearTimeout(FEEDBAR.previewTimeout);
+				}
+			}
+		}
+		else {
+			var targetIdx = this.getSelectedIndex();
+			
+			this.showPreview(targetIdx);
+		}
+	},
+	
 	onTreeClick : function (event, url) {
 		// Discard right-clicks
 		if (event.which == 3){
