@@ -1240,7 +1240,6 @@ var FEEDBAR = {
 			if (targetIdx >= 0) {
 				if (!this.isContainer(targetIdx)) {
 					this.openInTab();
-					this.setCellRead(targetIdx, true);
 					
 					FEED_GETTER.feedWindow.clearTimeout(FEEDBAR.previewTimeout);
 				}
