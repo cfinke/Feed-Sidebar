@@ -163,17 +163,19 @@ var FEED_GETTER = {
             (!FEED_GETTER.rapidUpdate && FEED_GETTER.secondsBetweenFeeds == 0) ||
             (FEED_GETTER.prefs.getBoolPref("runInSidebar") && !FEED_GETTER.sidebarIsOpen())
             ){
-            
-    		if (win && win.FEEDSIDEBAR) {
-    		    FEED_GETTER.clearStatusText();
+			if (!indexOverride) {
+	    		if (win && win.FEEDSIDEBAR) {
+	    		    FEED_GETTER.clearStatusText();
     		    
-                if (!navigator.onLine) {
-        		    statusText.setAttribute("value", FEED_GETTER.strings.getString("feedbar.workingOffline"));
-                }
-        	}
+	                if (!navigator.onLine) {
+	        		    statusText.setAttribute("value", FEED_GETTER.strings.getString("feedbar.workingOffline"));
+	                }
+	        	}
         	
-		    setTimeoutForNext();
-		    return;
+			    setTimeoutForNext();
+				
+		    	return;
+			}
 		}
 		
 		if (FEED_GETTER.rapidUpdate) {
@@ -192,7 +194,7 @@ var FEED_GETTER = {
         
         var feedIndex = FEED_GETTER.feedIndex;
         
-        if (indexOverride) {
+		if (indexOverride) {
             feedIndex = indexOverride;
         }
         else {
@@ -203,7 +205,7 @@ var FEED_GETTER = {
             this.prefs.setIntPref("lastUpdate", Math.round(new Date().getTime() / 1000));
         }
         
-        var feed = FEED_GETTER.feedsToFetch[feedIndex];
+		var feed = FEED_GETTER.feedsToFetch[feedIndex];
         
 	    var url = feed.feed;
 		
@@ -215,6 +217,8 @@ var FEED_GETTER = {
 	    }
 		
 		var req = new XMLHttpRequest();
+		// req.overrideMimeType("application/xml");
+		
 		FEED_GETTER.currentRequest = req;
 		
 		try {
