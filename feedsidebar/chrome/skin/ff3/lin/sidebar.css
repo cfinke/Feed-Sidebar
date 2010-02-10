@@ -58,5 +58,5 @@ treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected) {
 }
 
 #downloads-button dropmarker {
-    display: none;
+	display: none;
 }

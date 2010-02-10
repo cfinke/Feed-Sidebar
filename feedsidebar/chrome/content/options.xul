@@ -8,12 +8,12 @@
 	ondialogaccept="FEEDBAR_PREFS.unload();"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script type="application/x-javascript">
-	    <![CDATA[
-	    var FEEDBAR_PREFS = {
+		<![CDATA[
+		var FEEDBAR_PREFS = {
 			prefs : null,
 			browserPrefs : null,
 			
-	        onload : function () {
+			onload : function () {
 				this.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("");
 				this.browserPrefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("browser.preferences.");
 				
@@ -31,24 +31,24 @@
 					document.getElementById("display-period").selectedIndex = 0;
 					this.showAll();
 				}
-	        },
-	        
-        	unload : function () {
-        	    var prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("");
-        	    var browserPrefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("browser.preferences.");
-        		if (!browserPrefs.getBoolPref("instantApply")) {
-        		    var prefs = document.getElementById("all_prefs");
-        		    for (var i = 0; i < prefs.length; i++) {
-        		        switch (prefs[i].getAttribute("type")) {
-        		            case 'bool':
-        		                prefService.setBoolPref(prefs[i].getAttribute("name"), prefs[i].value);
-        		            break;
-        		            case 'int':
-    		                    prefService.setIntPref(prefs[i].getAttribute("name"), prefs[i].value);
-        		            break;
-        		        }
-        		    }
-        		}
+			},
+			
+			unload : function () {
+				var prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("");
+				var browserPrefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("browser.preferences.");
+				if (!browserPrefs.getBoolPref("instantApply")) {
+					var prefs = document.getElementById("all_prefs");
+					for (var i = 0; i < prefs.length; i++) {
+						switch (prefs[i].getAttribute("type")) {
+							case 'bool':
+								prefService.setBoolPref(prefs[i].getAttribute("name"), prefs[i].value);
+							break;
+							case 'int':
+								prefService.setIntPref(prefs[i].getAttribute("name"), prefs[i].value);
+							break;
+						}
+					}
+				}
 
 				if (document.getElementById("show-all-radio").selected) {
 					prefService.setIntPref("extensions.feedbar.displayPeriod", 0);
@@ -56,7 +56,7 @@
 				else {
 					prefService.setIntPref("extensions.feedbar.displayPeriod", parseInt(document.getElementById("display-days").value,10));
 				}
-        	},
+			},
 
 			showAll : function () {
 				document.getElementById("display-days").disabled = true;
@@ -79,8 +79,8 @@
 					this.prefs.setIntPref("extensions.feedbar.displayPeriod", parseInt(days, 10));
 				}
 			}
-	    };
-	    ]]>
+		};
+		]]>
 	</script>
 	<prefpane id="general-pane" label="Feed Sidebar - &feedbar.options;">
 		<preferences id="all_prefs">

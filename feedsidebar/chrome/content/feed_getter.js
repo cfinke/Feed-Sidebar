@@ -76,9 +76,9 @@ var FEED_GETTER = {
 	secondsBetweenFeeds : 1,
 	
 	startFetchingFeeds : function () {
-	    FEED_GETTER.feedsToFetch = [];
-	    FEED_GETTER.feedIndex = 0;
-	    
+		FEED_GETTER.feedsToFetch = [];
+		FEED_GETTER.feedIndex = 0;
+		
 		var livemarkService = Components.classes["@mozilla.org/browser/livemark-service;2"].getService(Components.interfaces.nsILivemarkService);
 		var bookmarkService = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
 		var anno = Components.classes["@mozilla.org/browser/annotation-service;1"].getService(Components.interfaces.nsIAnnotationService);
@@ -92,129 +92,129 @@ var FEED_GETTER = {
 		}
 		
 		if (FEED_GETTER.feedsToFetch.length == 0) {
-		    FEED_GETTER.notifyNoFeeds();
+			FEED_GETTER.notifyNoFeeds();
 		}
 		
 		setTimeout(function () {
-		    FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
+			FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
 		}, 5000);
-    },
-    
-    removeAFeed : function (livemarkId) {
-        for (feedURL in FEED_GETTER.feedData) {
-            var feed = FEED_GETTER.feedData[feedURL];
-            
-            if (feed.bookmarkId == livemarkId) {
-                delete FEED_GETTER.feedData[feedURL];
-                
-                for (var i = 0; i < FEED_GETTER.feedsToFetch.length; i++) {
-                    if (FEED_GETTER.feedsToFetch[i].feed == feedURL) {
-                        FEED_GETTER.feedsToFetch.splice(i, 1);
-                        return true;
-                    }
-                }
-                
-                break;
-            }
-        }
-        
-        return false;
-    },
+	},
+	
+	removeAFeed : function (livemarkId) {
+		for (feedURL in FEED_GETTER.feedData) {
+			var feed = FEED_GETTER.feedData[feedURL];
+			
+			if (feed.bookmarkId == livemarkId) {
+				delete FEED_GETTER.feedData[feedURL];
+				
+				for (var i = 0; i < FEED_GETTER.feedsToFetch.length; i++) {
+					if (FEED_GETTER.feedsToFetch[i].feed == feedURL) {
+						FEED_GETTER.feedsToFetch.splice(i, 1);
+						return true;
+					}
+				}
+				
+				break;
+			}
+		}
+		
+		return false;
+	},
 	
 	rapidUpdate : 0,
 	
 	clearStatusText : function () {
-	    var win = FEED_GETTER.feedWindow;
-        
-        if (win) {
-    	    var statusText = win.document.getElementById("feedbar-loading-text")
-    	    statusText.setAttribute("value", "");
-    	    statusText.setAttribute("tooltiptext", "");
-    	    statusText.setAttribute("url", "");
-    	}
-    },
-	
-    updateAFeed : function (indexOverride) {
-        function setTimeoutForNext() {
-            if (FEED_GETTER.rapidUpdate) {
-                var interval = 0.5;
-            }
-            else {
-                if (FEED_GETTER.secondsBetweenFeeds == 0) {
-                    var interval = 60;
-                    
-                    FEED_GETTER.clearStatusText();
-                }
-                else {
-                    var interval = FEED_GETTER.secondsBetweenFeeds;
-                }
-            }
-            
-		    FEED_GETTER.feedUpdateTimeout = setTimeout(function () { FEED_GETTER.updateAFeed(); }, interval * 1000);
-	    }
+		var win = FEED_GETTER.feedWindow;
 		
-        clearTimeout(FEED_GETTER.feedUpdateTimeout);
-        clearTimeout(FEED_GETTER.statusTextTimeout);
-        
-        var win = FEED_GETTER.feedWindow;
-        
-        if (!navigator.onLine || 
-            FEED_GETTER.feedsToFetch.length == 0 ||
-            (!FEED_GETTER.rapidUpdate && FEED_GETTER.secondsBetweenFeeds == 0) ||
-            (FEED_GETTER.prefs.getBoolPref("runInSidebar") && !FEED_GETTER.sidebarIsOpen())
-            ){
+		if (win) {
+			var statusText = win.document.getElementById("feedbar-loading-text")
+			statusText.setAttribute("value", "");
+			statusText.setAttribute("tooltiptext", "");
+			statusText.setAttribute("url", "");
+		}
+	},
+	
+	updateAFeed : function (indexOverride) {
+		function setTimeoutForNext() {
+			if (FEED_GETTER.rapidUpdate) {
+				var interval = 0.5;
+			}
+			else {
+				if (FEED_GETTER.secondsBetweenFeeds == 0) {
+					var interval = 60;
+					
+					FEED_GETTER.clearStatusText();
+				}
+				else {
+					var interval = FEED_GETTER.secondsBetweenFeeds;
+				}
+			}
+			
+			FEED_GETTER.feedUpdateTimeout = setTimeout(function () { FEED_GETTER.updateAFeed(); }, interval * 1000);
+		}
+		
+		clearTimeout(FEED_GETTER.feedUpdateTimeout);
+		clearTimeout(FEED_GETTER.statusTextTimeout);
+		
+		var win = FEED_GETTER.feedWindow;
+		
+		if (!navigator.onLine || 
+			FEED_GETTER.feedsToFetch.length == 0 ||
+			(!FEED_GETTER.rapidUpdate && FEED_GETTER.secondsBetweenFeeds == 0) ||
+			(FEED_GETTER.prefs.getBoolPref("runInSidebar") && !FEED_GETTER.sidebarIsOpen())
+			){
 			if (!indexOverride) {
-	    		if (win && win.FEEDSIDEBAR) {
-	    		    FEED_GETTER.clearStatusText();
-    		    
-	                if (!navigator.onLine) {
-	        		    statusText.setAttribute("value", FEED_GETTER.strings.getString("feedbar.workingOffline"));
-	                }
-	        	}
-        	
-			    setTimeoutForNext();
+				if (win && win.FEEDSIDEBAR) {
+					FEED_GETTER.clearStatusText();
 				
-		    	return;
+					if (!navigator.onLine) {
+						statusText.setAttribute("value", FEED_GETTER.strings.getString("feedbar.workingOffline"));
+					}
+				}
+			
+				setTimeoutForNext();
+				
+				return;
 			}
 		}
 		
 		if (FEED_GETTER.rapidUpdate) {
-		    FEED_GETTER.rapidUpdate--;
-		    
-		    if (!FEED_GETTER.rapidUpdate) {
-                FEED_GETTER.stopUpdate();
-	        }
+			FEED_GETTER.rapidUpdate--;
+			
+			if (!FEED_GETTER.rapidUpdate) {
+				FEED_GETTER.stopUpdate();
+			}
 		}
 		
-        if (FEED_GETTER.feedIndex >= FEED_GETTER.feedsToFetch.length) {
-            FEED_GETTER.feedIndex = 0;
-        }
-                
-        FEED_GETTER.newItemCountPre = FEEDBAR.numUnreadItems();
-        
-        var feedIndex = FEED_GETTER.feedIndex;
-        
+		if (FEED_GETTER.feedIndex >= FEED_GETTER.feedsToFetch.length) {
+			FEED_GETTER.feedIndex = 0;
+		}
+				
+		FEED_GETTER.newItemCountPre = FEEDBAR.numUnreadItems();
+		
+		var feedIndex = FEED_GETTER.feedIndex;
+		
 		if (indexOverride) {
-            feedIndex = indexOverride;
-        }
-        else {
-            ++FEED_GETTER.feedIndex;
-        }
-        
-        if (feedIndex == 0) {
-            this.prefs.setIntPref("lastUpdate", Math.round(new Date().getTime() / 1000));
-        }
-        
+			feedIndex = indexOverride;
+		}
+		else {
+			++FEED_GETTER.feedIndex;
+		}
+		
+		if (feedIndex == 0) {
+			this.prefs.setIntPref("lastUpdate", Math.round(new Date().getTime() / 1000));
+		}
+		
 		var feed = FEED_GETTER.feedsToFetch[feedIndex];
-        
-	    var url = feed.feed;
+		
+		var url = feed.feed;
 		
 		if (win && win.FEEDSIDEBAR) {
-		    var statusText = win.document.getElementById("feedbar-loading-text");
-		    statusText.setAttribute("value", FEED_GETTER.strings.getFormattedString("feedbar.statusText", [ (feedIndex+1), FEED_GETTER.feedsToFetch.length, feed.name ]));
-            statusText.setAttribute("tooltiptext", url);
-		    statusText.setAttribute("url", url);
-	    }
+			var statusText = win.document.getElementById("feedbar-loading-text");
+			statusText.setAttribute("value", FEED_GETTER.strings.getFormattedString("feedbar.statusText", [ (feedIndex+1), FEED_GETTER.feedsToFetch.length, feed.name ]));
+			statusText.setAttribute("tooltiptext", url);
+			statusText.setAttribute("url", url);
+		}
 		
 		var req = new XMLHttpRequest();
 		// req.overrideMimeType("application/xml");
@@ -267,21 +267,21 @@ var FEED_GETTER = {
 			FEED_GETTER.addError(feed.name, url, e.name, 3);
 			setTimeoutForNext();
 		}
-    },
+	},
 	
 	sidebarPing : function () {
-//	    if (this.prefs.getBoolPref("runInSidebar")) {
-  //  	    FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
-    //    }
-    
-	    if (FEED_GETTER.rapidUpdate) {
-    	    var win = FEED_GETTER.feedWindow;
+//		if (this.prefs.getBoolPref("runInSidebar")) {
+  //  		FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
+	//	}
 	
-    		if (win && win.FEEDSIDEBAR) {
-    			win.document.getElementById("stop-button").setAttribute("disabled","false");
-    			win.document.getElementById("reload-button").setAttribute("disabled","true");
-    		}
-    	}
+		if (FEED_GETTER.rapidUpdate) {
+			var win = FEED_GETTER.feedWindow;
+	
+			if (win && win.FEEDSIDEBAR) {
+				win.document.getElementById("stop-button").setAttribute("disabled","false");
+				win.document.getElementById("reload-button").setAttribute("disabled","true");
+			}
+		}
 	},
 	
 	sidebarPung : function () {
@@ -291,17 +291,17 @@ var FEED_GETTER = {
 	},
 	
 	updateAllFeeds : function () {
-	    FEED_GETTER.rapidUpdate = FEED_GETTER.feedsToFetch.length;
-	    FEED_GETTER.updateAFeed();
-	    
+		FEED_GETTER.rapidUpdate = FEED_GETTER.feedsToFetch.length;
+		FEED_GETTER.updateAFeed();
+		
 		var win = FEED_GETTER.feedWindow;
 		
 		if (win && win.FEEDSIDEBAR) {
 			win.document.getElementById("stop-button").setAttribute("disabled","false");
 			win.document.getElementById("reload-button").setAttribute("disabled","true");
 		}
-    },
-    
+	},
+	
 	updateSingleFeed : function (livemarkId) {
 		var livemarkService = Components.classes["@mozilla.org/browser/livemark-service;2"]
 								.getService(Components.interfaces.nsILivemarkService);
@@ -312,7 +312,7 @@ var FEED_GETTER = {
 		FEED_GETTER.feedsToFetch.push({ name : feedName, feed : feedURL });
 		FEED_GETTER.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : livemarkId, uri : feedURL };
 
-	    FEED_GETTER.updateAFeed(FEED_GETTER.feedsToFetch.length - 1);
+		FEED_GETTER.updateAFeed(FEED_GETTER.feedsToFetch.length - 1);
 	},
 	
 	stopUpdate : function () {
@@ -366,30 +366,30 @@ var FEED_GETTER = {
 	},
 	
 	setReloadInterval : function (minutes) {
-    	clearTimeout(FEED_GETTER.feedUpdateTimeout);
-    	
-    	var numFeeds = FEED_GETTER.feedsToFetch.length;
+		clearTimeout(FEED_GETTER.feedUpdateTimeout);
+		
+		var numFeeds = FEED_GETTER.feedsToFetch.length;
 		var interval = minutes;
 		
 		if (numFeeds == 0) {
-		    numFeeds = interval;
+			numFeeds = interval;
 		}
 		
 		FEED_GETTER.secondsBetweenFeeds = Math.ceil((interval * 60) / numFeeds);
-        
-        // Check if it's been more than $minutes minutes since the last full update.
-	    var lastUpdate = this.prefs.getIntPref("lastUpdate") * 1000; 
-	    var now = new Date().getTime();
-	    
-	    var minutesSince = (now - lastUpdate) / 1000 / 60;
-	    
-	    if ((minutes != 0) && (minutesSince > minutes)) {
-	        FEED_GETTER.updateAllFeeds();
-        }
-        else {
-    	    FEED_GETTER.updateAFeed();
-        }
-    },
+		
+		// Check if it's been more than $minutes minutes since the last full update.
+		var lastUpdate = this.prefs.getIntPref("lastUpdate") * 1000; 
+		var now = new Date().getTime();
+		
+		var minutesSince = (now - lastUpdate) / 1000 / 60;
+		
+		if ((minutes != 0) && (minutesSince > minutes)) {
+			FEED_GETTER.updateAllFeeds();
+		}
+		else {
+			FEED_GETTER.updateAFeed();
+		}
+	},
 	
 	history : {
 		isVisitedURL : function(url, guid){
@@ -423,7 +423,7 @@ var FEED_GETTER = {
 	},
 
 	online : function () {
-	    FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
+		FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
 	},
 
 	offline : function () {
@@ -472,14 +472,14 @@ var FEED_GETTER = {
 	getDB : function () {
 		if (!this.theFile) {
 			this.theFile = Components.classes["@mozilla.org/file/directory_service;1"]
-		                     .getService(Components.interfaces.nsIProperties)
-		                     .get("ProfD", Components.interfaces.nsIFile);
+							 .getService(Components.interfaces.nsIProperties)
+							 .get("ProfD", Components.interfaces.nsIFile);
 			this.theFile.append("feedbar.sqlite");
 		}
 		
 		if (!this.theDB) {
 			this.theDB = Components.classes["@mozilla.org/storage/service;1"]
-		                 .getService(Components.interfaces.mozIStorageService).openDatabase(this.theFile);
+						 .getService(Components.interfaces.mozIStorageService).openDatabase(this.theFile);
 		}
 		
 		return this.theDB;
@@ -533,20 +533,20 @@ var FEED_GETTER = {
 			}
 		};
 		
-        try {
-            if (!image) image = "chrome://feedbar/skin/icons/notify-icon.png";
+		try {
+			if (!image) image = "chrome://feedbar/skin/icons/notify-icon.png";
 
-            var alertsService = Components.classes["@mozilla.org/alerts-service;1"]
-                .getService(Components.interfaces.nsIAlertsService);
-            alertsService.showAlertNotification(
-                image, 
-                title,
-                text,
-                true, 
-                "", 
+			var alertsService = Components.classes["@mozilla.org/alerts-service;1"]
+				.getService(Components.interfaces.nsIAlertsService);
+			alertsService.showAlertNotification(
+				image, 
+				title,
+				text,
+				true, 
+				"", 
 				listener);
-        } catch (notAvailable) { }
-    }
+		} catch (notAvailable) { }
+	}
 };
 
 function FeedbarParseListener() {
@@ -741,9 +741,9 @@ FeedbarParseListener.prototype = {
 		
 		if (unread > FEED_GETTER.newItemCountPre) {
 			if (FEED_GETTER.prefs.getBoolPref("notify")) {
-			    var newItems = unread - FEED_GETTER.newItemCountPre;
-			    
-			    if (newItems == 1) {
+				var newItems = unread - FEED_GETTER.newItemCountPre;
+				
+				if (newItems == 1) {
 					var titleString = feedObject.label;
 					var bodyString = feedObject.items[0].label;
 //					var bodyString = FEED_GETTER.strings.getString("feedbar.newItemBody");
@@ -755,7 +755,7 @@ FeedbarParseListener.prototype = {
 					
 				FEED_GETTER.growl(titleString, bodyString, feedObject.image);
 			}
-	    }
+		}
 	
 		delete unread;
 		delete feedObject;

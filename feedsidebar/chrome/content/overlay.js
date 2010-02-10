@@ -75,11 +75,11 @@ var FEEDBAR = {
 		return false;
 	},
 	
-    isSeparator : function (idx){
+	isSeparator : function (idx){
 		return false;
 	},
 	
-    isSorted : function(){
+	isSorted : function(){
 		return false;
 	},
 	
@@ -107,7 +107,7 @@ var FEEDBAR = {
 		return -1;
 	},
 	
-    getLevel: function (idx) {
+	getLevel: function (idx) {
 		if (this.isContainer(idx)) return 0;
 		else return 1;
 	},
@@ -332,7 +332,7 @@ var FEEDBAR = {
 		return itemStillExists;
 	},
 	
-    getImageSrc: function(idx){ 
+	getImageSrc: function(idx){ 
 		if (this.isContainer(idx)) {
 			return "chrome://feedbar/content/skin-common/folder.png";
 		}
@@ -403,30 +403,30 @@ var FEEDBAR = {
 	isSorting : false,
 	
 	sort : function (sortType, selectedByUser) {
-	    if (this.isSorting) {
-	        return;
-	    }
-	    
-	    this.isSorting = true;
-	    
-	    if (!sortType) sortType = this.prefs.getCharPref("lastSort");
-	    
-	    if (selectedByUser) {
-	        if (sortType == this.prefs.getCharPref("lastSort")) {
-	            if (sortType.indexOf("-desc") != -1) {
-	                sortType = sortType.replace("-desc", "");
-	            }
-	            else {
-	                sortType = sortType + "-desc";
-	            }
-            }
-	    }
-	    
-	    this.prefs.setCharPref("lastSort", sortType);
-	    
-        // Collapse all the containers.
+		if (this.isSorting) {
+			return;
+		}
+		
+		this.isSorting = true;
+		
+		if (!sortType) sortType = this.prefs.getCharPref("lastSort");
+		
+		if (selectedByUser) {
+			if (sortType == this.prefs.getCharPref("lastSort")) {
+				if (sortType.indexOf("-desc") != -1) {
+					sortType = sortType.replace("-desc", "");
+				}
+				else {
+					sortType = sortType + "-desc";
+				}
+			}
+		}
+		
+		this.prefs.setCharPref("lastSort", sortType);
+		
+		// Collapse all the containers.
 		var len = this.visibleData.length;
-        
+		
 		for (var i = 0; i < len; i++) {
 			if (this.isContainer(i)) {
 				if (this.isContainerOpen(i)) {
@@ -435,52 +435,52 @@ var FEEDBAR = {
 					len = this.visibleData.length;
 				}
 				else {
-				    this.visibleData[i].shouldBeOpen = false;
-			    }
+					this.visibleData[i].shouldBeOpen = false;
+				}
 			}
 		}
 		
 		var multiplier = 1;
 		
 		// Define the sorting function.
-	    switch (sortType) {
-	        case 'default-desc':
-	            multiplier = -1;
-	        case 'default':
-	            function sorter(a, b) {
-	                if (a.livemarkId < b.livemarkId) {
-	                    return -1 * multiplier;
-	                }
-	                
-	                return 1 * multiplier;
-                }
-	        break;
-	        case 'updated-desc':
-	            multiplier = -1;
-	        case 'updated':
-    	        function sorter(a, b) {
-    	            if (b.lastUpdated < a.lastUpdated) {
-    	                return -1 * multiplier;
-    	            }
-    	            
-    	            return 1 * multiplier;
-    	        }
-	        break;
-	        case 'name-desc':
-	            multiplier = -1;
-	        case 'name':
-	        default:
-    			function sorter(a, b) {
-    			    if (a.label.toLowerCase() < b.label.toLowerCase()) {
-    			        return -1 * multiplier;
-    			    }
+		switch (sortType) {
+			case 'default-desc':
+				multiplier = -1;
+			case 'default':
+				function sorter(a, b) {
+					if (a.livemarkId < b.livemarkId) {
+						return -1 * multiplier;
+					}
+					
+					return 1 * multiplier;
+				}
+			break;
+			case 'updated-desc':
+				multiplier = -1;
+			case 'updated':
+				function sorter(a, b) {
+					if (b.lastUpdated < a.lastUpdated) {
+						return -1 * multiplier;
+					}
+					
+					return 1 * multiplier;
+				}
+			break;
+			case 'name-desc':
+				multiplier = -1;
+			case 'name':
+			default:
+				function sorter(a, b) {
+					if (a.label.toLowerCase() < b.label.toLowerCase()) {
+						return -1 * multiplier;
+					}
 
-    		        return 1 * multiplier;
-    		    }
-	        break;
-        }
-        
-        // Sort just the containers.
+					return 1 * multiplier;
+				}
+			break;
+		}
+		
+		// Sort just the containers.
 		this.visibleData.sort(sorter);
 		
 		// Uncollapse the containers that were not collapsed
@@ -489,15 +489,15 @@ var FEEDBAR = {
 		try { this.treeBox.invalidateRange(0, len); } catch (sidebarNotOpen) { }
 		
 		for (var i = len - 1; i >= 0; i--) {
-		    if (this.visibleData[i].shouldBeOpen) {
-		        this.visibleData[i].shouldBeOpen = false;
-		        this.toggleOpenState(i);
-		    }
-	    }
-        
+			if (this.visibleData[i].shouldBeOpen) {
+				this.visibleData[i].shouldBeOpen = false;
+				this.toggleOpenState(i);
+			}
+		}
+		
 		this.isSorting = false;
-    },
-    
+	},
+	
 	_batchCount : 0,
 	db : null,
 	
@@ -582,70 +582,70 @@ var FEEDBAR = {
 		
 		if (hasVisible) {
 			if (folderIdx < 0) {
-			    var sortType = this.prefs.getCharPref("lastSort");
-			    var toPush = { "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : " " + feedObject.label.replace(/^\s+/g, ""), "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri, "siteUri" : feedObject.siteUri, "description" : feedObject.description, "image" : feedObject.image, "lastUpdated": FEEDBAR.childData[feedObject.id].items[0].published, "lastRedrawn" : new Date().getTime() };
+				var sortType = this.prefs.getCharPref("lastSort");
+				var toPush = { "id" : feedObject.id, "livemarkId" : feedObject.livemarkId, "label" : " " + feedObject.label.replace(/^\s+/g, ""), "isContainer" : true, "isOpen" : false, "uri" : feedObject.uri, "siteUri" : feedObject.siteUri, "description" : feedObject.description, "image" : feedObject.image, "lastUpdated": FEEDBAR.childData[feedObject.id].items[0].published, "lastRedrawn" : new Date().getTime() };
 			
 				if (numUnread) {
-                	toPush.numUnread = numUnread;
+					toPush.numUnread = numUnread;
 				}
 
-        		var multiplier = 1;
+				var multiplier = 1;
 
-        		// Define the sorting function.
-        	    switch (sortType) {
-        	        case 'default-desc':
-        	            multiplier = -1;
-        	        case 'default':
-        	            function sorter(a, b) {
-        	                if (a.livemarkId < b.livemarkId) {
-        	                    return -1 * multiplier;
-        	                }
+				// Define the sorting function.
+				switch (sortType) {
+					case 'default-desc':
+						multiplier = -1;
+					case 'default':
+						function sorter(a, b) {
+							if (a.livemarkId < b.livemarkId) {
+								return -1 * multiplier;
+							}
 
-        	                return 1 * multiplier;
-                        }
-        	        break;
-        	        case 'updated-desc':
-        	            multiplier = -1;
-        	        case 'updated':
-            	        function sorter(a, b) {
-            	            if (b.lastUpdated < a.lastUpdated) {
-            	                return -1 * multiplier;
-            	            }
+							return 1 * multiplier;
+						}
+					break;
+					case 'updated-desc':
+						multiplier = -1;
+					case 'updated':
+						function sorter(a, b) {
+							if (b.lastUpdated < a.lastUpdated) {
+								return -1 * multiplier;
+							}
 
-            	            return 1 * multiplier;
-            	        }
-        	        break;
-        	        case 'name-desc':
-        	            multiplier = -1;
-        	        case 'name':
-        	        default:
-            			function sorter(a, b) {
-            			    if (a.label.toLowerCase() < b.label.toLowerCase()) {
-            			        return -1 * multiplier;
-            			    }
+							return 1 * multiplier;
+						}
+					break;
+					case 'name-desc':
+						multiplier = -1;
+					case 'name':
+					default:
+						function sorter(a, b) {
+							if (a.label.toLowerCase() < b.label.toLowerCase()) {
+								return -1 * multiplier;
+							}
 
-            		        return 1 * multiplier;
-            		    }
-        	        break;
-                }
-                
-                var inserted = false;
-                
-                var i = 0;
-                
-                for (i = 0; i < this.visibleData.length; i++) {
-                    if (this.isContainer(i) && sorter(toPush, this.visibleData[i]) <= 0) {
-        				this.visibleData.splice(i, 0, toPush);
-        				inserted = true;
-                        break;
-                    }
-                }
-                
-                if (!inserted) {
-                    this.visibleData.push(toPush);
-                    i = this.visibleData.length - 1;
-                }
-                
+							return 1 * multiplier;
+						}
+					break;
+				}
+				
+				var inserted = false;
+				
+				var i = 0;
+				
+				for (i = 0; i < this.visibleData.length; i++) {
+					if (this.isContainer(i) && sorter(toPush, this.visibleData[i]) <= 0) {
+						this.visibleData.splice(i, 0, toPush);
+						inserted = true;
+						break;
+					}
+				}
+				
+				if (!inserted) {
+					this.visibleData.push(toPush);
+					i = this.visibleData.length - 1;
+				}
+				
 				try { this.treeBox.rowCountChanged(i, 1); } catch (sidebarNotOpen) { }
 				folderIdx = i;
 			}
@@ -727,36 +727,36 @@ var FEEDBAR = {
 			var inQuotes = 0;
 			
 			for (var i = 0; i < filterString.length; i++) {
-			    var theChar = filterString.charAt(i);
-			    
-			    if (theChar == "'" || theChar == '"') {
-			        if (inQuotes == theChar) {
-			            inQuotes = false;
-		            }
-		            else if (currentFilter.length == 0 || (currentFilter.length == 1 && (currentFilter == "-"))){
-		                inQuotes = theChar;
-	                }
-	                else {
-	                    currentFilter += theChar;
-	                }
-	            }
-	            else if (theChar == "+" && currentFilter.length == 0) {
-                }
-		        else {
-    		        if (theChar == " "){ 
-    		            if (!inQuotes) {
-    		                filterParts.push(currentFilter);
-    		                currentFilter = "";
-    		                continue;
-    	                }
-    	            }
-    	            
-	                currentFilter += filterString.charAt(i);
-                }
-		    }
-		    
-		    if (currentFilter != "") filterParts.push(currentFilter);
-		    
+				var theChar = filterString.charAt(i);
+				
+				if (theChar == "'" || theChar == '"') {
+					if (inQuotes == theChar) {
+						inQuotes = false;
+					}
+					else if (currentFilter.length == 0 || (currentFilter.length == 1 && (currentFilter == "-"))){
+						inQuotes = theChar;
+					}
+					else {
+						currentFilter += theChar;
+					}
+				}
+				else if (theChar == "+" && currentFilter.length == 0) {
+				}
+				else {
+					if (theChar == " "){ 
+						if (!inQuotes) {
+							filterParts.push(currentFilter);
+							currentFilter = "";
+							continue;
+						}
+					}
+					
+					currentFilter += filterString.charAt(i);
+				}
+			}
+			
+			if (currentFilter != "") filterParts.push(currentFilter);
+			
 			for (var i = 0; i < filterParts.length; i++) {
 				var nomatch = false;
 				
@@ -779,22 +779,22 @@ var FEEDBAR = {
 	},
 	
 	getCellAge : function (idx) {
-	    if (this.isContainer(idx)) {
-	        try {
-	            var redrawnMS = this.visibleData[idx].lastRedrawn;
-	        } catch (e) {
-	            return 100000;
-	        }
-	        
-	        var now = new Date().getTime();
-	        
-	        var age = now - redrawnMS;
-	        
-	        return age;
-        }
-        
-        return false;
-    },
+		if (this.isContainer(idx)) {
+			try {
+				var redrawnMS = this.visibleData[idx].lastRedrawn;
+			} catch (e) {
+				return 100000;
+			}
+			
+			var now = new Date().getTime();
+			
+			var age = now - redrawnMS;
+			
+			return age;
+		}
+		
+		return false;
+	},
 	
 	setCellRead : function (idx, updateUI) {
 		var cellID = this.getCellID(idx);
@@ -1031,15 +1031,15 @@ var FEEDBAR = {
 		}
 		
 		try {
-		    var nativeJSON = Components.classes["@mozilla.org/dom/json;1"]
-                             .createInstance(Components.interfaces.nsIJSON);
-            
-            var file = Components.classes['@mozilla.org/file/directory_service;1']
-                            .getService(Components.interfaces.nsIProperties) //changed by <asqueella@gmail.com>
-                            .get("ProfD", Components.interfaces.nsIFile);
+			var nativeJSON = Components.classes["@mozilla.org/dom/json;1"]
+							 .createInstance(Components.interfaces.nsIJSON);
+			
+			var file = Components.classes['@mozilla.org/file/directory_service;1']
+							.getService(Components.interfaces.nsIProperties) //changed by <asqueella@gmail.com>
+							.get("ProfD", Components.interfaces.nsIFile);
 			file.append("feedbar.cache");
 			
-			var data     = new String();
+			var data	 = new String();
 			var fiStream = Components.classes['@mozilla.org/network/file-input-stream;1']
 							.createInstance(Components.interfaces.nsIFileInputStream);
 			var siStream = Components.classes['@mozilla.org/scriptableinputstream;1']
@@ -1054,7 +1054,7 @@ var FEEDBAR = {
 			unicodeConverter.charset = "UTF-8";
 			data = unicodeConverter.ConvertToUnicode(data);
 			
-		    this.childData = nativeJSON.decode(data);
+			this.childData = nativeJSON.decode(data);
 			this.refreshTree();
 			this.updateNotifier();
 		} catch (e) {
@@ -1101,7 +1101,7 @@ var FEEDBAR = {
 	},
 	
 	showFirstRun : function () {
-	    var version = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager).getItemForID("feedbar@efinke.com").version;
+		var version = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager).getItemForID("feedbar@efinke.com").version;
 
 		if (FEEDBAR.prefs.getCharPref("lastVersion") != version) {
 			FEEDBAR.prefs.setCharPref("lastVersion",version);
@@ -1112,14 +1112,14 @@ var FEEDBAR = {
 		// Ask if they want the trending terms feed.
 		
 		if (!FEEDBAR.prefs.getBoolPref("trendRequest")) {
-            FEEDBAR.prefs.setBoolPref("trendRequest", true);
-            
-		    setTimeout(
-		        function () {
+			FEEDBAR.prefs.setBoolPref("trendRequest", true);
+			
+			setTimeout(
+				function () {
 					window.openDialog("chrome://feedbar/content/one-riot-suggestion.xul", "trends", "chrome,dialog,centerscreen,titlebar,alwaysraised");
-                }, 5000
+				}, 5000
 			);
-        }
+		}
 	},
 	
 	unload : function () {
@@ -1127,8 +1127,8 @@ var FEEDBAR = {
 		
 		try {
 			var file = Components.classes['@mozilla.org/file/directory_service;1']
-                            .getService(Components.interfaces.nsIProperties)
-                            .get("ProfD", Components.interfaces.nsIFile);
+							.getService(Components.interfaces.nsIProperties)
+							.get("ProfD", Components.interfaces.nsIFile);
 			file.append("feedbar.cache");
 
 			var foStream = Components.classes['@mozilla.org/network/file-output-stream;1']
@@ -1136,9 +1136,9 @@ var FEEDBAR = {
 			var flags = 0x02 | 0x08 | 0x20; // wronly | create | truncate
 			foStream.init(file, flags, 0664, 0);
 
-		    var nativeJSON = Components.classes["@mozilla.org/dom/json;1"]
-                             .createInstance(Components.interfaces.nsIJSON);
-            var data = nativeJSON.encode(this.childData);
+			var nativeJSON = Components.classes["@mozilla.org/dom/json;1"]
+							 .createInstance(Components.interfaces.nsIJSON);
+			var data = nativeJSON.encode(this.childData);
 			
 			// Store the data as UTF-8, not the Unicode that JSON outputs.
 			var unicodeConverter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
@@ -1250,8 +1250,8 @@ var FEEDBAR = {
 				}
 				else {
 					// Left-click
-                    if (event.detail != 1 || event.which == 13){
-                        // Single-left-clicks are handled by onselect
+					if (event.detail != 1 || event.which == 13){
+						// Single-left-clicks are handled by onselect
 						FEED_GETTER.feedWindow.clearTimeout(FEEDBAR.previewTimeout);
 						
 						this.launchUrl(this.getCellLink(targetIdx), event);
@@ -1358,8 +1358,8 @@ var FEEDBAR = {
 			var foundOneRiot = false;
 			
 			while (i > 0) {
-			    var itemIdx = folderIdx + i;
-			    
+				var itemIdx = folderIdx + i;
+				
 				if (!navigator.onLine || this.prefs.getBoolPref("showFullPreview")) {
 					this.loadFullPreview(itemIdx, { 'which' : 2, detail : 1}, hideRead);
 				}
@@ -1451,16 +1451,16 @@ var FEEDBAR = {
 	},
 	
 	markFeedAsRead : function (folderIdx, checkRedrawnTime) {
-	    if (checkRedrawnTime) {
-            var age = this.getCellAge(folderIdx);
-            
-            if (age && age < 3000) {
-                // Don't mark any feed that was updated in the last 3 seconds.
-                // ToDo: No need to ignore marking this one if nothing changed the last time it was refreshed.
-                return;
-            }
-        }
-        
+		if (checkRedrawnTime) {
+			var age = this.getCellAge(folderIdx);
+			
+			if (age && age < 3000) {
+				// Don't mark any feed that was updated in the last 3 seconds.
+				// ToDo: No need to ignore marking this one if nothing changed the last time it was refreshed.
+				return;
+			}
+		}
+		
 		var wasOpen = this.isContainerOpen(folderIdx);
 		
 		if (!wasOpen) {
@@ -1512,11 +1512,11 @@ var FEEDBAR = {
 	
 	markAllAsRead : function () {
 		if (this.prefs.getBoolPref("hideReadItems")) {
-		    for (var i = this.visibleData.length - 1; i >= 0; i--) {
+			for (var i = this.visibleData.length - 1; i >= 0; i--) {
 				var item = this.visibleData[i];
 				
-		        if (this.isContainer(i) && item.isOpen) {
-				    this.markFeedAsRead(i, true);
+				if (this.isContainer(i) && item.isOpen) {
+					this.markFeedAsRead(i, true);
 				}
 			}
 		}
@@ -1526,15 +1526,15 @@ var FEEDBAR = {
 			for (var i = 0; i < len; i++) {
 				var item = this.visibleData[i];
 				
-		        if (this.isContainer(i) && item.isOpen) {
+				if (this.isContainer(i) && item.isOpen) {
 					this.markFeedAsRead(i, true);
 				}
 			}
 		}
 		
 		if (this.prefs.getBoolPref("autoClose") && this.prefs.getBoolPref("hideReadItems")) {
-	        // ToDo: Check that all the items were marked as read.
-	        
+			// ToDo: Check that all the items were marked as read.
+			
 			toggleSidebar('feedbar');
 		}
 	},
@@ -1614,14 +1614,14 @@ var FEEDBAR = {
 				selection.parent[0] = BMDS.getParent(selection.item[0]);
 				selection.isContainer = new Array(selection.length);
 				return selection;
-		    }
+			}
 	
-		    function getResource (feedUrl) {
+			function getResource (feedUrl) {
 				var urlArcID = RDF.GetResource("http://home.netscape.com/NC-rdf#ID");
 				var FeedArc = RDF.GetResource("http://home.netscape.com/NC-rdf#FeedURL");
 				
-			    var urlLiteral = RDF.GetLiteral(feedUrl);
-			    var bmResource = BMSVC.GetSources(RDF.GetResource("http://home.netscape.com/NC-rdf#FeedURL"), urlLiteral, true);
+				var urlLiteral = RDF.GetLiteral(feedUrl);
+				var bmResource = BMSVC.GetSources(RDF.GetResource("http://home.netscape.com/NC-rdf#FeedURL"), urlLiteral, true);
 				
 				while (bmResource.hasMoreElements()) {
 					var DuplicateURLresource = bmResource.getNext();
@@ -1738,14 +1738,14 @@ var FEEDBAR = {
 	getDB : function () {
 		if (!this.theFile) {
 			this.theFile = Components.classes["@mozilla.org/file/directory_service;1"]
-		                     .getService(Components.interfaces.nsIProperties)
-		                     .get("ProfD", Components.interfaces.nsIFile);
+							 .getService(Components.interfaces.nsIProperties)
+							 .get("ProfD", Components.interfaces.nsIFile);
 			this.theFile.append("feedbar.sqlite");
 		}
 		
 		if (!this.theDB) {
 			this.theDB = Components.classes["@mozilla.org/storage/service;1"]
-		                 .getService(Components.interfaces.mozIStorageService).openDatabase(this.theFile);
+						 .getService(Components.interfaces.mozIStorageService).openDatabase(this.theFile);
 		}
 		
 		return this.theDB;

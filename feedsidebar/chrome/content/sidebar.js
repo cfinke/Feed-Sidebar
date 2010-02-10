@@ -5,15 +5,15 @@ var FEEDSIDEBAR = {
 	prefs : null,
 	
 	init : function () {
-	    var frame = document.getElementById("content-frame");
-	    
-	    frame.docShell.allowAuth = false;
-        frame.docShell.allowImages = true;
-        frame.docShell.allowJavascript = false;
-        frame.docShell.allowMetaRedirects = false
-        frame.docShell.allowPlugins = false;
-        frame.docShell.allowSubframes = false;
-        
+		var frame = document.getElementById("content-frame");
+		
+		frame.docShell.allowAuth = false;
+		frame.docShell.allowImages = true;
+		frame.docShell.allowJavascript = false;
+		frame.docShell.allowMetaRedirects = false
+		frame.docShell.allowPlugins = false;
+		frame.docShell.allowSubframes = false;
+		
 		FEEDSIDEBAR.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.feedbar.");	
 		FEEDSIDEBAR.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 		FEEDSIDEBAR.prefs.addObserver("", FEEDSIDEBAR, false);
@@ -100,20 +100,20 @@ var FEEDSIDEBAR = {
 		var sortMenus = [ document.getElementById('sort-menu'),document.getElementById('sort-context-menu') ];
 		
 		for (var i = 0; i < sortMenus.length; i++) {
-		    var sortMenu = sortMenus[i];
-		    
-    		var sorts = sortMenu.getElementsByTagName("menuitem");
+			var sortMenu = sortMenus[i];
+			
+			var sorts = sortMenu.getElementsByTagName("menuitem");
 		
-    		for (var i = 0; i < sorts.length; i++){
-    			if (sorts[i].getAttribute("value") == sort){
-    				sorts[i].setAttribute("checked","true");
-    			}
-    			else {
-    				sorts[i].setAttribute("checked","false");
-    			}
-    		}
-    	}
-    },
+			for (var i = 0; i < sorts.length; i++){
+				if (sorts[i].getAttribute("value") == sort){
+					sorts[i].setAttribute("checked","true");
+				}
+				else {
+					sorts[i].setAttribute("checked","false");
+				}
+			}
+		}
+	},
 
 	options : function () {
 		openDialog("chrome://feedbar/content/options.xul", "", "chrome,titlebar,toolbar,centerscreen");
@@ -339,10 +339,10 @@ var FEEDSIDEBAR = {
 			target.innerHTML = "";
 			
 			var fragment = Components.classes["@mozilla.org/feed-unescapehtml;1"]  
-                                      .getService(Components.interfaces.nsIScriptableUnescapeHTML)  
-                                      .parseFragment(descr, false, null, target);
-            target.appendChild(fragment);
-            
+									  .getService(Components.interfaces.nsIScriptableUnescapeHTML)  
+									  .parseFragment(descr, false, null, target);
+			target.appendChild(fragment);
+			
 			if (window.parent.FEEDBAR.isContainer(idx)){
 				var title = window.parent.FEEDBAR.getCellLink(idx).replace(/^\s+|\s+$/g, "");
 				var feedName = window.parent.FEEDBAR.getCellText(idx).replace(/^\s+|\s+$/g, "");

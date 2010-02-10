@@ -17,25 +17,25 @@
 		window.addEventListener("load", function (event) { FEEDSIDEBAR.init(); }, false);
 		window.addEventListener("unload", function (event) { FEEDSIDEBAR.unload(); }, false);
 		
-        function handleBrowserClick(event) {  
-            // Only react to left mouse clicks  
-            if (event.button != 0)  
-                return;  
+		function handleBrowserClick(event) {  
+			// Only react to left mouse clicks  
+			if (event.button != 0)  
+				return;  
 
-            // Default action on link clicks is to go to this link, cancel it  
-            event.preventDefault();  
+			// Default action on link clicks is to go to this link, cancel it  
+			event.preventDefault();  
 
-            if (event.target instanceof HTMLAnchorElement && event.target.href)  {
-                addTab(event.target.href);
-            }
-        }
-        
-        function addTab(url) {
-            var browser = window.parent.gBrowser;
+			if (event.target instanceof HTMLAnchorElement && event.target.href)  {
+				addTab(event.target.href);
+			}
+		}
+		
+		function addTab(url) {
+			var browser = window.parent.gBrowser;
 
-    	    var theTab = browser.addTab(url);
-    	    browser.selectedTab = theTab;
-        }
+			var theTab = browser.addTab(url);
+			browser.selectedTab = theTab;
+		}
 		
 		]]>
 	</script>
@@ -68,11 +68,11 @@
 			<menuitem option="copyLink" label="&feedbar.copyLink;" oncommand="window.parent.FEEDBAR.copyLink();" />
 			<menuseparator />
 			<menu option="sortBy" label="&feedbar.sortBy;">
-			    <menupopup id="sort-context-menu" command="sort">
-			        <menuitem type="radio" name="cm-frequency" value="default" label="&feedbar.sort.default;" />
-			        <menuitem type="radio" name="cm-frequency" value="name" label="&feedbar.sort.name;" />
-			        <menuitem type="radio" name="cm-frequency" value="updated" label="&feedbar.sort.updated;" />
-			    </menupopup>
+				<menupopup id="sort-context-menu" command="sort">
+					<menuitem type="radio" name="cm-frequency" value="default" label="&feedbar.sort.default;" />
+					<menuitem type="radio" name="cm-frequency" value="name" label="&feedbar.sort.name;" />
+					<menuitem type="radio" name="cm-frequency" value="updated" label="&feedbar.sort.updated;" />
+				</menupopup>
 			</menu>
 			<menuseparator />
 			<menuitem option="unsubscribe" label="&feedbar.unsubscribe;" oncommand="window.parent.FEEDBAR.unsubscribe();" />
@@ -114,11 +114,11 @@
 					</menupopup>
 				</toolbarbutton>
 				<toolbarbutton id="downloads-button" class="toolbarbutton-1 chromeclass-toolbar-additional" orient="horizontal" type="menu" tooltiptext="&feedbar.sortBy;">
-				    <menupopup id="sort-menu" command="sort">
-    			        <menuitem type="radio" name="frequency" value="default" label="&feedbar.sort.default;" />
-    			        <menuitem type="radio" name="frequency" value="name" label="&feedbar.sort.name;" />
-    			        <menuitem type="radio" name="frequency" value="updated" label="&feedbar.sort.updated;" />
-				    </menupopup>
+					<menupopup id="sort-menu" command="sort">
+						<menuitem type="radio" name="frequency" value="default" label="&feedbar.sort.default;" />
+						<menuitem type="radio" name="frequency" value="name" label="&feedbar.sort.name;" />
+						<menuitem type="radio" name="frequency" value="updated" label="&feedbar.sort.updated;" />
+					</menupopup>
 				</toolbarbutton>
 				<spacer flex="1" />
 				<toolbarbutton id="search-toggle" checked="false" persist="checked" oncommand="document.getElementById('search-bar').collapsed = !document.getElementById('search-bar').collapsed; this.checked = !document.getElementById('search-bar').collapsed;" />
@@ -136,7 +136,7 @@
 					class="plain"
 					seltype="single"
 					onclick="window.parent.FEEDBAR.onTreeClick(event);"
-                    onkeypress="window.parent.FEEDBAR.onTreeClick(event);"
+					onkeypress="window.parent.FEEDBAR.onTreeClick(event);"
 					onselect="FEEDSIDEBAR.itemSelect(event);"
 					ondblclick="window.parent.FEEDBAR.onTreeDblClick(event);"
 					hidecolumnpicker="true"
@@ -144,7 +144,7 @@
 					<treecols>
 						<treecol id="feedbar_tree_namecol" flex="1" primary="true" hideheader="true"/>
 					</treecols>   
-					<treechildren id="feedbar_tree_container"/>     
+					<treechildren id="feedbar_tree_container"/>	 
 				</tree>
 			</notificationbox>
 			<splitter id="preview-splitter" persist="state" collapsed="true" />
@@ -165,10 +165,10 @@
 				</groupbox>
 			</vbox>
 			<hbox id="feed-sidebar-statusbar">
-    			<statusbarpanel pack="end" align="center" flex="1" style="padding-top: 4px;" id="feedbar-loading-text-container" onclick="window.parent.FEED_GETTER.killCurrentRequest();">
-    				<description id="feedbar-loading-text" value="" onclick="if (this.getAttribute('url')) { addTab(this.getAttribute('url')); }" />
-    			</statusbarpanel>
-    		</hbox>
+				<statusbarpanel pack="end" align="center" flex="1" style="padding-top: 4px;" id="feedbar-loading-text-container" onclick="window.parent.FEED_GETTER.killCurrentRequest();">
+					<description id="feedbar-loading-text" value="" onclick="if (this.getAttribute('url')) { addTab(this.getAttribute('url')); }" />
+				</statusbarpanel>
+			</hbox>
 		</vbox>
 	</vbox>
 </page>

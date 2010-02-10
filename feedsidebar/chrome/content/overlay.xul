@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE overlay SYSTEM "chrome://feedbar/locale/locale.dtd">
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-    <script type="application/x-javascript" src="chrome://feedbar/content/feed_getter.js"></script>
-    <script type="application/x-javascript" src="chrome://global/content/nsDragAndDrop.js"></script>
-    <script type="application/x-javascript" src="chrome://global/content/globalOverlay.js"></script>
-    <script type="application/x-javascript" src="chrome://browser/content/utilityOverlay.js"></script>
+	<script type="application/x-javascript" src="chrome://feedbar/content/feed_getter.js"></script>
+	<script type="application/x-javascript" src="chrome://global/content/nsDragAndDrop.js"></script>
+	<script type="application/x-javascript" src="chrome://global/content/globalOverlay.js"></script>
+	<script type="application/x-javascript" src="chrome://browser/content/utilityOverlay.js"></script>
 	<script type="application/x-javascript" src="chrome://feedbar/content/overlay.js"></script>
 	<script type="application/x-javascript" src="chrome://feedbar/content/bookmark-observer.js"></script>
 	<script type="application/x-javascript">
@@ -25,10 +25,10 @@
 		<stringbundle id="feedbar-string-bundle" src="chrome://feedbar/locale/locale.properties" />
 	</stringbundleset>
 	<toolbarpalette id="BrowserToolbarPalette">
-        <toolbarbutton id="feedbar-button" class="toolbarbutton-1 chromeclass-toolbar-additional"
-                       observes="feedbar"
-                       label="&feedbar.buttonLabel;"
-                       tooltiptext="&feedbar.buttonTooltip;" />
+		<toolbarbutton id="feedbar-button" class="toolbarbutton-1 chromeclass-toolbar-additional"
+					   observes="feedbar"
+					   label="&feedbar.buttonLabel;"
+					   tooltiptext="&feedbar.buttonTooltip;" />
 	</toolbarpalette>
 	<broadcasterset id="mainBroadcasterSet">
 		<broadcaster id="feedbar"
@@ -37,7 +37,7 @@
 			type="checkbox" 
 			group="sidebar"
 			sidebartitle="&feedbar.sidebarTitle;"
-		    sidebarurl="chrome://feedbar/content/sidebar.xul"
+			sidebarurl="chrome://feedbar/content/sidebar.xul"
 			acceltext="Ctrl+Shift+&feedbar.accesskey;"
 			oncommand="toggleSidebar('feedbar');"/>
 	</broadcasterset>
