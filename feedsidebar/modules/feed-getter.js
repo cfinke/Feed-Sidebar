@@ -250,8 +250,6 @@ var FEED_GETTER = {
 	},
 	
 	updateAFeed : function (indexOverride) {
-		FEED_GETTER.log("Updating a feed: " + indexOverride + " " + FEED_GETTER.rapidUpdate + " " + (new Date()));
-		
 		function setTimeoutForNext() {
 			if (FEED_GETTER.rapidUpdate) {
 				var interval = 0.5;
@@ -337,8 +335,6 @@ var FEED_GETTER = {
 		// req.overrideMimeType("application/xml");
 		
 		FEED_GETTER.currentRequest = req;
-		
-		FEED_GETTER.log(url);
 		
 		if (url == FEED_GETTER.trendingNewsUrl) {
 			if (FEED_GETTER.trendingNewsExpiration > (new Date()).getTime()) {
@@ -877,7 +873,6 @@ function FeedbarParseListener() {
 
 FeedbarParseListener.prototype = {
 	handleResult: function(result) {
-		FEED_GETTER.log("in handler");
 		var resolvedUri = result.uri.resolve("");
 		var feedDataKey = resolvedUri.toLowerCase();
 		
@@ -885,21 +880,21 @@ FeedbarParseListener.prototype = {
 			FEED_GETTER.addError(FEED_GETTER.feedData[feedDataKey].name, resolvedUri, FEED_GETTER.strings.getString("feedbar.errors.parseError"), 5);
 			return;
 		}
-		FEED_GETTER.log("in handler1");
+		
 		var feed = result.doc;
 		
 		if (!feed) {
 			FEED_GETTER.addError(FEED_GETTER.feedData[feedDataKey].name, resolvedUri, FEED_GETTER.strings.getString("feedbar.errors.invalidUrl"), 5);
 			return;
 		}
-		FEED_GETTER.log("in handler2");
+		
 		try {
 			feed.QueryInterface(Components.interfaces.nsIFeed);
 		} catch (e) {
 			FEED_GETTER.addError(FEED_GETTER.feedData[feedDataKey].name, resolvedUri, FEED_GETTER.strings.getString("feedbar.errors.invalidFeed"), 5);
 			return;
 		}
-		FEED_GETTER.log("in handler3");
+		
 		var feedObject = {
 			label : "",
 			image : "",
@@ -913,10 +908,9 @@ FeedbarParseListener.prototype = {
 		
 		feedObject.id = resolvedUri;
 		feedObject.uri = resolvedUri;
-		FEED_GETTER.log("in handler4a");
-		FEED_GETTER.log(feedObject.uri.toLowerCase());
+		
 		feedObject.livemarkId = FEED_GETTER.feedData[feedObject.uri.toLowerCase()].bookmarkId;
-		FEED_GETTER.log("in handler4");
+		
 		try {
 			feedObject.siteUri = feed.link.resolve("");
 		} catch (e) {
@@ -928,7 +922,7 @@ FeedbarParseListener.prototype = {
 		} catch (e) {
 			feedObject.label = feed.title.plainText();
 		}
-		FEED_GETTER.log("in handler5");
+		
 		if (!feedObject.label) {
 			feedObject.label = feed.title.plainText();
 		}
@@ -945,11 +939,11 @@ FeedbarParseListener.prototype = {
 		else {
 			feedObject.description = FEED_GETTER.strings.getString("feedbar.noSummary");
 		}
-		FEED_GETTER.log("in handler6");
+		
 		feedObject.image = feedObject.siteUri.substr(0, (feedObject.siteUri.indexOf("/", 9) + 1)) + "favicon.ico";
 		
 		var numItems = feed.items.length;
-		FEED_GETTER.log("in handler7");
+		
 		for (var i = 0; i < numItems; i++) {
 			var item = feed.items.queryElementAt(i, Components.interfaces.nsIFeedEntry);
 			
@@ -1062,8 +1056,6 @@ FeedbarParseListener.prototype = {
 			delete item;
 			delete itemObject;
 		}
-		FEED_GETTER.log("in handler83");
-		FEED_GETTER.log(feedObject.toSource());
 		
 		FEEDBAR.push(feedObject);
 		
