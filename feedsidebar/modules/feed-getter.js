@@ -1,31 +1,82 @@
+Components.utils.import("resource://feedbar-modules/treeview.js"); 
+
 var FEED_GETTER = {
-	get strings() { return document.getElementById("feedbar-string-bundle"); },
+	trendingNewsUrl : "http://api.ads.oneriot.com/search?appId=86f2f5da-3b24-4a87-bbb3-1ad47525359d&version=1.1&format=XML",
+	trendingNewsExpiration : 0,
 	
-	get feedWindow() { 
-		try {
-			var sidebar = document.getElementById("sidebar-box");
+	get strings() { 
+		return {
+			getString : function (key) {
+				var bundle = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService)
+				             .createBundle("chrome://feedbar/locale/locale.properties");
+				
+				return bundle.GetStringFromName(key);
+			},
 			
-			if (!sidebar.getAttribute("hidden") && sidebar.getAttribute("sidebarcommand") == 'feedbar'){
-				return document.getElementById("sidebar").contentWindow;
+			getFormattedString : function (key, args) {
+				var bundle = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService)
+				             .createBundle("chrome://feedbar/locale/locale.properties");
+				
+				return bundle.formatStringFromName(key, args, args.length);
 			}
+		};
+	},
+	
+	get feedWindows() { 
+		var sidebars = [];
+		
+		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+		                   .getService(Components.interfaces.nsIWindowMediator);
+		
+		var enumerator = wm.getEnumerator("navigator:browser");
+		
+		while (enumerator.hasMoreElements()) {
+			var win = enumerator.getNext();
 			
-			return null;
-		} catch (e) {
-			logFeedbarMsg("ERROR IN get feedWindow: " + e);
+			try {
+				var sidebar = win.document.getElementById("sidebar-box");
+			
+				if (!sidebar.getAttribute("hidden") && sidebar.getAttribute("sidebarcommand") == 'feedbar'){
+					sidebars.push(win.document.getElementById("sidebar").contentWindow);
+				}
+			} catch (e) {
+				FEED_GETTER.log("ERROR IN get feedWindow: " + e);
+			}
 		}
+		
+		return sidebars;
+	},
+	
+	get windows() {
+		var windows = [];
+		
+		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+		                   .getService(Components.interfaces.nsIWindowMediator);
+		
+		var enumerator = wm.getEnumerator("navigator:browser");
+		
+		while (enumerator.hasMoreElements()) {
+			windows.push(enumerator.getNext());
+		}
+		
+		return windows;
+	},
+	
+	get window() {
+		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+		                   .getService(Components.interfaces.nsIWindowMediator);
+		return wm.getMostRecentWindow("navigator:browser");
 	},
 	
 	sidebarIsOpen : function () {
-		var sidebar = document.getElementById("sidebar-box");
+		var wins = FEED_GETTER.feedWindows;
 		
-		if (!sidebar.getAttribute("hidden") && sidebar.getAttribute("sidebarcommand") == 'feedbar'){
+		if (wins.length >= 1) {
 			return true;
 		}
 		
 		return false;
 	},
-	
-	ta : null,
 	
 	prefs : null,
 	missedUpdate : false,
@@ -38,19 +89,35 @@ var FEED_GETTER = {
 	
 	consecutiveFailures : 0,
 	
-	init : function () {
-		FEED_GETTER.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.feedbar.");	
-		FEED_GETTER.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
-		FEED_GETTER.prefs.addObserver("", FEED_GETTER, false);
+	loadStack : 0,
+	
+	load : function () {
+		FEED_GETTER.loadStack++;
 		
-		FEED_GETTER.startFetchingFeeds();
+		if (FEED_GETTER.loadStack == 1) {
+			FEED_GETTER.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.feedbar.");	
+			FEED_GETTER.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
+			FEED_GETTER.prefs.addObserver("", FEED_GETTER, false);
+			
+			var bmsvc = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
+			bmsvc.addObserver(FEED_GETTER, false);
+		
+			FEED_GETTER.startFetchingFeeds();
+		}
 	},
 	
 	unload : function () {
-		FEED_GETTER.killCurrentRequest();
-		FEED_GETTER.prefs.removeObserver("", FEED_GETTER);
+		FEED_GETTER.loadStack--;
 		
-		this.closeDB();
+		if (FEED_GETTER.loadStack == 0) {
+			FEED_GETTER.killCurrentRequest();
+			FEED_GETTER.prefs.removeObserver("", FEED_GETTER);
+			
+			var bmsvc = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
+			bmsvc.removeObserver(FEED_GETTER);
+			
+			FEED_GETTER.closeDB();
+		}
 	},
 	
 	observe : function(subject, topic, data) {
@@ -66,6 +133,25 @@ var FEED_GETTER = {
 				
 				FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
 			break;
+		}
+	},
+	
+	setTimeout : function (callback, timeout, arg1, arg2, arg3, arg4) {
+		var cb = {
+			notify : function (timer) {
+				callback(arg1, arg2, arg3, arg4);
+			}
+		};
+		
+		var timer = Components.classes["@mozilla.org/timer;1"]
+		            .createInstance(Components.interfaces.nsITimer);
+		timer.initWithCallback(cb, timeout, timer.TYPE_ONE_SHOT);
+		return timer;
+	},
+	
+	clearTimeout : function (timer) {
+		if (timer) {
+			timer.cancel();
 		}
 	},
 	
@@ -86,18 +172,39 @@ var FEED_GETTER = {
 
 		for (var i = 0; i < livemarkIds.length; i++){
 			var feedURL = livemarkService.getFeedURI(livemarkIds[i]).spec;
-			var feedName = bookmarkService.getItemTitle(livemarkIds[i]);
-			FEED_GETTER.feedsToFetch.push({ name : feedName, feed : feedURL });
-			FEED_GETTER.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : livemarkIds[i], uri : feedURL };
+			
+			if (feedURL == "http://www.oneriot.com/rss/trendingtopics?&spid=86f2f5da-3b24-4a87-bbb3-1ad47525359d&p=feed-sidebar&ssrc=sidebar") {
+				// This is the old trending news feed. Use the new subscription method.
+				FEED_GETTER.prefs.setBoolPref("trendingNews", true);
+				
+				var bookmarkService = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
+				bookmarkService.removeFolder(livemarkIds[i]);
+			}
+			else {
+				var feedName = bookmarkService.getItemTitle(livemarkIds[i]);
+			
+				FEED_GETTER.feedsToFetch.push({ name : feedName, feed : feedURL });
+				FEED_GETTER.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : livemarkIds[i], uri : feedURL };
+			}
+		}
+		
+		if (FEED_GETTER.prefs.getBoolPref("trendingNews")) {
+			FEED_GETTER.feedsToFetch.unshift(
+				{
+					"name" : "Trending News",
+					"feed" : FEED_GETTER.trendingNewsUrl,
+					"livemarkId" : -1
+				}
+			);
+			
+			FEED_GETTER.feedData[FEED_GETTER.trendingNewsUrl.toLowerCase()] = { name : "Trending News", bookmarkId : -1, uri : FEED_GETTER.trendingNewsUrl };
 		}
 		
 		if (FEED_GETTER.feedsToFetch.length == 0) {
 			FEED_GETTER.notifyNoFeeds();
 		}
 		
-		setTimeout(function () {
-			FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
-		}, 5000);
+		FEED_GETTER.setTimeout(FEED_GETTER.setReloadInterval, 5000, FEED_GETTER.prefs.getIntPref("updateFrequency"));
 	},
 	
 	removeAFeed : function (livemarkId) {
@@ -123,18 +230,28 @@ var FEED_GETTER = {
 	
 	rapidUpdate : 0,
 	
-	clearStatusText : function () {
-		var win = FEED_GETTER.feedWindow;
+	setStatusText : function (label, tooltiptext, url) {
+		if (!label) label = "";
 		
-		if (win) {
+		var wins = FEED_GETTER.feedWindows;
+		
+		for (var i = 0; i < wins.length; i++) {
+			var win = wins[i];
+			
 			var statusText = win.document.getElementById("feedbar-loading-text")
-			statusText.setAttribute("value", "");
-			statusText.setAttribute("tooltiptext", "");
-			statusText.setAttribute("url", "");
+			statusText.setAttribute("value", label);
+			statusText.setAttribute("tooltiptext", tooltiptext);
+			statusText.setAttribute("url", url);
 		}
 	},
 	
+	clearStatusText : function () {
+		FEED_GETTER.setStatusText();
+	},
+	
 	updateAFeed : function (indexOverride) {
+		FEED_GETTER.log("Updating a feed: " + indexOverride + " " + FEED_GETTER.rapidUpdate + " " + (new Date()));
+		
 		function setTimeoutForNext() {
 			if (FEED_GETTER.rapidUpdate) {
 				var interval = 0.5;
@@ -150,30 +267,31 @@ var FEED_GETTER = {
 				}
 			}
 			
-			FEED_GETTER.feedUpdateTimeout = setTimeout(function () { FEED_GETTER.updateAFeed(); }, interval * 1000);
+			FEED_GETTER.feedUpdateTimeout = FEED_GETTER.setTimeout(FEED_GETTER.updateAFeed, interval * 1000);
 		}
 		
-		clearTimeout(FEED_GETTER.feedUpdateTimeout);
-		clearTimeout(FEED_GETTER.statusTextTimeout);
+		FEED_GETTER.clearTimeout(FEED_GETTER.feedUpdateTimeout);
+		FEED_GETTER.clearTimeout(FEED_GETTER.statusTextTimeout);
 		
-		var win = FEED_GETTER.feedWindow;
+		var win = FEED_GETTER.window;
 		
-		if (!navigator.onLine || 
+		if (!win) var online = false;
+		else var online = win.navigator.onLine;
+		
+		if (!online || 
 			FEED_GETTER.feedsToFetch.length == 0 ||
 			(!FEED_GETTER.rapidUpdate && FEED_GETTER.secondsBetweenFeeds == 0) ||
 			(FEED_GETTER.prefs.getBoolPref("runInSidebar") && !FEED_GETTER.sidebarIsOpen())
 			){
 			if (!indexOverride) {
-				if (win && win.FEEDSIDEBAR) {
-					FEED_GETTER.clearStatusText();
-				
-					if (!navigator.onLine) {
-						statusText.setAttribute("value", FEED_GETTER.strings.getString("feedbar.workingOffline"));
-					}
+				FEED_GETTER.clearStatusText();
+			
+				if (!online) {
+					FEED_GETTER.setStatusText(FEED_GETTER.strings.getString("feedbar.workingOffline"));
 				}
 			
 				setTimeoutForNext();
-				
+			
 				return;
 			}
 		}
@@ -189,7 +307,8 @@ var FEED_GETTER = {
 		if (FEED_GETTER.feedIndex >= FEED_GETTER.feedsToFetch.length) {
 			FEED_GETTER.feedIndex = 0;
 		}
-				
+		
+		var wins = FEED_GETTER.getWindows;
 		FEED_GETTER.newItemCountPre = FEEDBAR.numUnreadItems();
 		
 		var feedIndex = FEED_GETTER.feedIndex;
@@ -202,32 +321,43 @@ var FEED_GETTER = {
 		}
 		
 		if (feedIndex == 0) {
-			this.prefs.setIntPref("lastUpdate", Math.round(new Date().getTime() / 1000));
+			FEED_GETTER.prefs.setIntPref("lastUpdate", Math.round(new Date().getTime() / 1000));
 		}
 		
 		var feed = FEED_GETTER.feedsToFetch[feedIndex];
 		
 		var url = feed.feed;
 		
-		if (win && win.FEEDSIDEBAR) {
-			var statusText = win.document.getElementById("feedbar-loading-text");
-			statusText.setAttribute("value", FEED_GETTER.strings.getFormattedString("feedbar.statusText", [ (feedIndex+1), FEED_GETTER.feedsToFetch.length, feed.name ]));
-			statusText.setAttribute("tooltiptext", url);
-			statusText.setAttribute("url", url);
-		}
+		FEED_GETTER.setStatusText(FEED_GETTER.strings.getFormattedString("feedbar.statusText", [ (feedIndex+1), FEED_GETTER.feedsToFetch.length, feed.name ]), url, url);
 		
-		var req = new XMLHttpRequest();
+		var req = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
+		                    .createInstance(Components.interfaces.nsIXMLHttpRequest);
+		req.parent = FEED_GETTER;
+		
 		// req.overrideMimeType("application/xml");
 		
 		FEED_GETTER.currentRequest = req;
+		
+		FEED_GETTER.log(url);
+		
+		if (url == FEED_GETTER.trendingNewsUrl) {
+			if (FEED_GETTER.trendingNewsExpiration > (new Date()).getTime()) {
+				FEED_GETTER.statusTextTimeout = FEED_GETTER.setTimeout(FEED_GETTER.clearStatusText, 1000);
+				setTimeoutForNext();
+			
+				return;
+			}
+			
+			req.overrideMimeType("text/xml");
+		}
 		
 		try {
 			req.open("GET", url, true);
 			
 			req.onreadystatechange = function (event) {
 				if (req.readyState == 4) {
-					clearTimeout(FEED_GETTER.loadTimer);
-					FEED_GETTER.statusTextTimeout = setTimeout(function () { FEED_GETTER.clearStatusText(); }, 5000);
+					FEED_GETTER.clearTimeout(FEED_GETTER.loadTimer);
+					FEED_GETTER.statusTextTimeout = FEED_GETTER.setTimeout(FEED_GETTER.clearStatusText, 5000);
 					
 					FEED_GETTER.currentRequest = null;
 					setTimeoutForNext();
@@ -238,12 +368,17 @@ var FEED_GETTER = {
 							
 							var feedOb = null;
 							
-							try {
-								// Trim it.
-								FEED_GETTER.queueForParsing(req.responseText.replace(/^\s\s*/, '').replace(/\s\s*$/, ''), url);
-							} catch (e) {
-								// Parse error
-								FEED_GETTER.addError(feed.name, url, e.message, 5);
+							if (url == FEED_GETTER.trendingNewsUrl) {
+								req.parent.parseTrendingNews(req.responseXML, url);
+							}
+							else {
+								try {
+									// Trim it.
+									FEED_GETTER.queueForParsing(req.responseText.replace(/^\s\s*/, '').replace(/\s\s*$/, ''), url);
+								} catch (e) {
+									// Parse error
+									FEED_GETTER.addError(feed.name, url, e.message, 5);
+								}
 							}
 						}
 						else {
@@ -261,7 +396,7 @@ var FEED_GETTER = {
 			};
 			
 			req.send(null);
-			FEED_GETTER.loadTimer = setTimeout(FEED_GETTER.killCurrentRequest, 1000 * 15);
+			FEED_GETTER.loadTimer = FEED_GETTER.setTimeout(FEED_GETTER.killCurrentRequest, 1000 * 15);
 		}
 		catch (e) {
 			FEED_GETTER.addError(feed.name, url, e.name, 3);
@@ -269,17 +404,124 @@ var FEED_GETTER = {
 		}
 	},
 	
+	parseTrendingNews : function (xml, url) {
+		// Cache for an hour.
+		var cache = 60;// xml.getElementsByTagName("max-age")[0].textContent;
+		FEED_GETTER.trendingNewsExpiration = (new Date()).getTime() + (cache * 60 * 1000);
+		
+		var listener = new FeedbarParseListener();
+		
+		var result = {
+			bozo : false,
+			
+			doc : {
+				QueryInterface : function () { },
+				
+				link : {
+					resolve : function () {
+						return "http://www.oneriot.com/";
+					}
+				},
+				
+				title : {
+					plainText : function () {
+						return "Trending News";
+					}
+				},
+				
+				summary : {
+					text : "Trending news courtesy of Feed Sidebar"
+				},
+				
+				items : {
+					get length() { return Math.min(3, this._items.length); },
+					
+					queryElementAt : function (index) {
+						return this._items[index];
+					},
+					
+					_items : []
+				}
+			},
+			
+			uri : {
+				_uri : url,
+				
+				resolve : function () {
+					return this._uri;
+				}
+			}
+		};
+		
+		var items = xml.getElementsByTagName("featured-result");
+		var updated = new Date();
+		updated.setTime( xml.getElementsByTagName("time")[0].textContent * 1000);
+		
+		for (var i = 0; i < items.length; i++) {
+			var itemUrl = items[i].getElementsByTagName("redirect-url")[0].textContent;
+			
+			var item = {
+				id : "http://" + items[i].getElementsByTagName("display-url")[0].textContent,
+				
+				uri : itemUrl,
+				
+				displayUri : items[i].getElementsByTagName("display-url")[0].textContent,
+				trackingUri : items[i].getElementsByTagName("tracking-url")[0].textContent,
+				
+				link : {
+					_link : items[i].getElementsByTagName("redirect-url")[0].textContent,
+				
+					resolve : function () {
+						return this._link;
+					}
+				},
+				
+				updated : updated,
+				
+				title : {
+					_title : items[i].getElementsByTagName("title")[0].textContent,
+				
+					plainText : function () {
+						return this._title.replace(/<[^>]+>/g, "");
+					}
+				},
+			
+				summary : {
+					_summary : items[i].getElementsByTagName("snippet")[0].textContent,
+				
+					get text() {
+						return this._summary.replace(/<[^>]+>/g, "");
+					} 
+				},
+			
+				image : "chrome://feedbar/content/skin-common/feed-icon-16.png"//items[i].getElementsByTagName("source-logo")[0].getElementsByTagName("url")[0].textContent
+			};
+			
+			result.doc.items._items.push(item);
+		}
+		
+		function shuffle(o) {
+			for (var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+			
+			return o;
+		};
+		
+		result.doc.items._items = shuffle(result.doc.items._items);
+		
+		listener.handleResult(result);
+	},
+	
 	sidebarPing : function () {
-//		if (this.prefs.getBoolPref("runInSidebar")) {
-  //  		FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
-	//	}
-	
 		if (FEED_GETTER.rapidUpdate) {
-			var win = FEED_GETTER.feedWindow;
+			var wins = FEED_GETTER.feedWindows;
+			
+			for (var i = 0; i < wins.length; i++) {
+				var win = wins[i];
 	
-			if (win && win.FEEDSIDEBAR) {
-				win.document.getElementById("stop-button").setAttribute("disabled","false");
-				win.document.getElementById("reload-button").setAttribute("disabled","true");
+				if (win && win.FEEDSIDEBAR) {
+					win.document.getElementById("stop-button").setAttribute("disabled","false");
+					win.document.getElementById("reload-button").setAttribute("disabled","true");
+				}
 			}
 		}
 	},
@@ -294,12 +536,34 @@ var FEED_GETTER = {
 		FEED_GETTER.rapidUpdate = FEED_GETTER.feedsToFetch.length;
 		FEED_GETTER.updateAFeed();
 		
-		var win = FEED_GETTER.feedWindow;
+		var wins = FEED_GETTER.feedWindows;
 		
-		if (win && win.FEEDSIDEBAR) {
-			win.document.getElementById("stop-button").setAttribute("disabled","false");
-			win.document.getElementById("reload-button").setAttribute("disabled","true");
+		for (var i = 0; i < wins.length; i++) {
+			var win = wins[i];
+		
+			if (win && win.FEEDSIDEBAR) {
+				win.document.getElementById("stop-button").setAttribute("disabled","false");
+				win.document.getElementById("reload-button").setAttribute("disabled","true");
+			}
 		}
+	},
+	
+	addTrendingFeed : function () {
+		FEED_GETTER.feedsToFetch.unshift(
+			{
+				"name": "Trending News",
+				"feed" : FEED_GETTER.trendingNewsUrl,
+				"livemarkId": -1
+			}
+		);
+		
+		FEED_GETTER.updateAFeed(0);
+	},
+	
+	removeTrendingFeed : function () {
+		FEED_GETTER.removeAFeed(-1);
+		
+		FEED_GETTER.feedsToFetch.shift();
 	},
 	
 	updateSingleFeed : function (livemarkId) {
@@ -321,11 +585,15 @@ var FEED_GETTER = {
 		
 		FEED_GETTER.killCurrentRequest();
 		
-		var win = FEED_GETTER.feedWindow;
+		var wins = FEED_GETTER.feedWindows;
 		
-		if (win && win.FEEDSIDEBAR) {
-			win.document.getElementById("stop-button").setAttribute("disabled","true");
-			win.document.getElementById("reload-button").setAttribute("disabled","false");
+		for (var i = 0; i < wins.length; i++) {
+			var win = wins[i];
+			
+			if (win && win.FEEDSIDEBAR) {
+				win.document.getElementById("stop-button").setAttribute("disabled","true");
+				win.document.getElementById("reload-button").setAttribute("disabled","false");
+			}
 		}
 	},
 	
@@ -335,7 +603,8 @@ var FEED_GETTER = {
 		var ioService = Components.classes["@mozilla.org/network/io-service;1"]
 						.getService(Components.interfaces.nsIIOService);
 
-		var data = feedText;
+		var data = feedText.replace(/(<\/?)(merch):([^>]*>)/g, "$1$2_$3");
+		
 		var uri = ioService.newURI(feedURL, null, null);
 
 		if (data.length) {
@@ -354,7 +623,7 @@ var FEED_GETTER = {
 			throw({ message : FEED_GETTER.strings.getString("feedbar.noContent") });
 		}
 
-		return this;
+		return FEED_GETTER;
 	},
 	
 	setDisplayPeriod : function (days) {
@@ -366,7 +635,7 @@ var FEED_GETTER = {
 	},
 	
 	setReloadInterval : function (minutes) {
-		clearTimeout(FEED_GETTER.feedUpdateTimeout);
+		FEED_GETTER.clearTimeout(FEED_GETTER.feedUpdateTimeout);
 		
 		var numFeeds = FEED_GETTER.feedsToFetch.length;
 		var interval = minutes;
@@ -378,7 +647,7 @@ var FEED_GETTER = {
 		FEED_GETTER.secondsBetweenFeeds = Math.ceil((interval * 60) / numFeeds);
 		
 		// Check if it's been more than $minutes minutes since the last full update.
-		var lastUpdate = this.prefs.getIntPref("lastUpdate") * 1000; 
+		var lastUpdate = FEED_GETTER.prefs.getIntPref("lastUpdate") * 1000; 
 		var now = new Date().getTime();
 		
 		var minutesSince = (now - lastUpdate) / 1000 / 60;
@@ -406,7 +675,7 @@ var FEED_GETTER = {
 						break;
 					}
 				} catch (e) {
-					logFeedbarMsg(e);
+					FEED_GETTER.log(e);
 				} finally {	
 					select.reset();
 				}
@@ -416,7 +685,7 @@ var FEED_GETTER = {
 				return visited;
 			} catch (e) {
 				// Malformed URI, probably
-				logFeedbarMsg(e);
+				FEED_GETTER.log(e);
 				return false;
 			}
 		}
@@ -435,34 +704,50 @@ var FEED_GETTER = {
 	},
 	
 	addError : function (feedName, feedUrl, error, priority) {
-		var win = FEED_GETTER.feedWindow;
+		var wins = FEED_GETTER.feedWindows;
 		
-		if (win && win.FEEDSIDEBAR) {
-			win.FEEDSIDEBAR.addError(feedName, feedUrl, error, priority);
+		for (var i = 0; i < wins.length; i++) {
+			var win = wins[i];
+			
+			if (win && win.FEEDSIDEBAR) {
+				win.FEEDSIDEBAR.addError(feedName, feedUrl, error, priority);
+			}
 		}
 	},
 	
 	notifyNoFeeds : function () {
-		var win = FEED_GETTER.feedWindow;
+		var wins = FEED_GETTER.feedWindows;
 		
-		if (win && win.FEEDSIDEBAR) {
-			win.FEEDSIDEBAR.notifyNoFeeds();
+		for (var i = 0; i < wins.length; i++) {
+			var win = wins[i];
+			
+			if (win && win.FEEDSIDEBAR) {
+				win.FEEDSIDEBAR.notifyNoFeeds();
+			}
 		}
 	},
 	
 	noFeedsFoundCallback : function () {
-		var win = FEED_GETTER.feedWindow;
+		var wins = FEED_GETTER.feedWindows;
 		
-		if (win && win.FEEDSIDEBAR) {
-			win.FEEDSIDEBAR.noFeedsFoundCallback();
+		for (var i = 0; i < wins.length; i++) {
+			var win = wins[i];
+		
+			if (win && win.FEEDSIDEBAR) {
+				win.FEEDSIDEBAR.noFeedsFoundCallback();
+			}
 		}
 	},
 	
 	clearNotify : function () {
-		var win = FEED_GETTER.feedWindow;
+		var wins = FEED_GETTER.feedWindows;
 		
-		if (win && win.FEEDSIDEBAR) {
-			win.FEEDSIDEBAR.clearNotify();
+		for (var i = 0; i < wins.length; i++) {
+			var win = wins[i];
+			
+			if (win && win.FEEDSIDEBAR) {
+				win.FEEDSIDEBAR.clearNotify();
+			}
 		}
 	},
 	
@@ -470,26 +755,26 @@ var FEED_GETTER = {
 	theDB : null,
 	
 	getDB : function () {
-		if (!this.theFile) {
-			this.theFile = Components.classes["@mozilla.org/file/directory_service;1"]
+		if (!FEED_GETTER.theFile) {
+			FEED_GETTER.theFile = Components.classes["@mozilla.org/file/directory_service;1"]
 							 .getService(Components.interfaces.nsIProperties)
 							 .get("ProfD", Components.interfaces.nsIFile);
-			this.theFile.append("feedbar.sqlite");
+			FEED_GETTER.theFile.append("feedbar.sqlite");
 		}
 		
-		if (!this.theDB) {
-			this.theDB = Components.classes["@mozilla.org/storage/service;1"]
-						 .getService(Components.interfaces.mozIStorageService).openDatabase(this.theFile);
+		if (!FEED_GETTER.theDB) {
+			FEED_GETTER.theDB = Components.classes["@mozilla.org/storage/service;1"]
+						 .getService(Components.interfaces.mozIStorageService).openDatabase(FEED_GETTER.theFile);
 		}
 		
-		return this.theDB;
+		return FEED_GETTER.theDB;
 	},
 	
 	closeDB : function () {
-		if (this.theDB) {
-			this.theDB.close();
-			delete this.theDB;
-			this.theDB = null;
+		if (FEED_GETTER.theDB) {
+			FEED_GETTER.theDB.close();
+			delete FEED_GETTER.theDB;
+			FEED_GETTER.theDB = null;
 		}
 	},
 	
@@ -522,12 +807,16 @@ var FEED_GETTER = {
 			observe : function (subject, topic, data) {
 				// Subject is null
 				if (topic == "alertclickcallback") {
-					window.focus();
+					var win = FEED_GETTER.window;
 					
-					var sidebar = document.getElementById("sidebar-box");
-					
-					if (!(!sidebar.getAttribute("hidden") && sidebar.getAttribute("sidebarcommand") == 'feedbar')){
-						toggleSidebar('feedbar');
+					if (win) {
+						win.focus();
+						
+						var sidebar = win.document.getElementById("sidebar-box");
+						
+						if (!(!sidebar.getAttribute("hidden") && sidebar.getAttribute("sidebarcommand") == 'feedbar')){
+							win.toggleSidebar('feedbar');
+						}
 					}
 				}
 			}
@@ -546,6 +835,39 @@ var FEED_GETTER = {
 				"", 
 				listener);
 		} catch (notAvailable) { }
+	},
+	
+	log : function (m) {
+		var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
+		consoleService.logStringMessage("FEEDBAR: " + m);
+	},
+	
+	/* Bookmark Observer Functions */
+	onBeforeItemRemoved : function () { },
+	onBeginUpdateBatch: function() { },
+	onEndUpdateBatch: function() { },
+	onItemVisited: function(id, visitID, time) { },
+	onItemMoved: function(id, oldParent, oldIndex, newParent, newIndex) { },
+	onItemAdded: function(id, folder, index) { /* Handled by onItemChanged */ },
+
+	onItemRemoved: function(id, folder, index) {
+		FEED_GETTER.removeAFeed(id);
+	},
+
+	onItemChanged: function(id, property, isAnnotationProperty, value) {
+		if (property == "livemark/feedURI") {
+			FEED_GETTER.removeAFeed(id);
+			FEED_GETTER.updateSingleFeed(id);
+		}
+	},
+	
+	QueryInterface: function(iid) {
+		if (iid.equals(Ci.nsINavBookmarkObserver) ||
+			iid.equals(Ci.nsISupports)) {
+			return this;
+		}
+		
+		throw Cr.NS_ERROR_NO_INTERFACE;
 	}
 };
 
@@ -555,6 +877,7 @@ function FeedbarParseListener() {
 
 FeedbarParseListener.prototype = {
 	handleResult: function(result) {
+		FEED_GETTER.log("in handler");
 		var resolvedUri = result.uri.resolve("");
 		var feedDataKey = resolvedUri.toLowerCase();
 		
@@ -562,21 +885,21 @@ FeedbarParseListener.prototype = {
 			FEED_GETTER.addError(FEED_GETTER.feedData[feedDataKey].name, resolvedUri, FEED_GETTER.strings.getString("feedbar.errors.parseError"), 5);
 			return;
 		}
-		
+		FEED_GETTER.log("in handler1");
 		var feed = result.doc;
 		
 		if (!feed) {
 			FEED_GETTER.addError(FEED_GETTER.feedData[feedDataKey].name, resolvedUri, FEED_GETTER.strings.getString("feedbar.errors.invalidUrl"), 5);
 			return;
 		}
-		
+		FEED_GETTER.log("in handler2");
 		try {
 			feed.QueryInterface(Components.interfaces.nsIFeed);
 		} catch (e) {
 			FEED_GETTER.addError(FEED_GETTER.feedData[feedDataKey].name, resolvedUri, FEED_GETTER.strings.getString("feedbar.errors.invalidFeed"), 5);
 			return;
 		}
-		
+		FEED_GETTER.log("in handler3");
 		var feedObject = {
 			label : "",
 			image : "",
@@ -590,9 +913,10 @@ FeedbarParseListener.prototype = {
 		
 		feedObject.id = resolvedUri;
 		feedObject.uri = resolvedUri;
-		
+		FEED_GETTER.log("in handler4a");
+		FEED_GETTER.log(feedObject.uri.toLowerCase());
 		feedObject.livemarkId = FEED_GETTER.feedData[feedObject.uri.toLowerCase()].bookmarkId;
-		
+		FEED_GETTER.log("in handler4");
 		try {
 			feedObject.siteUri = feed.link.resolve("");
 		} catch (e) {
@@ -604,7 +928,7 @@ FeedbarParseListener.prototype = {
 		} catch (e) {
 			feedObject.label = feed.title.plainText();
 		}
-		
+		FEED_GETTER.log("in handler5");
 		if (!feedObject.label) {
 			feedObject.label = feed.title.plainText();
 		}
@@ -621,11 +945,11 @@ FeedbarParseListener.prototype = {
 		else {
 			feedObject.description = FEED_GETTER.strings.getString("feedbar.noSummary");
 		}
-		
+		FEED_GETTER.log("in handler6");
 		feedObject.image = feedObject.siteUri.substr(0, (feedObject.siteUri.indexOf("/", 9) + 1)) + "favicon.ico";
 		
 		var numItems = feed.items.length;
-		
+		FEED_GETTER.log("in handler7");
 		for (var i = 0; i < numItems; i++) {
 			var item = feed.items.queryElementAt(i, Components.interfaces.nsIFeedEntry);
 			
@@ -635,7 +959,8 @@ FeedbarParseListener.prototype = {
 				label : "",
 				description : "",
 				image : "",
-				id : ""
+				id : "",
+				merch : {}
 			};
 			
 			try {
@@ -647,7 +972,7 @@ FeedbarParseListener.prototype = {
 					try {
 						itemObject.uri = decodeURIComponent(itemObject.uri.match(/url=(https?%3A%2F%2F[^&]+)(&.*)?$/i)[1]);
 					} catch (googleChangedTheirURLs) {
-						logFeedbarMsg(":( "+googleChangedTheirURLs);
+						FEED_GETTER.log(":( "+googleChangedTheirURLs);
 					}
 				}
 				
@@ -659,7 +984,6 @@ FeedbarParseListener.prototype = {
 						try {
 							var root = itemObject.uri.match(/url=(https?%3A%2F%2F[a-z0-9\-\.]+%2F)/i)[1];
 							itemObject.image = decodeURIComponent(root) + "favicon.ico";
-							delete root;
 						} catch (e) {
 							itemObject.image = itemObject.uri.substr(0, (itemObject.uri.indexOf("/", 9) + 1)) + "favicon.ico";
 						}
@@ -671,6 +995,10 @@ FeedbarParseListener.prototype = {
 				else {
 					// Feedburner
 					itemObject.image = feedObject.siteUri.substr(0, (feedObject.siteUri.indexOf("/", 9) + 1)) + "favicon.ico";
+				}
+				
+				if ("trackingUri" in item) {
+					itemObject.image = item.trackingUri;
 				}
 			
 				itemObject.published = Date.parse(item.updated);
@@ -728,12 +1056,14 @@ FeedbarParseListener.prototype = {
 			} catch (e) {
 				// FEED_GETTER.addError(FEED_GETTER.feedData[feedObject.link].name, feedObject.link, e, 5);
 				// Don't show a notification here, since they can become legion.
-				logFeedbarMsg(e);
+				FEED_GETTER.log(e);
 			}
 			
 			delete item;
 			delete itemObject;
 		}
+		FEED_GETTER.log("in handler83");
+		FEED_GETTER.log(feedObject.toSource());
 		
 		FEEDBAR.push(feedObject);
 		
@@ -769,7 +1099,4 @@ FeedbarParseListener.prototype = {
 	}
 };
 
-function logFeedbarMsg(m) {
-	var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
-	consoleService.logStringMessage("FEEDBAR: " + m);
-}
+var EXPORTED_SYMBOLS = ["FEED_GETTER"];

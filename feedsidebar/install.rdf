@@ -3,7 +3,7 @@
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>feedbar@efinke.com</em:id>
 		<em:name>Feed Sidebar</em:name>
-		<em:version>4.3</em:version>
+		<em:version>4.4pre</em:version>
 		<em:description>Displays the items from your Live Bookmarks in a sidebar.</em:description>
 		<em:creator>Christopher Finke</em:creator>
 		<em:iconURL>chrome://feedbar/content/skin-common/logo.gif</em:iconURL>

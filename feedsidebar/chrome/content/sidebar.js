@@ -4,7 +4,7 @@ var FEEDSIDEBAR = {
 	
 	prefs : null,
 	
-	init : function () {
+	load : function () {
 		var frame = document.getElementById("content-frame");
 		
 		frame.docShell.allowAuth = false;
@@ -18,7 +18,7 @@ var FEEDSIDEBAR = {
 		FEEDSIDEBAR.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 		FEEDSIDEBAR.prefs.addObserver("", FEEDSIDEBAR, false);
 		
-		document.getElementById("feed_tree").view = window.parent.FEEDBAR;
+		document.getElementById("feed_tree").view = FEEDBAR;
 		
 		FEEDSIDEBAR.checkFrequencyItem(FEEDSIDEBAR.prefs.getIntPref("updateFrequency"));
 		FEEDSIDEBAR.checkPeriodItem(FEEDSIDEBAR.prefs.getIntPref("displayPeriod"));	
@@ -27,11 +27,11 @@ var FEEDSIDEBAR = {
 		document.getElementById("search-box").value = FEEDSIDEBAR.prefs.getCharPref("filter");
 		document.getElementById("all-toggle").checked = !FEEDSIDEBAR.prefs.getBoolPref("hideReadItems");
 		
-		window.parent.FEED_GETTER.sidebarPing();
+		FEED_GETTER.sidebarPing();
 	},
 	
 	unload : function () {
-		window.parent.FEED_GETTER.sidebarPung();
+		FEED_GETTER.sidebarPung();
 		FEEDSIDEBAR.prefs.removeObserver("", FEEDSIDEBAR);
 	},
 	
@@ -40,10 +40,17 @@ var FEEDSIDEBAR = {
 			return;
 		}
 		
-		
 		switch(data) {
 			case "hideReadItems":
 				document.getElementById("all-toggle").checked = !FEEDSIDEBAR.prefs.getBoolPref("hideReadItems");
+			break;
+			case "trendingNews":
+				if (!FEEDSIDEBAR.prefs.getBoolPref("trendingNews")) {
+					FEED_GETTER.removeTrendingFeed();
+				}
+				else {
+					FEED_GETTER.addTrendingFeed();
+				}
 			break;
 		}
 	},
@@ -123,14 +130,14 @@ var FEEDSIDEBAR = {
 		customize : function (menu) {
 			var options = menu.getElementsByTagName("menuitem");
 			
-			var itemIdx = window.parent.FEEDBAR.getSelectedIndex();
+			var itemIdx = FEEDBAR.getSelectedIndex();
 			
 			var hideReadItems = FEEDSIDEBAR.prefs.getBoolPref("hideReadItems");
 			
 			if (itemIdx >= 0) {
-				if (!window.parent.FEEDBAR.isContainer(itemIdx)) {
-					var unreadItems = window.parent.FEEDBAR.hasUnreadItems();
-					var readItems = window.parent.FEEDBAR.hasReadItems();
+				if (!FEEDBAR.isContainer(itemIdx)) {
+					var unreadItems = FEEDBAR.hasUnreadItems();
+					var readItems = FEEDBAR.hasReadItems();
 					
 					// Single item menu
 					for (var i = 0; i < options.length; i++){
@@ -158,10 +165,10 @@ var FEEDSIDEBAR = {
 								options[i].setAttribute("hidden", "true");
 							break;
 							case 'markAsRead':
-								options[i].setAttribute("hidden", window.parent.FEEDBAR.getCellRead(itemIdx));
+								options[i].setAttribute("hidden", FEEDBAR.getCellRead(itemIdx));
 							break;
 							case 'markAsUnread':
-								options[i].setAttribute("hidden", hideReadItems || !window.parent.FEEDBAR.getCellRead(itemIdx));
+								options[i].setAttribute("hidden", hideReadItems || !FEEDBAR.getCellRead(itemIdx));
 							break;
 							case 'openUnreadInTabs':
 							case 'openFeedUnreadInTabs':
@@ -176,11 +183,11 @@ var FEEDSIDEBAR = {
 				}
 				else {
 					// Feed menu
-					var unreadFeedItems = window.parent.FEEDBAR.hasUnreadItems(itemIdx);
-					var unreadItems = unreadFeedItems || window.parent.FEEDBAR.hasUnreadItems();
+					var unreadFeedItems = FEEDBAR.hasUnreadItems(itemIdx);
+					var unreadItems = unreadFeedItems || FEEDBAR.hasUnreadItems();
 					
-					var readFeedItems = window.parent.FEEDBAR.hasReadItems(itemIdx);
-					var readItems = readFeedItems || window.parent.FEEDBAR.hasReadItems();
+					var readFeedItems = FEEDBAR.hasReadItems(itemIdx);
+					var readItems = readFeedItems || FEEDBAR.hasReadItems();
 					
 					for (var i = 0; i < options.length; i++){
 						options[i].disabled = false;
@@ -231,8 +238,8 @@ var FEEDSIDEBAR = {
 				}
 			}
 			else {
-				var unreadItems = window.parent.FEEDBAR.hasUnreadItems();
-				var readItems = window.parent.FEEDBAR.hasReadItems();
+				var unreadItems = FEEDBAR.hasUnreadItems();
+				var readItems = FEEDBAR.hasReadItems();
 				
 				// Default menu
 				for (var i = 0; i < options.length; i++){
@@ -303,13 +310,13 @@ var FEEDSIDEBAR = {
 	},
 	
 	itemSelect : function (event) {
-		var idx = window.parent.FEEDBAR.getSelectedIndex();
+		var idx = FEEDBAR.getSelectedIndex();
 		
 		if (idx < 0) {
 			FEEDSIDEBAR.showPreview();
 		}
 		else {
-			window.parent.FEEDBAR.previewTimeout = setTimeout(FEEDSIDEBAR.showPreview, 450, idx);
+			FEEDBAR.previewTimeout = FEEDBAR.setTimeout(FEEDSIDEBAR.showPreview, 450, idx);
 		}
 		
 		event.stopPropagation();
@@ -334,7 +341,7 @@ var FEEDSIDEBAR = {
 		}
 		else {
 			var maxLength = 60;
-			var descr = window.parent.FEEDBAR.getCellDescription(idx);
+			var descr = FEEDBAR.getCellDescription(idx);
 			var target = document.getElementById("content-frame").contentDocument.body;
 			target.innerHTML = "";
 			
@@ -343,11 +350,11 @@ var FEEDSIDEBAR = {
 									  .parseFragment(descr, false, null, target);
 			target.appendChild(fragment);
 			
-			if (window.parent.FEEDBAR.isContainer(idx)){
-				var title = window.parent.FEEDBAR.getCellLink(idx).replace(/^\s+|\s+$/g, "");
-				var feedName = window.parent.FEEDBAR.getCellText(idx).replace(/^\s+|\s+$/g, "");
+			if (FEEDBAR.isContainer(idx)){
+				var title = FEEDBAR.getCellLink(idx).replace(/^\s+|\s+$/g, "");
+				var feedName = FEEDBAR.getCellText(idx).replace(/^\s+|\s+$/g, "");
 				
-				var url = window.parent.FEEDBAR.getCellFeedLink(idx);
+				var url = FEEDBAR.getCellFeedLink(idx);
 				
 				document.getElementById("feedbarTooltipURL").url = url;
 				if (url.length > maxLength){
@@ -365,16 +372,16 @@ var FEEDSIDEBAR = {
 				document.getElementById("feedbarTooltipName").value = "Site: " + title;
 			}
 			else {
-				var feedIdx = window.parent.FEEDBAR.getParentIndex(idx);
-				var feedName = window.parent.FEEDBAR.getCellText(feedIdx).replace(/^\s+|\s+$/g, "");
-				var url = window.parent.FEEDBAR.getCellLink(idx);
+				var feedIdx = FEEDBAR.getParentIndex(idx);
+				var feedName = FEEDBAR.getCellText(feedIdx).replace(/^\s+|\s+$/g, "");
+				var url = FEEDBAR.getCellLink(idx);
 				document.getElementById("feedbarTooltipURL").url = url;
 				document.getElementById("feedbarTooltipName").url = url;
 				if (url.length > maxLength){
 					url = url.substring(0,maxLength) + "...";
 				}
 				document.getElementById("feedbarTooltipURL").value = url;
-				var title = window.parent.FEEDBAR.getCellText(idx).replace(/^\s+|\s+$/g, "");
+				var title = FEEDBAR.getCellText(idx).replace(/^\s+|\s+$/g, "");
 				if (title.length > maxLength){
 					title = title.substring(0,maxLength) + "...";
 				}
@@ -383,7 +390,7 @@ var FEEDSIDEBAR = {
 				document.getElementById("feedbarTooltipName").value = title;
 			}
 			
-			var image = window.parent.FEEDBAR.getImageSrc(idx);
+			var image = FEEDBAR.getImageSrc(idx);
 			document.getElementById("feedbarTooltipImage").src = image;
 			document.getElementById("feedbarTooltipFeedName").value = feedName;
 		
@@ -423,4 +430,5 @@ var FEEDSIDEBAR = {
 function logFeedbarMsg(m) {
 	var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
 	consoleService.logStringMessage("FEEDBAR: " + m);
+	alert("FEEDBAR: " + m);
 }

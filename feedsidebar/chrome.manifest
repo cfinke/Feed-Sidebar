@@ -1,4 +1,5 @@
 content     feedbar     jar:chrome/feedsidebar.jar!/content/
+resource    feedbar-modules             modules/
 
 skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/ff3/lin/
 skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/ff3/win/ os=WINNT

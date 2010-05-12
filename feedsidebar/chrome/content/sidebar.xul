@@ -14,7 +14,10 @@
 	<script type="application/x-javascript">
 		<![CDATA[
 		
-		window.addEventListener("load", function (event) { FEEDSIDEBAR.init(); }, false);
+		Components.utils.import("resource://feedbar-modules/treeview.js"); 
+		Components.utils.import("resource://feedbar-modules/feed-getter.js"); 
+		
+		window.addEventListener("load", function (event) { FEEDSIDEBAR.load(); }, false);
 		window.addEventListener("unload", function (event) { FEEDSIDEBAR.unload(); }, false);
 		
 		function handleBrowserClick(event) {  
@@ -40,32 +43,32 @@
 		]]>
 	</script>
 	<commandset id="mainCommandSet">
-		<command id="open-all-in-tabs" oncommand="window.parent.FEEDBAR.openAll();" tooltiptext="&feedbar.openAllInTabs;" />
-		<command id="mark-all-as-read" oncommand="window.parent.FEEDBAR.markAllAsRead();" tooltiptext="&feedbar.markAllAsRead;" />
-		<command id="mark-all-as-unread" oncommand="window.parent.FEEDBAR.markAllAsUnread();" tooltiptext="&feedbar.markAllAsUnread;" />
-		<command id="stop-update" oncommand="window.parent.FEED_GETTER.stopUpdate();" tooltiptext="&feedbar.stopFeedUpdate;" />
-		<command id="force-reload" oncommand="window.parent.FEED_GETTER.updateAllFeeds();" tooltiptext="&feedbar.reloadFeeds;" />
-		<command id="set-reload-interval" oncommand="window.parent.FEED_GETTER.setUpdateFrequency(event.target.getAttribute('value')); event.stopPropagation();" />
-		<command id="update-period" oncommand="window.parent.FEED_GETTER.setDisplayPeriod(event.target.getAttribute('value')); event.stopPropagation();" />
-		<command id="sort" oncommand="var srt = event.target.getAttribute('value'); window.parent.FEEDBAR.sort(srt, true); FEEDSIDEBAR.checkSortItem(srt); event.stopPropagation();" />
+		<command id="open-all-in-tabs" oncommand="FEEDBAR.openAll();" tooltiptext="&feedbar.openAllInTabs;" />
+		<command id="mark-all-as-read" oncommand="FEEDBAR.markAllAsRead();" tooltiptext="&feedbar.markAllAsRead;" />
+		<command id="mark-all-as-unread" oncommand="FEEDBAR.markAllAsUnread();" tooltiptext="&feedbar.markAllAsUnread;" />
+		<command id="stop-update" oncommand="FEED_GETTER.stopUpdate();" tooltiptext="&feedbar.stopFeedUpdate;" />
+		<command id="force-reload" oncommand="FEED_GETTER.updateAllFeeds();" tooltiptext="&feedbar.reloadFeeds;" />
+		<command id="set-reload-interval" oncommand="FEED_GETTER.setUpdateFrequency(event.target.getAttribute('value')); event.stopPropagation();" />
+		<command id="update-period" oncommand="FEED_GETTER.setDisplayPeriod(event.target.getAttribute('value')); event.stopPropagation();" />
+		<command id="sort" oncommand="var srt = event.target.getAttribute('value'); FEEDBAR.sort(srt, true); FEEDSIDEBAR.checkSortItem(srt); event.stopPropagation();" />
 	</commandset>
 	<popupset id="mainPopupSet">
 		<popup id="feedbarContextMenu" onpopupshowing="return FEEDSIDEBAR.contextMenu.customize(this);">
-			<menuitem option="open" label="&feedbar.open;" oncommand="window.parent.FEEDBAR.openItem();" />
-			<menuitem option="openInTab" label="&feedbar.openInTab;" oncommand="window.parent.FEEDBAR.openInTab();" />
+			<menuitem option="open" label="&feedbar.open;" oncommand="FEEDBAR.openItem();" />
+			<menuitem option="openInTab" label="&feedbar.openInTab;" oncommand="FEEDBAR.openInTab();" />
 			<menuseparator />
-			<menuitem option="openAllInTabs" label="&feedbar.openAllInTabs;" oncommand="window.parent.FEEDBAR.openAll();" />
-			<menuitem option="openFeedInTabs" label="&feedbar.openFeedInTabs;" oncommand="window.parent.FEEDBAR.openFeed();" />
+			<menuitem option="openAllInTabs" label="&feedbar.openAllInTabs;" oncommand="FEEDBAR.openAll();" />
+			<menuitem option="openFeedInTabs" label="&feedbar.openFeedInTabs;" oncommand="FEEDBAR.openFeed();" />
 			<menuseparator />
-			<menuitem option="markAsRead" label="&feedbar.markAsRead;" oncommand="window.parent.FEEDBAR.markAsRead();" />
-			<menuitem option="markAsUnread" label="&feedbar.markAsUnread;" oncommand="window.parent.FEEDBAR.markAsUnread();" />
-			<menuitem option="markFeedAsRead" label="&feedbar.markFeedAsRead;" oncommand="window.parent.FEEDBAR.markAsRead();" />
-			<menuitem option="markFeedAsUnread" label="&feedbar.markFeedAsUnread;" oncommand="window.parent.FEEDBAR.markAsUnread();" />
-			<menuitem option="markAllAsRead" label="&feedbar.markAllAsRead;" oncommand="window.parent.FEEDBAR.markAllAsRead();" />
-			<menuitem option="markAllAsUnread" label="&feedbar.markAllAsUnread;" oncommand="window.parent.FEEDBAR.markAllAsUnread();" />
+			<menuitem option="markAsRead" label="&feedbar.markAsRead;" oncommand="FEEDBAR.markAsRead();" />
+			<menuitem option="markAsUnread" label="&feedbar.markAsUnread;" oncommand="FEEDBAR.markAsUnread();" />
+			<menuitem option="markFeedAsRead" label="&feedbar.markFeedAsRead;" oncommand="FEEDBAR.markAsRead();" />
+			<menuitem option="markFeedAsUnread" label="&feedbar.markFeedAsUnread;" oncommand="FEEDBAR.markAsUnread();" />
+			<menuitem option="markAllAsRead" label="&feedbar.markAllAsRead;" oncommand="FEEDBAR.markAllAsRead();" />
+			<menuitem option="markAllAsUnread" label="&feedbar.markAllAsUnread;" oncommand="FEEDBAR.markAllAsUnread();" />
 			<menuseparator />
-			<menuitem option="copyTitle" label="&feedbar.copyTitle;" oncommand="window.parent.FEEDBAR.copyTitle();" />
-			<menuitem option="copyLink" label="&feedbar.copyLink;" oncommand="window.parent.FEEDBAR.copyLink();" />
+			<menuitem option="copyTitle" label="&feedbar.copyTitle;" oncommand="FEEDBAR.copyTitle();" />
+			<menuitem option="copyLink" label="&feedbar.copyLink;" oncommand="FEEDBAR.copyLink();" />
 			<menuseparator />
 			<menu option="sortBy" label="&feedbar.sortBy;">
 				<menupopup id="sort-context-menu" command="sort">
@@ -75,7 +78,7 @@
 				</menupopup>
 			</menu>
 			<menuseparator />
-			<menuitem option="unsubscribe" label="&feedbar.unsubscribe;" oncommand="window.parent.FEEDBAR.unsubscribe();" />
+			<menuitem option="unsubscribe" label="&feedbar.unsubscribe;" oncommand="var id = FEEDBAR.unsubscribe(); FEED_GETTER.removeAFeed(id);" />
 			<menuitem option="options" label="&feedbar.options;" oncommand="FEEDSIDEBAR.options();" />
 		</popup>
 	</popupset>
@@ -135,10 +138,10 @@
 					flex="1"
 					class="plain"
 					seltype="single"
-					onclick="window.parent.FEEDBAR.onTreeClick(event);"
-					onkeypress="window.parent.FEEDBAR.onKeyPress(event);"
+					onclick="FEEDBAR.onTreeClick(event);"
+					onkeypress="FEEDBAR.onKeyPress(event);"
 					onselect="FEEDSIDEBAR.itemSelect(event);"
-					ondblclick="window.parent.FEEDBAR.onTreeDblClick(event);"
+					ondblclick="FEEDBAR.onTreeDblClick(event);"
 					hidecolumnpicker="true"
 					context="feedbarContextMenu">
 					<treecols>
@@ -153,11 +156,11 @@
 					<image id="feedbarTooltipImage"/>
 					<vbox flex="1">
 						<description id="feedbarTooltipFeedName" crop="end" />
-						<description id="feedbarTooltipName" crop="end" onclick="window.parent.FEEDBAR.handlePreviewNameClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;" />
-						<description id="feedbarTooltipURL" crop="end" onclick="window.parent.FEEDBAR.onTreeClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;"/>
+						<description id="feedbarTooltipName" crop="end" onclick="FEEDBAR.handlePreviewNameClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;" />
+						<description id="feedbarTooltipURL" crop="end" onclick="FEEDBAR.onTreeClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;"/>
 					</vbox>
 					<vbox pack="start" align="start">
-						<toolbarbutton id="close-preview" class="tabs-closebutton" oncommand="window.parent.FEEDBAR.markAsRead(true); FEEDSIDEBAR.hidePreview(); window.parent.FEEDBAR.selectNone();" tooltiptext="&feedbar.preview.markAsRead;" />
+						<toolbarbutton id="close-preview" class="tabs-closebutton" oncommand="FEEDBAR.markAsRead(true); FEEDSIDEBAR.hidePreview(); FEEDBAR.selectNone();" tooltiptext="&feedbar.preview.markAsRead;" />
 					</vbox>
 				</hbox>
 				<groupbox id="feedbarTooltipSummaryGroupbox" flex="1">
@@ -165,7 +168,7 @@
 				</groupbox>
 			</vbox>
 			<hbox id="feed-sidebar-statusbar">
-				<statusbarpanel pack="end" align="center" flex="1" style="padding-top: 4px;" id="feedbar-loading-text-container" onclick="window.parent.FEED_GETTER.killCurrentRequest();">
+				<statusbarpanel pack="end" align="center" flex="1" style="padding-top: 4px;" id="feedbar-loading-text-container" onclick="FEED_GETTER.killCurrentRequest();">
 					<description id="feedbar-loading-text" value="" onclick="if (this.getAttribute('url')) { addTab(this.getAttribute('url')); }" />
 				</statusbarpanel>
 			</hbox>

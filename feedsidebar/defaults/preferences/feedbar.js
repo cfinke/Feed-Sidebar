@@ -20,3 +20,4 @@ pref("extensions.feedbar.openInNewTab", false);
 pref("extensions.feedbar.lastSort", "name");
 
 pref("extensions.feedbar.trendRequest", false);
+pref("extensions.feedbar.trendingNews", false);
