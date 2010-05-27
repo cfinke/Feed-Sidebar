@@ -1661,7 +1661,7 @@ var FEEDBAR = {
 				// default to true: if it were false, we wouldn't get this far
 				var warnOnOpen = { value: true };
 
-				var buttonPressed = promptService.confirmEx(window,
+				var buttonPressed = promptService.confirmEx(null,
 					FEEDBAR.strings.getString("feedbar.confirmOpenInTabs"),
 					FEEDBAR.strings.getFormattedString("feedbar.warnOnTabsMessage", [ numTabs ]),
 					(promptService.BUTTON_TITLE_IS_STRING * promptService.BUTTON_POS_0) + (promptService.BUTTON_TITLE_CANCEL * promptService.BUTTON_POS_1), 

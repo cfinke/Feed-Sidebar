@@ -14,14 +14,14 @@
 			browserPrefs : null,
 			
 			onload : function () {
-				this.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("");
+				this.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.feedbar.");
 				this.browserPrefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("browser.preferences.");
 				
  				if (!("@mozilla.org/alerts-service;1" in Components.classes)) {
 					document.getElementById("growl").hidden = true;
 				}
 				
-				var displayPeriod = this.prefs.getIntPref("extensions.feedbar.displayPeriod");
+				var displayPeriod = this.prefs.getIntPref("displayPeriod");
 				
 				if (displayPeriod) {
 					document.getElementById("display-period").selectedIndex = 1;
@@ -31,13 +31,142 @@
 					document.getElementById("display-period").selectedIndex = 0;
 					this.showAll();
 				}
+				
+				if (this.prefs.getBoolPref("trendingNews")) {
+					document.getElementById("trending-news-button").setAttribute('label', "Unsubscribe");
+				}
+				
+				var featuredFeeds = this.prefs.getCharPref("featuredFeeds");
+				
+				if (!featuredFeeds) {
+					document.getElementById("featured-pane").style.display = "none";
+				}
+				else {
+					featuredFeeds = JSON.parse(featuredFeeds);
+					
+					if (featuredFeeds.length == 0) {
+						document.getElementById("featured-pane").style.display = "none";
+					}
+					else {
+						function sorter(a, b) {
+							return 0.5 - Math.random();
+						}
+						
+						featuredFeeds.sort(sorter);
+						
+						for (var i = 0; i < featuredFeeds.length; i++) {
+							var box = document.createElement("groupbox");
+							box.setAttribute("orient", "horizontal");
+							
+							if ("image" in featuredFeeds[i]) {
+								var image = document.createElement("image");
+								image.style.height = "64px";
+								image.style.width = "64px";
+								image.style.maxHeight = "64px";
+								image.style.marginRight = "10px";
+								image.setAttribute("src", featuredFeeds[i].image);
+								
+								var ibox = document.createElement("vbox");
+								var s1 = document.createElement("spring");
+								s1.setAttribute("flex", 1);
+								var s2 = document.createElement("spring");
+								s2.setAttribute("flex", 1);
+								
+								ibox.appendChild(s1);
+								ibox.appendChild(image);
+								ibox.appendChild(s2);
+								box.appendChild(ibox);
+							}
+							
+							var vbox = document.createElement("vbox");
+							vbox.setAttribute("flex", 1);
+							
+							var label = document.createElement("label");
+							label.setAttribute("value", featuredFeeds[i].name);
+							label.setAttribute("class", "text-link");
+							label.setAttribute("href", featuredFeeds[i].siteUrl);
+							label.style.paddingLeft = 0;
+							label.style.marginLeft = 0;
+							
+							var description = document.createElement("description");
+							description.appendChild(document.createTextNode(featuredFeeds[i].description));
+							
+							var isSubscribed = this.isSubscribed(featuredFeeds[i].url);
+							
+							var button = document.createElement("button");
+							
+							button.feedUrl = featuredFeeds[i].url;
+							button.siteUrl = featuredFeeds[i].siteUrl;
+							button.name = featuredFeeds[i].name;
+							button.description = featuredFeeds[i].description;
+							
+							if (isSubscribed) {
+								button.setAttribute("label", "Unsubscribe");
+							}
+							else {
+								button.setAttribute("label", "Subscribe");
+							}
+							
+							button.setAttribute("oncommand", "if (FEEDBAR_PREFS.isSubscribed(this.feedUrl)) { this.setAttribute('label', 'Subscribe'); FEEDBAR_PREFS.unsubscribe(this.feedUrl); } else { this.setAttribute('label', 'Unsubscribe'); FEEDBAR_PREFS.subscribe(this.name, this.feedUrl, this.siteUrl, this.description); }");
+							
+							vbox.appendChild(label);
+							vbox.appendChild(description);
+							vbox.appendChild(button);
+							
+							box.appendChild(vbox);
+							
+							document.getElementById("featured-feeds").appendChild(box);
+						}
+						
+						sizeToContent();
+					}
+				}
+			},
+			
+			isSubscribed : function (url) {
+				for (var i = 0; i < FEED_GETTER.feedsToFetch.length; i++) {
+					if (FEED_GETTER.feedsToFetch[i].feed == url) {
+						return true;
+					}
+				}
+				
+				return false;
+			},
+			
+			subscribe : function (title, feedUrl, siteUrl, description) {
+				var ioService = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService);
+				var bmsvc = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
+				var annotationService = Components.classes["@mozilla.org/browser/annotation-service;1"].getService(Components.interfaces.nsIAnnotationService);
+				var livemarkService = Components.classes["@mozilla.org/browser/livemark-service;2"].getService(Components.interfaces.nsILivemarkService);
+				var menu = Application.bookmarks.menu;
+				var uri = ioService.newURI(siteUrl, null, null);
+				var feedUri = ioService.newURI(feedUrl, null, null);
+				var lm = livemarkService.createLivemarkFolderOnly(Application.bookmarks.menu.id, title, uri, feedUri, -1);
+				annotationService.setItemAnnotation(lm, "bookmarkProperties/description", description, 0, Components.interfaces.nsIAnnotationService.EXPIRE_NEVER);
+			},
+			
+			unsubscribe : function (url) {
+				var anno = Components.classes["@mozilla.org/browser/annotation-service;1"].getService(Components.interfaces.nsIAnnotationService);
+				var livemarkIds = anno.getItemsWithAnnotation("livemark/feedURI", {});
+				var livemarkService = Components.classes["@mozilla.org/browser/livemark-service;2"].getService(Components.interfaces.nsILivemarkService);
+
+				for (var i = 0; i < livemarkIds.length; i++){
+					var feedURL = livemarkService.getFeedURI(livemarkIds[i]).spec;
+					
+					if (feedURL == url) {
+						var bookmarkService = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
+						bookmarkService.removeFolder(livemarkIds[i]);
+					}
+				}
 			},
 			
 			unload : function () {
 				var prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("");
 				var browserPrefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("browser.preferences.");
+				
 				if (!browserPrefs.getBoolPref("instantApply")) {
-					var prefs = document.getElementById("all_prefs");
+					var prefs = document.getElementById("all_prefs").getElementsByTagName("preference");
+					
 					for (var i = 0; i < prefs.length; i++) {
 						switch (prefs[i].getAttribute("type")) {
 							case 'bool':
@@ -62,7 +191,7 @@
 				document.getElementById("display-days").disabled = true;
 				
 				if (this.browserPrefs.getBoolPref("instantApply")) {
-					this.prefs.setIntPref("extensions.feedbar.displayPeriod", 0);
+					this.prefs.setIntPref("displayPeriod", 0);
 				}
 			},
 			
@@ -76,13 +205,19 @@
 				document.getElementById("display-days").value = days;
 				
 				if (this.browserPrefs.getBoolPref("instantApply")) {
-					this.prefs.setIntPref("extensions.feedbar.displayPeriod", parseInt(days, 10));
+					this.prefs.setIntPref("displayPeriod", parseInt(days, 10));
 				}
 			}
 		};
+		
+		Components.utils.import("resource://feedbar-modules/feed-getter.js");
+		
+		addEventListener("load", FEED_GETTER.load, false);
+		addEventListener("unload", FEED_GETTER.unload, false);
+		
 		]]>
 	</script>
-	<prefpane id="general-pane" label="Feed Sidebar - &feedbar.options;">
+	<prefpane id="general-pane" label="General" image="chrome://feedbar/content/skin-common/emblem-system.png">
 		<preferences id="all_prefs">
 			<preference id="p_hide_read" name="extensions.feedbar.hideReadItems" type="bool" />
 			<preference id="p_update_freq" name="extensions.feedbar.updateFrequency" type="int" />
@@ -92,6 +227,7 @@
 			<preference id="p_sidebar" name="extensions.feedbar.runInSidebar" type="bool" />
 			<preference id="p_fullPreview" name="extensions.feedbar.showFullPreview" type="bool" />
 			<preference id="p_new_tab" name="extensions.feedbar.openInNewTab" type="bool" />
+			<preference id="p_featured" name="extensions.feedbar.featuredFeeds.notify" type="bool" />
 		</preferences>
 		<groupbox>
 			<hbox>
@@ -124,5 +260,30 @@
 			</radiogroup>
 			<checkbox label="&feedbar.alwaysOpenInNewTab;" preference="p_new_tab" />
 		</groupbox>
+		<spacer style="height: 30px;" />
+	</prefpane>
+	<prefpane id="featured-pane" label="Featured Feeds" image="chrome://feedbar/content/skin-common/feed-icon-32.png">
+		<vbox style="max-width: 460px;">
+			<description>Support Feed Sidebar's development without spending a cent by trying out some of these feeds from the Friends of Feed Sidebar.</description>
+			<description style="font-size: 8pt;">If you'd like to see your feed in this list, e-mail cfinke@gmail.com.</description>
+			<vbox id="featured-feeds">
+				<groupbox>
+					<hbox>
+						<vbox>
+							<spring flex="1" />
+							<image src="chrome://feedbar/content/skin-common/feed-icon-64.png" style="width: 64px; height: 64px; margin-right: 10px;" />
+							<spring flex="1" />
+						</vbox>
+						<vbox flex="1">
+							<label class="text-link" style="padding-left: 0; margin-left: 0;" value="Trending News" />
+							<description>A feed of the latest popular and trending news stories.</description>
+							<button id="trending-news-button" oncommand="FEEDBAR_PREFS.prefs.setBoolPref('trendingNews', !FEEDBAR_PREFS.prefs.getBoolPref('trendingNews')); if (FEEDBAR_PREFS.prefs.getBoolPref('trendingNews')) { this.setAttribute('label', 'Unsubscribe'); } else { this.setAttribute('label', 'Subscribe'); }" label="Subscribe" />
+						</vbox>
+					</hbox>
+				</groupbox>
+			</vbox>
+			<checkbox preference="p_featured" label="Periodically notify me about new featured feeds." />
+			<spacer style="height: 30px;" />
+		</vbox>
 	</prefpane>
 </prefwindow>

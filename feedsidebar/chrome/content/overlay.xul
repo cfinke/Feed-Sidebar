@@ -10,6 +10,7 @@
 		
 		Components.utils.import("resource://feedbar-modules/feed-getter.js");
 		Components.utils.import("resource://feedbar-modules/treeview.js");
+		Components.utils.import("resource://feedbar-modules/featured-feeds.js");
 
 		addEventListener("load", FEEDBAR_BROWSER.load, false);
 		
@@ -18,6 +19,9 @@
 	
 		addEventListener("load", FEEDBAR.load, false);
 		addEventListener("unload", FEEDBAR.unload, false);
+		
+		addEventListener("load", FEATURED_FEEDS.load, false);
+		addEventListener("unload", FEATURED_FEEDS.unload, false);
 
 		addEventListener("offline", FEED_GETTER.offline, false);
 		addEventListener("online", FEED_GETTER.online, false);

@@ -94,16 +94,5 @@ var FEEDBAR_BROWSER = {
 			var theTab = gBrowser.addTab("http://www.chrisfinke.com/firstrun/feed-sidebar.php?v="+version);
 			gBrowser.selectedTab = theTab;
 		}
-
-		// Ask if they want any of the featured feeds.
-		if (!FEEDBAR_BROWSER.prefs.getBoolPref("trendRequest")) {
-			FEEDBAR_BROWSER.prefs.setBoolPref("trendRequest", true);
-			
-			setTimeout(
-				function () {
-					window.openDialog("chrome://feedbar/content/one-riot-suggestion.xul", "trends", "chrome,dialog,centerscreen,titlebar,alwaysraised");
-				}, 5000
-			);
-		}
 	}
 };

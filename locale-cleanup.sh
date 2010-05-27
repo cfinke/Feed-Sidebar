@@ -2,7 +2,7 @@
 
 export a="feedsidebar/chrome/locale/en-US/"
 export b="feedsidebar/chrome/content/"
-
+export c="feedsidebar/modules/"
 echo "Unused entities:"
 
 for dtdfile in `ls $a*.dtd` 
@@ -12,7 +12,11 @@ do
 		search=`grep -R "${line}" "$b"`
 		if [ "$search" == "" ]
 		then
-			echo "${line}";
+			search=`grep -R "${line}" "$c"`
+			if [ "$search" == "" ]
+			then
+				echo "${line}";
+			fi
 		fi
 	done;
 done;
@@ -27,7 +31,11 @@ do
 		search=`grep -R "${line}" "$b"`
 		if [ "$search" == "" ]
 		then
-			echo "${line}";
+			search=`grep -R "${line}" "$c"`
+			if [ "$search" == "" ]
+			then
+				echo "${line}";
+			fi
 		fi
 	done;
 done;

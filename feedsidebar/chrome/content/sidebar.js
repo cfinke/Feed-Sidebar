@@ -28,11 +28,17 @@ var FEEDSIDEBAR = {
 		document.getElementById("all-toggle").checked = !FEEDSIDEBAR.prefs.getBoolPref("hideReadItems");
 		
 		FEED_GETTER.sidebarPing();
+		
+		FEEDSIDEBAR.showFeaturedFeeds();
 	},
 	
 	unload : function () {
 		FEED_GETTER.sidebarPung();
 		FEEDSIDEBAR.prefs.removeObserver("", FEEDSIDEBAR);
+		
+		if (FEEDSIDEBAR.featuredFeedsTimeout) {
+			clearTimeout(FEEDSIDEBAR.featuredFeedsTimeout);
+		}
 	},
 	
 	observe : function(subject, topic, data) {
@@ -44,14 +50,46 @@ var FEEDSIDEBAR = {
 			case "hideReadItems":
 				document.getElementById("all-toggle").checked = !FEEDSIDEBAR.prefs.getBoolPref("hideReadItems");
 			break;
-			case "trendingNews":
-				if (!FEEDSIDEBAR.prefs.getBoolPref("trendingNews")) {
-					FEED_GETTER.removeTrendingFeed();
+		}
+	},
+	
+	featuredFeedsTimeout : null,
+	
+	showFeaturedFeeds : function () {
+		var allowedToShow = FEEDSIDEBAR.prefs.getBoolPref("featuredFeeds.notify");
+		
+		if (allowedToShow) {
+			var needToShow = FEEDSIDEBAR.prefs.getBoolPref("featuredFeeds.new");
+			
+			if (needToShow) {
+				var feedsToShow = FEEDSIDEBAR.prefs.getCharPref("featuredFeeds");
+				
+				if (feedsToShow) {
+					// 10% of the time.
+					var willShow = (Math.random() < 0.075);
+				
+					if (willShow) {
+						FEEDSIDEBAR.featuredFeedsTimeout = setTimeout(
+							function () {
+								FEEDSIDEBAR.prefs.setBoolPref("featuredFeeds.new", false);
+							
+								var nb = document.getElementById("sidebar-notify");
+								nb.appendNotification("Support Feed Sidebar's development by trying out some of these new featured feeds.", "featured-feeds", 'chrome://browser/skin/Info.png', nb.PRIORITY_INFO_HIGH, 
+									[ 
+										{
+											accessKey : "S", 
+											callback : function () {
+												window.openDialog("chrome://feedbar/content/options.xul", "feedbar-options", "chrome,toolbar,centerscreen,dialog", "featured-pane");
+											}, 
+											label : "Sure!", 
+											popup : null
+										}
+									 ]);
+							},
+							1000);
+					}
 				}
-				else {
-					FEED_GETTER.addTrendingFeed();
-				}
-			break;
+			}
 		}
 	},
 	

@@ -1,7 +1,7 @@
 Components.utils.import("resource://feedbar-modules/treeview.js"); 
 
 var FEED_GETTER = {
-	trendingNewsUrl : "http://api.ads.oneriot.com/search?appId=86f2f5da-3b24-4a87-bbb3-1ad47525359d&version=1.1&format=XML",
+	trendingNewsUrl : "http://api.ads.oneriot.com/search?appId=feedsidebar01&version=1.1&format=XML",
 	trendingNewsExpiration : 0,
 	
 	get strings() { 
@@ -133,6 +133,14 @@ var FEED_GETTER = {
 				
 				FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
 			break;
+			case "trendingNews":
+				if (!FEED_GETTER.prefs.getBoolPref("trendingNews")) {
+					FEED_GETTER.removeTrendingFeed();
+				}
+				else {
+					FEED_GETTER.addTrendingFeed();
+				}
+			break;
 		}
 	},
 	
@@ -214,8 +222,10 @@ var FEED_GETTER = {
 			if (feed.bookmarkId == livemarkId) {
 				delete FEED_GETTER.feedData[feedURL];
 				
+				feedURL = feedURL.toLowerCase();
+				
 				for (var i = 0; i < FEED_GETTER.feedsToFetch.length; i++) {
-					if (FEED_GETTER.feedsToFetch[i].feed == feedURL) {
+					if (FEED_GETTER.feedsToFetch[i].feed.toLowerCase() == feedURL) {
 						FEED_GETTER.feedsToFetch.splice(i, 1);
 						return true;
 					}
@@ -311,7 +321,7 @@ var FEED_GETTER = {
 		
 		var feedIndex = FEED_GETTER.feedIndex;
 		
-		if (indexOverride) {
+		if (typeof indexOverride != "undefined") {
 			feedIndex = indexOverride;
 		}
 		else {
@@ -553,13 +563,16 @@ var FEED_GETTER = {
 			}
 		);
 		
+		FEED_GETTER.feedData[FEED_GETTER.trendingNewsUrl.toLowerCase()] = { name : "Trending News", bookmarkId : -1, uri : FEED_GETTER.trendingNewsUrl };
+		
 		FEED_GETTER.updateAFeed(0);
 	},
 	
 	removeTrendingFeed : function () {
+		FEEDBAR.tryAndRemoveFeed(-1);
 		FEED_GETTER.removeAFeed(-1);
 		
-		FEED_GETTER.feedsToFetch.shift();
+		FEED_GETTER.trendingNewsExpiration = 0;
 	},
 	
 	updateSingleFeed : function (livemarkId) {

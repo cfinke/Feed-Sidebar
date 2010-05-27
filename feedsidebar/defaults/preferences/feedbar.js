@@ -21,3 +21,8 @@ pref("extensions.feedbar.lastSort", "name");
 
 pref("extensions.feedbar.trendRequest", false);
 pref("extensions.feedbar.trendingNews", false);
+
+pref("extensions.feedbar.featuredFeeds", "");
+pref("extensions.feedbar.featuredFeeds.lastUpdate", "0");
+pref("extensions.feedbar.featuredFeeds.new", false);
+pref("extensions.feedbar.featuredFeeds.notify", true);
