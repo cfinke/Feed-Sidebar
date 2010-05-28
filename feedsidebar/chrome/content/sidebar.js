@@ -66,7 +66,7 @@ var FEEDSIDEBAR = {
 				
 				if (feedsToShow) {
 					// 10% of the time.
-					var willShow = (Math.random() < 0.075);
+					var willShow = (Math.random() < 0.2);
 				
 					if (willShow) {
 						FEEDSIDEBAR.featuredFeedsTimeout = setTimeout(
@@ -74,14 +74,22 @@ var FEEDSIDEBAR = {
 								FEEDSIDEBAR.prefs.setBoolPref("featuredFeeds.new", false);
 							
 								var nb = document.getElementById("sidebar-notify");
-								nb.appendNotification("Support Feed Sidebar's development by trying out some of these new featured feeds.", "featured-feeds", 'chrome://browser/skin/Info.png', nb.PRIORITY_INFO_HIGH, 
+								nb.appendNotification(FEEDSIDEBAR.strings.getString('feedbar.featured.notification'), "featured-feeds", 'chrome://feedbar/content/skin-common/thumbs-up.png', nb.PRIORITY_INFO_HIGH, 
 									[ 
 										{
-											accessKey : "S", 
+											accessKey : FEEDSIDEBAR.strings.getString('feedbar.featured.okKey'), 
 											callback : function () {
-												window.openDialog("chrome://feedbar/content/options.xul", "feedbar-options", "chrome,toolbar,centerscreen,dialog", "featured-pane");
+												var optWin = FEEDSIDEBAR.options("featured-pane");
+												/*
+												
+												optWin.addEventListener("load", function (evt) { 
+													var win = evt.currentTarget; 
+													win.document.documentElement.showPane(win.document.getElementById("featured-pane"));
+													win.sizeToContent();
+												}, false);
+												*/
 											}, 
-											label : "Sure!", 
+											label : FEEDSIDEBAR.strings.getString('feedbar.featured.okLabel'),
 											popup : null
 										}
 									 ]);
@@ -160,8 +168,27 @@ var FEEDSIDEBAR = {
 		}
 	},
 
-	options : function () {
-		openDialog("chrome://feedbar/content/options.xul", "", "chrome,titlebar,toolbar,centerscreen");
+	options : function (panel) {
+		var features = "";
+		
+		try {
+			var instantApply = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("").getBoolPref("browser.preferences.instantApply");
+			features = "chrome,titlebar,toolbar,centerscreen" + (instantApply ? ",dialog=no" : "");
+		}
+		catch (e) {
+			features = "chrome,titlebar,toolbar,centerscreen";
+		}
+		
+		var optWin = openDialog("chrome://feedbar/content/options.xul", "", features);
+		
+		if (panel) {
+			optWin.addEventListener("load", function (evt) {
+				var win = evt.currentTarget;
+				win.document.documentElement.showPane(win.document.getElementById(panel));
+			}, false);
+		}
+		
+		return optWin;
 	},
 	
 	contextMenu : {
@@ -440,7 +467,7 @@ var FEEDSIDEBAR = {
 	
 	addError : function (feedName, feedUrl, error, priority) {
 		var nb = document.getElementById("sidebar-notify");
-		nb.appendNotification(feedName + ": " + error, feedUrl, 'chrome://browser/skin/Info.png', priority, [ { accessKey : "V", callback : FEEDSIDEBAR.notifyCallback, label : "View feed", popup : null } ]);
+		nb.appendNotification(feedName + ": " + error, feedUrl, 'chrome://browser/skin/Info.png', priority, [ { accessKey : FEEDSIDEBAR.strings.getString("feedbar.errors.viewFeed.key"), callback : FEEDSIDEBAR.notifyCallback, label : FEEDSIDEBAR.strings.getString("feedbar.errors.viewFeed"), popup : null } ]);
 	},
 
 	notifyCallback : function (notification, description) {

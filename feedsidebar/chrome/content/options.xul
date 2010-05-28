@@ -13,6 +13,8 @@
 			prefs : null,
 			browserPrefs : null,
 			
+			get strings() { return document.getElementById("feedbar-string-bundle"); },
+			
 			onload : function () {
 				this.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.feedbar.");
 				this.browserPrefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("browser.preferences.");
@@ -33,7 +35,7 @@
 				}
 				
 				if (this.prefs.getBoolPref("trendingNews")) {
-					document.getElementById("trending-news-button").setAttribute('label', "Unsubscribe");
+					document.getElementById("trending-news-button").setAttribute('label', FEEDBAR_PREFS.strings.getString("feedbar.featured.unsubscribe"));
 				}
 				
 				var featuredFeeds = this.prefs.getCharPref("featuredFeeds");
@@ -101,13 +103,13 @@
 							button.description = featuredFeeds[i].description;
 							
 							if (isSubscribed) {
-								button.setAttribute("label", "Unsubscribe");
+								button.setAttribute("label", FEEDBAR_PREFS.strings.getString("feedbar.featured.unsubscribe"));
 							}
 							else {
-								button.setAttribute("label", "Subscribe");
+								button.setAttribute("label", FEEDBAR_PREFS.strings.getString("feedbar.featured.subscribe"));
 							}
 							
-							button.setAttribute("oncommand", "if (FEEDBAR_PREFS.isSubscribed(this.feedUrl)) { this.setAttribute('label', 'Subscribe'); FEEDBAR_PREFS.unsubscribe(this.feedUrl); } else { this.setAttribute('label', 'Unsubscribe'); FEEDBAR_PREFS.subscribe(this.name, this.feedUrl, this.siteUrl, this.description); }");
+							button.setAttribute("oncommand", "if (FEEDBAR_PREFS.isSubscribed(this.feedUrl)) { this.setAttribute('label', FEEDBAR_PREFS.strings.getString('feedbar.featured.subscribe')); FEEDBAR_PREFS.unsubscribe(this.feedUrl); } else { this.setAttribute('label', FEEDBAR_PREFS.strings.getString('feedbar.featured.unsubscribe')); FEEDBAR_PREFS.subscribe(this.name, this.feedUrl, this.siteUrl, this.description); }");
 							
 							vbox.appendChild(label);
 							vbox.appendChild(description);
@@ -217,7 +219,10 @@
 		
 		]]>
 	</script>
-	<prefpane id="general-pane" label="General" image="chrome://feedbar/content/skin-common/emblem-system.png">
+	<stringbundleset id="stringbundleset">
+		<stringbundle id="feedbar-string-bundle" src="chrome://feedbar/locale/locale.properties" />
+	</stringbundleset>
+	<prefpane id="general-pane" label="&feedbar.options.general;" image="chrome://feedbar/content/skin-common/emblem-system.png">
 		<preferences id="all_prefs">
 			<preference id="p_hide_read" name="extensions.feedbar.hideReadItems" type="bool" />
 			<preference id="p_update_freq" name="extensions.feedbar.updateFrequency" type="int" />
@@ -233,7 +238,7 @@
 			<hbox>
 				<label value="&feedbar.updateEvery1;" style="padding-top: 4px;" control="updateFreq"/>
 				<textbox id="updateFreq" preference="p_update_freq" size="2" aria-labelledby="updateFreq updateFreqUnit"/>
-				<label id="updateFreqUnit" value="&feedbar.updateEvery2;" style="padding-top: 4px;"  />				
+				<label id="updateFreqUnit" value="&feedbar.updateEvery2;" style="padding-top: 4px;"  />
 			</hbox>
 		</groupbox>
 		<groupbox>
@@ -260,13 +265,13 @@
 			</radiogroup>
 			<checkbox label="&feedbar.alwaysOpenInNewTab;" preference="p_new_tab" />
 		</groupbox>
-		<spacer style="height: 30px;" />
 	</prefpane>
-	<prefpane id="featured-pane" label="Featured Feeds" image="chrome://feedbar/content/skin-common/feed-icon-32.png">
+	<prefpane id="featured-pane" label="&feedbar.featured.panelTitle;" image="chrome://feedbar/content/skin-common/feed-icon-32.png">
 		<vbox style="max-width: 460px;">
-			<description>Support Feed Sidebar's development without spending a cent by trying out some of these feeds from the Friends of Feed Sidebar.</description>
-			<description style="font-size: 8pt;">If you'd like to see your feed in this list, e-mail cfinke@gmail.com.</description>
-			<vbox id="featured-feeds">
+			<description>&feedbar.featured.description;</description>
+			<description style="font-size: 8pt;">&feedbar.featured.contact;</description>
+			<checkbox preference="p_featured" label="&feedbar.featured.notifyMe;" />
+			<vbox id="featured-feeds" style="min-height: 400px;">
 				<groupbox>
 					<hbox>
 						<vbox>
@@ -275,15 +280,13 @@
 							<spring flex="1" />
 						</vbox>
 						<vbox flex="1">
-							<label class="text-link" style="padding-left: 0; margin-left: 0;" value="Trending News" />
-							<description>A feed of the latest popular and trending news stories.</description>
-							<button id="trending-news-button" oncommand="FEEDBAR_PREFS.prefs.setBoolPref('trendingNews', !FEEDBAR_PREFS.prefs.getBoolPref('trendingNews')); if (FEEDBAR_PREFS.prefs.getBoolPref('trendingNews')) { this.setAttribute('label', 'Unsubscribe'); } else { this.setAttribute('label', 'Subscribe'); }" label="Subscribe" />
+							<label class="text-link" style="padding-left: 0; margin-left: 0;" value="&feedbar.featured.trends.title;" />
+							<description>&feedbar.featured.trends.description;</description>
+							<button id="trending-news-button" oncommand="FEEDBAR_PREFS.prefs.setBoolPref('trendingNews', !FEEDBAR_PREFS.prefs.getBoolPref('trendingNews')); if (FEEDBAR_PREFS.prefs.getBoolPref('trendingNews')) { this.setAttribute('label', FEEDBAR_PREFS.strings.getString('feedbar.featured.unsubscribe')); } else { this.setAttribute('label', FEEDBAR_PREFS.strings.getString('feedbar.featured.subscribe')); }" label="&feedbar.featured.subscribe;" />
 						</vbox>
 					</hbox>
 				</groupbox>
 			</vbox>
-			<checkbox preference="p_featured" label="Periodically notify me about new featured feeds." />
-			<spacer style="height: 30px;" />
 		</vbox>
 	</prefpane>
 </prefwindow>

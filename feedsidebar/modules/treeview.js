@@ -417,8 +417,7 @@ var FEEDBAR = {
 	
 	getImageSrc: function(idx){ 
 		if (FEEDBAR.isContainer(idx)) {
-			// return "chrome://feedbar/content/skin-common/folder.png";
-			return "chrome://global/skin/tree/folder.png";
+			return "chrome://feedbar/skin/icons/folder.png";
 		}
 		else {
 			return FEEDBAR.visibleData[idx].image;
