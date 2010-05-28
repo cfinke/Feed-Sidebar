@@ -51,8 +51,3 @@
 <!ENTITY feedbar.showAll.tooltip "Показывать прочитанные/непрочитанные новости.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Всегда открывать новости в новой вкладке">
 <!ENTITY feedbar.updatesDisabled "Отключить автообновление">
-<!ENTITY feedbar.trendsTitle "Ленты соц.сетей.">
-<!ENTITY feedbar.trendsP1 "Не хотели бы Вы подписаться на ленты новостей из Twitter'а, Digg'а и других соц.сетей?">
-<!ENTITY feedbar.trendsP2 "Нажмите OK, чтобы подписаться не ленты. Лента появится в боковой панели, информируя Вас о последних новостях в сети. (Вы можете отписаться в любое время.)">
-<!ENTITY feedbar.trendsP3 "Не волнуйтесь, если Вы откажетесь, больше Вы этого вопроса не увидите.">
-<!ENTITY feedbar.checkbox_understand "Да, я хочу подписаться на ленты новостей из соц.сетей.">

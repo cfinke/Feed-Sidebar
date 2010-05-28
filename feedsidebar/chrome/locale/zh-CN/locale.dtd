@@ -51,8 +51,3 @@
 <!ENTITY feedbar.showAll.tooltip "同时显示未读和已读项目">
 <!ENTITY feedbar.alwaysOpenInNewTab "总是在新标签页打开项目">
 <!ENTITY feedbar.updatesDisabled "禁用自动更新">
-<!ENTITY feedbar.trendsTitle "实时网络热门话题">
-<!ENTITY feedbar.trendsP1 "Feed Sidebar想要了解你是否需要订阅Twitter, Digg等社交网站的最新热门话题。">
-<!ENTITY feedbar.trendsP2 "点击确认订阅，它将会显示于侧栏，让你了解网络上最新的新闻和话题（随时可以取消订阅）。">
-<!ENTITY feedbar.trendsP3 "别担心，如果选择不订阅，Feed Sidebar不会再询问你。">
-<!ENTITY feedbar.checkbox_understand "是，我想订阅热门社交话题。">

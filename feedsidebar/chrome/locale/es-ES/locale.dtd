@@ -51,8 +51,5 @@
 <!ENTITY feedbar.showAll.tooltip "Activar la visualización de elementos leídos y no leídos.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Abrir siempre elementos en nuevas pestañas">
 <!ENTITY feedbar.updatesDisabled "Desactivar Actualizaciones Automáticas">
-<!ENTITY feedbar.trendsTitle "Tendencias Web en tiempo real">
-<!ENTITY feedbar.trendsP1 "Feed Sidebar quiere saber si desea vincularse a un hilo de las últimas tendencias de búsquedas en Twitter, Digg y el resto de redes sociales.">
-<!ENTITY feedbar.trendsP2 "Pulse OK para vincularse a el hilo; aparecerá automáticamente en la barra lateral, manteniendole actualizado de las últimas noticias y tendencias sobre la Web (puede desvincularse en cualquier momento).">
-<!ENTITY feedbar.trendsP3 "No se preocupe, no se le preguntará de nuevo si elige no suscribirse.">
-<!ENTITY feedbar.checkbox_understand "Si, quiero vincularme a un hilo de tendencias sobre temas sociales.">
+<!ENTITY feedbar.options.general "General">
+<!ENTITY feedbar.featured.subscribe "Suscribir">

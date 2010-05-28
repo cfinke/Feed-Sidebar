@@ -19,15 +19,15 @@
 <!ENTITY feedbar.hour "time">
 <!ENTITY feedbar.hours "timer">
 <!ENTITY feedbar.showLastTooltip "Begræns alderen på de viste emner">
-<!ENTITY feedbar.showLastDaysPre "Vis seneste">
-<!ENTITY feedbar.showLastDaysPost "dage">
-<!ENTITY feedbar.showLastWeeksPre "Vis seneste">
-<!ENTITY feedbar.showLastWeeksPost "uger">
+<!ENTITY feedbar.showLastDaysPre "Vis seneste ">
+<!ENTITY feedbar.showLastDaysPost " dage">
+<!ENTITY feedbar.showLastWeeksPre "Vis seneste ">
+<!ENTITY feedbar.showLastWeeksPost " uger">
 <!ENTITY feedbar.showAllItems "Vis alle emner">
 <!ENTITY feedbar.showLastDay "Seneste døgn">
 <!ENTITY feedbar.showLastWeek "Vis seneste uge">
 <!ENTITY feedbar.showLastMonth "Vis seneste måned">
-<!ENTITY feedbar.sortBy "Sorter efter...">
+<!ENTITY feedbar.sortBy "Sorter efter…">
 <!ENTITY feedbar.sort.name "Navn">
 <!ENTITY feedbar.sort.default "Standard">
 <!ENTITY feedbar.sort.updated "Sidst opdateret">
@@ -36,23 +36,28 @@
 <!ENTITY feedbar.unsubscribe "Slet abonnement">
 <!ENTITY feedbar.options "Indstillinger">
 <!ENTITY feedbar.hideReadItems "Skjul læste emner">
+<!-- Update feeds every # minutes. -->
 <!ENTITY feedbar.updateEvery1 "Opdater feeds hvert">
 <!ENTITY feedbar.updateEvery2 "minut.">
+<!-- Only show items from the last # days. -->
 <!ENTITY feedbar.showAllItemsFull "Vis alle emner uanset alder">
 <!ENTITY feedbar.onlyShow1 "Vis kun emner fra de sidste">
 <!ENTITY feedbar.onlyShow2 "dage.">
 <!ENTITY feedbar.autoClose "Luk automatisk sidebjælken når alle emner markeres som læst.">
 <!ENTITY feedbar.notifications "Vis pop-up besked når nye emner er fundet.">
 <!ENTITY feedbar.runInSidebar "Tjek kun for opdateringer når sidebjælken er åben.">
-<!ENTITY feedbar.previewQuestion "Når et feed-emne åbnes...">
+<!ENTITY feedbar.previewQuestion "Når et feed-emne åbnes…">
 <!ENTITY feedbar.previewAnswer1 "Åbn hjemmesiden (standard).">
 <!ENTITY feedbar.previewAnswer2 "Vis hele emnebeskrivelsen i browservinduet.">
 <!ENTITY feedbar.showAllItemsButtonLabel "Alle">
 <!ENTITY feedbar.showAll.tooltip "Aktiver visning af både læste og ulæste emner.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Åbn altid emner i nye faneblade.">
 <!ENTITY feedbar.updatesDisabled "Deaktiver autoopdateringer.">
-<!ENTITY feedbar.trendsTitle "Real-time webtrends">
-<!ENTITY feedbar.trendsP1 "Feed Sidebar ønsker at vide, om du ønsker at abonnere på et feed med de seneste tendensvisende søgeord på Twitter, Digg og resten af det sociale net.">
-<!ENTITY feedbar.trendsP2 "Klik OK for at abonnere på feed'et; det vil automatisk dukke op i sidebjælken, og holde dig opdateret med de seneste nyheder og trends fra nettet. (Du kan opsige abonnementet når som helst).">
-<!ENTITY feedbar.trendsP3 "Bare rolig, du vil ikke blive spurgt igen, hvis du vælger ikke at abonnere.">
-<!ENTITY feedbar.checkbox_understand "Ja, jeg ønsker at abonnere på et feed med tendensvisende sociale emner.">
+<!ENTITY feedbar.options.general "Generelt">
+<!ENTITY feedbar.featured.subscribe "Abonner">
+<!ENTITY feedbar.featured.panelTitle "Udvalgte feeds">
+<!ENTITY feedbar.featured.description "Støt udviklingen af Feed Sidebar uden at bruge en krone ved at prøve nogle af disse feeds fra Friends of Feed Sidebar.">
+<!ENTITY feedbar.featured.contact "(Hvis du ønsker at se dit feed på denne liste, send en mail til cfinke@gmail.com.)">
+<!ENTITY feedbar.featured.trends.title "Tendensvisende nyheder">
+<!ENTITY feedbar.featured.trends.description "Et feed med de seneste populære og tendensvisende nyheder">
+<!ENTITY feedbar.featured.notifyMe "Giv mig periodisk besked om nye udvalgte feeds.">

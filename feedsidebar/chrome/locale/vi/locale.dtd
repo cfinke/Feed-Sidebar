@@ -51,8 +51,11 @@
 <!ENTITY feedbar.showAll.tooltip "Cho phép hiển thị cả mục tin đã đọc và chưa đọc.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Luôn mở các mục tin trên thẻ mới">
 <!ENTITY feedbar.updatesDisabled "Không cho phép tự động cập nhật">
-<!ENTITY feedbar.trendsTitle "Các diễn biến trực tiếp trên mạng">
-<!ENTITY feedbar.trendsP1 "Thanh Feed Sidebar muốn hỏi xem bạn có thích cập nhật các mục tin từ những xu hướng tìm kiếm mới nhất trên Twitter, Digg và các mạng xã hội khác hay không.">
-<!ENTITY feedbar.trendsP2 "Ấn OK để đăng ký nhận bản tin này; nó sẽ tự động hiển thị trên thanh nằm bên cạnh màn hình, giúp bạn luôn cập nhật những tin tức và các xu hướng mới nhất trên mạng. (bạn có thể bỏ chức năng cập nhật này bất cứ lúc nào.)">
-<!ENTITY feedbar.trendsP3 "Đừng lo, bạn sẽ không bị hỏi lại nữa nếu như bạn không đăng ký nhận bản tin.">
-<!ENTITY feedbar.checkbox_understand "Vâng, tôi muốn nhận bản tin về các diễn biến thuộc đề tài xã hội này.">
+<!ENTITY feedbar.options.general "Tổng quan">
+<!ENTITY feedbar.featured.subscribe "Đăng ký nhận tin">
+<!ENTITY feedbar.featured.panelTitle "Các tin được cung cấp">
+<!ENTITY feedbar.featured.description "Hỗ trợ sự phát triển của Feed Sidebar mà không cần mất tí tiền nào bằng cách đọc các tin tức từ Bạn Bè của Feed Sidebar.">
+<!ENTITY feedbar.featured.contact "(Nếu bạn muốn thấy tin tức của mình trên danh sách này, hãy gửi thư tới cfinke@gmail.com.)">
+<!ENTITY feedbar.featured.trends.title "Xu hướng sự kiện">
+<!ENTITY feedbar.featured.trends.description "Một nguồn cấp tim cho những sự kiện mới và phổ biến nhất.">
+<!ENTITY feedbar.featured.notifyMe "Thông báo định kỳ với tôi về những nguồn cấp tin mới.">

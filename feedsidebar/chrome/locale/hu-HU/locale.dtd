@@ -51,8 +51,3 @@
 <!ENTITY feedbar.showAll.tooltip "Olvasott és olvasott elemek megjelenítése.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Hírek megnyitása mindig új lapon.">
 <!ENTITY feedbar.updatesDisabled "Automatikus frissítések kikapcsolása">
-<!ENTITY feedbar.trendsTitle "Aktuális netes trendek">
-<!ENTITY feedbar.trendsP1 "A Feed Sidebar tudni szeretné, feliratkozol-e egy hírfolyamra, amely a legfrissebb kereséseket tartalmazza a Twitterről, a Diggről és egyéb közösségi oldalakról.">
-<!ENTITY feedbar.trendsP2 "Kattints az OK-ra a feliratkozáshoz; ezután automatikusan megjelenik az oldalsávban, és tájékoztat a legfrissebb netes hírekről és trendekről. (Bármikor leiratkozhatsz.)">
-<!ENTITY feedbar.trendsP3 "Ne aggódj, többször nem kerül elő ez a kérdés, ha nem iratkozol most fel.">
-<!ENTITY feedbar.checkbox_understand "Igen, szeretnék feliratkozni az aktuális közösségi témákról szóló hírfolyamra.">

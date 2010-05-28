@@ -18,7 +18,7 @@
 <!ENTITY feedbar.minutes "min">
 <!ENTITY feedbar.hour "godz.">
 <!ENTITY feedbar.hours "godz.">
-<!ENTITY feedbar.showLastTooltip "Przedział czasowy z jakiego będą wyświetlane wiadomości">
+<!ENTITY feedbar.showLastTooltip "Przedział czasowy, z jakiego będą wyświetlane wiadomości">
 <!ENTITY feedbar.showLastDaysPre "Wyświetl z ostatnich">
 <!ENTITY feedbar.showLastDaysPost "dni">
 <!ENTITY feedbar.showLastWeeksPre "Wyświetl z ostatnich">
@@ -51,8 +51,11 @@
 <!ENTITY feedbar.showAll.tooltip "Włącz, aby wyświetlać przeczytane i nieprzeczytane wiadomości">
 <!ENTITY feedbar.alwaysOpenInNewTab "Otwieraj wiadomości zawsze w nowych kartach">
 <!ENTITY feedbar.updatesDisabled "Wyłącz automatyczną aktualizację">
-<!ENTITY feedbar.trendsTitle "Trendy spłecznościowe">
-<!ENTITY feedbar.trendsP1 "Czy chcesz subskrybować kanał najczęściej wyszukiwanych zwrotów na Twitterze, Diggu i innych portalach społecznościowych?">
-<!ENTITY feedbar.trendsP2 "Kliknij OK, by subskrybować kanał. Będzie on automatycznie widoczny w panelu bocznym i zostaną wyświetlone ostatnie wiadomości i najczęściej wyszukiwane zwroty. Subskrypcję można anulować w dowolnym czasie.">
-<!ENTITY feedbar.trendsP3 "Po rezygnacji z subskrybowania, to pytanie nie będzie wyświetlane.">
-<!ENTITY feedbar.checkbox_understand "Tak, chcę subskrybować kanał popularnych tematów społecznościowych.">
+<!ENTITY feedbar.options.general "Ogólne">
+<!ENTITY feedbar.featured.subscribe "Subskrybuj">
+<!ENTITY feedbar.featured.panelTitle "Polecane kanały">
+<!ENTITY feedbar.featured.description "Wspomóż rozwój Feed Sidebara bez pieniędzy próbując kanały z listy „Przyjaciele Feed Sidebara”.">
+<!ENTITY feedbar.featured.contact "Jeśli chcesz, aby na tej liście znalazł się twój kanał, wyślij e-maila na adres cfinke@gmail.com.">
+<!ENTITY feedbar.featured.trends.title "Popularne wiadomości">
+<!ENTITY feedbar.featured.trends.description "Kanał najpopularniejszych wiadomości.">
+<!ENTITY feedbar.featured.notifyMe "Okresowo informuj o nowych polecanych kanałach.">
