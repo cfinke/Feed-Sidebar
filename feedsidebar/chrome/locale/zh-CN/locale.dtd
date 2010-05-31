@@ -51,3 +51,11 @@
 <!ENTITY feedbar.showAll.tooltip "同时显示未读和已读项目">
 <!ENTITY feedbar.alwaysOpenInNewTab "总是在新标签页打开项目">
 <!ENTITY feedbar.updatesDisabled "禁用自动更新">
+<!ENTITY feedbar.options.general "常规">
+<!ENTITY feedbar.featured.subscribe "订阅">
+<!ENTITY feedbar.featured.panelTitle "精选订阅">
+<!ENTITY feedbar.featured.description "只需试读来自 Feed Sidebar 朋友的订阅即可轻松支持 Feed Sidebar。">
+<!ENTITY feedbar.featured.contact "（如果希望你的订阅出现在这个列表中，请发邮件到 e-mail cfinke@gmail.com 。）">
+<!ENTITY feedbar.featured.trends.title "行业新闻">
+<!ENTITY feedbar.featured.trends.description "关于热门行业新闻的订阅">
+<!ENTITY feedbar.featured.notifyMe "定期提醒我来自精选订阅的内容">
