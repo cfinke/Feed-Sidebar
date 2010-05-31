@@ -1799,7 +1799,7 @@ var FEEDBAR = {
 
 			doc.getElementById("title").innerHTML = '<a href="'+itemUri+'">'+itemLabel+'</a>';
 
-			var nav = '<a href="' + itemUri + '">'+FEEDBAR.strings.getString("feedbar.permalink")+'</a> &bull; <a href="'+feedUri+'">'+FEEDBAR.strings.getString("feedbar.feedLink")+'</a> &bull; <a href="'+siteUri+'">'+FEEDBAR.strings.getString("feedbar.siteLink")+"</a> &bull; " + FEEDBAR.strings.getFormattedString("feedbar.publishedOn", [pubDate, feedUri, feedLabel]);
+			var nav = '<a href="' + itemUri + '">'+FEEDBAR.strings.getString("feedbar.permalink")+'</a> &bull; <a href="'+feedUri+'">'+FEEDBAR.strings.getString("feedbar.feedLink")+'</a> &bull; <a href="'+siteUri+'">'+FEEDBAR.strings.getString("feedbar.siteLink")+"</a> &bull; " + FEEDBAR.strings.getFormattedString("feedbar.publishedOn", [pubDate.toLocaleString(), feedUri, feedLabel]);
 			doc.getElementById("navigation").innerHTML = nav;
 
 			var content = item.description;
