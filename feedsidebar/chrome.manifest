@@ -6,24 +6,24 @@ skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/ff3
 skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/ff3/mac/ os=Darwin
 
 locale      feedbar     en-US               jar:chrome/feedsidebar.jar!/locale/en-US/
-# locale      feedbar     be-BY               jar:chrome/feedsidebar.jar!/locale/be-BY/
-# locale      feedbar     da-DK               jar:chrome/feedsidebar.jar!/locale/da-DK/
-# locale      feedbar     de-DE               jar:chrome/feedsidebar.jar!/locale/de-DE/
-# locale      feedbar     es-ES               jar:chrome/feedsidebar.jar!/locale/es-ES/
-# locale      feedbar     fr-FR               jar:chrome/feedsidebar.jar!/locale/fr-FR/
-# locale      feedbar     fy-NL               jar:chrome/feedsidebar.jar!/locale/fy-NL/
-# locale      feedbar     hu-HU               jar:chrome/feedsidebar.jar!/locale/hu-HU/
-# locale      feedbar     it-IT               jar:chrome/feedsidebar.jar!/locale/it-IT/
-# locale      feedbar     ja-JP               jar:chrome/feedsidebar.jar!/locale/ja-JP/
-# locale      feedbar     nl-NL               jar:chrome/feedsidebar.jar!/locale/nl-NL/
-# locale      feedbar     pl-PL               jar:chrome/feedsidebar.jar!/locale/pl-PL/
-# locale      feedbar     pt-BR               jar:chrome/feedsidebar.jar!/locale/pt-BR/
-# locale      feedbar     ru-RU               jar:chrome/feedsidebar.jar!/locale/ru-RU/
-# locale      feedbar     sk-SK               jar:chrome/feedsidebar.jar!/locale/sk-SK/
-# locale      feedbar     tr-TR               jar:chrome/feedsidebar.jar!/locale/tr-TR/
-# locale      feedbar     vi                  jar:chrome/feedsidebar.jar!/locale/vi/
-# locale      feedbar     zh-CN               jar:chrome/feedsidebar.jar!/locale/zh-CN/
-# locale      feedbar     zh-TW               jar:chrome/feedsidebar.jar!/locale/zh-TW/
+locale      feedbar     be-BY               jar:chrome/feedsidebar.jar!/locale/be-BY/
+locale      feedbar     da-DK               jar:chrome/feedsidebar.jar!/locale/da-DK/
+locale      feedbar     de-DE               jar:chrome/feedsidebar.jar!/locale/de-DE/
+locale      feedbar     es-ES               jar:chrome/feedsidebar.jar!/locale/es-ES/
+locale      feedbar     fr-FR               jar:chrome/feedsidebar.jar!/locale/fr-FR/
+locale      feedbar     fy-NL               jar:chrome/feedsidebar.jar!/locale/fy-NL/
+locale      feedbar     hu-HU               jar:chrome/feedsidebar.jar!/locale/hu-HU/
+locale      feedbar     it-IT               jar:chrome/feedsidebar.jar!/locale/it-IT/
+locale      feedbar     ja-JP               jar:chrome/feedsidebar.jar!/locale/ja-JP/
+locale      feedbar     nl-NL               jar:chrome/feedsidebar.jar!/locale/nl-NL/
+locale      feedbar     pl-PL               jar:chrome/feedsidebar.jar!/locale/pl-PL/
+locale      feedbar     pt-BR               jar:chrome/feedsidebar.jar!/locale/pt-BR/
+locale      feedbar     ru-RU               jar:chrome/feedsidebar.jar!/locale/ru-RU/
+locale      feedbar     sk-SK               jar:chrome/feedsidebar.jar!/locale/sk-SK/
+locale      feedbar     tr-TR               jar:chrome/feedsidebar.jar!/locale/tr-TR/
+locale      feedbar     vi                  jar:chrome/feedsidebar.jar!/locale/vi/
+locale      feedbar     zh-CN               jar:chrome/feedsidebar.jar!/locale/zh-CN/
+locale      feedbar     zh-TW               jar:chrome/feedsidebar.jar!/locale/zh-TW/
 
 overlay     chrome://browser/content/browser.xul                chrome://feedbar/content/overlay.xul
 
