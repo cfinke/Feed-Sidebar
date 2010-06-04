@@ -101,7 +101,7 @@ var FEED_GETTER = {
 			
 			var bmsvc = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
 			bmsvc.addObserver(FEED_GETTER, false);
-		
+			
 			FEED_GETTER.startFetchingFeeds();
 		}
 	},
@@ -127,10 +127,6 @@ var FEED_GETTER = {
 		
 		switch(data) {
 			case "updateFrequency":
-				if (FEED_GETTER.prefs.getIntPref("updateFrequency") < 1) {
-					FEED_GETTER.prefs.setIntPref("updateFrequency", 0);
-				}
-				
 				FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
 			break;
 			case "trendingNews":
@@ -212,7 +208,7 @@ var FEED_GETTER = {
 			FEED_GETTER.notifyNoFeeds();
 		}
 		
-		FEED_GETTER.setTimeout(FEED_GETTER.setReloadInterval, 5000, FEED_GETTER.prefs.getIntPref("updateFrequency"));
+		FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
 	},
 	
 	removeAFeed : function (livemarkId) {
@@ -249,9 +245,12 @@ var FEED_GETTER = {
 			var win = wins[i];
 			
 			var statusText = win.document.getElementById("feedbar-loading-text")
-			statusText.setAttribute("value", label);
-			statusText.setAttribute("tooltiptext", tooltiptext);
-			statusText.setAttribute("url", url);
+			
+			if (statusText) {
+				statusText.setAttribute("value", label);
+				statusText.setAttribute("tooltiptext", tooltiptext);
+				statusText.setAttribute("url", url);
+			}
 		}
 	},
 	
@@ -304,10 +303,10 @@ var FEED_GETTER = {
 			}
 		}
 		
-		if (FEED_GETTER.rapidUpdate) {
+		if (FEED_GETTER.rapidUpdate > 0) {
 			FEED_GETTER.rapidUpdate--;
 			
-			if (!FEED_GETTER.rapidUpdate) {
+			if (FEED_GETTER.rapidUpdate <= 0) {
 				FEED_GETTER.stopUpdate();
 			}
 		}
@@ -329,7 +328,7 @@ var FEED_GETTER = {
 		}
 		
 		if (feedIndex == 0) {
-			FEED_GETTER.prefs.setIntPref("lastUpdate", Math.round(new Date().getTime() / 1000));
+			FEED_GETTER.prefs.setCharPref("lastMSUpdate", (new Date().getTime()));
 		}
 		
 		var feed = FEED_GETTER.feedsToFetch[feedIndex];
@@ -643,25 +642,30 @@ var FEED_GETTER = {
 		FEED_GETTER.prefs.setIntPref("updateFrequency",minutes);
 	},
 	
-	setReloadInterval : function (minutes) {
+	setReloadInterval : function (interval) {
+		interval = Math.max(1, interval);
+		
 		FEED_GETTER.clearTimeout(FEED_GETTER.feedUpdateTimeout);
 		
 		var numFeeds = FEED_GETTER.feedsToFetch.length;
-		var interval = minutes;
 		
 		if (numFeeds == 0) {
+			// This ensures that secondsBetweenFeeds = 60 so that we'll be checking for
+			// a new feed every minute.
 			numFeeds = interval;
 		}
 		
 		FEED_GETTER.secondsBetweenFeeds = Math.ceil((interval * 60) / numFeeds);
 		
-		// Check if it's been more than $minutes minutes since the last full update.
-		var lastUpdate = FEED_GETTER.prefs.getIntPref("lastUpdate") * 1000; 
+		// Check if it's been more than X minutes since the last full update.
+		var lastUpdate = FEED_GETTER.prefs.getCharPref("lastMSUpdate"); 
 		var now = new Date().getTime();
 		
-		var minutesSince = (now - lastUpdate) / 1000 / 60;
+		var msSince = now - lastUpdate;
+		var minutesSince = Math.floor(msSince / 1000 / 60);
 		
-		if ((minutes != 0) && (minutesSince > minutes)) {
+		if (minutesSince > interval) {
+			// The browser or sidebar has been closed longer than a full round of updates takes.
 			FEED_GETTER.updateAllFeeds();
 		}
 		else {

@@ -1,7 +1,7 @@
 pref("extensions.feedbar@efinke.com.description","chrome://feedbar/locale/locale.properties");
 
 pref("extensions.feedbar.updateFrequency", 30);
-pref("extensions.feedbar.lastUpdate", 0);
+pref("extensions.feedbar.lastMSUpdate", "0");
 pref("extensions.feedbar.displayPeriod", 0);
 pref("extensions.feedbar.hideReadItems", true);
 
