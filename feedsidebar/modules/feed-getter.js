@@ -643,7 +643,7 @@ var FEED_GETTER = {
 	},
 	
 	setReloadInterval : function (interval) {
-		interval = Math.max(1, interval);
+		interval = Math.max(0, interval);
 		
 		FEED_GETTER.clearTimeout(FEED_GETTER.feedUpdateTimeout);
 		
@@ -656,6 +656,11 @@ var FEED_GETTER = {
 		}
 		
 		FEED_GETTER.secondsBetweenFeeds = Math.ceil((interval * 60) / numFeeds);
+		
+		if (interval == 0) {
+			// Auto-update is disabled.
+			return;
+		}
 		
 		// Check if it's been more than X minutes since the last full update.
 		var lastUpdate = FEED_GETTER.prefs.getCharPref("lastMSUpdate"); 
