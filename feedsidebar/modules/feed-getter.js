@@ -388,9 +388,15 @@ var FEED_GETTER = {
 						}
 						else {
 							++FEED_GETTER.consecutiveFailures;
+							
+							if (req.status == 404) {
+								FEED_GETTER.addError(feed.name, url, FEED_GETTER.strings.getString("feedbar.errors.404"), 5);
+							}
 						}
 					}
 					catch (e) {
+						FEED_GETTER.log(e);
+						
 						++FEED_GETTER.consecutiveFailures;
 						
 						if (e.name == "NS_ERROR_NOT_AVAILABLE"){

@@ -466,8 +466,23 @@ var FEEDSIDEBAR = {
 	},
 	
 	addError : function (feedName, feedUrl, error, priority) {
+		var livemarkId = FEED_GETTER.feedData[feedUrl.toLowerCase()].bookmarkId;
+		
 		var nb = document.getElementById("sidebar-notify");
-		nb.appendNotification(feedName + ": " + error, feedUrl, 'chrome://browser/skin/Info.png', priority, [ { accessKey : FEEDSIDEBAR.strings.getString("feedbar.errors.viewFeed.key"), callback : FEEDSIDEBAR.notifyCallback, label : FEEDSIDEBAR.strings.getString("feedbar.errors.viewFeed"), popup : null } ]);
+		nb.appendNotification(feedName + ": " + error, feedUrl, 'chrome://browser/skin/Info.png', priority, [
+			{
+				accessKey : FEEDSIDEBAR.strings.getString("feedbar.errors.viewFeed.key"), 
+				callback : FEEDSIDEBAR.notifyCallback, 
+				label : FEEDSIDEBAR.strings.getString("feedbar.errors.viewFeed"), 
+				popup : null
+			},
+			{
+				accessKey : FEEDSIDEBAR.strings.getString("feedbar.unsubscribe.key"),
+				callback : function () { FEEDBAR.unsubscribeById(livemarkId); FEED_GETTER.removeAFeed(livemarkId); },
+				label : FEEDSIDEBAR.strings.getString("feedbar.unsubscribe"),
+				popup : null
+			}
+		]);
 	},
 
 	notifyCallback : function (notification, description) {
