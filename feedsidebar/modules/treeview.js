@@ -1628,20 +1628,25 @@ var FEEDBAR = {
 		FEEDBAR.clipboard.copyString(link);
 	},
 	
-	unsubscribe : function () {
-		var idx = FEEDBAR.getSelectedIndex();
-		var feedKey = FEEDBAR.getCellID(idx);
-		
+	unsubscribeById : function (id) {
 		var bookmarkService = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
 		
 		try {
-			var livemarkId = FEEDBAR.getCellLivemarkId(idx);
-			bookmarkService.removeFolder(livemarkId);
+			bookmarkService.removeFolder(id);
 		} catch (e) {
-			FEEDBAR.tryAndRemoveFeed(livemarkId);
+			FEEDBAR.tryAndRemoveFeed(id);
 		}
-
+		
 		FEEDBAR.updateNotifier();
+		
+		return id;
+	},
+	
+	unsubscribe : function () {
+		var idx = FEEDBAR.getSelectedIndex();
+		var livemarkId = FEEDBAR.getCellLivemarkId(idx);
+		
+		FEEDBAR.unsubscribeById(livemarkId);
 		
 		return livemarkId;
 	},
