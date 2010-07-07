@@ -87,12 +87,27 @@ var FEEDBAR_BROWSER = {
 	},
 	
 	showFirstRun : function () {
-		var version = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager).getItemForID("feedbar@efinke.com").version;
-
-		if (FEEDBAR_BROWSER.prefs.getCharPref("lastVersion") != version) {
-			FEEDBAR_BROWSER.prefs.setCharPref("lastVersion",version);
-			var theTab = gBrowser.addTab("http://www.chrisfinke.com/firstrun/feed-sidebar.php?v="+version);
-			gBrowser.selectedTab = theTab;
+		function doShowFirstRun(version) {
+			if (FEEDBAR_BROWSER.prefs.getCharPref("lastVersion") != version) {
+				FEEDBAR_BROWSER.prefs.setCharPref("lastVersion", version);
+				var theTab = gBrowser.addTab("http://www.chrisfinke.com/firstrun/feed-sidebar.php?v="+version);
+				gBrowser.selectedTab = theTab;
+			}
+		}
+		
+		if ("@mozilla.org/extensions/manager;1" in Components.classes) {
+			// < Firefox 4
+			var version = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager).getItemForID("feedbar@efinke.com").version;
+			
+			doShowFirstRun(version);
+		}
+		else {
+			// Firefox 4.
+			Components.utils.import("resource://gre/modules/AddonManager.jsm");  
+			
+			AddonManager.getAddonByID("feedbar@efinke.com", function (addon) {
+				doShowFirstRun(addon.version);
+			});
 		}
 	}
 };
