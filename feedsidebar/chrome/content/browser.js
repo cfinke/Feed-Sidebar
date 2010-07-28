@@ -86,28 +86,52 @@ var FEEDBAR_BROWSER = {
 		setTimeout(FEEDBAR_BROWSER.showFirstRun, 1500);
 	},
 	
-	showFirstRun : function () {
-		function doShowFirstRun(version) {
-			if (FEEDBAR_BROWSER.prefs.getCharPref("lastVersion") != version) {
-				FEEDBAR_BROWSER.prefs.setCharPref("lastVersion", version);
-				var theTab = gBrowser.addTab("http://www.chrisfinke.com/firstrun/feed-sidebar.php?v="+version);
-				gBrowser.selectedTab = theTab;
-			}
-		}
+	getVersion : function (callback) {
+		var addonId = "feedbar@efinke.com";
 		
 		if ("@mozilla.org/extensions/manager;1" in Components.classes) {
 			// < Firefox 4
-			var version = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager).getItemForID("feedbar@efinke.com").version;
+			var version = Components.classes["@mozilla.org/extensions/manager;1"]
+				.getService(Components.interfaces.nsIExtensionManager).getItemForID(addonId).version;
 			
-			doShowFirstRun(version);
+			callback(version);
 		}
 		else {
 			// Firefox 4.
 			Components.utils.import("resource://gre/modules/AddonManager.jsm");  
 			
-			AddonManager.getAddonByID("feedbar@efinke.com", function (addon) {
-				doShowFirstRun(addon.version);
+			AddonManager.getAddonByID(addonId, function (addon) {
+				callback(addon.version);
 			});
 		}
+	},
+	
+	showFirstRun : function () {
+		function isMajorUpdate(version1, version2) {
+			if (!version1) {
+				return true;
+			}
+			else {
+				var oldParts = version1.split(".");
+				var newParts = version2.split(".");
+		
+				if (newParts[0] != oldParts[0] || newParts[1] != oldParts[1]) {
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		function doShowFirstRun(version) {
+			if (isMajorUpdate(FEEDBAR_BROWSER.prefs.getCharPref("lastVersion"), version)) {
+				var theTab = gBrowser.addTab("http://www.chrisfinke.com/firstrun/feed-sidebar.php?v="+version);
+				gBrowser.selectedTab = theTab;
+			}
+			
+			FEEDBAR_BROWSER.prefs.setCharPref("lastVersion", version);
+		}
+		
+		FEEDBAR_BROWSER.getVersion(doShowFirstRun);
 	}
 };

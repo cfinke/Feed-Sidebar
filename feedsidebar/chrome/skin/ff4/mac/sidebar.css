@@ -1,0 +1,69 @@
+#feedbar-preview {
+	padding-top: 5px;
+	background-color: #f0f0f0;
+}
+
+#preview-splitter {
+	border-top: 1px solid #919191;
+	background-color: #f0f0f0;
+}
+	
+#feedbarTooltipImage {
+	vertical-align: middle;
+	margin: 0ex 1ex 0ex 1ex;
+}
+
+#feedbarTooltipFeedName {
+	font-weight: bold;
+}
+
+#feedbarTooltipName {
+	text-decoration: underline;
+}
+
+treechildren::-moz-tree-image {
+	width: 16px;
+	height: 16px;
+}
+
+#search-toggle {
+	padding-top: 3px;
+	padding-left: 12px;
+	list-style-image: url(chrome://feedbar/content/skin-common/search.png);
+}
+
+#search-toggle[checked="true"] {
+	background-color: #ddd;
+	border-right: 1px solid #b9b9b9;
+	border-left: 1px solid #b9b9b9;
+}
+
+#feed_tree, #feedbar_tree_namecol, treechildren::-moz-tree-cell, treechildren::-moz-tree-row {
+	background-color: #d4dde5;
+	border-color: #d4dde5 !important;
+}
+
+treechildren::-moz-tree-cell-text(visited) {
+	color: #888;
+}
+
+
+treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected) {
+	background-color: Highlight;
+	color: HighlightText;
+}
+
+treechildren::-moz-tree-cell-text(visited,selected) {
+	color: #ddd;
+}
+
+statusbarpanel {
+	background-image: url(chrome://global/skin/statusbar-background.gif);
+	background-repeat: repeat-x;
+	background-color: #949393;
+	border-top: 1px solid #505050;
+}
+
+#downloads-button dropmarker {
+	display: none;
+}

@@ -4,6 +4,7 @@ resource    feedbar-modules             modules/
 skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/ff3/lin/
 skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/ff3/win/ os=WINNT
 skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/ff3/mac/ os=Darwin
+skin        feedbar     classic             jar:chrome/feedsidebar.jar!/skin/ff4/mac/ os=Darwin appversion>=4.0b1
 
 locale      feedbar     en-US               jar:chrome/feedsidebar.jar!/locale/en-US/
 locale      feedbar     be-BY               jar:chrome/feedsidebar.jar!/locale/be-BY/
