@@ -1632,7 +1632,7 @@ var FEEDBAR = {
 		var bookmarkService = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
 		
 		try {
-			bookmarkService.removeFolder(id);
+			bookmarkService.removeItem(id);
 		} catch (e) {
 			FEEDBAR.tryAndRemoveFeed(id);
 		}
@@ -1641,7 +1641,12 @@ var FEEDBAR = {
 		
 		return id;
 	},
-	
+
+	log : function (m) {
+		var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
+		consoleService.logStringMessage("FEEDBAR: " + m);
+	},
+
 	unsubscribe : function () {
 		var idx = FEEDBAR.getSelectedIndex();
 		var livemarkId = FEEDBAR.getCellLivemarkId(idx);
