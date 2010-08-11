@@ -53,7 +53,7 @@
 		<command id="sort" oncommand="var srt = event.target.getAttribute('value'); FEEDBAR.sort(srt, true); FEEDSIDEBAR.checkSortItem(srt); event.stopPropagation();" />
 	</commandset>
 	<popupset id="mainPopupSet">
-		<popup id="feedbarContextMenu" onpopupshowing="return FEEDSIDEBAR.contextMenu.customize(this);">
+		<menupopup id="feedbarContextMenu" onpopupshowing="return FEEDSIDEBAR.contextMenu.customize(this);">
 			<menuitem option="open" label="&feedbar.open;" oncommand="FEEDBAR.openItem();" />
 			<menuitem option="openInTab" label="&feedbar.openInTab;" oncommand="FEEDBAR.openInTab();" />
 			<menuseparator />
@@ -80,7 +80,7 @@
 			<menuseparator />
 			<menuitem option="unsubscribe" label="&feedbar.unsubscribe;" oncommand="var id = FEEDBAR.unsubscribe(); FEED_GETTER.removeAFeed(id);" />
 			<menuitem option="options" label="&feedbar.options;" oncommand="FEEDSIDEBAR.options();" />
-		</popup>
+		</menupopup>
 	</popupset>
 	<vbox flex="1">
 		<toolbox id="navigator-toolbox" class="toolbox-top">
