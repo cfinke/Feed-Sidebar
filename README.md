@@ -1,0 +1,1 @@
+Feed Sidebar is an RSS reader add-on for Firefox that displays the items from your newsfeeds in Firefox's sidebar.
