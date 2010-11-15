@@ -7,7 +7,7 @@ cp -r feedsidebar/* .tmp_xpi_dir/
 
 rm -rf `find ./.tmp_xpi_dir/ -name ".DS_Store"`
 rm -rf `find ./.tmp_xpi_dir/ -name "Thumbs.db"`
-rm -rf `find ./.tmp_xpi_dir/ -name ".svn"`
+rm -rf `find ./.tmp_xpi_dir/ -name ".git"`
 
 cd .tmp_xpi_dir/chrome/
 zip -rq ../feedsidebar.jar *
