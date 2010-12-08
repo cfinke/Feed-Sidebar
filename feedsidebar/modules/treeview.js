@@ -1367,15 +1367,7 @@ var FEEDBAR = {
 					}
 					else {
 						var url = FEEDBAR.getCellLink(i);
-
-						if (url.indexOf("oneriot.com") != -1 && url.indexOf("86f2f5da-3b24-4a87-bbb3-1ad47525359d") != -1) {
-							if (foundOneRiot) {
-								url = url.split("&")[0];
-							}
-							
-							foundOneRiot = true;
-						}
-
+						
 						FEEDBAR.launchUrl(url, { which : 2, detail : 1});
 					}
 				}
@@ -1411,15 +1403,6 @@ var FEEDBAR = {
 				}
 				else {
 					var url = FEEDBAR.getCellLink(itemIdx);
-					
-					if (url.indexOf("oneriot.com") != -1 && url.indexOf("86f2f5da-3b24-4a87-bbb3-1ad47525359d") != -1) {
-						if (foundOneRiot) {
-							// Someone is "opening in tabs" a feed with my OneRiot affiliate ID in the links.
-							url = url.split("&")[0];
-						}
-						
-						foundOneRiot = true;
-					}
 					
 					FEEDBAR.launchUrl(url, { which : 2, detail : 1});
 				}
