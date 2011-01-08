@@ -111,6 +111,9 @@ var FEEDBAR_BROWSER = {
 				return true;
 			}
 			else {
+				// Not showing firstrun on updates for now.
+				return false;
+				
 				var oldParts = version1.split(".");
 				var newParts = version2.split(".");
 		
