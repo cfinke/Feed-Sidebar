@@ -1,20 +1,52 @@
 var FEEDBAR = {
-	get strings() { 
-		return {
-			getString : function (key) {
-				var bundle = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService)
-				             .createBundle("chrome://feedbar/locale/locale.properties");
-				
-				return bundle.GetStringFromName(key);
-			},
+	strings : {
+		_backup : null,
+		_main : null,
+		
+		initStrings : function () {
+			if (!this._backup) { this._backup = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService).createBundle("chrome://feedbar-default-locale/locale/locale.properties"); }
+			if (!this._main) { this._main = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService).createBundle("chrome://feedbar/locale/locale.properties"); }
+		},
+		
+		getString : function (key) {
+			this.initStrings();
 			
-			getFormattedString : function (key, args) {
-				var bundle = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService)
-				             .createBundle("chrome://feedbar/locale/locale.properties");
-				
-				return bundle.formatStringFromName(key, args, args.length);
+			var rv = "";
+			
+			try {
+				rv = this._main.GetStringFromName(key);
+			} catch (e) {
 			}
-		};
+			
+			if (!rv) {
+				try {
+					rv = this._backup.GetStringFromName(key);
+				} catch (e) {
+				}
+			}
+			
+			return rv;
+		},
+		
+		getFormattedString : function (key, args) {
+			this.initStrings();
+			
+			var rv = "";
+			
+			try {
+				rv = this._main.formatStringFromName(key, args, args.length);
+			} catch (e) {
+			}
+			
+			if (!rv) {
+				try {
+					rv = this._backup.formatStringFromName(key, args, args.length);
+				} catch (e) {
+				}
+			}
+			
+			return rv;
+		}
 	},
 	
 	get feedWindows() { 

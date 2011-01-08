@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE overlay SYSTEM "chrome://feedbar/locale/locale.dtd">
+<!DOCTYPE overlay [
+	<!ENTITY % localLocale SYSTEM "chrome://feedbar/locale/locale.dtd">
+	%localLocale;
+	<!ENTITY % backupLocale SYSTEM "chrome://feedbar-default-locale/content/locale.dtd">
+	%backupLocale;
+]>
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script type="application/x-javascript" src="chrome://global/content/nsDragAndDrop.js"></script>
 	<script type="application/x-javascript" src="chrome://global/content/globalOverlay.js"></script>
@@ -29,6 +34,7 @@
 		]]>
 	</script>
 	<stringbundleset id="stringbundleset">
+		<stringbundle id="feedbar-backup-string-bundle" src="chrome://feedbar-default-locale/content/locale.properties" />
 		<stringbundle id="feedbar-string-bundle" src="chrome://feedbar/locale/locale.properties" />
 	</stringbundleset>
 	<toolbarpalette id="BrowserToolbarPalette">
