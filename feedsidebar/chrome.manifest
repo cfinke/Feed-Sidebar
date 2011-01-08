@@ -1,32 +1,32 @@
-content     feedbar     content/
+content     feedbar     chrome/content/
 resource    feedbar-modules             modules/
 
 content     feedbar-default-locale      chrome/locale/en-US/
 
-skin        feedbar     classic             skin/ff3/lin/
-skin        feedbar     classic             skin/ff3/win/ os=WINNT
-skin        feedbar     classic             skin/ff3/mac/ os=Darwin
-skin        feedbar     classic             skin/ff4/mac/ os=Darwin appversion>=4.0b1
+skin        feedbar     classic             chrome/skin/ff3/lin/
+skin        feedbar     classic             chrome/skin/ff3/win/ os=WINNT
+skin        feedbar     classic             chrome/skin/ff3/mac/ os=Darwin
+skin        feedbar     classic             chrome/skin/ff4/mac/ os=Darwin appversion>=4.0b1
 
-locale      feedbar     en-US               locale/en-US/
-locale      feedbar     be-BY               locale/be-BY/
-locale      feedbar     da-DK               locale/da-DK/
-locale      feedbar     de-DE               locale/de-DE/
-locale      feedbar     es-ES               locale/es-ES/
-locale      feedbar     fr-FR               locale/fr-FR/
-locale      feedbar     fy-NL               locale/fy-NL/
-locale      feedbar     hu-HU               locale/hu-HU/
-locale      feedbar     it-IT               locale/it-IT/
-locale      feedbar     ja-JP               locale/ja-JP/
-locale      feedbar     nl-NL               locale/nl-NL/
-locale      feedbar     pl-PL               locale/pl-PL/
-locale      feedbar     pt-BR               locale/pt-BR/
-locale      feedbar     ru-RU               locale/ru-RU/
-locale      feedbar     sk-SK               locale/sk-SK/
-locale      feedbar     tr-TR               locale/tr-TR/
-locale      feedbar     vi                  locale/vi/
-locale      feedbar     zh-CN               locale/zh-CN/
-locale      feedbar     zh-TW               locale/zh-TW/
+locale      feedbar     en-US               chrome/locale/en-US/
+locale      feedbar     be-BY               chrome/locale/be-BY/
+locale      feedbar     da-DK               chrome/locale/da-DK/
+locale      feedbar     de-DE               chrome/locale/de-DE/
+locale      feedbar     es-ES               chrome/locale/es-ES/
+locale      feedbar     fr-FR               chrome/locale/fr-FR/
+locale      feedbar     fy-NL               chrome/locale/fy-NL/
+locale      feedbar     hu-HU               chrome/locale/hu-HU/
+locale      feedbar     it-IT               chrome/locale/it-IT/
+locale      feedbar     ja-JP               chrome/locale/ja-JP/
+locale      feedbar     nl-NL               chrome/locale/nl-NL/
+locale      feedbar     pl-PL               chrome/locale/pl-PL/
+locale      feedbar     pt-BR               chrome/locale/pt-BR/
+locale      feedbar     ru-RU               chrome/locale/ru-RU/
+locale      feedbar     sk-SK               chrome/locale/sk-SK/
+locale      feedbar     tr-TR               chrome/locale/tr-TR/
+locale      feedbar     vi                  chrome/locale/vi/
+locale      feedbar     zh-CN               chrome/locale/zh-CN/
+locale      feedbar     zh-TW               chrome/locale/zh-TW/
 
 overlay     chrome://browser/content/browser.xul                chrome://feedbar/content/overlay.xul
 
