@@ -358,6 +358,7 @@ var FEED_GETTER = {
 		
 		try {
 			req.open("GET", url, true);
+			req.overrideMimeType('text/plain; charset=x-user-defined');
 			
 			req.onreadystatechange = function (event) {
 				if (req.readyState == 4) {
@@ -378,8 +379,23 @@ var FEED_GETTER = {
 							}
 							else {
 								try {
+									var data = req.responseText;
+									
+									var encoding_matches = data.match(/<?xml[^>]+encoding="([^"]+)"/i);
+									
+									if (encoding_matches) {
+										var converter = Components.classes['@mozilla.org/intl/scriptableunicodeconverter'].getService(Components.interfaces.nsIScriptableUnicodeConverter);
+										
+										try {
+											converter.charset = encoding_matches[1];
+											data = converter.ConvertToUnicode(data);
+										} catch (e) {
+											FEED_GETTER.log(e);
+										}
+									}
+									
 									// Trim it.
-									FEED_GETTER.queueForParsing(req.responseText.replace(/^\s\s*/, '').replace(/\s\s*$/, ''), url);
+									FEED_GETTER.queueForParsing(data.replace(/^\s\s*/, '').replace(/\s\s*$/, ''), url);
 								} catch (e) {
 									// Parse error
 									FEED_GETTER.addError(feed.name, url, e.message, 5);
