@@ -53,4 +53,9 @@
 <!ENTITY feedbar.updatesDisabled "Desactivar Actualizaciones Automáticas">
 <!ENTITY feedbar.options.general "General">
 <!ENTITY feedbar.featured.subscribe "Suscribir">
+<!ENTITY feedbar.featured.panelTitle "Feeds Destacados">
+<!ENTITY feedbar.featured.description "Soporta desarrollo de barra lateral de Feed probando algunos de esos Feeds de los Amigos de Feed Sidebar.">
 <!ENTITY feedbar.featured.contact "(Si quieres ver tu canal web en esta lista, escribe a cfinke@gmail.com.)">
+<!ENTITY feedbar.featured.trends.title "Noticias de Tendencia">
+<!ENTITY feedbar.featured.trends.description "Un feed de las últimas noticias y tendencias populares.">
+<!ENTITY feedbar.featured.notifyMe "Recordarme periódicamente sobre Feeds destacados.">
