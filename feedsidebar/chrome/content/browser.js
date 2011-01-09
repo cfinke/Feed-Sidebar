@@ -8,81 +8,89 @@ var FEEDBAR_BROWSER = {
 			// Add the toolbar button.
 	
 			var buttonId = "feedbar-button";
-	
-			if (!document.getElementById(buttonId)){
-
-				// Determine which toolbar to place the icon onto
-				if (document.getElementById("nav-bar").getAttribute("collapsed") != "true"){
-					var toolbar = document.getElementById("nav-bar");
-				}
-				else {
-					var toolbar = document.getElementById("toolbar-menubar");
-				}
-
-				var currentSet = toolbar.currentSet;
-				var newSet = currentSet;
-				var setItems = currentSet.split(',');
-
-				var toolbox = document.getElementById("navigator-toolbox");
-				var toolboxDocument = toolbox.ownerDocument;
-
-				function getIndex(array, val){
-					for (var i = 0; i < array.length; i++){
-						if (array[i] == val) {
-							return i;
-						}
-					}
-
-					return -1;
-				}
-
-				// Order of adding:
-					// before urlbar-container
-					// after home-button
-					// after reload-button
-					// after stop-button
-					// after forward-button
-					// before search-container
-					// at the end
-
-				if (getIndex(setItems, "urlbar-container") != -1){
-					newSet = currentSet.replace("urlbar-container",buttonId+",urlbar-container");
-				}
-				else if (getIndex(setItems, "home-button") != -1){
-					newSet = currentSet.replace("home-button","home-button,"+buttonId);
-				}
-				else if (getIndex(setItems, "reload-button") != -1){
-					newSet = currentSet.replace("reload-button","reload-button,"+buttonId);
-				}
-				else if (getIndex(setItems, "stop-button") != -1){
-					newSet = currentSet.replace("stop-button","stop-button,"+buttonId);
-				}
-				else if (getIndex(setItems, "forward-button") != -1){
-					newSet = currentSet.replace("forward-button","forward-button,"+buttonId);
-				}
-				else if (getIndex(setItems, "search-container") != -1){
-					newSet = currentSet.replace("search-container",buttonId+",search-container");
-				}
-				else {
-					newSet = toolbar.currentSet + ","+buttonId;
-				}
-
-				toolbar.currentSet = newSet;
-				toolbar.setAttribute("currentset",newSet);
-
-				toolboxDocument.persist(toolbar.id, "currentset");
-
-				try {
-					BrowserToolboxCustomizeDone(true);
-				} catch (e) { }
-			}
+		
+			FEEDBAR_BROWSER.addToolbarButton("feedbar-button", [ "urlbar-container:before", "home-button", "reload-button", "stop-button", "forward-button", "search-container:before" ]);
 
 			// Open the sidebar.
 			toggleSidebar('feedbar');
 			FEEDBAR_BROWSER.prefs.setCharPref("lastVersion", "firstrun");
 		}
 		
+		if (!FEEDBAR_BROWSER.prefs.getBoolPref("subscribeIconCheck")) {
+			FEEDBAR_BROWSER.prefs.setBoolPref("subscribeIconCheck", true);
+			
+			FEEDBAR_BROWSER.addToolbarButton("feed-button", [ "urlbar-container", "search-container:before", "home-button", "reload-button", "stop-button", "forward-button" ]);
+		}
+		
 		setTimeout(FEEDBAR_BROWSER.showFirstRun, 1500);
+	},
+	
+	addToolbarButton : function (buttonId, locationPreferences) {
+		// Add the subscribe toolbar button, as Firefox 4 removes it.
+
+		if (!document.getElementById(buttonId)){
+			// Determine which toolbar to place the icon onto
+			if (document.getElementById("nav-bar").getAttribute("collapsed") != "true"){
+				var toolbar = document.getElementById("nav-bar");
+			}
+			else {
+				var toolbar = document.getElementById("toolbar-menubar");
+			}
+
+			var currentSet = toolbar.currentSet;
+			var newSet = currentSet;
+			var setItems = currentSet.split(',');
+
+			var toolbox = document.getElementById("navigator-toolbox");
+			var toolboxDocument = toolbox.ownerDocument;
+
+			function getIndex(array, val){
+				for (var i = 0; i < array.length; i++){
+					if (array[i] == val) {
+						return i;
+					}
+				}
+
+				return -1;
+			}
+			
+			var added = false;
+			
+			for (var i = 0, _len = locationPreferences.length; i < _len; i++) {
+				var before = false;
+				var item = locationPreferences[i];
+				
+				if (item.indexOf(":before") != -1) {
+					item = item.replace(":before", "");
+					before = true;
+				}
+				
+				if (getIndex(setItems, item) != -1) {
+					if (before) {
+						newSet = currentSet.replace(item, buttonId + "," + item);
+					}
+					else {
+						newSet = currentSet.replace(item, item + "," + buttonId);
+					}
+					
+					added = true;
+					break;
+				}
+			}
+			
+			if (!added) {
+				newSet = toolbar.currentSet + ","+buttonId;
+			}
+
+			toolbar.currentSet = newSet;
+			toolbar.setAttribute("currentset",newSet);
+
+			toolboxDocument.persist(toolbar.id, "currentset");
+
+			try {
+				BrowserToolboxCustomizeDone(true);
+			} catch (e) { }
+		}
 	},
 	
 	getVersion : function (callback) {

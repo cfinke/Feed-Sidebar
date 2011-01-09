@@ -4,7 +4,7 @@ var FEEDBAR = {
 		_main : null,
 		
 		initStrings : function () {
-			if (!this._backup) { this._backup = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService).createBundle("chrome://feedbar-default-locale/content/locale.properties"); }
+			if (!this._backup) { this._backup = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService).createBundle("chrome://feedbar-default-locale/locale/locale.properties"); }
 			if (!this._main) { this._main = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService).createBundle("chrome://feedbar/locale/locale.properties"); }
 		},
 		
