@@ -105,6 +105,8 @@ var FEEDSIDEBAR = {
 	featuredFeedsTimeout : null,
 	
 	showFeaturedFeeds : function () {
+		return false;
+		
 		var allowedToShow = FEEDSIDEBAR.prefs.getBoolPref("featuredFeeds.notify");
 		
 		if (allowedToShow) {
