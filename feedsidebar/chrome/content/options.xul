@@ -87,10 +87,6 @@
 					this.showAll();
 				}
 				
-				if (this.prefs.getBoolPref("trendingNews")) {
-					document.getElementById("trending-news-button").setAttribute('label', FEEDBAR_PREFS.strings.getString("feedbar.featured.unsubscribe"));
-				}
-				
 				var featuredFeeds = this.prefs.getCharPref("featuredFeeds");
 				
 				if (!featuredFeeds) {
@@ -326,20 +322,6 @@
 			<description style="font-size: 8pt;">&feedbar.featured.contact;</description>
 			<checkbox preference="p_featured" label="&feedbar.featured.notifyMe;" />
 			<vbox id="featured-feeds" style="min-height: 400px;">
-				<groupbox>
-					<hbox>
-						<vbox>
-							<spring flex="1" />
-							<image src="chrome://feedbar/content/skin-common/feed-icon-64.png" style="width: 64px; height: 64px; margin-right: 10px;" />
-							<spring flex="1" />
-						</vbox>
-						<vbox flex="1">
-							<label class="text-link" style="padding-left: 0; margin-left: 0;" value="&feedbar.featured.trends.title;" />
-							<description>&feedbar.featured.trends.description;</description>
-							<button id="trending-news-button" oncommand="FEEDBAR_PREFS.prefs.setBoolPref('trendingNews', !FEEDBAR_PREFS.prefs.getBoolPref('trendingNews')); if (FEEDBAR_PREFS.prefs.getBoolPref('trendingNews')) { this.setAttribute('label', FEEDBAR_PREFS.strings.getString('feedbar.featured.unsubscribe')); } else { this.setAttribute('label', FEEDBAR_PREFS.strings.getString('feedbar.featured.subscribe')); }" label="&feedbar.featured.subscribe;" />
-						</vbox>
-					</hbox>
-				</groupbox>
 			</vbox>
 		</vbox>
 	</prefpane>

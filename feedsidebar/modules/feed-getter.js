@@ -1,9 +1,6 @@
 Components.utils.import("resource://feedbar-modules/treeview.js"); 
 
 var FEED_GETTER = {
-	trendingNewsUrl : "http://api.ads.oneriot.com/search?appId=feedsidebar01&version=1.1&format=XML",
-	trendingNewsExpiration : 0,
-	
 	strings : {
 		_backup : null,
 		_main : null,
@@ -161,14 +158,6 @@ var FEED_GETTER = {
 			case "updateFrequency":
 				FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
 			break;
-			case "trendingNews":
-				if (!FEED_GETTER.prefs.getBoolPref("trendingNews")) {
-					FEED_GETTER.removeTrendingFeed();
-				}
-				else {
-					FEED_GETTER.addTrendingFeed();
-				}
-			break;
 		}
 	},
 	
@@ -208,32 +197,10 @@ var FEED_GETTER = {
 
 		for (var i = 0; i < livemarkIds.length; i++){
 			var feedURL = livemarkService.getFeedURI(livemarkIds[i]).spec;
-			
-			if (feedURL == "http://www.oneriot.com/rss/trendingtopics?&spid=86f2f5da-3b24-4a87-bbb3-1ad47525359d&p=feed-sidebar&ssrc=sidebar") {
-				// This is the old trending news feed. Use the new subscription method.
-				FEED_GETTER.prefs.setBoolPref("trendingNews", true);
-				
-				var bookmarkService = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
-				bookmarkService.removeFolder(livemarkIds[i]);
-			}
-			else {
-				var feedName = bookmarkService.getItemTitle(livemarkIds[i]);
-			
-				FEED_GETTER.feedsToFetch.push({ name : feedName, feed : feedURL });
-				FEED_GETTER.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : livemarkIds[i], uri : feedURL };
-			}
-		}
+			var feedName = bookmarkService.getItemTitle(livemarkIds[i]);
 		
-		if (FEED_GETTER.prefs.getBoolPref("trendingNews")) {
-			FEED_GETTER.feedsToFetch.unshift(
-				{
-					"name" : "Trending News",
-					"feed" : FEED_GETTER.trendingNewsUrl,
-					"livemarkId" : -1
-				}
-			);
-			
-			FEED_GETTER.feedData[FEED_GETTER.trendingNewsUrl.toLowerCase()] = { name : "Trending News", bookmarkId : -1, uri : FEED_GETTER.trendingNewsUrl };
+			FEED_GETTER.feedsToFetch.push({ name : feedName, feed : feedURL });
+			FEED_GETTER.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : livemarkIds[i], uri : feedURL };
 		}
 		
 		if (FEED_GETTER.feedsToFetch.length == 0) {
@@ -377,17 +344,6 @@ var FEED_GETTER = {
 		
 		FEED_GETTER.currentRequest = req;
 		
-		if (url == FEED_GETTER.trendingNewsUrl) {
-			if (FEED_GETTER.trendingNewsExpiration > (new Date()).getTime()) {
-				FEED_GETTER.statusTextTimeout = FEED_GETTER.setTimeout(FEED_GETTER.clearStatusText, 1000);
-				setTimeoutForNext();
-			
-				return;
-			}
-			
-			req.overrideMimeType("text/xml");
-		}
-		
 		try {
 			req.open("GET", url, true);
 			req.overrideMimeType('text/plain; charset=x-user-defined');
@@ -406,33 +362,28 @@ var FEED_GETTER = {
 							
 							var feedOb = null;
 							
-							if (url == FEED_GETTER.trendingNewsUrl) {
-								req.parent.parseTrendingNews(req.responseXML, url);
-							}
-							else {
-								try {
-									var data = req.responseText;
-									
-									var encoding_matches = data.match(/<?xml[^>]+encoding=['"]([^"']+)["']/i);
-									
-									if (!encoding_matches) {
-										encoding_matches = [null, "UTF-8"];
-									}
-									
-									var converter = Components.classes['@mozilla.org/intl/scriptableunicodeconverter'].getService(Components.interfaces.nsIScriptableUnicodeConverter);
-									
-									try {
-										converter.charset = encoding_matches[1];
-										data = converter.ConvertToUnicode(data);
-									} catch (e) {
-										FEED_GETTER.log(e);
-									}
-									
-									FEED_GETTER.queueForParsing(data.replace(/^\s\s*/, '').replace(/\s\s*$/, ''), url);
-								} catch (e) {
-									// Parse error
-									FEED_GETTER.addError(feed.name, url, e.message, 5);
+							try {
+								var data = req.responseText;
+								
+								var encoding_matches = data.match(/<?xml[^>]+encoding=['"]([^"']+)["']/i); // "
+								
+								if (!encoding_matches) {
+									encoding_matches = [null, "UTF-8"];
 								}
+								
+								var converter = Components.classes['@mozilla.org/intl/scriptableunicodeconverter'].getService(Components.interfaces.nsIScriptableUnicodeConverter);
+								
+								try {
+									converter.charset = encoding_matches[1];
+									data = converter.ConvertToUnicode(data);
+								} catch (e) {
+									FEED_GETTER.log(e);
+								}
+								
+								FEED_GETTER.queueForParsing(data.replace(/^\s\s*/, '').replace(/\s\s*$/, ''), url);
+							} catch (e) {
+								// Parse error
+								FEED_GETTER.addError(feed.name, url, e.message, 5);
 							}
 						}
 						else {
@@ -462,113 +413,6 @@ var FEED_GETTER = {
 			FEED_GETTER.addError(feed.name, url, e.name, 3);
 			setTimeoutForNext();
 		}
-	},
-	
-	parseTrendingNews : function (xml, url) {
-		// Cache for an hour.
-		var cache = 60;// xml.getElementsByTagName("max-age")[0].textContent;
-		FEED_GETTER.trendingNewsExpiration = (new Date()).getTime() + (cache * 60 * 1000);
-		
-		var listener = new FeedbarParseListener();
-		
-		var result = {
-			bozo : false,
-			
-			doc : {
-				QueryInterface : function () { },
-				
-				link : {
-					resolve : function () {
-						return "http://www.oneriot.com/";
-					}
-				},
-				
-				title : {
-					plainText : function () {
-						return "Trending News";
-					}
-				},
-				
-				summary : {
-					text : "Trending news courtesy of Feed Sidebar"
-				},
-				
-				items : {
-					get length() { return Math.min(3, this._items.length); },
-					
-					queryElementAt : function (index) {
-						return this._items[index];
-					},
-					
-					_items : []
-				}
-			},
-			
-			uri : {
-				_uri : url,
-				
-				resolve : function () {
-					return this._uri;
-				}
-			}
-		};
-		
-		var items = xml.getElementsByTagName("featured-result");
-		var updated = new Date();
-		updated.setTime( xml.getElementsByTagName("time")[0].textContent * 1000);
-		
-		for (var i = 0; i < items.length; i++) {
-			var itemUrl = items[i].getElementsByTagName("redirect-url")[0].textContent;
-			
-			var item = {
-				id : "http://" + items[i].getElementsByTagName("display-url")[0].textContent,
-				
-				uri : itemUrl,
-				
-				displayUri : items[i].getElementsByTagName("display-url")[0].textContent,
-				trackingUri : items[i].getElementsByTagName("tracking-url")[0].textContent,
-				
-				link : {
-					_link : items[i].getElementsByTagName("redirect-url")[0].textContent,
-				
-					resolve : function () {
-						return this._link;
-					}
-				},
-				
-				updated : updated,
-				
-				title : {
-					_title : items[i].getElementsByTagName("title")[0].textContent,
-				
-					plainText : function () {
-						return this._title.replace(/<[^>]+>/g, "");
-					}
-				},
-			
-				summary : {
-					_summary : items[i].getElementsByTagName("snippet")[0].textContent,
-				
-					get text() {
-						return this._summary.replace(/<[^>]+>/g, "");
-					} 
-				},
-			
-				image : "chrome://feedbar/content/skin-common/feed-icon-16.png"//items[i].getElementsByTagName("source-logo")[0].getElementsByTagName("url")[0].textContent
-			};
-			
-			result.doc.items._items.push(item);
-		}
-		
-		function shuffle(o) {
-			for (var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-			
-			return o;
-		};
-		
-		result.doc.items._items = shuffle(result.doc.items._items);
-		
-		listener.handleResult(result);
 	},
 	
 	sidebarPing : function () {
@@ -606,27 +450,6 @@ var FEED_GETTER = {
 				win.document.getElementById("reload-button").setAttribute("disabled","true");
 			}
 		}
-	},
-	
-	addTrendingFeed : function () {
-		FEED_GETTER.feedsToFetch.unshift(
-			{
-				"name": "Trending News",
-				"feed" : FEED_GETTER.trendingNewsUrl,
-				"livemarkId": -1
-			}
-		);
-		
-		FEED_GETTER.feedData[FEED_GETTER.trendingNewsUrl.toLowerCase()] = { name : "Trending News", bookmarkId : -1, uri : FEED_GETTER.trendingNewsUrl };
-		
-		FEED_GETTER.updateAFeed(0);
-	},
-	
-	removeTrendingFeed : function () {
-		FEEDBAR.tryAndRemoveFeed(-1);
-		FEED_GETTER.removeAFeed(-1);
-		
-		FEED_GETTER.trendingNewsExpiration = 0;
 	},
 	
 	updateSingleFeed : function (livemarkId) {
