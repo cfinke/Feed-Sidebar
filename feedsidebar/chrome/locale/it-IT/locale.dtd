@@ -58,6 +58,4 @@
 <!ENTITY feedbar.featured.panelTitle "Feed proposti">
 <!ENTITY feedbar.featured.description "È possibile supportare gratuitamente lo sviluppo di Feed Sidebar sottoscrivendo uno o più feed tra quelli proposti qui sotto">
 <!ENTITY feedbar.featured.contact "Per aggiungere un proprio feed alla lista inviare un'e-mail all'indirizzo cfinke@gmail.com">
-<!ENTITY feedbar.featured.trends.title "Ultime notizie e tendenze dal web">
-<!ENTITY feedbar.featured.trends.description "Feed relativo alle ultime notizie e tendenze dal web">
 <!ENTITY feedbar.featured.notifyMe "Avvisa periodicamente della disponibilità di nuovi feed proposti">

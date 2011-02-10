@@ -1,0 +1,61 @@
+<!ENTITY feedbar.buttonLabel "Flöden">
+<!ENTITY feedbar.sidebarTitle "Flöden">
+<!ENTITY feedbar.buttonTooltip "Visa objekten från dina Aktiva bokmärken i sidopanelen">
+<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.markAsRead "Märk flöde eller objekt som läst">
+<!ENTITY feedbar.open "Öppna">
+<!ENTITY feedbar.openInTab "Öppna i ny flik">
+<!ENTITY feedbar.openAllInTabs "Öppna alla i flikar">
+<!ENTITY feedbar.openFeedInTabs "Öppna flöde i flikar">
+<!ENTITY feedbar.markAsRead "Märk som läst">
+<!ENTITY feedbar.markAsUnread "Märk som oläst">
+<!ENTITY feedbar.markFeedAsRead "Märk flöde som läst">
+<!ENTITY feedbar.markFeedAsUnread "Märk flöde som oläst">
+<!ENTITY feedbar.markAllAsRead "Märk alla som lästa">
+<!ENTITY feedbar.markAllAsUnread "Märk alla som olästa">
+<!ENTITY feedbar.reloadFeeds "Uppdatera flöden">
+<!ENTITY feedbar.stopFeedUpdate "Avbryt flödesuppdatering">
+<!ENTITY feedbar.minutes "minuter">
+<!ENTITY feedbar.hour "timme">
+<!ENTITY feedbar.hours "timmar">
+<!ENTITY feedbar.showLastTooltip "Begränsa åldern på objekten som visas">
+<!ENTITY feedbar.showLastDaysPre "Visa senaste ">
+<!ENTITY feedbar.showLastDaysPost " dagarna">
+<!ENTITY feedbar.showLastWeeksPre "Visa senaste ">
+<!ENTITY feedbar.showLastWeeksPost " veckorna">
+<!ENTITY feedbar.showAllItems "Visa alla objekt">
+<!ENTITY feedbar.showLastDay "Visa senaste dygnet">
+<!ENTITY feedbar.showLastWeek "Visa senaste veckan">
+<!ENTITY feedbar.showLastMonth "Visa senaste månaden">
+<!ENTITY feedbar.sortBy "Sortera efter...">
+<!ENTITY feedbar.sort.name "Namn">
+<!ENTITY feedbar.sort.default "Standard">
+<!ENTITY feedbar.sort.updated "Senast uppdaterat">
+<!ENTITY feedbar.copyTitle "Kopiera rubrik">
+<!ENTITY feedbar.copyLink "Kopiera länk">
+<!ENTITY feedbar.unsubscribe "Avbryt prenumeration">
+<!ENTITY feedbar.options "Inställningar">
+<!ENTITY feedbar.hideReadItems "Dölj lästa objekt">
+<!-- Update feeds every # minutes. -->
+<!ENTITY feedbar.updateEvery1 "Uppdatera varje flöde var">
+<!ENTITY feedbar.updateEvery2 "minut.">
+<!-- Only show items from the last # days. -->
+<!ENTITY feedbar.showAllItemsFull "Visa alla objekt, oavsett ålder">
+<!ENTITY feedbar.onlyShow1 "Visa endast objekt från de senaste">
+<!ENTITY feedbar.onlyShow2 "dagarna.">
+<!ENTITY feedbar.autoClose "Stäng sidopanelen automatiskt när alla objekt har märkts som lästa.">
+<!ENTITY feedbar.notifications "Visa popup-aviseringar när nya objekt identifieras.">
+<!ENTITY feedbar.runInSidebar "Sök endast efter uppdateringar när sidopanelen är öppen.">
+<!ENTITY feedbar.previewQuestion "När ett flödesobjekt öppnas...">
+<!ENTITY feedbar.previewAnswer1 "Öppna den länkade webbsidan (standard).">
+<!ENTITY feedbar.previewAnswer2 "Visa den fullständiga objektbeskrivningen i webbläsarfönstret.">
+<!ENTITY feedbar.showAllItemsButtonLabel "Alla">
+<!ENTITY feedbar.showAll.tooltip "Aktivera för att visa både lästa och olästa objekt.">
+<!ENTITY feedbar.alwaysOpenInNewTab "Öppna alltid objekt i nya flikar">
+<!ENTITY feedbar.updatesDisabled "Inaktivera automatisk uppdatering">
+<!ENTITY feedbar.options.general "Allmänt">
+<!ENTITY feedbar.featured.subscribe "Prenumerera">
+<!ENTITY feedbar.featured.panelTitle "Rekommenderade flöden">
+<!ENTITY feedbar.featured.description "Stöd Feed Sidebars utveckling utan att spendera ett enda öre genom att testa några av dessa flöden från Feed Sidebars vänner.">
+<!ENTITY feedbar.featured.contact "(Om du skulle vilja se ditt eget flöde i denna lista, e-posta cfinke@gmail.com)">
+<!ENTITY feedbar.featured.notifyMe "Meddelande mig regelbundet om nya rekommenderade flöden.">
