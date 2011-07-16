@@ -1376,8 +1376,6 @@ var FEEDBAR = {
 	},
 	
 	openAll : function () {
-		var foundOneRiot = false;
-		
 		var numItems = 0;
 		
 		for (var i = 0; i < FEEDBAR.visibleData.length; i++) {
@@ -1425,7 +1423,6 @@ var FEEDBAR = {
 		
 		if (FEEDBAR.confirmOpenTabs(numItems)) {
 			var i = numItems;
-			var foundOneRiot = false;
 			
 			while (i > 0) {
 				var itemIdx = folderIdx + i;
@@ -1818,8 +1815,12 @@ var FEEDBAR = {
 		function onTabLoaded() { 
 			this.removeEventListener("load", onTabLoaded, true);
 			
-			var doc = this.contentDocument.wrappedJSObject;
-
+			var doc = this.contentDocument;
+			
+			if ("wrappedJSObject" in doc) {
+				doc = doc.wrappedJSObject;
+			}
+			
 			doc.title = itemLabel;
 
 			doc.getElementById("title").innerHTML = '<a href="'+itemUri+'">'+itemLabel+'</a>';
