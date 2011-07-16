@@ -67,7 +67,7 @@ var FEEDBAR = {
 					sidebars.push(win.document.getElementById("sidebar").contentWindow);
 				}
 			} catch (e) {
-				logFeedbarMsg("ERROR IN get feedWindow: " + e);
+				FEEDBAR.log("ERROR IN get feedWindow: " + e);
 			}
 		}
 		
@@ -1072,7 +1072,7 @@ var FEEDBAR = {
 						FEEDBAR.openStates[id] = open;
 					}
 				} catch (e) {
-					logFeedbarMsg(e);
+					FEEDBAR.log(e);
 				} finally {
 					select.reset();
 				}
@@ -1108,7 +1108,7 @@ var FEEDBAR = {
 				FEEDBAR.refreshTree();
 			} catch (e) {
 				// Cache does not exist.
-				// logFeedbarMsg(e);
+				// FEEDBAR.log(e);
 			}
 		}
 		
@@ -1198,7 +1198,7 @@ var FEEDBAR = {
 					try {
 						insert.execute();
 					} catch (e) {
-						logFeedbarMsg(e);
+						FEEDBAR.log(e);
 					} finally {
 						insert.reset();
 					}

@@ -557,9 +557,3 @@ var FEEDSIDEBAR = {
 		document.getElementById("sidebar-notify").removeAllNotifications();
 	}
 };
-
-function logFeedbarMsg(m) {
-	var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
-	consoleService.logStringMessage("FEEDBAR: " + m);
-	alert("FEEDBAR: " + m);
-}
