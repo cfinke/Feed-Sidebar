@@ -1081,9 +1081,6 @@ var FEEDBAR = {
 			}
 		
 			try {
-				var nativeJSON = Components.classes["@mozilla.org/dom/json;1"]
-								 .createInstance(Components.interfaces.nsIJSON);
-			
 				var file = Components.classes['@mozilla.org/file/directory_service;1']
 								.getService(Components.interfaces.nsIProperties) //changed by <asqueella@gmail.com>
 								.get("ProfD", Components.interfaces.nsIFile);
@@ -1104,7 +1101,7 @@ var FEEDBAR = {
 				unicodeConverter.charset = "UTF-8";
 				data = unicodeConverter.ConvertToUnicode(data);
 			
-				FEEDBAR.childData = nativeJSON.decode(data);
+				FEEDBAR.childData = JSON.parse(data);
 				FEEDBAR.refreshTree();
 			} catch (e) {
 				// Cache does not exist.
@@ -1170,9 +1167,7 @@ var FEEDBAR = {
 				var flags = 0x02 | 0x08 | 0x20; // wronly | create | truncate
 				foStream.init(file, flags, 0664, 0);
 
-				var nativeJSON = Components.classes["@mozilla.org/dom/json;1"]
-								 .createInstance(Components.interfaces.nsIJSON);
-				var data = nativeJSON.encode(FEEDBAR.childData);
+				var data = JSON.stringify(FEEDBAR.childData);
 			
 				// Store the data as UTF-8, not the Unicode that JSON outputs.
 				var unicodeConverter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
