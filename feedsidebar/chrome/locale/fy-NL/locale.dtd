@@ -13,7 +13,7 @@
 <!ENTITY feedbar.markFeedAsUnread "Markearje feed as net lêzen">
 <!ENTITY feedbar.markAllAsRead "Markearje alles as lêzen">
 <!ENTITY feedbar.markAllAsUnread "Markearje alles as net lêzen">
-<!ENTITY feedbar.reloadFeeds "Feed op &apos;e nij lade">
+<!ENTITY feedbar.reloadFeeds "Feed op 'e nij lade">
 <!ENTITY feedbar.stopFeedUpdate "Annulearje feedfernijing">
 <!ENTITY feedbar.minutes "minuten">
 <!ENTITY feedbar.hour "oer">

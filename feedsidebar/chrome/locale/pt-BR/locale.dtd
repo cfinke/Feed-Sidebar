@@ -1,26 +1,61 @@
-<!ENTITY feedbar.buttonLabel "Itens de feeds não lidos">
-<!ENTITY feedbar.sidebarTitle "Itens de feeds não lidos">
-<!ENTITY feedbar.buttonTooltip "Mostra os novos itens das suas assinaturas de Favoritos na barra lateral">
-<!ENTITY feedbar.accesskey "F">
-<!ENTITY feedbar.preview.markAsRead "Marcar feed ou item como lido">
+<!ENTITY feedbar.buttonLabel "RSS">
+<!ENTITY feedbar.sidebarTitle "RSS">
+<!ENTITY feedbar.buttonTooltip "Exibir no painel os itens dos seus favoritos RSS">
+<!ENTITY feedbar.accesskey "R">
+<!ENTITY feedbar.preview.markAsRead "Marcar RSS ou item como lido">
 <!ENTITY feedbar.open "Abrir">
 <!ENTITY feedbar.openInTab "Abrir em nova aba">
 <!ENTITY feedbar.openAllInTabs "Abrir tudo em abas">
-<!ENTITY feedbar.openFeedInTabs "Abrir feed em abas">
+<!ENTITY feedbar.openFeedInTabs "Abrir RSS em abas">
 <!ENTITY feedbar.markAsRead "Marcar como lido">
-<!ENTITY feedbar.markFeedAsRead "Marcar feed como lido">
+<!ENTITY feedbar.markAsUnread "Marcar como não lido">
+<!ENTITY feedbar.markFeedAsRead "Marcar RSS como lido">
+<!ENTITY feedbar.markFeedAsUnread "Marcar RSS como não lido">
 <!ENTITY feedbar.markAllAsRead "Marcar todos como lidos">
-<!ENTITY feedbar.reloadFeeds "Recarregar feeds">
-<!ENTITY feedbar.stopFeedUpdate "Cancelar atualização do feed">
+<!ENTITY feedbar.markAllAsUnread "Marcar todos como não lidos">
+<!ENTITY feedbar.reloadFeeds "Atualizar RSS">
+<!ENTITY feedbar.stopFeedUpdate "Cancelar atualização de RSS">
 <!ENTITY feedbar.minutes "minutos">
 <!ENTITY feedbar.hour "hora">
 <!ENTITY feedbar.hours "horas">
-<!ENTITY feedbar.showLastTooltip "Limite para a idade dos itens mostrados">
-<!ENTITY feedbar.showLastDaysPre "Mostrar últimos ">
-<!ENTITY feedbar.showLastDaysPost " dias">
-<!ENTITY feedbar.showLastWeeksPre "Mostrar últimas ">
-<!ENTITY feedbar.showLastWeeksPost " semanas">
-<!ENTITY feedbar.showAllItems "Mostrar todos os itens">
-<!ENTITY feedbar.showLastDay "Mostrar último dia">
-<!ENTITY feedbar.showLastWeek "Mostrar última semana">
-<!ENTITY feedbar.showLastMonth "Mostrar último mês">
+<!ENTITY feedbar.showLastTooltip "Limitar data dos itens exibidos">
+<!ENTITY feedbar.showLastDaysPre "Exibir últimos  ">
+<!ENTITY feedbar.showLastDaysPost "  dias">
+<!ENTITY feedbar.showLastWeeksPre "Exibir últimas  ">
+<!ENTITY feedbar.showLastWeeksPost "  semanas">
+<!ENTITY feedbar.showAllItems "Exibir todos os itens">
+<!ENTITY feedbar.showLastDay "Exibir último dia">
+<!ENTITY feedbar.showLastWeek "Exibir última semana">
+<!ENTITY feedbar.showLastMonth "Exibir último mês">
+<!ENTITY feedbar.sortBy "Ordernar por...">
+<!ENTITY feedbar.sort.name "Nome">
+<!ENTITY feedbar.sort.default "Padrão">
+<!ENTITY feedbar.sort.updated "Data da última atualização">
+<!ENTITY feedbar.copyTitle "Copiar título">
+<!ENTITY feedbar.copyLink "Copiar link">
+<!ENTITY feedbar.unsubscribe "Cancelar inscrição">
+<!ENTITY feedbar.options "Opções">
+<!ENTITY feedbar.hideReadItems "Ocultar itens lidos">
+<!-- Update feeds every # minutes. -->
+<!ENTITY feedbar.updateEvery1 "Atualizar RSS a cada">
+<!ENTITY feedbar.updateEvery2 "minutos.">
+<!-- Only show items from the last # days. -->
+<!ENTITY feedbar.showAllItemsFull "Exibir todos os itens, independente da data">
+<!ENTITY feedbar.onlyShow1 "Exibir apenas itens dos últimos">
+<!ENTITY feedbar.onlyShow2 "dias.">
+<!ENTITY feedbar.autoClose "Fechar automaticamente o painel quando marcar todos os itens como lidos.">
+<!ENTITY feedbar.notifications "Exibir notificações pop-up quando novos itens forem detectados.">
+<!ENTITY feedbar.runInSidebar "Verificar se há atualizações somente quando o painel estiver aberto.">
+<!ENTITY feedbar.previewQuestion "Ao abrir um item...">
+<!ENTITY feedbar.previewAnswer1 "Abrir a página relacionada (padrão).">
+<!ENTITY feedbar.previewAnswer2 "Exibir a descrição completa do item na janela do navegador.">
+<!ENTITY feedbar.showAllItemsButtonLabel "Todos">
+<!ENTITY feedbar.showAll.tooltip "Ative para exibir tanto itens lidos quanto não lidos.">
+<!ENTITY feedbar.alwaysOpenInNewTab "Sempre abrir itens em novas abas">
+<!ENTITY feedbar.updatesDisabled "Desabilitar atualização automática">
+<!ENTITY feedbar.options.general "Geral">
+<!ENTITY feedbar.featured.subscribe "Inscrever">
+<!ENTITY feedbar.featured.panelTitle "RSS em destaque">
+<!ENTITY feedbar.featured.description "Apoie o desenvolvimento do Feed Sidebar sem gastar um centavo. Experimente alguns destes RSS dos parceiros do Feed Sidebar.">
+<!ENTITY feedbar.featured.contact "(Se você gostaria de ver seu RSS nesta lista, envie um e-mail para cfinke@gmail.com.)">
+<!ENTITY feedbar.featured.notifyMe "Avisar periodicamente sobre novos RSS em destaque.">

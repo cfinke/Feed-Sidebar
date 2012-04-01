@@ -19,10 +19,10 @@
 <!ENTITY feedbar.hour "time">
 <!ENTITY feedbar.hours "timer">
 <!ENTITY feedbar.showLastTooltip "Begræns alderen på de viste emner">
-<!ENTITY feedbar.showLastDaysPre "Vis seneste ">
-<!ENTITY feedbar.showLastDaysPost " dage">
-<!ENTITY feedbar.showLastWeeksPre "Vis seneste ">
-<!ENTITY feedbar.showLastWeeksPost " uger">
+<!ENTITY feedbar.showLastDaysPre "Vis seneste">
+<!ENTITY feedbar.showLastDaysPost "dage">
+<!ENTITY feedbar.showLastWeeksPre "Vis seneste">
+<!ENTITY feedbar.showLastWeeksPost "uger">
 <!ENTITY feedbar.showAllItems "Vis alle emner">
 <!ENTITY feedbar.showLastDay "Seneste døgn">
 <!ENTITY feedbar.showLastWeek "Vis seneste uge">
@@ -36,10 +36,8 @@
 <!ENTITY feedbar.unsubscribe "Slet abonnement">
 <!ENTITY feedbar.options "Indstillinger">
 <!ENTITY feedbar.hideReadItems "Skjul læste emner">
-<!-- Update feeds every # minutes. -->
 <!ENTITY feedbar.updateEvery1 "Opdater feeds hvert">
 <!ENTITY feedbar.updateEvery2 "minut.">
-<!-- Only show items from the last # days. -->
 <!ENTITY feedbar.showAllItemsFull "Vis alle emner uanset alder">
 <!ENTITY feedbar.onlyShow1 "Vis kun emner fra de sidste">
 <!ENTITY feedbar.onlyShow2 "dage.">
@@ -58,6 +56,4 @@
 <!ENTITY feedbar.featured.panelTitle "Udvalgte feeds">
 <!ENTITY feedbar.featured.description "Støt udviklingen af Feed Sidebar uden at bruge en krone ved at prøve nogle af disse feeds fra Friends of Feed Sidebar.">
 <!ENTITY feedbar.featured.contact "(Hvis du ønsker at se dit feed på denne liste, send en mail til cfinke@gmail.com.)">
-<!ENTITY feedbar.featured.trends.title "Tendensvisende nyheder">
-<!ENTITY feedbar.featured.trends.description "Et feed med de seneste populære og tendensvisende nyheder">
 <!ENTITY feedbar.featured.notifyMe "Giv mig periodisk besked om nye udvalgte feeds.">
