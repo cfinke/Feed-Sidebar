@@ -1,7 +1,5 @@
 rm -rf .tmp_xpi_dir/
 
-chmod -R 0777 feedsidebar/
-
 mkdir .tmp_xpi_dir/
 cp -r feedsidebar/* .tmp_xpi_dir/
 
