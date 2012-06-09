@@ -170,7 +170,7 @@
 					</vbox>
 				</hbox>
 				<groupbox id="feedbarTooltipSummaryGroupbox" flex="1">
-					<iframe flex="1" id="content-frame" onclick="handleBrowserClick(event);" src="data:text/html,%3Chtml%3E%3Chead%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ebody%20*%2C%20body%20%7Bfont-size%3A%209pt%3Bfont-family%3A%20arial%2C%20sans-serif%3B%7D%3C%2Fstyle%3E%3C%2Fhead%3E%3Cbody%3E%3C%2Fbody%3E%3C%2Fhtml%3E" disablehistory="true" type="content"></iframe>
+					<iframe flex="1" id="content-frame" onclick="handleBrowserClick(event);" src="data:text/html,%3Chtml%3E%3Chead%3E%3Cmeta%20http-equiv%3D%22content-type%22%20content%3D%22text%2Fhtml%3B%20charset%3DUTF-8%22l%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ebody%20*%2C%20body%20%7Bfont-size%3A%209pt%3Bfont-family%3A%20arial%2C%20sans-serif%3B%7D%3C%2Fstyle%3E%3C%2Fhead%3E%3Cbody%3E%3C%2Fbody%3E%3C%2Fhtml%3E" disablehistory="true" type="content"></iframe>
 				</groupbox>
 			</vbox>
 			<hbox id="feed-sidebar-statusbar">
