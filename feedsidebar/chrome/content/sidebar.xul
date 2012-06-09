@@ -97,13 +97,13 @@
 					<menupopup id="period-menu" command="update-period">
 						<menuitem type="radio" name="period" value="0" label="&feedbar.showAllItems;" />
 						<menuitem type="radio" name="period" value="1" label="&feedbar.showLastDay;" />
-						<menuitem type="radio" name="period" value="2" label="&feedbar.showLastDaysPre;2&feedbar.showLastDaysPost;" />
-						<menuitem type="radio" name="period" value="3" label="&feedbar.showLastDaysPre;3&feedbar.showLastDaysPost;" />
-						<menuitem type="radio" name="period" value="4" label="&feedbar.showLastDaysPre;4&feedbar.showLastDaysPost;" />
-						<menuitem type="radio" name="period" value="5" label="&feedbar.showLastDaysPre;5&feedbar.showLastDaysPost;" />
-						<menuitem type="radio" name="period" value="6" label="&feedbar.showLastDaysPre;6&feedbar.showLastDaysPost;" />
+						<menuitem type="radio" name="period" value="2" label="&feedbar.showLastDaysPre; 2 &feedbar.showLastDaysPost;" />
+						<menuitem type="radio" name="period" value="3" label="&feedbar.showLastDaysPre; 3 &feedbar.showLastDaysPost;" />
+						<menuitem type="radio" name="period" value="4" label="&feedbar.showLastDaysPre; 4 &feedbar.showLastDaysPost;" />
+						<menuitem type="radio" name="period" value="5" label="&feedbar.showLastDaysPre; 5 &feedbar.showLastDaysPost;" />
+						<menuitem type="radio" name="period" value="6" label="&feedbar.showLastDaysPre; 6 &feedbar.showLastDaysPost;" />
 						<menuitem type="radio" name="period" value="7" label="&feedbar.showLastWeek;" />
-						<menuitem type="radio" name="period" value="14" label="&feedbar.showLastWeeksPre;2&feedbar.showLastWeeksPost;" />
+						<menuitem type="radio" name="period" value="14" label="&feedbar.showLastWeeksPre; 2 &feedbar.showLastWeeksPost;" />
 						<menuitem type="radio" name="period" value="30" label="&feedbar.showLastMonth;" />
 					</menupopup>
 				</toolbarbutton>
