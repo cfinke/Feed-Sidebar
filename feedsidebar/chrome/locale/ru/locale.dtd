@@ -1,0 +1,15 @@
+<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.markAsRead "Пометить фид или предмет прочитанным">
+<!ENTITY feedbar.open "Открыть">
+<!ENTITY feedbar.openInTab "Открыть в новой вкладке">
+<!ENTITY feedbar.openAllInTabs "Открыть всё в новых вкладках">
+<!ENTITY feedbar.markAsRead "Пометить как прочитанное">
+<!ENTITY feedbar.hour "час">
+<!ENTITY feedbar.hours "часы(ов)">
+<!ENTITY feedbar.showLastDaysPost "дни">
+<!ENTITY feedbar.showLastWeeksPost "недели">
+<!ENTITY feedbar.sortBy "Сортировать по...">
+<!ENTITY feedbar.sort.name "Название">
+<!ENTITY feedbar.sort.default "По умолчанию">
+<!ENTITY feedbar.options "Настройки">
+<!ENTITY feedbar.updateEvery2 "минуты">

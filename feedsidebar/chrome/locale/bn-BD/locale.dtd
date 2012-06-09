@@ -1,0 +1,17 @@
+<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.open "খুলুন">
+<!ENTITY feedbar.openInTab "নতুন ট্যাবে খুলুন">
+<!ENTITY feedbar.openAllInTabs "সবগুলো নতুন ট্যাবে খুলুন">
+<!ENTITY feedbar.openFeedInTabs "ফিড ট্যাবে খুলুন">
+<!ENTITY feedbar.markAsRead "পঠিত হিসাবে চিহ্নিত করুন">
+<!ENTITY feedbar.markAsUnread "অপঠিত হিসাবে চিহ্নিত করুন">
+<!ENTITY feedbar.markFeedAsRead "ফিডটি পঠিত হিসাবে চিহ্নিত করুন">
+<!ENTITY feedbar.markFeedAsUnread "ফিডটি অপঠিত হিসাবে চিহ্নিত করুন">
+<!ENTITY feedbar.markAllAsRead "সবগুলো পঠিত হিসাবে চিহ্নিত করুন">
+<!ENTITY feedbar.markAllAsUnread "সবগুলো অপঠিত হিসাবে চিহ্নিত করুন">
+<!ENTITY feedbar.hour "ঘন্টা">
+<!ENTITY feedbar.showLastDaysPost "দিন">
+<!ENTITY feedbar.showLastWeeksPost "সপ্তাহ">
+<!ENTITY feedbar.sort.name "নাম">
+<!ENTITY feedbar.showAllItemsButtonLabel "সব">
+<!ENTITY feedbar.options.general "সাধারণ">
