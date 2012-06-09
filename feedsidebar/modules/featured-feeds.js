@@ -13,15 +13,11 @@ var FEATURED_FEEDS = {
 			
 			var feeds = FEATURED_FEEDS.prefs.getCharPref("featuredFeeds");
 			
-			if (!feeds) {
-				var lastAttempt = FEATURED_FEEDS.prefs.getCharPref("featuredFeeds.lastUpdate");
+			if (!feeds || FEATURED_FEEDS.prefs.getCharPref("featuredFeeds.lastUpdate") < (new Date().getTime() - (1000 * 60 * 60 * 24 * 3))) {
+				FEATURED_FEEDS.prefs.setCharPref("featuredFeeds.lastUpdate", (new Date().getTime()));
 				
-				if (lastAttempt < (new Date().getTime() - (1000 * 60 * 60 * 24 * 3))) {
-					FEATURED_FEEDS.prefs.setCharPref("featuredFeeds.lastUpdate", (new Date().getTime()));
-					
-					// Get feeds.
-					FEATURED_FEEDS.fetchTimer = FEATURED_FEEDS.setTimeout(FEATURED_FEEDS.fetchFeaturedFeeds, 15000);
-				}
+				// Get feeds.
+				FEATURED_FEEDS.fetchTimer = FEATURED_FEEDS.setTimeout(FEATURED_FEEDS.fetchFeaturedFeeds, 15000);
 			}
 		}
 	},
