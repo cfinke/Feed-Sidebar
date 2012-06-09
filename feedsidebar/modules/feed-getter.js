@@ -1,4 +1,5 @@
-Components.utils.import("resource://feedbar-modules/treeview.js"); 
+Components.utils.import("resource://feedbar-modules/treeview.js");
+Components.utils.import("resource://gre/modules/PlacesUtils.jsm");
 
 var FEED_GETTER = {
 	strings : {
@@ -190,24 +191,21 @@ var FEED_GETTER = {
 		FEED_GETTER.feedsToFetch = [];
 		FEED_GETTER.feedIndex = 0;
 		
-		var livemarkService = Components.classes["@mozilla.org/browser/livemark-service;2"].getService(Components.interfaces.nsILivemarkService);
-		var bookmarkService = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
-		var anno = Components.classes["@mozilla.org/browser/annotation-service;1"].getService(Components.interfaces.nsIAnnotationService);
-		var livemarkIds = anno.getItemsWithAnnotation("livemark/feedURI", {});
+		var livemarkIds = PlacesUtils.annotations.getItemsWithAnnotation("livemark/feedURI", {});
 
-		for (var i = 0; i < livemarkIds.length; i++){
-			var feedURL = livemarkService.getFeedURI(livemarkIds[i]).spec;
-			var feedName = bookmarkService.getItemTitle(livemarkIds[i]);
+		FEED_GETTER.getLivemarks(livemarkIds, function (livemarks) {
+			for (var i = 0; i < livemarks.length; i++) {
+				FEED_GETTER.feedsToFetch.push({ name : livemarks[i].title, feed : livemarks[i].feedURI.spec });
+				FEED_GETTER.feedData[livemarks[i].feedURI.spec.toLowerCase()] = { name : livemarks[i].title, bookmarkId : livemarks[i].id, uri : livemarks[i].feedURI.spec };
+			}
+			
+			if (FEED_GETTER.feedsToFetch.length == 0) {
+				FEED_GETTER.notifyNoFeeds();
+			}
+
+			FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
+		});
 		
-			FEED_GETTER.feedsToFetch.push({ name : feedName, feed : feedURL });
-			FEED_GETTER.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : livemarkIds[i], uri : feedURL };
-		}
-		
-		if (FEED_GETTER.feedsToFetch.length == 0) {
-			FEED_GETTER.notifyNoFeeds();
-		}
-		
-		FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
 	},
 	
 	removeAFeed : function (livemarkId) {
@@ -453,16 +451,15 @@ var FEED_GETTER = {
 	},
 	
 	updateSingleFeed : function (livemarkId) {
-		var livemarkService = Components.classes["@mozilla.org/browser/livemark-service;2"]
-								.getService(Components.interfaces.nsILivemarkService);
-		var bookmarkService = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
-		var feedURL = livemarkService.getFeedURI(livemarkId).spec;
-		var feedName = bookmarkService.getItemTitle(livemarkId);
-		
-		FEED_GETTER.feedsToFetch.push({ name : feedName, feed : feedURL });
-		FEED_GETTER.feedData[feedURL.toLowerCase()] = { name : feedName, bookmarkId : livemarkId, uri : feedURL };
+		PlacesUtils.livemarks.getLivemark({ id : livemarkId }, function (result, livemark) {
+			if (result != Components.results.NS_OK)
+				return;
+			
+			FEED_GETTER.feedsToFetch.push({ name : livemark.title, feed : livemark.feedURI.spec });
+			FEED_GETTER.feedData[livemark.feedURI.spec.toLowerCase()] = { name : livemark.title, bookmarkId : livemark.id, uri : livemark.feedURI.spec };
 
-		FEED_GETTER.updateAFeed(FEED_GETTER.feedsToFetch.length - 1);
+			FEED_GETTER.updateAFeed(FEED_GETTER.feedsToFetch.length - 1);
+		});
 	},
 	
 	stopUpdate : function () {
@@ -736,6 +733,27 @@ var FEED_GETTER = {
 	log : function (m) {
 		var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
 		consoleService.logStringMessage("FEEDBAR: " + m);
+	},
+	
+	getLivemarks : function (livemarkIds, callback) {
+		var livemarks = [];
+		
+		function getNextLivemark() {
+			if (livemarkIds.length == 0) {
+				callback(livemarks);
+			}
+			else {
+				PlacesUtils.livemarks.getLivemark( { id : livemarkIds.shift() }, function (result, livemark) {
+					if (result == Components.results.NS_OK) {
+						livemarks.push(livemark);
+					}
+				
+					getNextLivemark();
+				});
+			}
+		}
+		
+		getNextLivemark();
 	},
 	
 	/* Bookmark Observer Functions */

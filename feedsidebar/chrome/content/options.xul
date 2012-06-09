@@ -11,9 +11,13 @@
 	buttons="accept,cancel"
 	onload="FEEDBAR_PREFS.onload();"
 	ondialogaccept="FEEDBAR_PREFS.unload();"
+	id="feedsidebar-options"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script type="application/x-javascript">
 		<![CDATA[
+		
+		Components.utils.import("resource://gre/modules/PlacesUtils.jsm");
+		
 		var FEEDBAR_PREFS = {
 			prefs : null,
 			browserPrefs : null,
@@ -186,29 +190,34 @@
 			
 			subscribe : function (title, feedUrl, siteUrl, description) {
 				var ioService = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService);
-				var bmsvc = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
-				var annotationService = Components.classes["@mozilla.org/browser/annotation-service;1"].getService(Components.interfaces.nsIAnnotationService);
-				var livemarkService = Components.classes["@mozilla.org/browser/livemark-service;2"].getService(Components.interfaces.nsILivemarkService);
-				var menu = Application.bookmarks.menu;
-				var uri = ioService.newURI(siteUrl, null, null);
-				var feedUri = ioService.newURI(feedUrl, null, null);
-				var lm = livemarkService.createLivemarkFolderOnly(Application.bookmarks.menu.id, title, uri, feedUri, -1);
-				annotationService.setItemAnnotation(lm, "bookmarkProperties/description", description, 0, Components.interfaces.nsIAnnotationService.EXPIRE_NEVER);
+				
+				PlacesUtils.livemarks.addLivemark(
+					{
+						title : title,
+						parentId : Application.bookmarks.menu.id,
+						feedURI : ioService.newURI(feedUrl, null, null),
+						siteURI : ioService.newURI(siteUrl, null, null),
+						index : 0
+					}, function (result, livemark) {
+						if (result != Components.results.NS_OK)
+							return;
+						
+						FEED_GETTER.feedData[livemark.feedURI.spec.toLowerCase()] = { name : livemark.title, bookmarkId : livemark.id, uri : livemark.feedURI.spec };
+					}
+				);
+				
 			},
 			
 			unsubscribe : function (url) {
-				var anno = Components.classes["@mozilla.org/browser/annotation-service;1"].getService(Components.interfaces.nsIAnnotationService);
-				var livemarkIds = anno.getItemsWithAnnotation("livemark/feedURI", {});
-				var livemarkService = Components.classes["@mozilla.org/browser/livemark-service;2"].getService(Components.interfaces.nsILivemarkService);
+				var livemarkIds = PlacesUtils.annotations.getItemsWithAnnotation("livemark/feedURI", {});
 
-				for (var i = 0; i < livemarkIds.length; i++){
-					var feedURL = livemarkService.getFeedURI(livemarkIds[i]).spec;
-					
-					if (feedURL == url) {
-						var bookmarkService = Components.classes["@mozilla.org/browser/nav-bookmarks-service;1"].getService(Components.interfaces.nsINavBookmarksService);
-						bookmarkService.removeFolder(livemarkIds[i]);
+				FEED_GETTER.getLivemarks(livemarkIds, function (livemarks) {
+					for (var i = 0; i < livemarks.length; i++) {
+						if (livemarks[i].feedURI.spec == url) {
+							PlacesUtils.bookmarks.removeItem(livemarks[i].id);
+						}
 					}
-				}
+				});
 			},
 			
 			unload : function () {
