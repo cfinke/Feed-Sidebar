@@ -30,8 +30,6 @@ var FEEDBAR_BROWSER = {
 	},
 	
 	addToolbarButton : function (buttonId) {
-		// Add the subscribe toolbar button, as Firefox 4 removes it.
-
 		if (!document.getElementById(buttonId)){
 			// Determine which toolbar to place the icon onto
 			if (document.getElementById("nav-bar").getAttribute("collapsed") != "true"){
@@ -41,14 +39,11 @@ var FEEDBAR_BROWSER = {
 				var toolbar = document.getElementById("toolbar-menubar");
 			}
 
-			var toolbox = document.getElementById("navigator-toolbox");
-			var toolboxDocument = toolbox.ownerDocument;
 			var newSet = toolbar.currentSet + "," + buttonId;
-
 			toolbar.currentSet = newSet;
 			toolbar.setAttribute("currentset",newSet);
 
-			toolboxDocument.persist(toolbar.id, "currentset");
+			document.getElementById("navigator-toolbox").ownerDocument.persist(toolbar.id, "currentset");
 
 			try {
 				BrowserToolboxCustomizeDone(true);
