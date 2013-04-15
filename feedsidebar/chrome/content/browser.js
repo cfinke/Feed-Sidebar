@@ -57,21 +57,11 @@ var FEEDBAR_BROWSER = {
 	getVersion : function (callback) {
 		var addonId = "feedbar@efinke.com";
 		
-		if ("@mozilla.org/extensions/manager;1" in Components.classes) {
-			// < Firefox 4
-			var version = Components.classes["@mozilla.org/extensions/manager;1"]
-				.getService(Components.interfaces.nsIExtensionManager).getItemForID(addonId).version;
-			
-			callback(version);
-		}
-		else {
-			// Firefox 4.
-			Components.utils.import("resource://gre/modules/AddonManager.jsm");  
-			
-			AddonManager.getAddonByID(addonId, function (addon) {
-				callback(addon.version);
-			});
-		}
+		Components.utils.import("resource://gre/modules/AddonManager.jsm");  
+		
+		AddonManager.getAddonByID(addonId, function (addon) {
+			callback(addon.version);
+		});
 	},
 	
 	showFirstRun : function () {
