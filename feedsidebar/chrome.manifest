@@ -5,8 +5,7 @@ content     feedbar-default-locale      chrome/locale/en-US/
 
 skin        feedbar     classic             chrome/skin/ff3/lin/
 skin        feedbar     classic             chrome/skin/ff3/win/ os=WINNT
-skin        feedbar     classic             chrome/skin/ff3/mac/ os=Darwin
-skin        feedbar     classic             chrome/skin/ff4/mac/ os=Darwin appversion>=4.0b1
+skin        feedbar     classic             chrome/skin/ff4/mac/ os=Darwin
 
 locale      feedbar     en-US               chrome/locale/en-US/
 locale      feedbar     be-BY               chrome/locale/be-BY/

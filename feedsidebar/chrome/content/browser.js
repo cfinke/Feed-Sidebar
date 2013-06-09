@@ -9,25 +9,27 @@ var FEEDBAR_BROWSER = {
 	
 			var buttonId = "feedbar-button";
 		
-			FEEDBAR_BROWSER.addToolbarButton("feedbar-button", [ "urlbar-container:before", "home-button", "reload-button", "stop-button", "forward-button", "search-container:before" ]);
+			FEEDBAR_BROWSER.addToolbarButton("feedbar-button");
 
 			// Open the sidebar.
 			toggleSidebar('feedbar');
 			FEEDBAR_BROWSER.prefs.setCharPref("lastVersion", "firstrun");
 		}
 		
+		/* // Don't add the subscribe button until the sidebar button is significantly different.
+		
 		if (!FEEDBAR_BROWSER.prefs.getBoolPref("subscribeIconCheck")) {
 			FEEDBAR_BROWSER.prefs.setBoolPref("subscribeIconCheck", true);
 			
-			FEEDBAR_BROWSER.addToolbarButton("feed-button", [ "urlbar-container", "search-container:before", "home-button", "reload-button", "stop-button", "forward-button" ]);
+			FEEDBAR_BROWSER.addToolbarButton("feed-button");
 		}
+		
+		*/
 		
 		setTimeout(FEEDBAR_BROWSER.showFirstRun, 1500);
 	},
 	
-	addToolbarButton : function (buttonId, locationPreferences) {
-		// Add the subscribe toolbar button, as Firefox 4 removes it.
-
+	addToolbarButton : function (buttonId) {
 		if (!document.getElementById(buttonId)){
 			// Determine which toolbar to place the icon onto
 			if (document.getElementById("nav-bar").getAttribute("collapsed") != "true"){
@@ -37,55 +39,11 @@ var FEEDBAR_BROWSER = {
 				var toolbar = document.getElementById("toolbar-menubar");
 			}
 
-			var currentSet = toolbar.currentSet;
-			var newSet = currentSet;
-			var setItems = currentSet.split(',');
-
-			var toolbox = document.getElementById("navigator-toolbox");
-			var toolboxDocument = toolbox.ownerDocument;
-
-			function getIndex(array, val){
-				for (var i = 0; i < array.length; i++){
-					if (array[i] == val) {
-						return i;
-					}
-				}
-
-				return -1;
-			}
-			
-			var added = false;
-			
-			for (var i = 0, _len = locationPreferences.length; i < _len; i++) {
-				var before = false;
-				var item = locationPreferences[i];
-				
-				if (item.indexOf(":before") != -1) {
-					item = item.replace(":before", "");
-					before = true;
-				}
-				
-				if (getIndex(setItems, item) != -1) {
-					if (before) {
-						newSet = currentSet.replace(item, buttonId + "," + item);
-					}
-					else {
-						newSet = currentSet.replace(item, item + "," + buttonId);
-					}
-					
-					added = true;
-					break;
-				}
-			}
-			
-			if (!added) {
-				newSet = toolbar.currentSet + ","+buttonId;
-			}
-
+			var newSet = toolbar.currentSet + "," + buttonId;
 			toolbar.currentSet = newSet;
 			toolbar.setAttribute("currentset",newSet);
 
-			toolboxDocument.persist(toolbar.id, "currentset");
+			document.getElementById("navigator-toolbox").ownerDocument.persist(toolbar.id, "currentset");
 
 			try {
 				BrowserToolboxCustomizeDone(true);
@@ -96,21 +54,11 @@ var FEEDBAR_BROWSER = {
 	getVersion : function (callback) {
 		var addonId = "feedbar@efinke.com";
 		
-		if ("@mozilla.org/extensions/manager;1" in Components.classes) {
-			// < Firefox 4
-			var version = Components.classes["@mozilla.org/extensions/manager;1"]
-				.getService(Components.interfaces.nsIExtensionManager).getItemForID(addonId).version;
-			
-			callback(version);
-		}
-		else {
-			// Firefox 4.
-			Components.utils.import("resource://gre/modules/AddonManager.jsm");  
-			
-			AddonManager.getAddonByID(addonId, function (addon) {
-				callback(addon.version);
-			});
-		}
+		Components.utils.import("resource://gre/modules/AddonManager.jsm");  
+		
+		AddonManager.getAddonByID(addonId, function (addon) {
+			callback(addon.version);
+		});
 	},
 	
 	showFirstRun : function () {
