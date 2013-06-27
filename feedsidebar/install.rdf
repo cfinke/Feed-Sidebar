@@ -3,7 +3,7 @@
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>feedbar@efinke.com</em:id>
 		<em:name>Feed Sidebar</em:name>
-		<em:version>6.0.1</em:version>
+		<em:version>7</em:version>
 		<em:description>Displays the items from your Live Bookmarks in a sidebar.</em:description>
 		<em:creator>Christopher Finke</em:creator>
 		<em:iconURL>chrome://feedbar/content/skin-common/logo.gif</em:iconURL>
@@ -15,8 +15,8 @@
 		<em:targetApplication>
 			<Description>
 				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-				<em:minVersion>12.0</em:minVersion>
-				<em:maxVersion>20.*</em:maxVersion>
+				<em:minVersion>22.0</em:minVersion>
+				<em:maxVersion>22.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 		
