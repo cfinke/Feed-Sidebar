@@ -461,42 +461,34 @@ var FEEDBAR = {
 	cycleHeader : function (col) { },
 	drop : function (idx, orientation) { },
 	
-	getCellProperties: function (row, col, props) {
+	getCellProperties: function (row, col) {
 		if (!FEEDBAR.isContainer(row)) {
 			if (FEEDBAR.getCellRead(row)) { 
-				var atomService = Components.classes["@mozilla.org/atom-service;1"].
-					getService(Components.interfaces.nsIAtomService);
-				props.AppendElement(atomService.getAtom("visited"));
+				return "visited";
 			}
 		}
 		else {
 			if (!FEEDBAR.hasUnreadItems(row)) {
-				var atomService = Components.classes["@mozilla.org/atom-service;1"].
-					getService(Components.interfaces.nsIAtomService);
-				props.AppendElement(atomService.getAtom("visited"));
+				return "visited";
 			}
 		}
 	},
 	
 	getCellValue : function (row, col) { },
 	
-	getColumnProperties: function (colid,col,props) { },
+	getColumnProperties: function (colid,col) { },
 	
 	getProgressMode : function (row, col) { },
 	
-	getRowProperties: function (row,props) {
+	getRowProperties: function (row) {
 		if (!FEEDBAR.isContainer(row)) {
 			if (FEEDBAR.getCellRead(row)) { 
-				var atomService = Components.classes["@mozilla.org/atom-service;1"].
-					getService(Components.interfaces.nsIAtomService);
-				props.AppendElement(atomService.getAtom("visited"));
+				return "visited";
 			}
 		}
 		else {
 			if (!FEEDBAR.hasUnreadItems(row)) {
-				var atomService = Components.classes["@mozilla.org/atom-service;1"].
-					getService(Components.interfaces.nsIAtomService);
-				props.AppendElement(atomService.getAtom("visited"));
+				return "visited";
 			}
 		}
 	},
