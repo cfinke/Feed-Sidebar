@@ -125,7 +125,7 @@ var FEEDSIDEBAR = {
 								FEEDSIDEBAR.prefs.setBoolPref("featuredFeeds.new", false);
 							
 								var nb = document.getElementById("sidebar-notify");
-								nb.appendNotification(FEEDSIDEBAR.strings.getString('feedbar.featured.notification'), "featured-feeds", 'chrome://feedbar/content/skin-common/thumbs-up.png', nb.PRIORITY_INFO_HIGH, 
+								nb.appendNotification(FEEDSIDEBAR.strings.getString('feedbar.featured.notification'), "featured-feeds", 'chrome://feedbar/content/skin/icons/thumbs-up.png', nb.PRIORITY_INFO_HIGH, 
 									[ 
 										{
 											accessKey : FEEDSIDEBAR.strings.getString('feedbar.featured.okKey'), 

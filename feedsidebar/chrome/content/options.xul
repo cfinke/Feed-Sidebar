@@ -284,7 +284,7 @@
 		<stringbundle id="feedbar-backup-string-bundle" src="chrome://feedbar-default-locale/content/locale.properties" />
 		<stringbundle id="feedbar-string-bundle" src="chrome://feedbar/locale/locale.properties" />
 	</stringbundleset>
-	<prefpane id="general-pane" label="&feedbar.options.general;" image="chrome://feedbar/content/skin-common/emblem-system.png">
+	<prefpane id="general-pane" label="&feedbar.options.general;" image="chrome://feedbar/skin/icons/emblem-system.png">
 		<preferences id="all_prefs">
 			<preference id="p_hide_read" name="extensions.feedbar.hideReadItems" type="bool" />
 			<preference id="p_update_freq" name="extensions.feedbar.updateFrequency" type="int" />
@@ -328,7 +328,7 @@
 			<checkbox label="&feedbar.alwaysOpenInNewTab;" preference="p_new_tab" />
 		</groupbox>
 	</prefpane>
-	<prefpane id="featured-pane" label="&feedbar.featured.panelTitle;" image="chrome://feedbar/content/skin-common/feed-icon-32.png">
+	<prefpane id="featured-pane" label="&feedbar.featured.panelTitle;" image="chrome://feedbar/content/skin/icons/feed-icon-32.png">
 		<vbox style="max-width: 460px;">
 			<description>&feedbar.featured.description;</description>
 			<description style="font-size: 8pt;">&feedbar.featured.contact;</description>
