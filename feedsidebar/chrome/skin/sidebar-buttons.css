@@ -19,7 +19,7 @@
 	-moz-image-region: rect(0, 360px, 18px, 342px);
 }
 
-#feedbar-open-all:hover {
+#feedbar-open-all:not([disabled]):hover {
 	-moz-image-region: rect(18px, 360px, 36px, 342px);
 }
 
@@ -27,7 +27,7 @@
 	-moz-image-region: rect(0, 504px, 18px, 486px);
 }
 
-#feedbar-read-all:hover {
+#feedbar-read-all:not([disabled]):hover {
 	-moz-image-region: rect(18px, 504px, 36px, 486px);
 }
 
@@ -35,7 +35,7 @@
 	-moz-image-region: rect(0, 180px, 18px, 162px);
 }
 
-#feedbar-period-button:hover {
+#feedbar-period-button:not([disabled]):hover {
 	-moz-image-region: rect(18px, 180px, 36px, 162px);
 }
 
@@ -43,7 +43,7 @@
 	-moz-image-region: rect(0, 108px, 18px, 90px);
 }
 
-#feedbar-stop-button:hover {
+#feedbar-stop-button:not([disabled]):hover {
 	-moz-image-region: rect(18px, 108px, 36px, 90px);
 }
 
@@ -51,7 +51,7 @@
 	-moz-image-region: rect(0, 90px, 18px, 72px);
 }
 
-#feedbar-frequency-button:hover {
+#feedbar-frequency-button:not([disabled]):hover {
 	-moz-image-region: rect(18px, 90px, 36px, 72px);
 }
 
@@ -59,7 +59,7 @@
 	-moz-image-region: rect(0, 198px, 18px, 180px);
 }
 
-#feedbar-sort-button:hover {
+#feedbar-sort-button:not([disabled]):hover {
 	-moz-image-region: rect(18px, 198px, 36px, 180px);
 }
 
@@ -71,7 +71,7 @@
 	-moz-image-region: rect( 0, 396px, 18px, 378px );
 }
 
-#search-toggle:hover, #search-toggle[checked="true"] {
+#search-toggle:not([disabled]):hover, #search-toggle[checked="true"] {
 	-moz-image-region: rect( 18px, 396px, 36px, 378px );
 }
 
@@ -84,7 +84,7 @@
 		-moz-image-region: rect(0, 720px, 36px, 684px);
 	}
 	
-	#feedbar-open-all:hover {
+	#feedbar-open-all:not([disabled]):hover {
 		-moz-image-region: rect(36px, 720px, 72px, 684px);
 	}
 
@@ -92,7 +92,7 @@
 		-moz-image-region: rect(0, 1008px, 36px, 972px);
 	}
 	
-	#feedbar-read-all:hover {
+	#feedbar-read-all:not([disabled]):hover {
 		-moz-image-region: rect(36px, 1008px, 72px, 972px);
 	}
 	
@@ -100,7 +100,7 @@
 		-moz-image-region: rect(0, 360px, 36px, 324px);
 	}
 	
-	#feedbar-period-button:hover {
+	#feedbar-period-button:not([disabled]):hover {
 		-moz-image-region: rect(36px, 360px, 72px, 324px);
 	}
 	
@@ -108,7 +108,7 @@
 		-moz-image-region: rect(0, 216px, 36px, 180px);
 	}
 	
-	#feedbar-stop-button:hover {
+	#feedbar-stop-button:not([disabled]):hover {
 		-moz-image-region: rect(36px, 216px, 72px, 180px);
 	}
 	
@@ -116,7 +116,7 @@
 		-moz-image-region: rect(0, 180px, 36px, 144px);
 	}
 	
-	#feedbar-frequency-button:hover {
+	#feedbar-frequency-button:not([disabled]):hover {
 		-moz-image-region: rect(36px, 180px, 72px, 144px);
 	}
 	
@@ -124,7 +124,7 @@
 		-moz-image-region: rect(0, 396px, 36px, 360px);
 	}
 	
-	#feedbar-sort-button:hover {
+	#feedbar-sort-button:not([disabled]):hover {
 		-moz-image-region: rect(36px, 396px, 72px, 360px);
 	}
 	
@@ -132,7 +132,11 @@
 		-moz-image-region: rect( 0, 792px, 36px, 756px );
 	}
 	
-	#search-toggle:hover, #search-toggle[checked="true"] {
+	#search-toggle:not([disabled]):hover, #search-toggle[checked="true"] {
 		-moz-image-region: rect( 36px, 792px, 72px, 756px );
 	}
+}
+
+:-moz-any(#feedbar-open-all, #feedbar-read-all, #feedbar-period-button, #feedbar-stop-button, #feedbar-sort-button, #search-toggle)[disabled] {
+	opacity: 0.5;
 }
