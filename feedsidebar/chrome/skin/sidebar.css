@@ -51,3 +51,11 @@ statusbarpanel {
 	background-color: #949393;
 	border-top: 1px solid #505050;
 }
+
+.close-icon .toolbarbutton-icon {
+	width: 16px;
+}
+
+#all-toggle[checked="true"] {
+	font-weight: bold;
+}

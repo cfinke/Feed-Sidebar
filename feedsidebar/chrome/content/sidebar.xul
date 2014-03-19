@@ -166,7 +166,7 @@
 						<description id="feedbarTooltipURL" crop="end" onclick="FEEDBAR.onTreeClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;"/>
 					</vbox>
 					<vbox pack="start" align="start">
-						<toolbarbutton id="close-preview" class="tabs-closebutton" oncommand="FEEDBAR.markAsRead(true); FEEDSIDEBAR.hidePreview(); FEEDBAR.selectNone();" tooltiptext="&feedbar.preview.markAsRead;" />
+						<toolbarbutton id="close-preview" class="close-icon" oncommand="FEEDBAR.markAsRead(true); FEEDSIDEBAR.hidePreview(); FEEDBAR.selectNone();" tooltiptext="&feedbar.preview.markAsRead;" />
 					</vbox>
 				</hbox>
 				<groupbox id="feedbarTooltipSummaryGroupbox" flex="1">
