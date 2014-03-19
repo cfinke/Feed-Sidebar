@@ -26,22 +26,6 @@ treechildren::-moz-tree-image {
 	height: 16px;
 }
 
-#search-toggle {
-	padding-top: 3px;
-	padding-left: 12px;
-	list-style-image: url(chrome://feedbar/content/skin-common/search.png);
-}
-
-#search-toggle[checked="true"] {
-	background-color: #ddd;
-	border-right: 1px solid #b9b9b9;
-	border-left: 1px solid #b9b9b9;
-}
-
-#search-toggle dropmarker {
-	display: none;
-}
-
 #feed_tree, #feedbar_tree_namecol, treechildren::-moz-tree-cell, treechildren::-moz-tree-row {
 	background-color: #d4dde5;
 	border-color: #d4dde5 !important;

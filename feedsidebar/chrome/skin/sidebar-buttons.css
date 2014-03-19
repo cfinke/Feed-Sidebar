@@ -1,8 +1,8 @@
-#feedbar-open-all, #feedbar-read-all, #feedbar-period-button, #feedbar-stop-button, #feedbar-frequency-button, #feedbar-sort-button {
+#feedbar-open-all, #feedbar-read-all, #feedbar-period-button, #feedbar-stop-button, #feedbar-frequency-button, #feedbar-sort-button, #search-toggle {
 	list-style-image: url("chrome://browser/skin/Toolbar.png");
 }
 
-:-moz-any(#feedbar-open-all, #feedbar-read-all, #feedbar-period-button, #feedbar-stop-button, #feedbar-sort-button) > .toolbarbutton-icon,
+:-moz-any(#feedbar-open-all, #feedbar-read-all, #feedbar-period-button, #feedbar-stop-button, #feedbar-sort-button, #search-toggle) > .toolbarbutton-icon,
 #feedbar-frequency-button .toolbarbutton-icon {
 	width: 18px;
 }
@@ -43,8 +43,16 @@
 	margin-top: -0.5px;
 }
 
+#search-toggle {
+	-moz-image-region: rect( 0, 396px, 18px, 378px );
+}
+
+#search-toggle:hover, #search-toggle[checked="true"] {
+	-moz-image-region: rect( 18px, 396px, 36px, 378px );
+}
+
 @media (min-resolution: 2dppx) {
-	#feedbar-open-all, #feedbar-read-all, #feedbar-period-button, #feedbar-stop-button, #feedbar-frequency-button, #feedbar-sort-button {
+	#feedbar-open-all, #feedbar-read-all, #feedbar-period-button, #feedbar-stop-button, #feedbar-frequency-button, #feedbar-sort-button, #search-toggle {
 		list-style-image: url("chrome://browser/skin/Toolbar@2x.png");
 	}
 	
@@ -70,5 +78,17 @@
 	
 	#feedbar-sort-button {
 		-moz-image-region: rect(0, 396px, 36px, 360px);
+	}
+	
+	#feedbar-sort-button:hover {
+		-moz-image-region: rect(36px, 396px, 72px, 360px);
+	}
+	
+	#search-toggle {
+		-moz-image-region: rect( 0, 792px, 36px, 756px );
+	}
+	
+	#search-toggle:hover, #search-toggle[checked="true"] {
+		-moz-image-region: rect( 36px, 792px, 72px, 756px );
 	}
 }
