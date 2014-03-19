@@ -38,6 +38,10 @@ treechildren::-moz-tree-image {
 	border-left: 1px solid #b9b9b9;
 }
 
+#search-toggle dropmarker {
+	display: none;
+}
+
 #feed_tree, #feedbar_tree_namecol, treechildren::-moz-tree-cell, treechildren::-moz-tree-row {
 	background-color: #d4dde5;
 	border-color: #d4dde5 !important;
@@ -62,8 +66,4 @@ statusbarpanel {
 	background-repeat: repeat-x;
 	background-color: #949393;
 	border-top: 1px solid #505050;
-}
-
-#downloads-button dropmarker {
-	display: none;
 }
