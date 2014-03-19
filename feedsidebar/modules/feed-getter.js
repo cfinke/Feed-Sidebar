@@ -770,8 +770,8 @@ var FEED_GETTER = {
 	},
 	
 	QueryInterface: function(iid) {
-		if (iid.equals(Ci.nsINavBookmarkObserver) ||
-			iid.equals(Ci.nsISupports)) {
+		if (iid.equals(Components.interfaces.nsINavBookmarkObserver) ||
+			iid.equals(Components.interfaces.nsISupports)) {
 			return this;
 		}
 		
