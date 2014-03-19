@@ -208,12 +208,12 @@ var FEEDSIDEBAR = {
 			
 			var sorts = sortMenu.getElementsByTagName("menuitem");
 		
-			for (var i = 0; i < sorts.length; i++){
-				if (sorts[i].getAttribute("value") == sort){
-					sorts[i].setAttribute("checked","true");
+			for (var j = 0; j < sorts.length; j++){
+				if (sorts[j].value == sort){
+					sorts[j].setAttribute("checked", "true");
 				}
 				else {
-					sorts[i].setAttribute("checked","false");
+					sorts[j].setAttribute("checked", "false");
 				}
 			}
 		}

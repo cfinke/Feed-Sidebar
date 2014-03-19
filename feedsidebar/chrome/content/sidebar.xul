@@ -122,11 +122,11 @@
 						<menuitem type="radio" name="frequency" value="0" label="&feedbar.updatesDisabled;" />
 					</menupopup>
 				</toolbarbutton>
-				<toolbarbutton id="downloads-button" class="toolbarbutton-1 chromeclass-toolbar-additional" orient="horizontal" type="menu" tooltiptext="&feedbar.sortBy;">
+				<toolbarbutton id="feedbar-sort-button" cui-areatype="toolbar" class="toolbarbutton-1 chromeclass-toolbar-additional" orient="horizontal" type="menu" tooltiptext="&feedbar.sortBy;">
 					<menupopup id="sort-menu" command="sort">
-						<menuitem type="radio" name="frequency" value="default" label="&feedbar.sort.default;" />
-						<menuitem type="radio" name="frequency" value="name" label="&feedbar.sort.name;" />
-						<menuitem type="radio" name="frequency" value="updated" label="&feedbar.sort.updated;" />
+						<menuitem type="radio" name="frequency" value="default" label="&feedbar.sort.default;" autocheck="false" />
+						<menuitem type="radio" name="frequency" value="name" label="&feedbar.sort.name;" autocheck="false" />
+						<menuitem type="radio" name="frequency" value="updated" label="&feedbar.sort.updated;" autocheck="false" />
 					</menupopup>
 				</toolbarbutton>
 				<spacer flex="1" />
