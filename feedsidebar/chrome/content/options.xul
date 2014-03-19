@@ -17,6 +17,7 @@
 		<![CDATA[
 		
 		Components.utils.import("resource://gre/modules/PlacesUtils.jsm");
+		Components.utils.import("resource://gre/modules/Promise.jsm");
 		
 		var FEEDBAR_PREFS = {
 			prefs : null,
@@ -211,12 +212,14 @@
 			unsubscribe : function (url) {
 				var livemarkIds = PlacesUtils.annotations.getItemsWithAnnotation("livemark/feedURI", {});
 
-				FEED_GETTER.getLivemarks(livemarkIds, function (livemarks) {
+				FEED_GETTER.getLivemarks(livemarkIds).then(function(livemarks) {
 					for (var i = 0; i < livemarks.length; i++) {
 						if (livemarks[i].feedURI.spec == url) {
 							PlacesUtils.bookmarks.removeItem(livemarks[i].id);
 						}
 					}
+				}, function (err) {
+					FEED_GETTER.log(err);
 				});
 			},
 			

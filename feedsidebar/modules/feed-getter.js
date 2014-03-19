@@ -1,5 +1,6 @@
 Components.utils.import("resource://feedbar-modules/treeview.js");
 Components.utils.import("resource://gre/modules/PlacesUtils.jsm");
+Components.utils.import("resource://gre/modules/Promise.jsm");
 
 var FEED_GETTER = {
 	strings : {
@@ -193,7 +194,7 @@ var FEED_GETTER = {
 		
 		var livemarkIds = PlacesUtils.annotations.getItemsWithAnnotation("livemark/feedURI", {});
 
-		FEED_GETTER.getLivemarks(livemarkIds, function (livemarks) {
+		FEED_GETTER.getLivemarks(livemarkIds).then(function (livemarks) {
 			for (var i = 0; i < livemarks.length; i++) {
 				FEED_GETTER.feedsToFetch.push({ name : livemarks[i].title, feed : livemarks[i].feedURI.spec });
 				FEED_GETTER.feedData[livemarks[i].feedURI.spec.toLowerCase()] = { name : livemarks[i].title, bookmarkId : livemarks[i].id, uri : livemarks[i].feedURI.spec };
@@ -204,6 +205,8 @@ var FEED_GETTER = {
 			}
 
 			FEED_GETTER.setReloadInterval(FEED_GETTER.prefs.getIntPref("updateFrequency"));
+		}, function (err) {
+			FEED_GETTER.log(err);
 		});
 		
 	},
@@ -451,14 +454,13 @@ var FEED_GETTER = {
 	},
 	
 	updateSingleFeed : function (livemarkId) {
-		PlacesUtils.livemarks.getLivemark({ id : livemarkId }, function (result, livemark) {
-			if (result != Components.results.NS_OK)
-				return;
-			
+		PlacesUtils.livemarks.getLivemark({ id : livemarkId }).then(function (livemark) {
 			FEED_GETTER.feedsToFetch.push({ name : livemark.title, feed : livemark.feedURI.spec });
 			FEED_GETTER.feedData[livemark.feedURI.spec.toLowerCase()] = { name : livemark.title, bookmarkId : livemark.id, uri : livemark.feedURI.spec };
 
 			FEED_GETTER.updateAFeed(FEED_GETTER.feedsToFetch.length - 1);
+		}, function (err) {
+			FEED_GETTER.log(err);
 		});
 	},
 	
@@ -735,25 +737,17 @@ var FEED_GETTER = {
 		consoleService.logStringMessage("FEEDBAR: " + m);
 	},
 	
-	getLivemarks : function (livemarkIds, callback) {
-		var livemarks = [];
+	/**
+	 * @return Promise
+	 */
+	getLivemarks : function (livemarkIds) {
+		var livemarkRequests = [];
 		
-		function getNextLivemark() {
-			if (livemarkIds.length == 0) {
-				callback(livemarks);
-			}
-			else {
-				PlacesUtils.livemarks.getLivemark( { id : livemarkIds.shift() }, function (result, livemark) {
-					if (result == Components.results.NS_OK) {
-						livemarks.push(livemark);
-					}
-				
-					getNextLivemark();
-				});
-			}
-		}
+		livemarkIds.forEach(function (livemarkId) {
+			livemarkRequests.push( PlacesUtils.livemarks.getLivemark( { id : livemarkIds.shift() } ) );
+		} );
 		
-		getNextLivemark();
+		return Promise.all( livemarkRequests );
 	},
 	
 	/* Bookmark Observer Functions */
