@@ -424,8 +424,8 @@ var FEED_GETTER = {
 				var win = wins[i];
 	
 				if (win && win.FEEDSIDEBAR) {
-					win.document.getElementById("stop-button").setAttribute("disabled","false");
-					win.document.getElementById("reload-button").setAttribute("disabled","true");
+					win.document.getElementById("feedbar-stop-button").setAttribute("disabled","false");
+					win.document.getElementById("feedbar-frequency-button").setAttribute("disabled","true");
 				}
 			}
 		}
@@ -447,8 +447,8 @@ var FEED_GETTER = {
 			var win = wins[i];
 		
 			if (win && win.FEEDSIDEBAR) {
-				win.document.getElementById("stop-button").setAttribute("disabled","false");
-				win.document.getElementById("reload-button").setAttribute("disabled","true");
+				win.document.getElementById("feedbar-stop-button").setAttribute("disabled","false");
+				win.document.getElementById("feedbar-frequency-button").setAttribute("disabled","true");
 			}
 		}
 	},
@@ -476,8 +476,8 @@ var FEED_GETTER = {
 			var win = wins[i];
 			
 			if (win && win.FEEDSIDEBAR) {
-				win.document.getElementById("stop-button").setAttribute("disabled","true");
-				win.document.getElementById("reload-button").setAttribute("disabled","false");
+				win.document.getElementById("feedbar-stop-button").setAttribute("disabled","true");
+				win.document.getElementById("feedbar-frequency-button").setAttribute("disabled","false");
 			}
 		}
 	},
@@ -718,7 +718,7 @@ var FEED_GETTER = {
 		};
 		
 		try {
-			if (!image) image = "chrome://feedbar/skin/icons/notify-icon.png";
+			if (!image) image = "chrome://feedbar/skin/icons/feed-icon-notify-32.png";
 
 			var alertsService = Components.classes["@mozilla.org/alerts-service;1"]
 				.getService(Components.interfaces.nsIAlertsService);

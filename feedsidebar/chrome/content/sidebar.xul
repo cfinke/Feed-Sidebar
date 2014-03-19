@@ -91,9 +91,9 @@
 	<vbox flex="1">
 		<toolbox id="navigator-toolbox" class="toolbox-top">
 			<toolbar id="nav-bar" iconsize="small" class="toolbar-primary chromeclass-toolbar">
-				<toolbarbutton id="new-window-button" class="toolbarbutton-1 chromeclass-toolbar-additional" command="open-all-in-tabs" />
-				<toolbarbutton id="cut-button" class="toolbarbutton-1 chromeclass-toolbar-additional" command="mark-all-as-read" />
-				<toolbarbutton id="history-button" class="toolbarbutton-1 chromeclass-toolbar-additional" type="menu" orient="horizontal" tooltiptext="&feedbar.showLastTooltip;">
+				<toolbarbutton id="feedbar-open-all" cui-areatype="toolbar" class="toolbarbutton-1 chromeclass-toolbar-additional" command="open-all-in-tabs" />
+				<toolbarbutton id="feedbar-read-all" cui-areatype="toolbar" class="toolbarbutton-1 chromeclass-toolbar-additional" command="mark-all-as-read" />
+				<toolbarbutton id="feedbar-period-button" cui-areatype="toolbar" class="toolbarbutton-1 chromeclass-toolbar-additional" type="menu" orient="horizontal" tooltiptext="&feedbar.showLastTooltip;">
 					<menupopup id="period-menu" command="update-period">
 						<menuitem type="radio" name="period" value="0" label="&feedbar.showAllItems;" />
 						<menuitem type="radio" name="period" value="1" label="&feedbar.showLastDay;" />
@@ -107,8 +107,8 @@
 						<menuitem type="radio" name="period" value="30" label="&feedbar.showLastMonth;" />
 					</menupopup>
 				</toolbarbutton>
-				<toolbarbutton id="stop-button" class="toolbarbutton-1 chromeclass-toolbar-additional" command="stop-update" disabled="true" />
-				<toolbarbutton id="reload-button" class="toolbarbutton-1 chromeclass-toolbar-additional" type="menu-button" command="force-reload">
+				<toolbarbutton id="feedbar-stop-button" cui-areatype="toolbar" class="toolbarbutton-1 chromeclass-toolbar-additional" command="stop-update" disabled="true" />
+				<toolbarbutton id="feedbar-frequency-button" cui-areatype="toolbar" class="toolbarbutton-1 chromeclass-toolbar-additional" type="menu-button" command="force-reload">
 					<menupopup id="frequency-menu" command="set-reload-interval">
 						<menuitem type="radio" name="frequency" value="10" label="10 &feedbar.minutes;" />
 						<menuitem type="radio" name="frequency" value="20" label="20 &feedbar.minutes;" />
