@@ -19,24 +19,48 @@
 	-moz-image-region: rect(0, 360px, 18px, 342px);
 }
 
+#feedbar-open-all:hover {
+	-moz-image-region: rect(18px, 360px, 36px, 342px);
+}
+
 #feedbar-read-all {
 	-moz-image-region: rect(0, 504px, 18px, 486px);
+}
+
+#feedbar-read-all:hover {
+	-moz-image-region: rect(18px, 504px, 36px, 486px);
 }
 
 #feedbar-period-button {
 	-moz-image-region: rect(0, 180px, 18px, 162px);
 }
 
+#feedbar-period-button:hover {
+	-moz-image-region: rect(18px, 180px, 36px, 162px);
+}
+
 #feedbar-stop-button {
 	-moz-image-region: rect(0, 108px, 18px, 90px);
+}
+
+#feedbar-stop-button:hover {
+	-moz-image-region: rect(18px, 108px, 36px, 90px);
 }
 
 #feedbar-frequency-button {
 	-moz-image-region: rect(0, 90px, 18px, 72px);
 }
 
+#feedbar-frequency-button:hover {
+	-moz-image-region: rect(18px, 90px, 36px, 72px);
+}
+
 #feedbar-sort-button {
 	-moz-image-region: rect(0, 198px, 18px, 180px);
+}
+
+#feedbar-sort-button:hover {
+	-moz-image-region: rect(18px, 198px, 36px, 180px);
 }
 
 #feedbar-sort-button .toolbarbutton-icon {
@@ -59,21 +83,41 @@
 	#feedbar-open-all {
 		-moz-image-region: rect(0, 720px, 36px, 684px);
 	}
+	
+	#feedbar-open-all:hover {
+		-moz-image-region: rect(36px, 720px, 72px, 684px);
+	}
 
 	#feedbar-read-all {
 		-moz-image-region: rect(0, 1008px, 36px, 972px);
+	}
+	
+	#feedbar-read-all:hover {
+		-moz-image-region: rect(36px, 1008px, 72px, 972px);
 	}
 	
 	#feedbar-period-button {
 		-moz-image-region: rect(0, 360px, 36px, 324px);
 	}
 	
+	#feedbar-period-button:hover {
+		-moz-image-region: rect(36px, 360px, 72px, 324px);
+	}
+	
 	#feedbar-stop-button {
 		-moz-image-region: rect(0, 216px, 36px, 180px);
 	}
 	
+	#feedbar-stop-button:hover {
+		-moz-image-region: rect(36px, 216px, 72px, 180px);
+	}
+	
 	#feedbar-frequency-button {
 		-moz-image-region: rect(0, 180px, 36px, 144px);
+	}
+	
+	#feedbar-frequency-button:hover {
+		-moz-image-region: rect(36px, 180px, 72px, 144px);
 	}
 	
 	#feedbar-sort-button {
