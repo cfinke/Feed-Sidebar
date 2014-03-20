@@ -10,6 +10,7 @@
 		<em:iconURL64>chrome://feedbar/content/skin/feed-icon-notify-64.png</em:iconURL64>
 		<em:homepageURL>http://www.chrisfinke.com/addons/feedbar/</em:homepageURL>
 		<em:optionsURL>chrome://feedbar/content/options.xul</em:optionsURL>	
+		<em:optionsType>2</em:optionsType>
 		
 		<!-- Firefox -->
 		

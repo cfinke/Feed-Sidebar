@@ -243,7 +243,7 @@ var FEEDBAR = {
 		var toInsert = FEEDBAR.childData[key].items;
 		var itemsInserted = 0;
 		
-		var displayPeriod = FEEDBAR.prefs.getIntPref("displayPeriod");
+		var displayPeriod = FEEDBAR.prefs.getBoolPref("showAll") ? 0 : FEEDBAR.prefs.getIntPref("displayPeriod");
 		var showReadItems = !FEEDBAR.prefs.getBoolPref("hideReadItems");
 		
 		if (displayPeriod > 0) {
@@ -337,7 +337,7 @@ var FEEDBAR = {
 		var toInsert = FEEDBAR.childData[key].items;
 		var itemsInserted = 0;
 		
-		var displayPeriod = FEEDBAR.prefs.getIntPref("displayPeriod");
+		var displayPeriod = FEEDBAR.prefs.getBoolPref("showAll") ? 0 : FEEDBAR.prefs.getIntPref("displayPeriod");
 		var showReadItems = !FEEDBAR.prefs.getBoolPref("hideReadItems");
 		
 		if (displayPeriod > 0) {
@@ -403,7 +403,7 @@ var FEEDBAR = {
 			
 			// Optimize: ^ The same with the search filter.
 			
-			var displayPeriod = FEEDBAR.prefs.getIntPref("displayPeriod");
+			var displayPeriod = FEEDBAR.prefs.getBoolPref("showAll") ? 0 : FEEDBAR.prefs.getIntPref("displayPeriod");
 			var showReadItems = !FEEDBAR.prefs.getBoolPref("hideReadItems");
 			
 			if (displayPeriod > 0) {
@@ -1210,8 +1210,7 @@ var FEEDBAR = {
 		
 		switch(data) {
 			case "displayPeriod":
-				FEEDBAR.refreshTree();
-			break;
+			case "showAll":
 			case "hideReadItems":
 				FEEDBAR.refreshTree();
 			break;
@@ -1783,7 +1782,7 @@ var FEEDBAR = {
 	loadFullPreview : function (idx, event, dontMark) {
 		var win = FEEDBAR.window;
 		
-		if (event.ctrlKey || event.metaKey || event.which == 2 || event.which == 4) {
+		if (FEEDBAR.prefs.getBoolPref("openInNewTab") || event.ctrlKey || event.metaKey || event.which == 2 || event.which == 4) {
 			var openedTab = win.gBrowser.addTab("chrome://feedbar/content/full_preview.html?idx="+idx);
 			win.gBrowser.selectedTab = openedTab;
 		}

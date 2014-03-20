@@ -512,6 +512,10 @@ var FEED_GETTER = {
 	},
 	
 	setDisplayPeriod : function (days) {
+		if ( days == 0 ) {
+			FEED_GETTER.prefs.setBoolPref( "showAll", true );
+		}
+		
 		FEED_GETTER.prefs.setIntPref("displayPeriod", days);
 	},
 	

@@ -1,200 +1,23 @@
-<?xml version="1.0"?>
-<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<!DOCTYPE prefwindow [
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE overlay [
 	<!ENTITY % localLocale SYSTEM "chrome://feedbar/locale/locale.dtd">
 	%localLocale;
 	<!ENTITY % backupLocale SYSTEM "chrome://feedbar-default-locale/content/locale.dtd">
 	%backupLocale;
 ]>
-<prefwindow
-	title="Feed Sidebar - &feedbar.options;"
-	buttons="accept,cancel"
-	onload="FEEDBAR_PREFS.onload();"
-	ondialogaccept="FEEDBAR_PREFS.unload();"
-	id="feedsidebar-options"
-	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-	<script type="application/x-javascript">
-		<![CDATA[
-		
-		Components.utils.import("resource://gre/modules/PlacesUtils.jsm");
-		Components.utils.import("resource://gre/modules/Promise.jsm");
-		
-		var FEEDBAR_PREFS = {
-			prefs : null,
-			browserPrefs : null,
-			
-			strings : {
-				_backup : null,
-				_main : null,
-
-				initStrings : function () {
-					if (!this._backup) { this._backup = document.getElementById("feedbar-backup-string-bundle"); }
-					if (!this._main) { this._main = document.getElementById("feedbar-string-bundle"); }
-				},
-
-				getString : function (key) {
-					this.initStrings();
-
-					var rv = "";
-
-					try {
-						rv = this._main.getString(key);
-					} catch (e) {
-					}
-
-					if (!rv) {
-						try {
-							rv = this._backup.getString(key);
-						} catch (e) {
-						}
-					}
-
-					return rv;
-				},
-
-				getFormattedString : function (key, args) {
-					this.initStrings();
-
-					var rv = "";
-
-					try {
-						rv = this._main.getFormattedString(key, args);
-					} catch (e) {
-					}
-
-					if (!rv) {
-						try {
-							rv = this._backup.getFormattedString(key, args);
-						} catch (e) {
-						}
-					}
-
-					return rv;
-				}
-			},
-			
-			onload : function () {
-				this.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.feedbar.");
-				this.browserPrefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("browser.preferences.");
-				
- 				if (!("@mozilla.org/alerts-service;1" in Components.classes)) {
-					document.getElementById("growl").hidden = true;
-				}
-				
-				var displayPeriod = this.prefs.getIntPref("displayPeriod");
-				
-				if (displayPeriod) {
-					document.getElementById("display-period").selectedIndex = 1;
-					this.showOnly(displayPeriod);
-				}
-				else {
-					document.getElementById("display-period").selectedIndex = 0;
-					this.showAll();
-				}
-			},
-			
-			unload : function () {
-				var prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("");
-				var browserPrefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("browser.preferences.");
-				
-				if (!browserPrefs.getBoolPref("instantApply")) {
-					var prefs = document.getElementById("all_prefs").getElementsByTagName("preference");
-					
-					for (var i = 0; i < prefs.length; i++) {
-						switch (prefs[i].getAttribute("type")) {
-							case 'bool':
-								prefService.setBoolPref(prefs[i].getAttribute("name"), prefs[i].value);
-							break;
-							case 'int':
-								prefService.setIntPref(prefs[i].getAttribute("name"), prefs[i].value);
-							break;
-						}
-					}
-				}
-
-				if (document.getElementById("show-all-radio").selected) {
-					prefService.setIntPref("extensions.feedbar.displayPeriod", 0);
-				}
-				else {
-					prefService.setIntPref("extensions.feedbar.displayPeriod", parseInt(document.getElementById("display-days").value,10));
-				}
-			},
-
-			showAll : function () {
-				document.getElementById("display-days").disabled = true;
-				
-				if (this.browserPrefs.getBoolPref("instantApply")) {
-					this.prefs.setIntPref("displayPeriod", 0);
-				}
-			},
-			
-			showOnly : function (days) {
-				document.getElementById("display-days").disabled = false;
-				
-				if (!days) {
-					days = 1;
-				}
-				
-				document.getElementById("display-days").value = days;
-				
-				if (this.browserPrefs.getBoolPref("instantApply")) {
-					this.prefs.setIntPref("displayPeriod", parseInt(days, 10));
-				}
-			}
-		};
-		
-		Components.utils.import("resource://feedbar-modules/feed-getter.js");
-		
-		addEventListener("load", FEED_GETTER.load, false);
-		addEventListener("unload", FEED_GETTER.unload, false);
-		
-		]]>
-	</script>
-	<stringbundleset id="stringbundleset">
-		<stringbundle id="feedbar-backup-string-bundle" src="chrome://feedbar-default-locale/content/locale.properties" />
-		<stringbundle id="feedbar-string-bundle" src="chrome://feedbar/locale/locale.properties" />
-	</stringbundleset>
-	<prefpane id="general-pane" label="&feedbar.options.general;" image="chrome://feedbar/skin/icons/emblem-system.png">
-		<preferences id="all_prefs">
-			<preference id="p_hide_read" name="extensions.feedbar.hideReadItems" type="bool" />
-			<preference id="p_update_freq" name="extensions.feedbar.updateFrequency" type="int" />
-			<preference id="p_show_days" name="extensions.feedbar.displayPeriod" type="int" />
-			<preference id="p_autoClose" name="extensions.feedbar.autoClose" type="bool" />
-			<preference id="p_notify" name="extensions.feedbar.notify" type="bool" />
-			<preference id="p_sidebar" name="extensions.feedbar.runInSidebar" type="bool" />
-			<preference id="p_fullPreview" name="extensions.feedbar.showFullPreview" type="bool" />
-			<preference id="p_new_tab" name="extensions.feedbar.openInNewTab" type="bool" />
-		</preferences>
-		<groupbox>
-			<hbox>
-				<label value="&feedbar.updateEvery1;" style="padding-top: 4px;" control="updateFreq"/>
-				<textbox id="updateFreq" preference="p_update_freq" size="2" aria-labelledby="updateFreq updateFreqUnit"/>
-				<label id="updateFreqUnit" value="&feedbar.updateEvery2;" style="padding-top: 4px;"  />
-			</hbox>
-		</groupbox>
-		<groupbox>
-			<radiogroup id="display-period" style="padding-left: 2ex;">
-				<radio label="&feedbar.showAllItemsFull;" id="show-all-radio" oncommand="FEEDBAR_PREFS.showAll();" />
-				<hbox align="center">
-					<radio id="showOnlyRadio" label="&feedbar.onlyShow1;" oncommand="FEEDBAR_PREFS.showOnly(document.getElementById('display-days').value);" />
-					<textbox onblur="FEEDBAR_PREFS.showOnly(this.value);" id="display-days" size="2" aria-labelledby="showOnlyRadio display-days onlyShowUnit"/>
-					<label id="onlyShowUnit" value="&feedbar.onlyShow2;" />
-				</hbox>
-			</radiogroup>
-			<checkbox label="&feedbar.hideReadItems;" preference="p_hide_read" />
-		</groupbox>
-		<groupbox>
-			<checkbox label="&feedbar.autoClose;" preference="p_autoClose" />
-			<checkbox id="growl" label="&feedbar.notifications;" preference="p_notify" />
-			<checkbox label="&feedbar.runInSidebar;" preference="p_sidebar" />
-		</groupbox>
-		<groupbox>
-			<label value="&feedbar.previewQuestion;" control="fullPreview"/>
-			<radiogroup id="fullPreview" preference="p_fullPreview" style="padding-left: 2ex;">
-				<radio label="&feedbar.previewAnswer1;" value="false" />
-				<radio label="&feedbar.previewAnswer2;" value="true" />
-			</radiogroup>
-			<checkbox label="&feedbar.alwaysOpenInNewTab;" preference="p_new_tab" />
-		</groupbox>
-	</prefpane>
-</prefwindow>
+<vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<setting pref="extensions.feedbar.updateFrequency" type="integer" title="&feedbar.options.updateFrequency;" />
+	<setting pref="extensions.feedbar.showAll" type="bool" title="&feedbar.showAllItemsFull;" />
+	<setting pref="extensions.feedbar.displayPeriod" type="integer" title="&feedbar.options.displayPeriod;" />
+	<setting pref="extensions.feedbar.hideReadItems" type="bool" title="&feedbar.hideReadItems;" />
+	<setting pref="extensions.feedbar.autoClose" type="bool" title="&feedbar.autoClose;" />
+	<setting pref="extensions.feedbar.notify" type="bool" title="&feedbar.notifications;" />
+	<setting pref="extensions.feedbar.runInSidebar" type="bool" title="&feedbar.runInSidebar;" />
+	<setting pref="extensions.feedbar.showFullPreview" type="radio" title="&feedbar.previewQuestion;">
+		<radiogroup>
+			<radio value="false" type="bool" label="&feedbar.previewAnswer1;" />
+			<radio value="true" type="bool" label="&feedbar.previewAnswer2;" />
+		</radiogroup>
+	</setting>
+	<setting pref="extensions.feedbar.openInNewTab" type="bool" title="&feedbar.alwaysOpenInNewTab;" />
+</vbox>

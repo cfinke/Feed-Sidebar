@@ -52,3 +52,5 @@
 <!ENTITY feedbar.alwaysOpenInNewTab "Always open items in new tabs">
 <!ENTITY feedbar.updatesDisabled "Disable Auto-Updates">
 <!ENTITY feedbar.options.general "General">
+<!ENTITY feedbar.options.updateFrequency "Minutes between feed updates.">
+<!ENTITY feedbar.options.displayPeriod "If not showing all items, only show items from the last X days.">

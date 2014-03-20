@@ -1,3 +1,5 @@
+Components.utils.import("resource://gre/modules/AddonManager.jsm");
+
 var FEEDSIDEBAR = {
 	get previewPane() { return document.getElementById("feedbar-preview"); },
 	
@@ -70,7 +72,7 @@ var FEEDSIDEBAR = {
 		document.getElementById("feed_tree").view = FEEDBAR;
 		
 		FEEDSIDEBAR.checkFrequencyItem(FEEDSIDEBAR.prefs.getIntPref("updateFrequency"));
-		FEEDSIDEBAR.checkPeriodItem(FEEDSIDEBAR.prefs.getIntPref("displayPeriod"));	
+		FEEDSIDEBAR.checkPeriodItem(FEEDSIDEBAR.prefs.getBoolPref("showAll") ? 0 : FEEDSIDEBAR.prefs.getIntPref("displayPeriod"));
 		FEEDSIDEBAR.checkSortItem(FEEDSIDEBAR.prefs.getCharPref("lastSort"));
 		
 		document.getElementById("search-box").value = FEEDSIDEBAR.prefs.getCharPref("filter");
@@ -109,6 +111,10 @@ var FEEDSIDEBAR = {
 	},
 	
 	setDisplayPeriod : function (days) {
+		if ( days == 0 ) {
+			FEEDSIDEBAR.prefs.setBoolPref("showAll", true );
+		}
+		
 		FEEDSIDEBAR.prefs.setIntPref("displayPeriod", days);
 	},
 	
@@ -163,27 +169,18 @@ var FEEDSIDEBAR = {
 		}
 	},
 
-	options : function (panel) {
-		var features = "";
+	options : function () {
+		var browser = window.parent.gBrowser;
 		
-		try {
-			var instantApply = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("").getBoolPref("browser.preferences.instantApply");
-			features = "chrome,titlebar,toolbar,centerscreen" + (instantApply ? ",dialog=no" : "");
-		}
-		catch (e) {
-			features = "chrome,titlebar,toolbar,centerscreen";
-		}
+		var theTab = browser.addTab( "about:addons" );
+		browser.selectedTab = theTab;
 		
-		var optWin = openDialog("chrome://feedbar/content/options.xul", "", features);
-		
-		if (panel) {
-			optWin.addEventListener("load", function (evt) {
-				var win = evt.currentTarget;
-				win.document.documentElement.showPane(win.document.getElementById(panel));
-			}, false);
-		}
-		
-		return optWin;
+		// This is a hack, but content.addEventListener( "load" ) was doing nothing.
+		setTimeout( function () {
+			AddonManager.getAddonByID( "feedbar@efinke.com", function ( addon ) {
+				content.gViewController.doCommand("cmd_showItemPreferences", addon );
+			} );
+		}, 1000 );
 	},
 	
 	contextMenu : {
