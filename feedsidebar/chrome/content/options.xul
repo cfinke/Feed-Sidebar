@@ -328,7 +328,7 @@
 			<checkbox label="&feedbar.alwaysOpenInNewTab;" preference="p_new_tab" />
 		</groupbox>
 	</prefpane>
-	<prefpane id="featured-pane" label="&feedbar.featured.panelTitle;" image="chrome://feedbar/content/skin/icons/feed-icon-32.png">
+	<prefpane id="featured-pane" label="&feedbar.featured.panelTitle;" image="chrome://feedbar/skin/icons/feed-icon-32.png">
 		<vbox style="max-width: 460px;">
 			<description>&feedbar.featured.description;</description>
 			<description style="font-size: 8pt;">&feedbar.featured.contact;</description>
