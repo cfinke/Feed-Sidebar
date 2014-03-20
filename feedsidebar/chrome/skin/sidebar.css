@@ -35,7 +35,6 @@ treechildren::-moz-tree-cell-text(visited) {
 	color: #888;
 }
 
-
 treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected) {
 	background-color: Highlight;
 	color: HighlightText;
@@ -45,17 +44,21 @@ treechildren::-moz-tree-cell-text(visited,selected) {
 	color: #ddd;
 }
 
-statusbarpanel {
-	background-image: url(chrome://global/skin/statusbar-background.gif);
-	background-repeat: repeat-x;
-	background-color: #949393;
-	border-top: 1px solid #505050;
-}
-
 .close-icon .toolbarbutton-icon {
 	width: 16px;
 }
 
 #all-toggle[checked="true"] {
 	font-weight: bold;
+}
+
+#feedbar-loading-text {
+	background-color: ButtonFace;
+	color: ButtonText;
+	padding: 2px;
+	margin: 0;
+	border-top-right-radius: 2px;
+	border-color:  ButtonShadow;
+	border-width: 1px;
+	max-width: 95%;
 }

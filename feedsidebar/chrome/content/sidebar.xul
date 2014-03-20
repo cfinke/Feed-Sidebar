@@ -138,46 +138,46 @@
 			</toolbar>
 		</toolbox>
 		<vbox flex="1">
-			<notificationbox id="sidebar-notify" flex="5" persist="state height">
-				<tree
-					id="feed_tree"
-					flex="1"
-					class="plain"
-					seltype="single"
-					onclick="FEEDBAR.onTreeClick(event);"
-					onkeypress="FEEDBAR.onKeyPress(event);"
-					onselect="FEEDSIDEBAR.itemSelect(event);"
-					ondblclick="FEEDBAR.onTreeDblClick(event);"
-					hidecolumnpicker="true"
-					context="feedbarContextMenu">
-					<treecols>
-						<treecol id="feedbar_tree_namecol" flex="1" primary="true" hideheader="true"/>
-					</treecols>   
-					<treechildren id="feedbar_tree_container"/>	 
-				</tree>
-			</notificationbox>
-			<splitter id="preview-splitter" persist="state" collapsed="true" />
-			<vbox id="feedbar-preview" flex="1" style="overflow: auto;" persist="state height" collapsed="true">
-				<hbox align="center">
-					<image id="feedbarTooltipImage"/>
-					<vbox flex="1">
-						<description id="feedbarTooltipFeedName" crop="end" />
-						<description id="feedbarTooltipName" crop="end" onclick="FEEDBAR.handlePreviewNameClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;" />
-						<description id="feedbarTooltipURL" crop="end" onclick="FEEDBAR.onTreeClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;"/>
+			<stack flex="1">
+				<vbox flex="1">
+					<notificationbox id="sidebar-notify" flex="5" persist="state height">
+						<tree
+							id="feed_tree"
+							flex="1"
+							class="plain"
+							seltype="single"
+							onclick="FEEDBAR.onTreeClick(event);"
+							onkeypress="FEEDBAR.onKeyPress(event);"
+							onselect="FEEDSIDEBAR.itemSelect(event);"
+							ondblclick="FEEDBAR.onTreeDblClick(event);"
+							hidecolumnpicker="true"
+							context="feedbarContextMenu">
+							<treecols>
+								<treecol id="feedbar_tree_namecol" flex="1" primary="true" hideheader="true"/>
+							</treecols>   
+							<treechildren id="feedbar_tree_container"/>	 
+						</tree>
+					</notificationbox>
+					<splitter id="preview-splitter" persist="state" collapsed="true" />
+					<vbox id="feedbar-preview" flex="1" style="overflow: auto;" persist="state height" collapsed="true">
+						<hbox align="center">
+							<image id="feedbarTooltipImage"/>
+							<vbox flex="1">
+								<description id="feedbarTooltipFeedName" crop="end" />
+								<description id="feedbarTooltipName" crop="end" onclick="FEEDBAR.handlePreviewNameClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;" />
+								<description id="feedbarTooltipURL" crop="end" onclick="FEEDBAR.onTreeClick({ which: event.which, detail : 2, ctrlKey : event.ctrlKey, metaKey : event.metaKey }, this.url);" style="cursor: pointer;"/>
+							</vbox>
+							<vbox pack="start" align="start">
+								<toolbarbutton id="close-preview" class="close-icon" oncommand="FEEDBAR.markAsRead(true); FEEDSIDEBAR.hidePreview(); FEEDBAR.selectNone();" tooltiptext="&feedbar.preview.markAsRead;" />
+							</vbox>
+						</hbox>
+						<groupbox id="feedbarTooltipSummaryGroupbox" flex="1">
+							<iframe flex="1" id="content-frame" onclick="handleBrowserClick(event);" src="data:text/html,%3Chtml%3E%3Chead%3E%3Cmeta%20http-equiv%3D%22content-type%22%20content%3D%22text%2Fhtml%3B%20charset%3DUTF-8%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ebody%20*%2C%20body%20%7Bfont-size%3A%209pt%3Bfont-family%3A%20arial%2C%20sans-serif%3B%7D%3C%2Fstyle%3E%3C%2Fhead%3E%3Cbody%3E%3C%2Fbody%3E%3C%2Fhtml%3E" disablehistory="true" type="content"></iframe>
+						</groupbox>
 					</vbox>
-					<vbox pack="start" align="start">
-						<toolbarbutton id="close-preview" class="close-icon" oncommand="FEEDBAR.markAsRead(true); FEEDSIDEBAR.hidePreview(); FEEDBAR.selectNone();" tooltiptext="&feedbar.preview.markAsRead;" />
-					</vbox>
-				</hbox>
-				<groupbox id="feedbarTooltipSummaryGroupbox" flex="1">
-					<iframe flex="1" id="content-frame" onclick="handleBrowserClick(event);" src="data:text/html,%3Chtml%3E%3Chead%3E%3Cmeta%20http-equiv%3D%22content-type%22%20content%3D%22text%2Fhtml%3B%20charset%3DUTF-8%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ebody%20*%2C%20body%20%7Bfont-size%3A%209pt%3Bfont-family%3A%20arial%2C%20sans-serif%3B%7D%3C%2Fstyle%3E%3C%2Fhead%3E%3Cbody%3E%3C%2Fbody%3E%3C%2Fhtml%3E" disablehistory="true" type="content"></iframe>
-				</groupbox>
-			</vbox>
-			<hbox id="feed-sidebar-statusbar">
-				<statusbarpanel pack="end" align="center" flex="1" style="padding-top: 4px;" id="feedbar-loading-text-container" onclick="FEED_GETTER.killCurrentRequest();">
-					<description id="feedbar-loading-text" value="" onclick="if (this.getAttribute('url')) { addTab(this.getAttribute('url')); }" />
-				</statusbarpanel>
-			</hbox>
+				</vbox>
+				<label id="feedbar-loading-text" bottom="0" left="0" />
+			</stack>
 		</vbox>
 	</vbox>
 </page>
