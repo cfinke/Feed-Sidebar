@@ -449,7 +449,12 @@ var FEEDBAR = {
 	
 	getImageSrc: function(idx){ 
 		if (FEEDBAR.isContainer(idx)) {
-			return "chrome://feedbar/skin/icons/folder.png";
+			if ( FEEDBAR.window.devicePixelRatio >= 2 ) {
+				return "chrome://global/skin/tree/folder@2x.png";
+			}
+			else {
+				return "chrome://global/skin/tree/folder.png";
+			}
 		}
 		else {
 			return FEEDBAR.visibleData[idx].image;
