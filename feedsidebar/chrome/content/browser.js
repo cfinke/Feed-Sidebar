@@ -8,7 +8,13 @@ var FEEDBAR_BROWSER = {
 			// Add the toolbar button.
 	
 			var buttonId = "feedbar-button";
-		
+
+			if (!FEEDBAR_BROWSER.prefs.getBoolPref("subscribeIconCheck")) {
+				FEEDBAR_BROWSER.prefs.setBoolPref("subscribeIconCheck", true);
+
+				FEEDBAR_BROWSER.addToolbarButton("feed-button");
+			}
+
 			FEEDBAR_BROWSER.addToolbarButton("feedbar-button");
 
 			// Open the sidebar.
