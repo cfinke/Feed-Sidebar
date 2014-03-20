@@ -52,10 +52,3 @@
 <!ENTITY feedbar.alwaysOpenInNewTab "Otwieraj wiadomości zawsze w nowych kartach">
 <!ENTITY feedbar.updatesDisabled "Wyłącz automatyczną aktualizację">
 <!ENTITY feedbar.options.general "Ogólne">
-<!ENTITY feedbar.featured.subscribe "Subskrybuj">
-<!ENTITY feedbar.featured.panelTitle "Polecane kanały">
-<!ENTITY feedbar.featured.description "Wspomóż rozwój Feed Sidebara bez pieniędzy próbując kanały z listy „Przyjaciele Feed Sidebara”.">
-<!ENTITY feedbar.featured.contact "Jeśli chcesz, aby na tej liście znalazł się twój kanał, wyślij e-maila na adres chris@efinke.com.">
-<!ENTITY feedbar.featured.trends.title "Popularne wiadomości">
-<!ENTITY feedbar.featured.trends.description "Kanał najpopularniejszych wiadomości.">
-<!ENTITY feedbar.featured.notifyMe "Okresowo informuj o nowych polecanych kanałach.">

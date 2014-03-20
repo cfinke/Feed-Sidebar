@@ -52,8 +52,3 @@
 <!ENTITY feedbar.alwaysOpenInNewTab "Always open items in new tabs">
 <!ENTITY feedbar.updatesDisabled "Disable Auto-Updates">
 <!ENTITY feedbar.options.general "General">
-<!ENTITY feedbar.featured.subscribe "Subscribe">
-<!ENTITY feedbar.featured.panelTitle "Featured Feeds">
-<!ENTITY feedbar.featured.description "Support Feed Sidebar's development without spending a cent by trying out some of these feeds from the Friends of Feed Sidebar.">
-<!ENTITY feedbar.featured.contact "(If you'd like to see your feed in this list, e-mail chris@efinke.com.)">
-<!ENTITY feedbar.featured.notifyMe "Periodically notify me about new featured feeds.">

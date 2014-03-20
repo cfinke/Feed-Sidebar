@@ -52,8 +52,3 @@
 <!ENTITY feedbar.alwaysOpenInNewTab "Åbn altid emner i nye faneblade.">
 <!ENTITY feedbar.updatesDisabled "Deaktiver autoopdateringer.">
 <!ENTITY feedbar.options.general "Generelt">
-<!ENTITY feedbar.featured.subscribe "Abonner">
-<!ENTITY feedbar.featured.panelTitle "Udvalgte feeds">
-<!ENTITY feedbar.featured.description "Støt udviklingen af Feed Sidebar uden at bruge en krone ved at prøve nogle af disse feeds fra Friends of Feed Sidebar.">
-<!ENTITY feedbar.featured.contact "(Hvis du ønsker at se dit feed på denne liste, send en mail til chris@efinke.com.)">
-<!ENTITY feedbar.featured.notifyMe "Giv mig periodisk besked om nye udvalgte feeds.">

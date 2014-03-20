@@ -54,8 +54,3 @@
 <!ENTITY feedbar.alwaysOpenInNewTab "Sempre abrir itens em novas abas">
 <!ENTITY feedbar.updatesDisabled "Desabilitar atualização automática">
 <!ENTITY feedbar.options.general "Geral">
-<!ENTITY feedbar.featured.subscribe "Inscrever">
-<!ENTITY feedbar.featured.panelTitle "RSS em destaque">
-<!ENTITY feedbar.featured.description "Apoie o desenvolvimento do Feed Sidebar sem gastar um centavo. Experimente alguns destes RSS dos parceiros do Feed Sidebar.">
-<!ENTITY feedbar.featured.contact "(Se você gostaria de ver seu RSS nesta lista, envie um e-mail para chris@efinke.com.)">
-<!ENTITY feedbar.featured.notifyMe "Avisar periodicamente sobre novos RSS em destaque.">

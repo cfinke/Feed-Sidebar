@@ -91,136 +91,6 @@
 					document.getElementById("display-period").selectedIndex = 0;
 					this.showAll();
 				}
-				
-				var featuredFeeds = this.prefs.getCharPref("featuredFeeds");
-				
-				if (!featuredFeeds) {
-					document.getElementById("featured-pane").style.display = "none";
-				}
-				else {
-					featuredFeeds = JSON.parse(featuredFeeds);
-					
-					if (featuredFeeds.length == 0) {
-						document.getElementById("featured-pane").style.display = "none";
-					}
-					else {
-						function sorter(a, b) {
-							return 0.5 - Math.random();
-						}
-						
-						featuredFeeds.sort(sorter);
-						
-						for (var i = 0; i < featuredFeeds.length; i++) {
-							var box = document.createElement("groupbox");
-							box.setAttribute("orient", "horizontal");
-							
-							if ("image" in featuredFeeds[i]) {
-								var image = document.createElement("image");
-								image.style.height = "64px";
-								image.style.width = "64px";
-								image.style.maxHeight = "64px";
-								image.style.marginRight = "10px";
-								image.setAttribute("src", featuredFeeds[i].image);
-								
-								var ibox = document.createElement("vbox");
-								var s1 = document.createElement("spring");
-								s1.setAttribute("flex", 1);
-								var s2 = document.createElement("spring");
-								s2.setAttribute("flex", 1);
-								
-								ibox.appendChild(s1);
-								ibox.appendChild(image);
-								ibox.appendChild(s2);
-								box.appendChild(ibox);
-							}
-							
-							var vbox = document.createElement("vbox");
-							vbox.setAttribute("flex", 1);
-							
-							var label = document.createElement("label");
-							label.setAttribute("value", featuredFeeds[i].name);
-							label.setAttribute("class", "text-link");
-							label.setAttribute("href", featuredFeeds[i].siteUrl);
-							label.style.paddingLeft = 0;
-							label.style.marginLeft = 0;
-							
-							var description = document.createElement("description");
-							description.appendChild(document.createTextNode(featuredFeeds[i].description));
-							
-							var isSubscribed = this.isSubscribed(featuredFeeds[i].url);
-							
-							var button = document.createElement("button");
-							
-							button.feedUrl = featuredFeeds[i].url;
-							button.siteUrl = featuredFeeds[i].siteUrl;
-							button.name = featuredFeeds[i].name;
-							button.description = featuredFeeds[i].description;
-							
-							if (isSubscribed) {
-								button.setAttribute("label", FEEDBAR_PREFS.strings.getString("feedbar.featured.unsubscribe"));
-							}
-							else {
-								button.setAttribute("label", FEEDBAR_PREFS.strings.getString("feedbar.featured.subscribe"));
-							}
-							
-							button.setAttribute("oncommand", "if (FEEDBAR_PREFS.isSubscribed(this.feedUrl)) { this.setAttribute('label', FEEDBAR_PREFS.strings.getString('feedbar.featured.subscribe')); FEEDBAR_PREFS.unsubscribe(this.feedUrl); } else { this.setAttribute('label', FEEDBAR_PREFS.strings.getString('feedbar.featured.unsubscribe')); FEEDBAR_PREFS.subscribe(this.name, this.feedUrl, this.siteUrl, this.description); }");
-							
-							vbox.appendChild(label);
-							vbox.appendChild(description);
-							vbox.appendChild(button);
-							
-							box.appendChild(vbox);
-							
-							document.getElementById("featured-feeds").appendChild(box);
-						}
-						
-						sizeToContent();
-					}
-				}
-			},
-			
-			isSubscribed : function (url) {
-				for (var i = 0; i < FEED_GETTER.feedsToFetch.length; i++) {
-					if (FEED_GETTER.feedsToFetch[i].feed == url) {
-						return true;
-					}
-				}
-				
-				return false;
-			},
-			
-			subscribe : function (title, feedUrl, siteUrl, description) {
-				var ioService = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService);
-				
-				PlacesUtils.livemarks.addLivemark(
-					{
-						title : title,
-						parentId : Application.bookmarks.menu.id,
-						feedURI : ioService.newURI(feedUrl, null, null),
-						siteURI : ioService.newURI(siteUrl, null, null),
-						index : 0
-					}, function (result, livemark) {
-						if (result != Components.results.NS_OK)
-							return;
-						
-						FEED_GETTER.feedData[livemark.feedURI.spec.toLowerCase()] = { name : livemark.title, bookmarkId : livemark.id, uri : livemark.feedURI.spec };
-					}
-				);
-				
-			},
-			
-			unsubscribe : function (url) {
-				var livemarkIds = PlacesUtils.annotations.getItemsWithAnnotation("livemark/feedURI", {});
-
-				FEED_GETTER.getLivemarks(livemarkIds).then(function(livemarks) {
-					for (var i = 0; i < livemarks.length; i++) {
-						if (livemarks[i].feedURI.spec == url) {
-							PlacesUtils.bookmarks.removeItem(livemarks[i].id);
-						}
-					}
-				}, function (err) {
-					FEED_GETTER.log(err);
-				});
 			},
 			
 			unload : function () {
@@ -294,7 +164,6 @@
 			<preference id="p_sidebar" name="extensions.feedbar.runInSidebar" type="bool" />
 			<preference id="p_fullPreview" name="extensions.feedbar.showFullPreview" type="bool" />
 			<preference id="p_new_tab" name="extensions.feedbar.openInNewTab" type="bool" />
-			<preference id="p_featured" name="extensions.feedbar.featuredFeeds.notify" type="bool" />
 		</preferences>
 		<groupbox>
 			<hbox>
@@ -327,14 +196,5 @@
 			</radiogroup>
 			<checkbox label="&feedbar.alwaysOpenInNewTab;" preference="p_new_tab" />
 		</groupbox>
-	</prefpane>
-	<prefpane id="featured-pane" label="&feedbar.featured.panelTitle;" image="chrome://feedbar/skin/icons/feed-icon-32.png">
-		<vbox style="max-width: 460px;">
-			<description>&feedbar.featured.description;</description>
-			<description style="font-size: 8pt;">&feedbar.featured.contact;</description>
-			<checkbox preference="p_featured" label="&feedbar.featured.notifyMe;" />
-			<vbox id="featured-feeds" style="min-height: 400px;">
-			</vbox>
-		</vbox>
 	</prefpane>
 </prefwindow>

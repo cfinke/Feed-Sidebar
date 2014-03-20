@@ -77,17 +77,11 @@ var FEEDSIDEBAR = {
 		document.getElementById("all-toggle").checked = !FEEDSIDEBAR.prefs.getBoolPref("hideReadItems");
 		
 		FEED_GETTER.sidebarPing();
-		
-		FEEDSIDEBAR.showFeaturedFeeds();
 	},
 	
 	unload : function () {
 		FEED_GETTER.sidebarPung();
 		FEEDSIDEBAR.prefs.removeObserver("", FEEDSIDEBAR);
-		
-		if (FEEDSIDEBAR.featuredFeedsTimeout) {
-			clearTimeout(FEEDSIDEBAR.featuredFeedsTimeout);
-		}
 	},
 	
 	observe : function(subject, topic, data) {
@@ -99,56 +93,6 @@ var FEEDSIDEBAR = {
 			case "hideReadItems":
 				document.getElementById("all-toggle").checked = !FEEDSIDEBAR.prefs.getBoolPref("hideReadItems");
 			break;
-		}
-	},
-	
-	featuredFeedsTimeout : null,
-	
-	showFeaturedFeeds : function () {
-		return false;
-		
-		var allowedToShow = FEEDSIDEBAR.prefs.getBoolPref("featuredFeeds.notify");
-		
-		if (allowedToShow) {
-			var needToShow = FEEDSIDEBAR.prefs.getBoolPref("featuredFeeds.new");
-			
-			if (needToShow) {
-				var feedsToShow = FEEDSIDEBAR.prefs.getCharPref("featuredFeeds");
-				
-				if (feedsToShow) {
-					// 10% of the time.
-					var willShow = (Math.random() < 0.2);
-				
-					if (willShow) {
-						FEEDSIDEBAR.featuredFeedsTimeout = setTimeout(
-							function () {
-								FEEDSIDEBAR.prefs.setBoolPref("featuredFeeds.new", false);
-							
-								var nb = document.getElementById("sidebar-notify");
-								nb.appendNotification(FEEDSIDEBAR.strings.getString('feedbar.featured.notification'), "featured-feeds", 'chrome://feedbar/content/skin/icons/thumbs-up.png', nb.PRIORITY_INFO_HIGH, 
-									[ 
-										{
-											accessKey : FEEDSIDEBAR.strings.getString('feedbar.featured.okKey'), 
-											callback : function () {
-												var optWin = FEEDSIDEBAR.options("featured-pane");
-												/*
-												
-												optWin.addEventListener("load", function (evt) { 
-													var win = evt.currentTarget; 
-													win.document.documentElement.showPane(win.document.getElementById("featured-pane"));
-													win.sizeToContent();
-												}, false);
-												*/
-											}, 
-											label : FEEDSIDEBAR.strings.getString('feedbar.featured.okLabel'),
-											popup : null
-										}
-									 ]);
-							},
-							1000);
-					}
-				}
-			}
 		}
 	},
 	
