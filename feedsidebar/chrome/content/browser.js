@@ -22,15 +22,6 @@ var FEEDBAR_BROWSER = {
 			FEEDBAR_BROWSER.prefs.setCharPref("lastVersion", "firstrun");
 		}
 		
-		/* // Don't add the subscribe button until the sidebar button is significantly different.
-		
-		if (!FEEDBAR_BROWSER.prefs.getBoolPref("subscribeIconCheck")) {
-			FEEDBAR_BROWSER.prefs.setBoolPref("subscribeIconCheck", true);
-			
-			FEEDBAR_BROWSER.addToolbarButton("feed-button");
-		}
-		
-		*/
 		
 		setTimeout(FEEDBAR_BROWSER.showFirstRun, 1500);
 	},
