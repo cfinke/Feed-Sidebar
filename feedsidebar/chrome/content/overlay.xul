@@ -62,8 +62,8 @@
 			command="feedbar"
 			modifiers="accel shift" />
 		<key id="feedbar_key"
-			key="E"
+			key="Y"
 			command="feedbar"
-			modifiers="accel shift" />			
+			modifiers="accel shift" />
 	</keyset>
 </overlay>
