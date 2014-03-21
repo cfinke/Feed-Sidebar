@@ -36,11 +36,7 @@
 <!ENTITY feedbar.unsubscribe "Desvincularse">
 <!ENTITY feedbar.options "Opciones">
 <!ENTITY feedbar.hideReadItems "Ocultar elementos leídos">
-<!ENTITY feedbar.updateEvery1 "Actualizar hilos cada">
-<!ENTITY feedbar.updateEvery2 "minutos.">
 <!ENTITY feedbar.showAllItemsFull "Mostrar todos los elementos, independientemente de su antigüedad">
-<!ENTITY feedbar.onlyShow1 "Mostrar sólo elementos de los últimos">
-<!ENTITY feedbar.onlyShow2 "días.">
 <!ENTITY feedbar.autoClose "Cerrar barra lateral al marcar todos elementos como leídos.">
 <!ENTITY feedbar.notifications "Mostrar notificaciones emergentes cuando se detenten nuevos elementos.">
 <!ENTITY feedbar.runInSidebar "Comprobar actualizaciones sólo cuando la barra lateral esté abierta.">
@@ -51,4 +47,3 @@
 <!ENTITY feedbar.showAll.tooltip "Activar la visualización de elementos leídos y no leídos.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Abrir siempre elementos en nuevas pestañas">
 <!ENTITY feedbar.updatesDisabled "Desactivar Actualizaciones Automáticas">
-<!ENTITY feedbar.options.general "General">

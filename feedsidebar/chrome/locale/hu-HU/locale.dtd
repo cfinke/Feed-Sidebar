@@ -36,11 +36,7 @@
 <!ENTITY feedbar.unsubscribe "Leiratkozás">
 <!ENTITY feedbar.options "Beállítások">
 <!ENTITY feedbar.hideReadItems "Olvasott elemek elrejtése">
-<!ENTITY feedbar.updateEvery1 "Hírfolyamok frissítése">
-<!ENTITY feedbar.updateEvery2 "percenként.">
 <!ENTITY feedbar.showAllItemsFull "Összes hír megjelenítése, kortól függetlenül.">
-<!ENTITY feedbar.onlyShow1 "Csak az utolsó">
-<!ENTITY feedbar.onlyShow2 "nap híreinek megjelenítése.">
 <!ENTITY feedbar.autoClose "Oldalsáv automatikus bezáráa az összes hír olvasottként megjelelölésekor.">
 <!ENTITY feedbar.notifications "Felugró értesítés megjelenítése új hírek érkezésekor.">
 <!ENTITY feedbar.runInSidebar "Frissítések keresése csak az oldalsáv nyitott állapota esetén.">

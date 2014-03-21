@@ -32,11 +32,7 @@
 <!ENTITY feedbar.unsubscribe "取消訂閱">
 <!ENTITY feedbar.options "選項">
 <!ENTITY feedbar.hideReadItems "隱藏已閱讀的項目">
-<!ENTITY feedbar.updateEvery1 "更新即時書籤 每">
-<!ENTITY feedbar.updateEvery2 "分鐘">
 <!ENTITY feedbar.showAllItemsFull "顯示所有項目，不管新舊時間">
-<!ENTITY feedbar.onlyShow1 "只顯示最近的項目">
-<!ENTITY feedbar.onlyShow2 "天。（輸入 0 表示顯示全部）">
 <!ENTITY feedbar.autoClose "自動關閉側邊列當我設定為全部已閱讀">
 <!ENTITY feedbar.notifications "顯示浮動提醒視窗當有新訊息時">
 <!ENTITY feedbar.runInSidebar "只有在開啟側邊列時才檢查即時書籤更新">

@@ -36,11 +36,7 @@
 <!ENTITY feedbar.unsubscribe "Không nhận tin nữa">
 <!ENTITY feedbar.options "Tùy chọn">
 <!ENTITY feedbar.hideReadItems "Ẩn các mục tin đã đọc">
-<!ENTITY feedbar.updateEvery1 "Cập nhật từng feed mỗi">
-<!ENTITY feedbar.updateEvery2 "phút">
 <!ENTITY feedbar.showAllItemsFull "Hiển thị tất cả các mục tin, bất chấp ngày tháng">
-<!ENTITY feedbar.onlyShow1 "Chỉ hiện các mục tin  mới nhất">
-<!ENTITY feedbar.onlyShow2 "ngày.">
 <!ENTITY feedbar.autoClose "Tự động đóng thanh nằm bên cạnh màn hình khi đánh dấu tất cả các mục tin thành Đã Đọc.">
 <!ENTITY feedbar.notifications "Hiển thị thông báo tự bung khi một mục tin mới bị xóa.">
 <!ENTITY feedbar.runInSidebar "Chỉ kiểm tra cập nhật khi thanh nằm cạnh màn hình đang được mở.">
@@ -51,4 +47,3 @@
 <!ENTITY feedbar.showAll.tooltip "Cho phép hiển thị cả mục tin đã đọc và chưa đọc.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Luôn mở các mục tin trên thẻ mới">
 <!ENTITY feedbar.updatesDisabled "Không cho phép tự động cập nhật">
-<!ENTITY feedbar.options.general "Tổng quan">

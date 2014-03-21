@@ -36,11 +36,7 @@
 <!ENTITY feedbar.unsubscribe "Neodoberať">
 <!ENTITY feedbar.options "Nastavenia">
 <!ENTITY feedbar.hideReadItems "Skryť prečítané správy">
-<!ENTITY feedbar.updateEvery1 "Aktualizovať kanály každých">
-<!ENTITY feedbar.updateEvery2 "minút.">
 <!ENTITY feedbar.showAllItemsFull "Zobraziť všetky správy bez ohľadu na vek">
-<!ENTITY feedbar.onlyShow1 "Zobraziť len správy za posledných">
-<!ENTITY feedbar.onlyShow2 "dní.">
 <!ENTITY feedbar.autoClose "Automaticky zatvoriť bočný panel pri označení všetkých správ ako prečítané.">
 <!ENTITY feedbar.notifications "Zobraziť pop-up notifikáciu pri načítaní nových správ.">
 <!ENTITY feedbar.runInSidebar "Aktualizovať kanály len keď je zobrazený bočný panel.">
@@ -51,4 +47,3 @@
 <!ENTITY feedbar.showAll.tooltip "Povoliť zobrazenie prečítaných aj neprečítaných správ.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Správy otvárať vždy v nových kartách">
 <!ENTITY feedbar.updatesDisabled "Zakázať automatické aktualizácie.">
-<!ENTITY feedbar.options.general "Všeobecné">

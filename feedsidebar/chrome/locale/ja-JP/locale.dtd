@@ -36,11 +36,7 @@
 <!ENTITY feedbar.unsubscribe "購読解除">
 <!ENTITY feedbar.options "オプション">
 <!ENTITY feedbar.hideReadItems "読んだ項目を非表示にする。">
-<!ENTITY feedbar.updateEvery1 "フィードを">
-<!ENTITY feedbar.updateEvery2 "分ごとに更新する。">
 <!ENTITY feedbar.showAllItemsFull "時期に関係なく、すべての項目を表示する。">
-<!ENTITY feedbar.onlyShow1 "最後の">
-<!ENTITY feedbar.onlyShow2 "日分の項目のみ表示する。">
 <!ENTITY feedbar.autoClose "すべての項目を既読にしたら自動的にサイドバーを閉じる。">
 <!ENTITY feedbar.notifications "新着項目が見つかったらポップアップ通知を表示する。">
 <!ENTITY feedbar.runInSidebar "サイドバーが開いている時だけ更新を確認する。">

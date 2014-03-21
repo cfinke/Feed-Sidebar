@@ -1,1 +1,49 @@
+<!ENTITY feedbar.buttonLabel "Fuentes">
+<!ENTITY feedbar.sidebarTitle "Fuentes">
+<!ENTITY feedbar.buttonTooltip "Mostrar los elementos de Live Bookmarks en la barra de herramientas">
 <!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.markAsRead "Marcar fuente o elemento como leído">
+<!ENTITY feedbar.open "Abrir">
+<!ENTITY feedbar.openInTab "Abrir en nueva pestaña">
+<!ENTITY feedbar.openAllInTabs "Abrir todo en pestañas">
+<!ENTITY feedbar.openFeedInTabs "Abrir Feed en una nueva pestaña">
+<!ENTITY feedbar.markAsRead "Marcar como leído">
+<!ENTITY feedbar.markAsUnread "Marcar como no leído">
+<!ENTITY feedbar.markFeedAsRead "Marcar Feed como leído">
+<!ENTITY feedbar.markFeedAsUnread "Marcar Feed como no leído">
+<!ENTITY feedbar.markAllAsRead "Marcar todo como leído">
+<!ENTITY feedbar.markAllAsUnread "Marcar todo como no leído">
+<!ENTITY feedbar.reloadFeeds "Recargar Feeds">
+<!ENTITY feedbar.stopFeedUpdate "Cancelar la actualización de fuentes">
+<!ENTITY feedbar.minutes "minutos">
+<!ENTITY feedbar.hour "hora">
+<!ENTITY feedbar.hours "horas">
+<!ENTITY feedbar.showLastTooltip "Limitar la antigüedad de los items mostrados">
+<!ENTITY feedbar.showLastDaysPre "Mostrar último">
+<!ENTITY feedbar.showLastDaysPost "días">
+<!ENTITY feedbar.showLastWeeksPre "Mostrar último">
+<!ENTITY feedbar.showLastWeeksPost "semanas">
+<!ENTITY feedbar.showAllItems "Mostrar todos los items">
+<!ENTITY feedbar.showLastDay "Mostrar el último día">
+<!ENTITY feedbar.showLastWeek "Mostrar la última semana">
+<!ENTITY feedbar.showLastMonth "Mostrar el último mes">
+<!ENTITY feedbar.sortBy "Ordenar por...">
+<!ENTITY feedbar.sort.name "Nombre">
+<!ENTITY feedbar.sort.default "Por defecto">
+<!ENTITY feedbar.sort.updated "Última actualización">
+<!ENTITY feedbar.copyTitle "Copiar titulo">
+<!ENTITY feedbar.copyLink "Copiar link">
+<!ENTITY feedbar.unsubscribe "Darse de baja">
+<!ENTITY feedbar.options "Opciones">
+<!ENTITY feedbar.hideReadItems "Esconder items leidos">
+<!ENTITY feedbar.showAllItemsFull "Mostrar todos los items, sin importar la antiguaded">
+<!ENTITY feedbar.autoClose "Cerrar la barra auromáticamente cuando marques todos como leidos.">
+<!ENTITY feedbar.notifications "Mostrar notificación emergente cuando se detecten nuevos elementos.">
+<!ENTITY feedbar.runInSidebar "Mostrar actualizaciones solo cuando la barra esté abierta.">
+<!ENTITY feedbar.previewQuestion "Cuando abramos un elemento de la fuente...">
+<!ENTITY feedbar.previewAnswer1 "Abrir el website adjunto (por defecto).">
+<!ENTITY feedbar.previewAnswer2 "Muestra la descripción completa el la ventana del navegador.">
+<!ENTITY feedbar.showAllItemsButtonLabel "Todo">
+<!ENTITY feedbar.showAll.tooltip "Activar mostrar leídos y no leídos">
+<!ENTITY feedbar.alwaysOpenInNewTab "Abrir elementos en nuevas pestañas">
+<!ENTITY feedbar.updatesDisabled "Desactivar la actualización automática">

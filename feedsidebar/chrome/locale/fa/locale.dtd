@@ -1,1 +1,49 @@
+<!ENTITY feedbar.buttonLabel "خوارک ها">
+<!ENTITY feedbar.sidebarTitle "خوراک ها">
+<!ENTITY feedbar.buttonTooltip "نمایش دهنده مواردی از آدرس های ذخیره شما در نوار کنار.">
 <!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.preview.markAsRead "علامت گذاری خوراک یا موردی خاص به عنوان خوانده شده">
+<!ENTITY feedbar.open "گشودن">
+<!ENTITY feedbar.openInTab "گشودن در تب جدید">
+<!ENTITY feedbar.openAllInTabs "گشودن همه در تب ها">
+<!ENTITY feedbar.openFeedInTabs "گشودن خورا ک در تب ها">
+<!ENTITY feedbar.markAsRead "علامتگذاری به عنوان خوانده شده">
+<!ENTITY feedbar.markAsUnread "علامتگذاری به عنوان خوانده نشده">
+<!ENTITY feedbar.markFeedAsRead "علامتگذاری خوراک به عنوان خوانده شده">
+<!ENTITY feedbar.markFeedAsUnread "علامتگذاری خوراک به عنوان خوانده نشده">
+<!ENTITY feedbar.markAllAsRead "علامتگذاری همه به عنوان خوانده شده">
+<!ENTITY feedbar.markAllAsUnread "علامتگذاری همه به عنوان خوانده نشده">
+<!ENTITY feedbar.reloadFeeds "بارگذاری مجدد خوراک ها">
+<!ENTITY feedbar.stopFeedUpdate "لغو بروز رسانی خوراک">
+<!ENTITY feedbar.minutes "دقیقه">
+<!ENTITY feedbar.hour "ساعت">
+<!ENTITY feedbar.hours "ساعت">
+<!ENTITY feedbar.showLastTooltip "محدوده زمان نمایش موارد">
+<!ENTITY feedbar.showLastDaysPre "نمایش آخرین مورد">
+<!ENTITY feedbar.showLastDaysPost "روز">
+<!ENTITY feedbar.showLastWeeksPre "نمایش آخرین مورد">
+<!ENTITY feedbar.showLastWeeksPost "هفته">
+<!ENTITY feedbar.showAllItems "نمایش تمام موارد">
+<!ENTITY feedbar.showLastDay "نمایش آخرین روز">
+<!ENTITY feedbar.showLastWeek "نمایش آخرین هفته">
+<!ENTITY feedbar.showLastMonth "نمایش آخرین ماه">
+<!ENTITY feedbar.sortBy "دسته بندی بر اساس">
+<!ENTITY feedbar.sort.name "نام">
+<!ENTITY feedbar.sort.default "معمولی">
+<!ENTITY feedbar.sort.updated "آخرین بروز رسانی">
+<!ENTITY feedbar.copyTitle "کپی عنوان">
+<!ENTITY feedbar.copyLink "کپی آدرس">
+<!ENTITY feedbar.unsubscribe "عضو نشده">
+<!ENTITY feedbar.options "تنظیماتپ">
+<!ENTITY feedbar.hideReadItems "پنهان سازی موارد خوانده شده">
+<!ENTITY feedbar.showAllItemsFull "نمایش تمام موارد، صرفنظر از مدت زمان آن">
+<!ENTITY feedbar.autoClose "هنگامی که موارد به عنوان خوانده شده علامتگذاری گردید نوارکنار به صورت خودکار بسته شود.">
+<!ENTITY feedbar.notifications "پنجره هشداری را هنگامی که مورد جدیدی یافت شد نمایش بده.">
+<!ENTITY feedbar.runInSidebar "تنها زمانی که نوار کنار باز می باشد بررسی بروزرسانی انجام شود.">
+<!ENTITY feedbar.previewQuestion "زمانی که یک مورد خوراک باز می شود...">
+<!ENTITY feedbar.previewAnswer1 "آدرس صفحه مورد نظر گشوده شود (پیشفرض).">
+<!ENTITY feedbar.previewAnswer2 "توضیحات کامل آن مورد در صفحه مرورگر نمایش داده شود.">
+<!ENTITY feedbar.showAllItemsButtonLabel "همه">
+<!ENTITY feedbar.showAll.tooltip "امکان نمایش موارد هم خوانده شده و هم خوانده نشده.">
+<!ENTITY feedbar.alwaysOpenInNewTab "همیشه موارد را در تب جدید باز کن">
+<!ENTITY feedbar.updatesDisabled "غیرفعال کردن بروزرسانی خودکار">
