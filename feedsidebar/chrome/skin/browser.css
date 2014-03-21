@@ -1,25 +1,25 @@
 #sidebar { max-width: none !important; }
 
 #feedbar-button {
-	list-style-image: url(chrome://feedbar/skin/icons/feed-icon-default-16.png);
+	list-style-image: url(chrome://feedbar/skin/icons/feed-icon-default-18.png);
 }
 
 #feedbar-button[new="true"] {
-	list-style-image: url(chrome://feedbar/skin/icons/feed-icon-notify-16.png);
+	list-style-image: url(chrome://feedbar/skin/icons/feed-icon-notify-18.png);
 }
 
 #feedbar-button[checked="true"] {
-	list-style-image: url(chrome://feedbar/skin/icons/feed-icon-default-16.png);
+	list-style-image: url(chrome://feedbar/skin/icons/feed-icon-default-18.png);
 }
 
 #feedbar-button[cui-areatype="menu-panel"],
 toolbarpaletteitem[place="palette"] > #feedbar-button {
-	list-style-image: url(chrome://feedbar/skin/icons/feed-icon-notify-32.png);
+	list-style-image: url(chrome://feedbar/skin/icons/feed-icon-notify-36.png);
 }
-
+/*
 @media (min-resolution: 2dppx) {
 	#feedbar-button {
-		list-style-image: url(chrome://feedbar/skin/icons/feed-icon-default-32.png);
+		list-style-image: url(chrome://feedbar/skin/icons/feed-icon-default-36.png);
 	}
 	
 	#feedbar-button > .toolbarbutton-icon {
@@ -27,11 +27,11 @@ toolbarpaletteitem[place="palette"] > #feedbar-button {
 	}
 	
 	#feedbar-button[new="true"] {
-		list-style-image: url(chrome://feedbar/skin/icons/feed-icon-notify-32.png);
+		list-style-image: url(chrome://feedbar/skin/icons/feed-icon-notify-36.png);
 	}
 	
 	#feedbar-button[checked="true"] {
-		list-style-image: url(chrome://feedbar/skin/icons/feed-icon-default-32.png);
+		list-style-image: url(chrome://feedbar/skin/icons/feed-icon-default-36.png);
 	}
 	
 	#feedbar-button[cui-areatype="menu-panel"],
@@ -39,3 +39,4 @@ toolbarpaletteitem[place="palette"] > #feedbar-button {
 		list-style-image: url(chrome://feedbar/skin/icons/feed-icon-notify-64.png);
 	}
 }
+*/

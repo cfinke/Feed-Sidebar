@@ -722,7 +722,7 @@ var FEED_GETTER = {
 		};
 		
 		try {
-			if (!image) image = "chrome://feedbar/skin/icons/feed-icon-notify-32.png";
+			if (!image) image = "chrome://feedbar/skin/icons/feed-icon-notify-36.png";
 
 			var alertsService = Components.classes["@mozilla.org/alerts-service;1"]
 				.getService(Components.interfaces.nsIAlertsService);
