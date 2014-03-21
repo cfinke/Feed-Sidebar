@@ -36,7 +36,8 @@
 }
 
 #feedbar-sort-button {
-	-moz-image-region: rect(0, 198px, 18px, 180px);
+	list-style-image: url("chrome://feedbar/skin/icons/sort.png");
+	-moz-image-region: rect(0, 18px, 18px, 0px );
 }
 
 #feedbar-sort-button .toolbarbutton-icon {
