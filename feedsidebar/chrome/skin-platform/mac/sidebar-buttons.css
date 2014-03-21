@@ -89,11 +89,13 @@
 	}
 
 	#feedbar-read-all {
-		-moz-image-region: rect(0, 1008px, 36px, 972px);
+		list-style-image: url("chrome://feedbar/skin/icons/mark-as-read@2x.png");
+		-moz-image-region: rect(0, 36px, 36px, 0px ); 
+		
 	}
 	
 	#feedbar-read-all:not([disabled]):hover {
-		-moz-image-region: rect(36px, 1008px, 72px, 972px);
+		-moz-image-region: rect(36px, 36px, 72px, 0px ); 
 	}
 	
 	#feedbar-period-button {
