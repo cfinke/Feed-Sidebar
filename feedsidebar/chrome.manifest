@@ -13,7 +13,10 @@ locale      feedbar     en-US               chrome/locale/en-US/
 locale      feedbar     be-BY               chrome/locale/be-BY/
 locale      feedbar     da-DK               chrome/locale/da-DK/
 locale      feedbar     de-DE               chrome/locale/de-DE/
+locale      feedbar     es                  chrome/locale/es/
 locale      feedbar     es-ES               chrome/locale/es-ES/
+locale      feedbar     fa                  chrome/locale/fa/
+locale      feedbar     fa-IR               chrome/locale/fa-IR/
 locale      feedbar     fr-FR               chrome/locale/fr-FR/
 locale      feedbar     fy-NL               chrome/locale/fy-NL/
 locale      feedbar     hu-HU               chrome/locale/hu-HU/
