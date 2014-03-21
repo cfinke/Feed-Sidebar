@@ -450,10 +450,12 @@ var FEEDBAR = {
 	getImageSrc: function(idx){ 
 		if (FEEDBAR.isContainer(idx)) {
 			if ( FEEDBAR.window.devicePixelRatio >= 2 ) {
-				return "chrome://global/skin/tree/folder@2x.png";
+				// chrome://global/skin/tree/folder@2x.png on Mac.  Windows/Linux still have their folder icons in a sprite.
+				return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACFElEQVRYw8VXyy4EQRS91d0zg/GKCEZEkIj3RiKxEysRPkLYsPMF+AQrseELLFlZWNpJ2EgkLJERMkww091V161+ZboRk5GqqeSkuqdz7zn3Vd3Dljd2oJ7LgDovEoAQYJFwT8AqcEOYqbCtGZUZOCDkqhQ+TDgljP03A1bFtUc+M7fwp9Hd9RU85x/a6PJImhA+/iEA4eLsBKbnl4Kf8E+jwdFJsO0SFAsv43S7R/YrtZBLTra8vrUo0/9RfM01NbfCwMhEVcZOuQS315cguKgp8qaWtgfa1gyK94CQayTynv7Bqh2kMg0kdgqkXY0tmJPcsgRe7Tc3VqE9m9EyeoX3MuzuH3p9Z4Ul10UecWFiCoqfNrhUT9vlIBCVEBuMQdoywTKN+BR4TcW5t3MhlEXOKTB59PhcPq8VBisSu6oV+kdMZECI+K5MQOQf4z2AKAKFQqkATPinEtQnAyFvlAEePOCKBST9W2E3cNQkAONdaCVTo3IMfyqxhYB1KQFGU4AQi1x1BiL/v50DXPc5EPYER00ZCHi+nYSO4z+wHa5UQNo04xkIa/HpuP5uu0oFmOGbEBNTUA6IS4oFpAIB36bAdv0SlBWXIJP6ZQps1wXTMLSMoc8RZIC+fvKMsa7z02PQveiF9GR29Q29pRuzswwgq5n8sfj8uM06u3v76b6DwDQnQNahIF9GedkCoP+fsuz21y/WtVHhXO6lHgAAAABJRU5ErkJggg==";
 			}
 			else {
-				return "chrome://global/skin/tree/folder.png";
+				// chrome://global/skin/tree/folder.png on Mac
+				return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGOfPtRkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAOJJREFUOMtj+P//PwMlGEyElPfPCyru/o+MQWJEGwDS0LTyGAoGiRFlQGh530nvzPr/yV3LULB3Vv1/r/RavBikF2z7pQcvicIXQfg+AoP0gg3Ydf7e/02nbpGEt5+7gzBgy+nb/1cfvU4S3nDiJsKAtceu/19y4DJJeMXhqwgDQAKzd50nCc/fcxFhwOyd5/9P2nyaJDx16xmEARM3n/rfufYYSbh73XGEAR1rjv1vXH6IJNy04hDCgPplB/9XLtpHEq4CYrgBFQv3/S+eu5tkDDeAUJLFhcEGAIEMEKuRiWUA0JS10t48REcAAAAASUVORK5CYII=";
 			}
 		}
 		else {

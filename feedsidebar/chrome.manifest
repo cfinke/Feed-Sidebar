@@ -5,6 +5,10 @@ content     feedbar-default-locale      chrome/locale/en-US/
 
 skin        feedbar     classic             chrome/skin/
 
+skin        feedbar-platform classic chrome/skin-platform/linux/
+skin        feedbar-platform classic chrome/skin-platform/windows/ os=WINNT
+skin        feedbar-platform classic chrome/skin-platform/mac/ os=Darwin
+
 locale      feedbar     en-US               chrome/locale/en-US/
 locale      feedbar     be-BY               chrome/locale/be-BY/
 locale      feedbar     da-DK               chrome/locale/da-DK/
@@ -29,7 +33,7 @@ locale      feedbar     zh-TW               chrome/locale/zh-TW/
 overlay     chrome://browser/content/browser.xul                chrome://feedbar/content/overlay.xul
 
 style       chrome://feedbar/content/sidebar.xul                chrome://feedbar/skin/sidebar.css
-style       chrome://feedbar/content/sidebar.xul                chrome://feedbar/skin/sidebar-buttons.css
+style       chrome://feedbar/content/sidebar.xul                chrome://feedbar-platform/skin/sidebar-buttons.css
 style       chrome://feedbar/content/sidebar.xul                chrome://browser/skin/browser.css
 style       chrome://feedbar/content/sidebar.xul                chrome://global/skin/global.css
 
@@ -37,5 +41,7 @@ style       chrome://feedbar/content/options.xul                chrome://browser
 style       chrome://feedbar/content/options.xul                chrome://global/skin/global.css
 
 style       chrome://browser/content/browser.xul                chrome://feedbar/skin/browser.css
+style       chrome://browser/content/browser.xul                chrome://feedbar-platform/skin/browser.css
 
 style       chrome://global/content/customizeToolbar.xul        chrome://feedbar/skin/browser.css
+style       chrome://global/content/customizeToolbar.xul        chrome://feedbar-platform/skin/browser.css

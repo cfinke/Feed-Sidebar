@@ -1,0 +1,51 @@
+#nav-bar .toolbarbutton-text {
+	display: none;
+}
+
+#feedbar-open-all, #feedbar-read-all, #feedbar-period-button, #feedbar-stop-button, #feedbar-frequency-button, #feedbar-sort-button, #search-toggle {
+	list-style-image: url("chrome://browser/skin/Toolbar.png");
+}
+
+#feedbar-frequency-button .toolbarbutton-icon {
+	padding-top: 2px;
+}
+
+#feedbar-period-button .toolbarbutton-icon {
+	margin-top: -0.5px;
+}
+
+#feedbar-open-all {
+	-moz-image-region: rect(0, 360px, 18px, 342px);
+}
+
+#feedbar-read-all {
+	-moz-image-region: rect(0, 504px, 18px, 486px);
+}
+
+#feedbar-period-button {
+	-moz-image-region: rect(0, 180px, 18px, 162px);
+}
+
+#feedbar-stop-button {
+	-moz-image-region: rect(0, 108px, 18px, 90px);
+}
+
+#feedbar-frequency-button {
+	-moz-image-region: rect(0, 90px, 18px, 72px);
+}
+
+#feedbar-sort-button {
+	-moz-image-region: rect(0, 198px, 18px, 180px);
+}
+
+#feedbar-sort-button .toolbarbutton-icon {
+	margin-top: -0.5px;
+}
+
+#search-toggle {
+	-moz-image-region: rect( 0, 396px, 18px, 378px );
+}
+
+:-moz-any(#feedbar-open-all, #feedbar-read-all, #feedbar-period-button, #feedbar-stop-button, #feedbar-sort-button, #search-toggle)[disabled] {
+	opacity: 0.5;
+}
