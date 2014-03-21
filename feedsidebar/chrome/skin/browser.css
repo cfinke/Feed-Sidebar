@@ -9,7 +9,7 @@
 }
 
 #feedbar-button[checked="true"] {
-	list-style-image: url(chrome://feedbar/skin/icons/feed-icon-active-16.png);
+	list-style-image: url(chrome://feedbar/skin/icons/feed-icon-default-16.png);
 }
 
 #feedbar-button[cui-areatype="menu-panel"],
@@ -31,7 +31,7 @@ toolbarpaletteitem[place="palette"] > #feedbar-button {
 	}
 	
 	#feedbar-button[checked="true"] {
-		list-style-image: url(chrome://feedbar/skin/icons/feed-icon-active-32.png);
+		list-style-image: url(chrome://feedbar/skin/icons/feed-icon-default-32.png);
 	}
 	
 	#feedbar-button[cui-areatype="menu-panel"],
