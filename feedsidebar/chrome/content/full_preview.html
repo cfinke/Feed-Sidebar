@@ -85,5 +85,16 @@
 			</div>
 			<a id="big-site-link" target="_blank"></a>
 		</div>
+		<script type="text/javascript">
+			// If the content hasn't been set after a few seconds, redirect to the full URL.
+			// This is the simplest way of handling a preview tab that was left open through
+			// a browser restart.
+			setTimeout( function () {
+				if ( ! document.getElementById("big-site-link").getAttribute("href") ) {
+					document.location.href = document.location.href.split( "chrome://feedbar/content/full_preview.html?" )[1];
+				}
+			}, 3000 );
+		</script>
+		
 	</body>
 </html>
