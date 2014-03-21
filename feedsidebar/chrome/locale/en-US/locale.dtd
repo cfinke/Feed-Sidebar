@@ -36,11 +36,7 @@
 <!ENTITY feedbar.unsubscribe "Unsubscribe">
 <!ENTITY feedbar.options "Options">
 <!ENTITY feedbar.hideReadItems "Hide read items">
-<!ENTITY feedbar.updateEvery1 "Update each feed every">
-<!ENTITY feedbar.updateEvery2 "minutes.">
 <!ENTITY feedbar.showAllItemsFull "Show all items, regardless of age">
-<!ENTITY feedbar.onlyShow1 "Only show items from the last">
-<!ENTITY feedbar.onlyShow2 "days.">
 <!ENTITY feedbar.autoClose "Automatically close the sidebar when marking all items as read.">
 <!ENTITY feedbar.notifications "Show pop-up notifications when new items are detected.">
 <!ENTITY feedbar.runInSidebar "Only check for updates when the sidebar is open.">
@@ -51,6 +47,5 @@
 <!ENTITY feedbar.showAll.tooltip "Enable to show both read and unread items.">
 <!ENTITY feedbar.alwaysOpenInNewTab "Always open items in new tabs">
 <!ENTITY feedbar.updatesDisabled "Disable Auto-Updates">
-<!ENTITY feedbar.options.general "General">
 <!ENTITY feedbar.options.updateFrequency "Minutes between feed updates.">
 <!ENTITY feedbar.options.displayPeriod "If not showing all items, only show items from the last X days.">
