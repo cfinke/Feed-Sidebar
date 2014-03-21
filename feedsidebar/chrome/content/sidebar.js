@@ -415,18 +415,18 @@ var FEEDSIDEBAR = {
 				
 				document.getElementById("feedbarTooltipURL").url = url;
 				if (url.length > maxLength){
-					url = url.substring(0,maxLength) + "...";
+					url = FEEDSIDEBAR.strings.getFormattedString( "feedbar.truncatedString", [ url.substring(0,maxLength) ] );
 				}
-				document.getElementById("feedbarTooltipURL").value = "Feed: " + url;
+				document.getElementById("feedbarTooltipURL").value = FEEDSIDEBAR.strings.getFormattedString( "feedbar.tooltip.labeledFeed", [ url ] );
 				
 				document.getElementById("feedbarTooltipName").url = title;
 				
 				if (title.length > maxLength){
-					title = title.substring(0,maxLength) + "...";
+					title = FEEDSIDEBAR.strings.getFormattedString( "feedbar.truncatedString", [ title.substring(0,maxLength) ] );
 				}
 				if (title == '') title = ' ';
 
-				document.getElementById("feedbarTooltipName").value = "Site: " + title;
+				document.getElementById("feedbarTooltipName").value = FEEDSIDEBAR.strings.getFormattedString( "feedbar.tooltip.labeledSite", [ title ] );
 			}
 			else {
 				var feedIdx = FEEDBAR.getParentIndex(idx);
@@ -435,12 +435,12 @@ var FEEDSIDEBAR = {
 				document.getElementById("feedbarTooltipURL").url = url;
 				document.getElementById("feedbarTooltipName").url = url;
 				if (url.length > maxLength){
-					url = url.substring(0,maxLength) + "...";
+					url = FEEDSIDEBAR.strings.getFormattedString( "feedbar.truncatedString", [ url.substring(0,maxLength) ] );
 				}
 				document.getElementById("feedbarTooltipURL").value = url;
 				var title = FEEDBAR.getCellText(idx).replace(/^\s+|\s+$/g, "");
 				if (title.length > maxLength){
-					title = title.substring(0,maxLength) + "...";
+					title = FEEDSIDEBAR.strings.getFormattedString( "feedbar.truncatedString", [ title.substring(0,maxLength) ] );
 				}
 				if (title == '') title = ' ';
 
