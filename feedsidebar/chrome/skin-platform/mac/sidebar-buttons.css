@@ -24,11 +24,12 @@
 }
 
 #feedbar-read-all {
-	-moz-image-region: rect(0, 504px, 18px, 486px);
+	list-style-image: url("chrome://feedbar/skin/icons/mark-as-read.png");
+	-moz-image-region: rect(0, 18px, 18px, 0px ); 
 }
 
 #feedbar-read-all:not([disabled]):hover {
-	-moz-image-region: rect(18px, 504px, 36px, 486px);
+	-moz-image-region: rect(18px, 18px, 36px, 0x);
 }
 
 #feedbar-period-button {
@@ -91,7 +92,6 @@
 	#feedbar-read-all {
 		list-style-image: url("chrome://feedbar/skin/icons/mark-as-read@2x.png");
 		-moz-image-region: rect(0, 36px, 36px, 0px ); 
-		
 	}
 	
 	#feedbar-read-all:not([disabled]):hover {

@@ -15,7 +15,8 @@
 }
 
 #feedbar-read-all {
-	-moz-image-region: rect(0, 504px, 18px, 486px);
+	list-style-image: url("chrome://feedbar/skin/icons/mark-as-read.png");
+	-moz-image-region: rect(0, 18px, 18px, 0px );
 }
 
 #feedbar-period-button {
