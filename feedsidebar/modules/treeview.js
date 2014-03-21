@@ -1782,26 +1782,25 @@ var FEEDBAR = {
 	loadFullPreview : function (idx, event, dontMark) {
 		var win = FEEDBAR.window;
 		
+		var item = FEEDBAR.visibleData[idx];
+		var itemLabel = item.label;
+		var itemUri = item.uri;
+		var feed = FEEDBAR.visibleData[FEEDBAR.getParentIndex(idx)];
+		var feedLabel = feed.label;
+		var siteUri = feed.siteUri;
+		var pubDate = new Date();
+		pubDate.setTime(item.published);
+		
+		var previewUrl = "chrome://feedbar/content/full_preview.html?" + itemUri;
+		
 		if (FEEDBAR.prefs.getBoolPref("openInNewTab") || event.ctrlKey || event.metaKey || event.which == 2 || event.which == 4) {
-			var openedTab = win.gBrowser.addTab("chrome://feedbar/content/full_preview.html?idx="+idx);
+			var openedTab = win.gBrowser.addTab( previewUrl );
 			win.gBrowser.selectedTab = openedTab;
 		}
 		else {
 			var openedTab = win.gBrowser.selectedTab;
-			win.content.document.location.href = "chrome://feedbar/content/full_preview.html?idx="+idx;
+			win.content.document.location.href = previewUrl;
 		}
-		
-		var item = FEEDBAR.visibleData[idx];
-		
-		var itemLabel = item.label;
-		var itemUri = item.uri;
-		var feed = FEEDBAR.visibleData[FEEDBAR.getParentIndex(idx)];
-		var feedUri = feed.uri;
-		var feedLabel = feed.label;
-		var siteUri = feed.siteUri;
-		var image = item.image;
-		var pubDate = new Date();
-		pubDate.setTime(item.published);
 		
 		function onTabLoaded() { 
 			this.removeEventListener("load", onTabLoaded, true);
@@ -1814,17 +1813,19 @@ var FEEDBAR = {
 			
 			doc.title = itemLabel;
 
-			doc.getElementById("title").innerHTML = '<a href="'+itemUri+'">'+itemLabel+'</a>';
+			doc.getElementById("title").innerHTML = '<a href="'+itemUri+'" target="_blank">'+itemLabel+'</a>';
 
-			var nav = '<a href="' + itemUri + '">'+FEEDBAR.strings.getString("feedbar.permalink")+'</a> &bull; <a href="'+feedUri+'">'+FEEDBAR.strings.getString("feedbar.feedLink")+'</a> &bull; <a href="'+siteUri+'">'+FEEDBAR.strings.getString("feedbar.siteLink")+"</a> &bull; " + FEEDBAR.strings.getFormattedString("feedbar.publishedOn", [pubDate.toLocaleString(), feedUri, feedLabel]);
-			doc.getElementById("navigation").innerHTML = nav;
+			doc.getElementById("site-link").setAttribute("href", siteUri);
+			doc.getElementById("site-link").innerHTML = feedLabel;
 
+			doc.getElementById("timestamp").innerHTML = FEEDBAR.fuzzyTime(pubDate);
+			
+			doc.getElementById("big-site-link").setAttribute("href", itemUri);
+			doc.getElementById("big-site-link").innerHTML = FEEDBAR.strings.getString( 'feedbar.previewLink' );
+			
 			var content = item.description;
 			doc.getElementById("content").innerHTML = content;
 
-			doc.getElementById("site-info").innerHTML = FEEDBAR.strings.getFormattedString("feedbar.previewHeader", [siteUri, feedLabel]);
-			doc.getElementById("site-info").style.backgroundImage = "url("+image+")";
-			
 			if (!dontMark) {
 				FEEDBAR.setCellRead(idx, true);
 			}
@@ -1834,9 +1835,52 @@ var FEEDBAR = {
 		newTab.addEventListener("load", onTabLoaded, true);
 	},
 	
-	previewLoaded : function (idx, browser, title) {
+	fuzzyTime : function (newDate) {
+		var now = new Date();
+		var now_ms = now.getTime();
+		var offset = now.getTimezoneOffset();
+		
+		var ms = newDate.getTime();
+		ms -= offset;
+		newDate.setTime(ms);
+		
+		var difference = now_ms - newDate.getTime();
+		var dateString = "";
+
+		if (difference >= (1000 * 60 * 60 * 24 * 60)) {
+			dateString = newDate.toDateString()
+		}
+		else if (difference >= (1000 * 60 * 60 * 24)) {
+			var days = Math.floor(difference / (1000 * 60 * 60 * 24));
+			if ( days == 1 )
+				dateString = FEEDBAR.strings.getString( "feedbar.time.dayAgo" );
+			else
+				dateString = FEEDBAR.strings.getFormattedString( "feedbar.time.daysAgo", [ days ] );
+		}
+		else if (difference >= (1000 * 60 * 60)) {
+			var hours = Math.floor(difference / (1000 * 60 * 60));
+			if ( hours == 1 )
+				dateString = FEEDBAR.strings.getString( "feedbar.time.hourAgo" );
+			else
+				dateString = FEEDBAR.strings.getFormattedString( "feedbar.time.hoursAgo", [ hours ] );
+		}
+		else {
+			var minutes = Math.floor(difference / (1000 * 60));
+
+			if (minutes < 1) {
+				dateString = FEEDBAR.strings.getString( "feedbar.time.justNow" );
+			}
+			else {
+				if ( minutes == 1 )
+					dateString = FEEDBAR.strings.getString( "feedbar.time.minuteAgo" );
+				else
+					dateString = FEEDBAR.strings.getFormattedString( "feedbar.time.minutesAgo", [ minutes ] );
+			}
+		}
+		
+		return dateString;
 	},
-	
+
 	handlePreviewNameClick : function (event, url) {
 		var targetIdx = FEEDBAR.getSelectedIndex();
 		
