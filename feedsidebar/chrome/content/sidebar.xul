@@ -130,11 +130,11 @@
 					</menupopup>
 				</toolbarbutton>
 				<spacer flex="1" />
-				<toolbarbutton id="search-toggle" checked="false" persist="checked" oncommand="document.getElementById('search-bar').collapsed = !document.getElementById('search-bar').collapsed; this.checked = !document.getElementById('search-bar').collapsed;" />
+				<toolbarbutton id="search-toggle" cui-areatype="toolbar" class="toolbarbutton-1 chromeclass-toolbar-additional" oncommand="document.getElementById('search-bar').collapsed = !document.getElementById('search-bar').collapsed; this.checked = !document.getElementById('search-bar').collapsed;" />
 			</toolbar>
 			<toolbar id="search-bar" persist="collapsed">
 				<textbox id="search-box" type="search" flex="1" oncommand="FEEDSIDEBAR.onSearchInput(this.value);" />
-				<toolbarbutton id="all-toggle" tooltiptext="&feedbar.showAll.tooltip;" label="&feedbar.showAllItemsButtonLabel;" checked="false" persist="checked" oncommand="FEEDSIDEBAR.prefs.setBoolPref('hideReadItems', this.checked);" />
+				<toolbarbutton id="all-toggle" cui-areatype="toolbar" class="toolbarbutton-1 chromeclass-toolbar-additional" tooltiptext="&feedbar.showAll.tooltip;" label="&feedbar.showAllItemsButtonLabel;" checked="false" persist="checked" oncommand="FEEDSIDEBAR.prefs.setBoolPref('hideReadItems', this.checked);" />
 			</toolbar>
 		</toolbox>
 		<vbox flex="1">

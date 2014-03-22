@@ -48,10 +48,6 @@ treechildren::-moz-tree-cell-text(visited,selected) {
 	width: 16px;
 }
 
-#all-toggle[checked="true"] {
-	font-weight: bold;
-}
-
 #feedbar-loading-text {
 	background-color: ButtonFace;
 	color: ButtonText;
