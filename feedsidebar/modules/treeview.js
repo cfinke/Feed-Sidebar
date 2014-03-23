@@ -1212,6 +1212,11 @@ var FEEDBAR = {
 		
 		switch(data) {
 			case "displayPeriod":
+				if ( FEEDBAR.prefs.getIntPref( "displayPeriod" ) > 0 )
+					FEEDBAR.prefs.setBoolPref( "showAll", false );
+				
+				FEEDBAR.refreshTree();
+			break;
 			case "showAll":
 			case "hideReadItems":
 				FEEDBAR.refreshTree();
