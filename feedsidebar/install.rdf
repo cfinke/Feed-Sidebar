@@ -7,7 +7,7 @@
 		<em:description>Displays the items from your Live Bookmarks in a sidebar.</em:description>
 		<em:creator>Christopher Finke</em:creator>
 		<em:iconURL>chrome://feedbar/skin/icons/feed-icon-notify-36.png</em:iconURL>
-		<em:iconURL64>chrome://feedbar/skin/icons/feed-icon-notify-64.png</em:iconURL64>
+		<em:icon64URL>chrome://feedbar/skin/icons/feed-icon-notify-64.png</em:icon64URL>
 		<em:homepageURL>http://www.chrisfinke.com/addons/feedbar/</em:homepageURL>
 		<em:optionsURL>chrome://feedbar/content/options.xul</em:optionsURL>	
 		<em:optionsType>2</em:optionsType>
