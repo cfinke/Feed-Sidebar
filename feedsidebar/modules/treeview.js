@@ -1820,15 +1820,19 @@ var FEEDBAR = {
 			
 			doc.title = itemLabel;
 
-			doc.getElementById("title").innerHTML = '<a href="'+itemUri+'" target="_blank">'+itemLabel+'</a>';
-
+			var titleLink = doc.createElement( 'a' );
+			titleLink.setAttribute( 'href', itemUri );
+			titleLink.setAttribute( 'target', '_blank' );
+			titleLink.appendChild( doc.createTextNode( itemLabel ) );
+			doc.getElementById("title").appendChild(titleLink);
+			
 			doc.getElementById("site-link").setAttribute("href", siteUri);
-			doc.getElementById("site-link").innerHTML = feedLabel;
-
-			doc.getElementById("timestamp").innerHTML = FEEDBAR.fuzzyTime(pubDate);
+			doc.getElementById("site-link").appendChild( doc.createTextNode( feedLabel ) );
+			
+			doc.getElementById("timestamp").appendChild( doc.createTextNode( FEEDBAR.fuzzyTime(pubDate) ) );
 			
 			doc.getElementById("big-site-link").setAttribute("href", itemUri);
-			doc.getElementById("big-site-link").innerHTML = FEEDBAR.strings.getString( 'feedbar.previewLink' );
+			doc.getElementById("big-site-link").appendChild( doc.createTextNode( FEEDBAR.strings.getString( 'feedbar.previewLink' ) ) );
 			
 			var content = item.description;
 			doc.getElementById("content").innerHTML = content;
