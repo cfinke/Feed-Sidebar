@@ -6,7 +6,7 @@
 	<!ENTITY % backupLocale SYSTEM "chrome://feedbar-default-locale/content/locale.dtd">
 	%backupLocale;
 ]>
-<page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"	orient="vertical" xmlns:html="http://www.w3.org/1999/xhtml">
+<page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" orient="vertical" xmlns:html="http://www.w3.org/1999/xhtml" id="feed-sidebar-panel">
 	<stringbundleset id="stringbundleset">
 		<stringbundle id="feedbar-backup-string-bundle" src="chrome://feedbar-default-locale/content/locale.properties" />
 		<stringbundle id="feedbar-string-bundle" src="chrome://feedbar/locale/locale.properties" />

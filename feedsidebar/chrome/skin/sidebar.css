@@ -1,11 +1,11 @@
 #feedbar-preview {
 	padding-top: 5px;
-	background-color: #f0f0f0;
+	background-color: -moz-Dialog;
 }
 
 #preview-splitter {
-	border-top: 1px solid #919191;
-	background-color: #f0f0f0;
+	border-top: 1px solid WindowFrame;
+	background-color: -moz-Dialog;
 }
 	
 #feedbarTooltipImage {
@@ -26,22 +26,23 @@ treechildren::-moz-tree-image {
 	height: 16px;
 }
 
-#feed_tree, #feedbar_tree_namecol, treechildren::-moz-tree-cell, treechildren::-moz-tree-row {
-	background-color: #d4dde5;
-	border-color: #d4dde5 !important;
+#feed-sidebar-panel, #feedbar_tree_container {
+	-moz-appearance: none;
+	background-color: transparent !important;
+}
+
+#feed_tree, treechildren::-moz-tree-cell, treechildren::-moz-tree-row {
+	background-color: transparent;
+	border-color: transparent;
 }
 
 treechildren::-moz-tree-cell-text(visited) {
-	color: #888;
+	color: GrayText;
 }
 
-treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected) {
+treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected), treechildren::-moz-tree-cell-text(visited,selected) {
 	background-color: Highlight;
 	color: HighlightText;
-}
-
-treechildren::-moz-tree-cell-text(visited,selected) {
-	color: #ddd;
 }
 
 .close-icon .toolbarbutton-icon {
