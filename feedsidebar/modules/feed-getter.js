@@ -748,7 +748,7 @@ var FEED_GETTER = {
 		var livemarkRequests = [];
 		
 		livemarkIds.forEach(function (livemarkId) {
-			livemarkRequests.push( PlacesUtils.livemarks.getLivemark( { id : livemarkIds.shift() } ) );
+			livemarkRequests.push( PlacesUtils.livemarks.getLivemark( { id : livemarkId } ) );
 		} );
 		
 		return Promise.all( livemarkRequests );
