@@ -144,7 +144,7 @@
 						<tree
 							id="feed_tree"
 							flex="1"
-							class="plain"
+							class="plain sidebar-placesTree"
 							seltype="single"
 							onclick="FEEDBAR.onTreeClick(event);"
 							onkeypress="FEEDBAR.onKeyPress(event);"
@@ -155,7 +155,7 @@
 							<treecols>
 								<treecol id="feedbar_tree_namecol" flex="1" primary="true" hideheader="true"/>
 							</treecols>   
-							<treechildren id="feedbar_tree_container"/>	 
+							<treechildren id="feedbar_tree_container" class="sidebar-placesTreechildren"/>	 
 						</tree>
 					</notificationbox>
 					<splitter id="preview-splitter" persist="state" collapsed="true" />
