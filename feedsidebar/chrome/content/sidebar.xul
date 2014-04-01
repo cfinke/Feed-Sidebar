@@ -130,7 +130,7 @@
 					</menupopup>
 				</toolbarbutton>
 				<spacer flex="1" />
-				<toolbarbutton id="search-toggle" cui-areatype="toolbar" class="toolbarbutton-1 chromeclass-toolbar-additional" oncommand="document.getElementById('search-bar').collapsed = !document.getElementById('search-bar').collapsed; this.checked = !document.getElementById('search-bar').collapsed;" />
+				<toolbarbutton id="search-toggle" cui-areatype="toolbar" class="toolbarbutton-1 chromeclass-toolbar-additional" oncommand="document.getElementById('search-bar').collapsed = !document.getElementById('search-bar').collapsed; this.checked = !document.getElementById('search-bar').collapsed;" onload="this.checked = !document.getElementById('search-bar').collapsed;" />
 			</toolbar>
 			<toolbar id="search-bar" persist="collapsed">
 				<textbox id="search-box" type="search" flex="1" oncommand="FEEDSIDEBAR.onSearchInput(this.value);" />
@@ -144,7 +144,7 @@
 						<tree
 							id="feed_tree"
 							flex="1"
-							class="plain"
+							class="plain sidebar-placesTree"
 							seltype="single"
 							onclick="FEEDBAR.onTreeClick(event);"
 							onkeypress="FEEDBAR.onKeyPress(event);"
@@ -155,7 +155,7 @@
 							<treecols>
 								<treecol id="feedbar_tree_namecol" flex="1" primary="true" hideheader="true"/>
 							</treecols>   
-							<treechildren id="feedbar_tree_container"/>	 
+							<treechildren id="feedbar_tree_container" class="sidebar-placesTreechildren"/>	 
 						</tree>
 					</notificationbox>
 					<splitter id="preview-splitter" persist="state" collapsed="true" />

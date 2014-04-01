@@ -1,11 +1,5 @@
 #feedbar-preview {
 	padding-top: 5px;
-	background-color: -moz-Dialog;
-}
-
-#preview-splitter {
-	border-top: 1px solid WindowFrame;
-	background-color: -moz-Dialog;
 }
 	
 #feedbarTooltipImage {
@@ -21,6 +15,10 @@
 	text-decoration: underline;
 }
 
+#feedbarTooltipSummaryGroupbox {
+	padding: 2px;
+}
+
 treechildren::-moz-tree-image {
 	width: 16px;
 	height: 16px;
@@ -29,24 +27,6 @@ treechildren::-moz-tree-image {
 #feed-sidebar-panel, #feedbar_tree_container {
 	-moz-appearance: none;
 	background-color: transparent !important;
-}
-
-#feed_tree, treechildren::-moz-tree-cell, treechildren::-moz-tree-row {
-	background-color: transparent;
-	border-color: transparent;
-}
-
-treechildren::-moz-tree-cell-text(visited) {
-	color: GrayText;
-}
-
-treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected), treechildren::-moz-tree-cell-text(visited,selected) {
-	background-color: Highlight;
-	color: HighlightText;
-}
-
-.close-icon .toolbarbutton-icon {
-	width: 16px;
 }
 
 #feedbar-loading-text {
@@ -58,4 +38,14 @@ treechildren::-moz-tree-row(selected), treechildren::-moz-tree-cell(selected), t
 	border-color:  ButtonShadow;
 	border-width: 1px;
 	max-width: 95%;
+}
+
+/* the loading-text box would still be visible when empty, and would cover the borders in windows classic at least */
+#feedbar-loading-text[value=""],
+#feedbar-loading-text:not([value]) {
+	visibility: collapse;
+}
+
+#navigator-toolbox:after {
+	display: none !important;
 }

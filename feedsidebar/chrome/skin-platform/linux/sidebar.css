@@ -1,0 +1,57 @@
+#navigator-toolbox > #nav-bar,
+#navigator-toolbox > #search-bar,
+#feedbar-preview {
+	background: -moz-dialog;
+}
+
+#feed_tree {
+	-moz-appearance: listbox;
+}
+
+#close-preview {
+	list-style-image: url("moz-icon://stock/gtk-close?size=menu");
+}
+
+#navigator-toolbox > #nav-bar {
+	border-top: none !important;
+	padding: 0 4px;
+}
+
+#navigator-toolbox > #search-bar {
+	padding: 0 2px;
+}
+
+/* mimick the same style of the other buttons for the "all" button as well */
+
+#all-toggle {
+	-moz-appearance: none;
+}
+#all-toggle[open="true"],
+#all-toggle:hover:active {
+	padding: 3px;
+}
+#all-toggle > .toolbarbutton-text {
+	-moz-margin-end: 0;
+	padding: 2px 6px;
+	border: 1px solid transparent;
+	border-radius: 2px;
+	transition-property: background-color, border-color;
+	transition-duration: 150ms;
+}
+#all-toggle:not([disabled=true]):hover > .toolbarbutton-text {
+	background-color: hsla(0,0%,100%,.3);
+	background-image: linear-gradient(hsla(0,0%,100%,.7), hsla(0,0%,100%,.2));
+	border: 1px solid rgb(154,154,154);
+	box-shadow: 0 1px 0 hsla(0,0%,100%,.3) inset, 0 0 0 1px hsla(0,0%,100%,.2) inset, 0 1px 0 hsla(0,0%,0%,.03);
+}
+#all-toggle:not([disabled=true]):-moz-any([open],[checked],:hover:active) > .toolbarbutton-text {
+	background-color: rgba(154,154,154,.5);
+	background-image: linear-gradient(hsla(0,0%,100%,.7), hsla(0,0%,100%,.4));
+	border: 1px solid rgb(154,154,154);
+	box-shadow: 0 1px 1px hsla(0,0%,0%,.1) inset, 0 0 1px hsla(0,0%,0%,.3) inset;
+	transition-duration: 10ms;
+}
+#all-toggle[checked]:not(:active):hover > .toolbarbutton-text {
+	background-color: rgba(90%,90%,90%,.4);
+	transition: background-color 150ms;
+}

@@ -1,0 +1,43 @@
+#navigator-toolbox > #nav-bar,
+/* this needs the specificity to overrule firefox's default rule */
+#navigator-toolbox > toolbar#search-bar:not(#TabsToolbar):not(#nav-bar),
+#feed_tree,
+#feedbar-preview {
+	background: #e2e7ed;
+}
+
+#navigator-toolbox > #nav-bar:-moz-window-inactive,
+#navigator-toolbox > toolbar#search-bar:not(#TabsToolbar):not(#nav-bar):-moz-window-inactive,
+#navigator-toolbox > #search-bar:-moz-window-inactive,
+#feed_tree:-moz-window-inactive,
+#feedbar-preview:-moz-window-inactive {
+	background: #e8e8e8;
+}
+
+#navigator-toolbox > toolbar {
+	margin-left: 4px;
+	margin-right: 4px;
+}
+
+#feed_tree {
+	border-top: 1px solid #bebebe;
+}
+
+#all-toggle {
+	margin: 2px 0;
+}
+
+#preview-splitter {
+	min-height: 1px;
+	height: 4px;
+	border: 0;
+	border-top: none;
+	border-bottom: 1px solid #bdbdbd;
+	background: none !important;
+	margin-top: -4px;
+	position: relative;
+}
+
+#feedbarTooltipSummaryGroupbox .groupbox-body {
+	padding: 3px;
+}

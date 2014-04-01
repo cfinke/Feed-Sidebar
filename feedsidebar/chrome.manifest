@@ -36,7 +36,9 @@ locale      feedbar     zh-TW               chrome/locale/zh-TW/
 overlay     chrome://browser/content/browser.xul                chrome://feedbar/content/overlay.xul
 
 style       chrome://feedbar/content/sidebar.xul                chrome://feedbar/skin/sidebar.css
+style       chrome://feedbar/content/sidebar.xul                chrome://feedbar-platform/skin/sidebar.css
 style       chrome://feedbar/content/sidebar.xul                chrome://feedbar-platform/skin/sidebar-buttons.css
+style       chrome://feedbar/content/sidebar.xul                chrome://browser/skin/places/places.css   os=Darwin
 style       chrome://feedbar/content/sidebar.xul                chrome://browser/skin/browser.css
 style       chrome://feedbar/content/sidebar.xul                chrome://global/skin/global.css
 
