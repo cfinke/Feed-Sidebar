@@ -1,7 +1,11 @@
 #feedbar-preview {
 	padding-top: 5px;
 }
-	
+
+treechildren::-moz-tree-cell-text(visited) {
+	color: GrayText;
+}
+
 #feedbarTooltipImage {
 	vertical-align: middle;
 	margin: 0ex 1ex 0ex 1ex;
@@ -48,4 +52,8 @@ treechildren::-moz-tree-image {
 
 #navigator-toolbox:after {
 	display: none !important;
+}
+
+#close-preview .toolbarbutton-icon {
+	width: 16px;
 }
