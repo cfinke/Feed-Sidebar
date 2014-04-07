@@ -1,7 +1,7 @@
 <!ENTITY feedbar.buttonLabel "Net lêzen feeditems">
 <!ENTITY feedbar.sidebarTitle "Net lêzen feeditems">
 <!ENTITY feedbar.buttonTooltip "Toan de nije items fan jo Live Blêdwizers yn de sidebalke">
-<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.accesskey "Y">
 <!ENTITY feedbar.preview.markAsRead "Markearje feed of item as lêzen">
 <!ENTITY feedbar.open "Iepenje">
 <!ENTITY feedbar.openInTab "Iepenje yn nij ljepblêd">

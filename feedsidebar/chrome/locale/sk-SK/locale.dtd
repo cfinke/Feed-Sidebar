@@ -1,7 +1,7 @@
 <!ENTITY feedbar.buttonLabel "Správy z Aktívnych záložiek">
 <!ENTITY feedbar.sidebarTitle "Správy z Aktívnych záložiek">
 <!ENTITY feedbar.buttonTooltip "Zobraziť správy z Aktívnych záložiek v bočnom paneli">
-<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.accesskey "Y">
 <!ENTITY feedbar.preview.markAsRead "Označiť kanál alebo správu ako prečítanú">
 <!ENTITY feedbar.open "Otvoriť">
 <!ENTITY feedbar.openInTab "Otvoriť na novej karte">

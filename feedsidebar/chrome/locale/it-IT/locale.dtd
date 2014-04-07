@@ -1,7 +1,7 @@
 <!ENTITY feedbar.buttonLabel "Feed Sidebar">
 <!ENTITY feedbar.sidebarTitle "Feed Sidebar">
 <!ENTITY feedbar.buttonTooltip "Mostra i segnalibri Live nella barra laterale">
-<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.accesskey "Y">
 <!ENTITY feedbar.preview.markAsRead "Segna il feed o l&apos;elemento come letto">
 <!ENTITY feedbar.open "Apri">
 <!ENTITY feedbar.openInTab "Apri in nuova scheda">

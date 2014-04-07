@@ -1,7 +1,7 @@
 <!ENTITY feedbar.buttonLabel "Fuentes">
 <!ENTITY feedbar.sidebarTitle "Fuentes">
 <!ENTITY feedbar.buttonTooltip "Mostrar los elementos de Live Bookmarks en la barra de herramientas">
-<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.accesskey "Y">
 <!ENTITY feedbar.preview.markAsRead "Marcar fuente o elemento como leído">
 <!ENTITY feedbar.open "Abrir">
 <!ENTITY feedbar.openInTab "Abrir en nueva pestaña">

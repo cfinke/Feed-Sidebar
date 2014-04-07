@@ -1,7 +1,7 @@
 <!ENTITY feedbar.buttonLabel "Feeds">
 <!ENTITY feedbar.sidebarTitle "Feeds">
 <!ENTITY feedbar.buttonTooltip "Show the items from your Live Bookmarks in the sidebar">
-<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.accesskey "Y">
 <!ENTITY feedbar.preview.markAsRead "Mark feed or item as read">
 <!ENTITY feedbar.open "Open">
 <!ENTITY feedbar.openInTab "Open in New Tab">

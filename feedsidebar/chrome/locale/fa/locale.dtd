@@ -1,7 +1,7 @@
 <!ENTITY feedbar.buttonLabel "خوارک ها">
 <!ENTITY feedbar.sidebarTitle "خوراک ها">
 <!ENTITY feedbar.buttonTooltip "نمایش دهنده مواردی از آدرس های ذخیره شما در نوار کنار.">
-<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.accesskey "Y">
 <!ENTITY feedbar.preview.markAsRead "علامت گذاری خوراک یا موردی خاص به عنوان خوانده شده">
 <!ENTITY feedbar.open "گشودن">
 <!ENTITY feedbar.openInTab "گشودن در تب جدید">

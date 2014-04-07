@@ -1,7 +1,7 @@
 <!ENTITY feedbar.buttonLabel "フィード">
 <!ENTITY feedbar.sidebarTitle "フィード">
 <!ENTITY feedbar.buttonTooltip "ライブブックマークから項目をサイドバーに表示します">
-<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.accesskey "Y">
 <!ENTITY feedbar.preview.markAsRead "フィードまたは項目を既読にする">
 <!ENTITY feedbar.open "開く">
 <!ENTITY feedbar.openInTab "新しいタブで開く">

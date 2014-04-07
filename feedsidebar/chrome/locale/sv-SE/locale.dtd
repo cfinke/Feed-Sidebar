@@ -1,7 +1,7 @@
 <!ENTITY feedbar.buttonLabel "Flöden">
 <!ENTITY feedbar.sidebarTitle "Flöden">
 <!ENTITY feedbar.buttonTooltip "Visa objekten från dina Aktiva bokmärken i sidopanelen">
-<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.accesskey "Y">
 <!ENTITY feedbar.preview.markAsRead "Märk flöde eller objekt som läst">
 <!ENTITY feedbar.open "Öppna">
 <!ENTITY feedbar.openInTab "Öppna i ny flik">

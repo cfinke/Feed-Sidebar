@@ -1,7 +1,7 @@
 <!ENTITY feedbar.buttonLabel "Feeds">
 <!ENTITY feedbar.sidebarTitle "Feeds">
 <!ENTITY feedbar.buttonTooltip "Vis emnerne fra dine Live Bogmærker i sidebjælken">
-<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.accesskey "Y">
 <!ENTITY feedbar.preview.markAsRead "Marker feed eller emne som læst">
 <!ENTITY feedbar.open "Åbn">
 <!ENTITY feedbar.openInTab "Åbn i nyt faneblad">

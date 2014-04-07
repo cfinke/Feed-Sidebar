@@ -47,7 +47,6 @@
 			group="sidebar"
 			sidebartitle="&feedbar.sidebarTitle;"
 			sidebarurl="chrome://feedbar/content/sidebar.xul"
-			acceltext="Ctrl+Shift+&feedbar.accesskey;"
 			oncommand="toggleSidebar('feedbar');"/>
 	</broadcasterset>
 	<menupopup id="viewSidebarMenu">
@@ -59,10 +58,6 @@
 	<keyset id="mainKeyset">
 		<key id="feedbar_key"
 			key="&feedbar.accesskey;"
-			command="feedbar"
-			modifiers="accel shift" />
-		<key id="feedbar_key"
-			key="Y"
 			command="feedbar"
 			modifiers="accel shift" />
 	</keyset>

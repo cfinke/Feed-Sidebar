@@ -1,7 +1,7 @@
 <!ENTITY feedbar.buttonLabel "未读的订阅项目">
 <!ENTITY feedbar.sidebarTitle "未读的订阅项目">
 <!ENTITY feedbar.buttonTooltip "在侧栏显示实时书签里的项目">
-<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.accesskey "Y">
 <!ENTITY feedbar.preview.markAsRead "标记订阅或项目为已读">
 <!ENTITY feedbar.open "打开">
 <!ENTITY feedbar.openInTab "在新标签页打开">

@@ -1,7 +1,7 @@
 <!ENTITY feedbar.buttonLabel "未閱讀訊息">
 <!ENTITY feedbar.sidebarTitle "未閱讀訊息">
 <!ENTITY feedbar.buttonTooltip "從您的即時書籤中顯示新的資訊於側邊列">
-<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.accesskey "Y">
 <!ENTITY feedbar.preview.markAsRead "設定為已閱讀">
 <!ENTITY feedbar.open "開啟">
 <!ENTITY feedbar.openInTab "開啟於新分頁">

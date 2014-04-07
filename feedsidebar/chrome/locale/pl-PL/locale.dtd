@@ -1,7 +1,7 @@
 <!ENTITY feedbar.buttonLabel "FeedSidebar">
 <!ENTITY feedbar.sidebarTitle "Wiadomości">
 <!ENTITY feedbar.buttonTooltip "Wyświetla w panelu bocznym nowe wiadomości z dynamicznych zakładek">
-<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.accesskey "Y">
 <!ENTITY feedbar.preview.markAsRead "Oznacz kanał/wiadomość jako przeczytane">
 <!ENTITY feedbar.open "Otwórz">
 <!ENTITY feedbar.openInTab "Otwórz w nowej karcie">

@@ -1,7 +1,7 @@
 <!ENTITY feedbar.buttonLabel "Feeds">
 <!ENTITY feedbar.sidebarTitle "Feeds">
 <!ENTITY feedbar.buttonTooltip "Hiển thị các mục của Live Bookmarks lên thanh nằm bên cạnh màn hình">
-<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.accesskey "Y">
 <!ENTITY feedbar.preview.markAsRead "Đánh dấu thành feed hoặc mục tin đã đọc">
 <!ENTITY feedbar.open "Mở">
 <!ENTITY feedbar.openInTab "Mở trên một thẻ mới">

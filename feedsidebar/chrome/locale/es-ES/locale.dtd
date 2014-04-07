@@ -1,7 +1,7 @@
 <!ENTITY feedbar.buttonLabel "Hilos">
 <!ENTITY feedbar.sidebarTitle "Hilos">
 <!ENTITY feedbar.buttonTooltip "Mostrar los elementos de los Marcadores dinámicos en la barra lateral">
-<!ENTITY feedbar.accesskey "F">
+<!ENTITY feedbar.accesskey "Y">
 <!ENTITY feedbar.preview.markAsRead "Marcar hilo o elemento como leído">
 <!ENTITY feedbar.open "Abrir">
 <!ENTITY feedbar.openInTab "Abrir en nueva pestaña">
